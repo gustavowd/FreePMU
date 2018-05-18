@@ -1,0 +1,3041 @@
+$version 6.60
+
+// This is the root component of the entire GUI application.
+$rect <20,20,220,60>
+class Aplic : Core::Root
+{
+  $rect <0,330,200,370>
+  inherited property Bounds = <0,0,480,272>;
+
+  $rect <0,290,140,330>
+  inherited method Init()
+  {
+  }
+
+  $rect <0,410,200,450>
+  var int32 nrTela = 1;
+
+  // This animation effect drives the transition between two screens.
+  $rect <0,370,200,410>
+  object Effects::PointEffect Anima
+  {
+    preset Timing = Effects::Timing.FastIn_EaseOut;
+    preset NoOfCycles = 1;
+    preset CycleDuration = 200;
+    preset Value2 = <0,0>;
+    preset Outlet = ^Janela.ScrollOffset;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <0,0,480,280>;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle1
+  {
+    preset Bounds = <0,240,480,272>;
+    preset Color = Flat::ColorOfBody;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Title
+  {
+    preset Bounds = <0,240,480,270>;
+    preset String = "Fasores";
+    preset Font = Application::Numbers22;
+  }
+
+  $rect <20,20,160,60>
+  object Core::WipeTouchHandler WipeTouchHandler
+  {
+    preset Bounds = <0,0,480,272>;
+    preset OnBottomRight = onWipeRight;
+    preset OnTopRight = onWipeRight;
+    preset OnBottomLeft = onWipeLeft;
+    preset OnTopLeft = onWipeLeft;
+    preset OnRight = onWipeRight;
+    preset OnLeft = onWipeLeft;
+  }
+
+  $rect <20,20,160,60>
+  object Core::Outline Janela
+  {
+    preset Bounds = <0,0,480,242>;
+  }
+
+  $rect <20,20,160,60>
+  object Application::Fasores TFasores
+  {
+    preset Bounds = <0,0,480,242>;
+    preset Embedded = true;
+  }
+
+  $rect <20,20,160,60>
+  object Application::Freq TFreq
+  {
+    preset Bounds = <480,0,960,242>;
+    preset Embedded = true;
+  }
+
+  $rect <20,20,160,60>
+  object Application::Mag TMag
+  {
+    preset Bounds = <960,0,1440,242>;
+    preset Embedded = true;
+  }
+
+  $rect <20,20,160,60>
+  object Application::Fase TFase
+  {
+    preset Bounds = <1440,0,1920,242>;
+    preset Embedded = true;
+  }
+
+  $rect <20,20,160,60>
+  object Application::VNC TVNC
+  {
+    preset Bounds = <1920,0,2400,242>;
+    preset Embedded = true;
+  }
+
+  // This method is called when the user has performed a wipe left gesture. It starts \
+  // a transition to the next screen.
+  $rect <210,299,400,339>
+  slot onWipeLeft
+  {
+    // Wait till the preceding screen transition is finished
+    if ( Anima.Enabled )
+      return;
+
+    // Are more screens to see or is the current screen the last one (screen #3)?
+    if ( TVNC.Bounds.x1 < Bounds.w )
+      return;
+
+    // Run the screen transition  as animation
+    Anima.Value1  = Janela.ScrollOffset;
+    Anima.Value2  = Janela.ScrollOffset - point( Bounds.w, 0 );
+    Anima.Enabled = true;
+
+    nrTela = nrTela + 1;
+
+    if (nrTela > 5) { nrTela = 5; }
+
+    switch (nrTela) {
+      case 1:
+        Title.String = "Fasores";
+      case 2:
+        Title.String = "Frequência";
+      case 3:
+        Title.String = "Magnitude";
+      case 4:
+        Title.String = "Fase";
+      case 5:
+        Title.String = "Servidor VNC";
+      default:;
+    }
+  }
+
+  // This method is called when the user has performed a wipe right gesture. It starts \
+  // a transition to the preceding screen.
+  $rect <210,340,400,380>
+  slot onWipeRight
+  {
+    // Wait till the preceding screen transition is finished
+    if ( Anima.Enabled )
+      return;
+
+    // Are more screens to see or is the current screen the last one (screen #1)?
+    if ( TFasores.Bounds.x1 >= 0 )
+      return;
+
+    // Run the screen transition  as animation
+    Anima.Value1  = Janela.ScrollOffset;
+    Anima.Value2  = Janela.ScrollOffset + point( Bounds.w, 0 );
+    Anima.Enabled = true;
+
+    nrTela = nrTela - 1;
+
+    if (nrTela < 0) { nrTela = 0; }
+
+    switch (nrTela) {
+      case 1:
+        Title.String = "Fasores";
+      case 2:
+        Title.String = "Frequência";
+      case 3:
+        Title.String = "Magnitude";
+      case 4:
+        Title.String = "Fase";
+      case 5:
+        Title.String = "Servidor VNC";
+      default:;
+    }
+  }
+
+  $reorder GetIndexOfView 1
+  $reorder GetViewAtIndex 1
+  $reorder CountViews 1
+  $reorder FindViewInDirection 1
+  $reorder FindViewWithinArea 1
+  $reorder FindViewAtPosition 1
+  $reorder FindPrevView 1
+  $reorder FindNextView 1
+  $reorder FindSiblingView 1
+  $reorder GetContentArea 1
+  $reorder RestackBehind 1
+  $reorder RestackBack 1
+  $reorder RestackTop 1
+  $reorder Restack 1
+  $reorder Remove 1
+  $reorder AddBehind 1
+  $reorder Add 1
+  $reorder Focus 1
+  $reorder Buffered 1
+  $reorder Enabled 1
+  $reorder Opacity 1
+  $reorder Embedded 1
+  $reorder AlphaBlended 1
+  $reorder Visible 1
+  $reorder keyLastLocked 1
+  $reorder keyLastCharCode 1
+  $reorder keyLastCode 1
+  $reorder keyLastTarget 1
+  $reorder hasRootFocus 1
+  $reorder updateLock 1
+  $reorder animationLock 1
+  $reorder modalGroups 1
+  $reorder currentEventTimestamp 1
+  $reorder createDragEvent 1
+  $reorder createCursorEvent 1
+  $reorder createCursorGrabEvent 1
+  $reorder cursorHoldTimerProc 1
+  $reorder cursorHoldTimer 1
+  $reorder cursorSequelCounter 1
+}
+
+$rect <30,440,230,480>
+$output false
+resource Resources::Bitmap flecha
+{
+  attr bitmapfile FileName;
+  attr alphafile AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\arrow_a.bmp;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+}
+
+$rect <30,400,230,440>
+$output false
+resource Resources::Bitmap grid
+{
+  attr bitmapfile FileName;
+  attr alphafile AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\grid_a.bmp;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+}
+
+$rect <30,60,230,100>
+$output false
+class Fasores : Core::Group
+{
+  $rect <10,430,210,470>
+  inherited property Bounds = <0,0,480,242>;
+
+  $rect <10,390,210,430>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <10,350,210,390>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <10,310,150,350>
+  inherited method Init()
+  {
+    flR_verde.RotateAndScale( centro, 0, amplitude, 1);
+    flS_amarelo.RotateAndScale( centro, 0, amplitude, 1);
+    flT_vermelho.RotateAndScale( centro, 0, amplitude, 1);
+    angulo = math_rand(0.0,90.0)+math_rand(-5.0,+5.0);
+  }
+
+  $rect <430,390,630,430>
+  var float angulo = 0;
+
+  $rect <430,350,630,390>
+  var float amplitude = 1;
+
+  $rect <430,310,630,350>
+  var point centro = <135,120>;
+
+  $rect <20,20,160,60>
+  object Views::Image grid
+  {
+    preset Bounds = <25,10,245,230>;
+    preset Color = #FFFFFFFF;
+    preset Bitmap = Application::grid;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label0
+  {
+    preset Bounds = <230,110,280,130>;
+    preset AutoSize = false;
+    preset String = 0;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label180
+  {
+    preset Bounds = <-12,110,38,130>;
+    preset AutoSize = false;
+    preset String = 180;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label90
+  {
+    preset Bounds = <110,-5,160,15>;
+    preset AutoSize = false;
+    preset String = 90;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label270
+  {
+    preset Bounds = <110,225,160,245>;
+    preset AutoSize = false;
+    preset String = 270;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label300
+  {
+    preset Bounds = <192,213,210,225>;
+    preset AutoSize = true;
+    preset String = 300;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label240
+  {
+    preset Bounds = <60,213,78,225>;
+    preset AutoSize = true;
+    preset String = 240;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label210
+  {
+    preset Bounds = <19,171,37,183>;
+    preset AutoSize = true;
+    preset String = 210;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label120
+  {
+    preset Bounds = <62,13,80,25>;
+    preset AutoSize = true;
+    preset String = 120;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label60
+  {
+    preset Bounds = <192,13,204,25>;
+    preset AutoSize = true;
+    preset String = 60;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label330
+  {
+    preset Bounds = <234,171,252,183>;
+    preset AutoSize = true;
+    preset String = 330;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label30
+  {
+    preset Bounds = <236,58,248,70>;
+    preset AutoSize = true;
+    preset String = 30;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text label150
+  {
+    preset Bounds = <18,58,36,70>;
+    preset AutoSize = true;
+    preset String = 150;
+    preset Font = Resources::FontArial12;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelMag
+  {
+    preset Bounds = <282,16,386,32>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "Magnitude [V]";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelAng
+  {
+    preset Bounds = <401,16,465,32>;
+    preset AutoSize = true;
+    preset String = "Fase [°]";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text fTverm_mag
+  {
+    preset Bounds = <376,95,385,113>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = 0;
+    preset Font = Application::Numbers18;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text fTverm_ang
+  {
+    preset Bounds = <455,95,464,113>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = 0;
+    preset Font = Application::Numbers18;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text fSamarelo_mag
+  {
+    preset Bounds = <376,70,385,88>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = 0;
+    preset Font = Application::Numbers18;
+    preset Color = #FFFB39FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text fSamarelo_ang
+  {
+    preset Bounds = <455,70,464,88>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = 0;
+    preset Font = Application::Numbers18;
+    preset Color = #FFFB39FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text fRverde_mag
+  {
+    preset Bounds = <376,45,385,63>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = 0;
+    preset Font = Application::Numbers18;
+    preset Color = #00FF00FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text fRverde_ang
+  {
+    preset Bounds = <455,45,464,63>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = 0;
+    preset Font = Application::Numbers18;
+    preset Color = #00FF00FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line
+  {
+    preset Point2 = <475,37>;
+    preset Point1 = <272,37>;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <220,350,420,390>
+  object Core::Timer Timer
+  {
+    preset OnTrigger = roda;
+    preset Period = 1000;
+    preset Enabled = true;
+  }
+
+  $rect <20,20,160,60>
+  object Views::WarpImage flT_vermelho
+  {
+    preset Point4 = <115,160>;
+    preset Point3 = <240,160>;
+    preset Point2 = <240,152>;
+    preset Point1 = <115,152>;
+    preset SourceAnchor = <0,4>;
+    preset Color1 = #FFFFFFFF;
+    preset Color = #FF0000FF;
+    preset Bitmap = Application::flecha;
+  }
+
+  $rect <20,20,160,60>
+  object Views::WarpImage flS_amarelo
+  {
+    preset Point4 = <115,148>;
+    preset Point3 = <240,148>;
+    preset Point2 = <240,140>;
+    preset Point1 = <115,140>;
+    preset SourceAnchor = <0,4>;
+    preset Color1 = #FFFFFFFF;
+    preset Color = #FFFB39FF;
+    preset Bitmap = Application::flecha;
+  }
+
+  $rect <20,20,160,60>
+  object Views::WarpImage flR_verde
+  {
+    preset Point4 = <115,138>;
+    preset Point3 = <240,138>;
+    preset Point2 = <240,130>;
+    preset Point1 = <115,130>;
+    preset SourceAnchor = <0,4>;
+    preset Color1 = #FFFFFFFF;
+    preset Color = #00FF00FF;
+    preset Bitmap = Application::flecha;
+  }
+
+  $rect <220,390,420,430>
+  slot roda
+  {
+    flR_verde.RotateAndScale( centro, device.getFaseR(), amplitude, 1);
+    fRverde_mag.String = float2String(device.getMagR());
+    fRverde_ang.String = float2String(device.getFaseR());
+
+    flS_amarelo.RotateAndScale( centro, device.getFaseS(), amplitude, 1);
+    fSamarelo_mag.String = float2String(device.getMagS());
+    fSamarelo_ang.String = float2String(device.getFaseS());
+
+    flT_vermelho.RotateAndScale( centro, device.getFaseT(), amplitude, 1);
+    fTverm_mag.String = float2String(device.getMagT());
+    fTverm_ang.String = float2String(device.getFaseT());
+  }
+
+  $rect <520,10,720,50>
+  method string float2String( arg float arg1 )
+  {
+    var string valor = "";
+    var string valor2;
+    var int32 inteiro;
+    var float dec;
+
+    if (arg1 < 0.0) {
+      valor = "-";
+      inteiro = (int32)(-arg1);
+      dec = (arg1 + (float)inteiro)*-100.0;
+    } else {
+      inteiro = (int32)arg1;
+      dec = (arg1 - (float)inteiro)*100.0;
+    }
+
+    valor = valor + string(inteiro);
+    valor2 = string((int32)dec, 2);
+    return (valor + "," + valor2);
+  }
+
+  // ATENÇÃO:
+  // O método "float2String" existe devido ao casting nativo de float para string \
+  // do Embedded Wizard não exibir quando estiver rodando na MCU real, apesar de \
+  // mostrar corretamente no prototipador do EW Studio.
+  // 
+  // Esta versão retorna uma string a partir de um float com 2 casas após a vírgula \
+  // e separador de milhar.
+  note legend Note
+  {
+    attr Bounds = <520,50,910,220>;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <520,220,720,260>
+  var Application::Classe device = Application::Autoobjeto;
+}
+
+$rect <30,100,230,140>
+$output false
+class Freq : Core::Group
+{
+  $rect <0,250,200,290>
+  inherited property Bounds = <0,0,480,242>;
+
+  $rect <0,330,200,370>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <0,290,200,330>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <500,180,640,220>
+  inherited method Init()
+  {
+    /* Define a razão de pixels por unidade dos gráfico para ser condizente com a propriedade de deltaUnidades.
+       ATENÇÃO: Essa propriedade é um int e tem que ser maior que 1. Caso a divisão dê um número menor, ele será 1.  */
+    grafico.PixelPerUnit.y = 60 / deltaUnidades;
+
+    /* Cálculo dos rótulos de tempo, com base no período do objeto Core::Timer "intervalo"
+       e a proporção de pixels por unidade de medida do eixo x (PixelPerUnit.x) do objeto Charts::Graph "grafico".    
+       A distância entre cada divisão vertical é de 90 pixels, o que explica os valores 90, 180, 270 e 360. */
+    val_t_1.String = string(int32( 90.0 * (float(intervalo.Period)/1000.0) / float(grafico.PixelPerUnit.x) )) + "s";
+    val_t_2.String = string(int32( 180.0 * (float(intervalo.Period)/1000.0) / float(grafico.PixelPerUnit.x) )) + "s";
+    val_t_3.String = string(int32( 270.0 * (float(intervalo.Period)/1000.0) / float(grafico.PixelPerUnit.x) )) + "s";
+    val_t_4.String = string(int32( 360.0 * (float(intervalo.Period)/1000.0) / float(grafico.PixelPerUnit.x) )) + "s";
+
+    /* Cálculo dos rótulos dos valores de frequência, com base na proporção de pixels por unidade de medida  do
+       eixo y (PixelPerUnit.y) do objeto Charts::Graph "grafico". A distância entre cada divisão horizontal é 
+       de 60 pixels. */
+    val_fr_1.String = float2String(valorMeio) + " Hz";                        
+    val_fr_0.String = float2String(valorMeio - 60.0/float(grafico.PixelPerUnit.y)) + " Hz";
+    val_fr_2.String = float2String(valorMeio + 60.0/float(grafico.PixelPerUnit.y)) + " Hz";
+  }
+
+  $rect <210,440,390,480>
+  var bool troca = false;
+
+  $rect <210,360,390,400>
+  object Charts::CoordList dados
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <210,400,390,440>
+  object Charts::CoordList dadosmirror
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_fr_0
+  {
+    preset Bounds = <390,180,480,200>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "58,000 Hz";
+    preset Font = Application::Numbers16;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_fr_1
+  {
+    preset Bounds = <390,120,480,140>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "60,000 Hz";
+    preset Font = Application::Numbers16;
+    preset Color = #00FF00FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_fr_2
+  {
+    preset Bounds = <390,60,480,80>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "62,000 Hz";
+    preset Font = Application::Numbers16;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_0
+  {
+    preset Bounds = <350,220,410,240>;
+    preset String = "0s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_1
+  {
+    preset Bounds = <260,220,320,240>;
+    preset String = "45s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_2
+  {
+    preset Bounds = <170,220,230,240>;
+    preset String = "90s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_3
+  {
+    preset Bounds = <80,220,140,240>;
+    preset String = "135s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_4
+  {
+    preset Bounds = <-10,220,50,240>;
+    preset String = "180s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelFreq
+  {
+    preset Bounds = <20,0,140,40>;
+    preset AutoSize = false;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Frequência:";
+    preset Font = Application::Numbers22;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_freq
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <140,0,270,40>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = 0;
+    preset Font = Application::Numbers22;
+  }
+
+  $rect <210,520,390,560>
+  object Core::Timer intervalo
+  {
+    preset OnTrigger = plotar;
+    preset Period = 500;
+    preset Enabled = true;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_1
+  {
+    preset Point2 = <290,220>;
+    preset Point1 = <290,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_2
+  {
+    preset Point2 = <200,220>;
+    preset Point1 = <200,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_3
+  {
+    preset Point2 = <110,220>;
+    preset Point1 = <110,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_fr_0
+  {
+    preset Point2 = <380,190>;
+    preset Point1 = <20,190>;
+    preset Width = 1;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_fr_1
+  {
+    preset Point2 = <380,160>;
+    preset Point1 = <20,160>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_fr_2
+  {
+    preset Point2 = <380,130>;
+    preset Point1 = <20,130>;
+    preset Width = 1;
+    preset Color = #00FF00FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_fr_3
+  {
+    preset Point2 = <380,100>;
+    preset Point1 = <20,100>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_fr_4
+  {
+    preset Point2 = <380,70>;
+    preset Point1 = <20,70>;
+    preset Width = 1;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border borda
+  {
+    preset Bounds = <20,40,380,220>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::Outline JanelaG
+  {
+    preset Bounds = <20,40,380,220>;
+    preset ScrollOffset = <0,0>;
+  }
+
+  $rect <20,20,160,60>
+  object Charts::Graph grafico
+  {
+    preset Bounds = <20,40,740,220>;
+    preset Embedded = true;
+    preset Coordinates = dados;
+    preset LineColor = #FFF512FF;
+    preset LineWidth = 2.0;
+    preset DotWidth = 0.0;
+    preset CoordOrigin = <0,90>;
+    preset PixelPerUnit = <1,30>;
+    preset BackColor = #00000000;
+    preset HorzGridColor = #00000000;
+    preset VertGridColor = #FFFBFA00;
+    preset GridDistance = <20,30>;
+  }
+
+  $rect <210,480,390,520>
+  slot plotar
+  {
+    var float v = device.getFreq();
+
+    val_freq.String = float2String(v) + " Hz";
+    v = v - valorMeio;
+
+    if (!troca) {  
+      dados.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/grafico.PixelPerUnit.x, -v);
+      dadosmirror.AddCoord(-JanelaG.ScrollOffset.x/grafico.PixelPerUnit.x, -v);
+
+      JanelaG.ScrollOffset.x = JanelaG.ScrollOffset.x - grafico.PixelPerUnit.x;
+      grafico.Coordinates = dados;
+      
+
+      if ((0-JanelaG.ScrollOffset.x) == JanelaG.Bounds.w) {
+        grafico.Coordinates = dadosmirror;
+        dados.ClearList();
+        JanelaG.ScrollOffset.x = 0;
+        troca = true;
+      }
+    } else {
+      dadosmirror.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/grafico.PixelPerUnit.x, -v);
+      dados.AddCoord( -JanelaG.ScrollOffset.x/grafico.PixelPerUnit.x, -v);
+
+      JanelaG.ScrollOffset.x = JanelaG.ScrollOffset.x - grafico.PixelPerUnit.x;
+      grafico.Coordinates = dadosmirror;
+      
+      if ((0-JanelaG.ScrollOffset.x) == JanelaG.Bounds.w) {
+        grafico.Coordinates = dados;
+        dadosmirror.ClearList();
+        JanelaG.ScrollOffset.x = 0;
+        troca = false;
+      }
+    }
+  }
+
+  $rect <500,0,700,40>
+  method string float2String( arg float arg1 )
+  {
+    var string valor = "";
+    var string valor2;
+    var int32 inteiro;
+    var float dec;
+
+    if (arg1 < 0.0) {
+      valor = "-";
+      inteiro = (int32)(-arg1);
+      dec = (arg1 + (float)inteiro)*-1000.0;
+    } else {
+      inteiro = (int32)arg1;
+      dec = (arg1 - (float)inteiro)*1000.0;
+    }
+
+    valor = valor + string(inteiro);
+    valor2 = string((int32)dec, 3);
+    return (valor + "," + valor2);
+  }
+
+  $rect <210,270,410,310>
+  var float valorMeio = 60.0;
+
+  $rect <210,310,410,350>
+  var int32 deltaUnidades = 2;
+
+  // ATENÇÃO:
+  // O método "float2String" existe devido ao casting nativo de float para string \
+  // do Embedded Wizard não exibir quando estiver rodando na MCU real, apesar de \
+  // mostrar corretamente no prototipador do EW Studio.
+  // 
+  // Esta versão retorna uma string a partir de um float com 3 casas após a vírgula.
+  note legend Note
+  {
+    attr Bounds = <500,40,1030,170>;
+  }
+
+  // Os rótulos horizontais e verticais têm seus valores calculos automaticamente \
+  // quando esta classe é instanciada, pelo método de inicialização Init().
+  note legend Note1
+  {
+    attr Bounds = <640,170,1030,250>;
+  }
+
+  // Objetos, variáveis e métodos Slot responsáveis pela implementação de um gráfico \
+  // de rolagem "infinita".
+  // 
+  // Sua execução é feita por meio de um gráfico (objeto Charts::Graph "grafico") \
+  // que pode ser visualizado apenas através de uma janela que pode se deslocar (objeto \
+  // Core::Outline "JanelaG" e seu atributo point "ScrollOffset").
+  // Note que a largura do gráfico é duas vezes a largura da janela de visualização.
+  // 
+  // O gráfico só pode ser visto através da janela, o qual rola para a direita conforme \
+  // valores são adicionados a lista de coordenadas (objetos Charts::CoordList).
+  // No começo da execução, dados são adicionados da metade para a direita do gráfico \
+  // ao mesmo tempo que são copiados para a metade para a esquerda da lista espelhada \
+  // (dadosmirror).
+  // 
+  // Quando a segunda metade é preenchida completamente, o deslocamento é retornado \
+  // ao começo e a lista espelhada passa a ser a lista principal, enquando a lista \
+  // normal é limpa para então ser a lista espelhada.
+  // Com isso, a segunda metade do gráfico fica livre para continuar adicionando \
+  // mais valores e o gráfico continuar rolando sem nenhuma mudança visual.
+  // 
+  // Assim que o gráfico é preenchido novamente, a mesma troca ocorre e voltamos \
+  // ao estado inicial, a única diferença é que a metade esquerda não estará vazia, \
+  // que ocorre quando o gráfico é iniciado.
+  // A variável bool "troca" controla qual lista de coordenadas usar a cada situação \
+  // dentro do método Slot "plotar", executado a cada intervalo de tempo do timer \
+  // "intervalo".
+  note legend Note2
+  {
+    attr Bounds = <400,360,1140,740>;
+  }
+
+  // A variável valorMeio pode ser alterada, ela define qual o valor que será usada \
+  // no meio do gráfico (em verde).
+  // A variável deltaUnidades também, define qual é o espaçamento entre o valorMeio \
+  // e uma das linhas vermelhas.
+  // Ex: Se valorMeio = 60 e deltaUnidades = 2, o valor do meio será 60, o inferior \
+  // 58 e o superior, 62.
+  note legend Note4
+  {
+    attr Bounds = <420,270,1140,350>;
+  }
+
+  note arrow Note5
+  {
+    attr Point1 = <300,560>;
+    attr Point2 = <300,610>;
+  }
+
+  // O intervalo de atualização dos dados do gráfico é dado pelo período deste timer.
+  note legend Note6
+  {
+    attr Bounds = <210,620,390,740>;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <700,0,900,40>
+  var Application::Classe device = Application::Autoobjeto;
+}
+
+$rect <30,220,230,260>
+class VNC : Core::Group
+{
+  $rect <10,310,210,350>
+  inherited property Bounds = <0,0,480,242>;
+
+  $rect <10,390,210,430>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <10,350,210,390>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  $output true
+  object Views::Text Message
+  {
+    preset Bounds = <10,30,470,80>;
+    preset String = "Sem Mensagens";
+    preset Font = Application::Numbers22;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <500,40,730,80>
+  object Core::SystemEventHandler LogMessageHandler
+  {
+    preset OnEvent = LogMessage;
+    preset Event = Application::Autoobjeto.LogMessageEvent;
+  }
+
+  // This slot method is executed when the associated system event handler 'SystemEventHandler' \
+  // receives an event.
+  $rect <730,40,930,80>
+  slot LogMessage
+  {
+    var Application::contextoMsg ctxRecebido = (Application::contextoMsg)LogMessageHandler.Context;
+
+    Message.String = ctxRecebido.message;
+  }
+
+  $rect <20,20,160,60>
+  $output true
+  object Flat::ActionButton BStart
+  {
+    preset Bounds = <100,180,220,210>;
+    preset OnAction = startVNC;
+    preset Caption = "Start";
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <500,0,700,40>
+  var Application::Classe device = Application::Autoobjeto;
+
+  $rect <500,120,700,160>
+  slot startVNC
+  {
+    sender; /* the method is called from the sender object */
+
+    device.startVNC();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelMsg
+  {
+    preset Bounds = <0,0,260,30>;
+    preset String = "Mensagem do Servidor VNC:";
+    preset Font = Resources::FontVerdana20;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelState
+  {
+    preset Bounds = <0,80,220,110>;
+    preset String = "Estado do Servidor VNC:";
+    preset Font = Resources::FontVerdana20;
+  }
+
+  $rect <20,20,160,60>
+  $output true
+  object Views::Text Status
+  {
+    preset Bounds = <10,110,470,160>;
+    preset String = "Desconhecido";
+    preset Font = Application::Numbers22;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <500,80,730,120>
+  object Core::SystemEventHandler StatusChangedHandler
+  {
+    preset OnEvent = StatusChange;
+    preset Event = Application::Autoobjeto.StatusChangedEvent;
+  }
+
+  // This slot method is executed when the associated system event handler 'SystemEventHandler' \
+  // receives an event.
+  $rect <730,80,930,120>
+  slot StatusChange
+  {
+    var Application::contextoStatus ctxRecebido = (Application::contextoStatus)StatusChangedHandler.Context;
+
+    Status.String = ctxRecebido.Status;
+
+    if (Status.String == "VNC_IDLE" || Status.String == "VNC_LINK_DOWN" || Status.String == "VNC_INIT") {
+      BStart.Enabled = true;
+      BStop.Enabled = false;
+    } else {
+      BStart.Enabled = false;
+      BStop.Enabled = true;
+    }
+  }
+
+  $rect <20,20,160,60>
+  $output true
+  object Flat::ActionButton BStop
+  {
+    preset Bounds = <260,180,380,210>;
+    preset Enabled = false;
+    preset OnAction = stopVNC;
+    preset Caption = "Stop";
+  }
+
+  $rect <500,160,700,200>
+  slot stopVNC
+  {
+    sender; /* the method is called from the sender object */
+
+    device.stopVNC();
+  }
+}
+
+$rect <30,280,230,320>
+$output false
+resource Resources::Font Numbers18
+{
+  attr fontname FontName = Unispace;
+  attr fontheight Height = 18;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+}
+
+$rect <30,320,230,360>
+$output false
+resource Resources::Font Numbers16
+{
+  attr fontname FontName = Unispace;
+  attr fontheight Height = 16;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+}
+
+$rect <30,360,230,400>
+$output false
+resource Resources::Font Numbers22
+{
+  attr fontname FontName = Unispace;
+  attr fontheight Height = 22;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+}
+
+$rect <30,140,230,180>
+$output false
+class Mag : Core::Group
+{
+  $rect <0,250,200,290>
+  inherited property Bounds = <0,0,480,242>;
+
+  $rect <0,330,200,370>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <0,290,200,330>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <900,0,1040,40>
+  inherited method Init()
+  {
+    /* Define a razão de pixels por unidade dos três gráficos para ser condizente com a propriedade de deltaUnidades. 
+       ATENÇÃO: Essa propriedade é um int e tem que ser maior que 1. Caso a divisão dê um número menor, ele será 1. */
+    Rgraf_fverde.PixelPerUnit.y = 60 / deltaUnidades;
+    Sgraf_famarelo.PixelPerUnit.y = 60 / deltaUnidades;
+    Tgraf_fvermelho.PixelPerUnit.y = 60 / deltaUnidades;
+
+    /* Cálculo dos rótulos de tempo, com base no período do objeto Core::Timer "intervalo"
+       e a proporção de pixels por unidade de medida do eixo x (PixelPerUnit.x) do objeto Charts::Graph "grafico".    
+       A distância entre cada divisão vertical é de 90 pixels, o que explica os valores 90, 180, 270 e 360. */
+    val_t_1.String = string(int32( 90.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+    val_t_2.String = string(int32( 180.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+    val_t_3.String = string(int32( 270.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+    val_t_fim.String = string(int32( 360.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+
+    /* Cálculo dos rótulos dos valores de frequência, com base na proporção de pixels por unidade de medida  do
+       eixo y (PixelPerUnit.y) do objeto Charts::Graph "grafico". A distância entre cada divisão horizontal é 
+       de 60 pixels. */
+    val_m_meio.String = float2String(valorMeio) + " V";
+    val_m_inf.String = float2String(valorMeio - 60.0/float(Rgraf_fverde.PixelPerUnit.y)) + " V";
+    val_m_sup.String = float2String(valorMeio + 60.0/float(Rgraf_fverde.PixelPerUnit.y)) + " V";
+  }
+
+  $rect <450,370,630,410>
+  var bool troca = false;
+
+  $rect <0,450,180,490>
+  object Charts::CoordList dados_vermelho
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <180,450,440,490>
+  object Charts::CoordList dadosmirror_vermelho
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <0,410,180,450>
+  object Charts::CoordList dados_amarelo
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <180,410,440,450>
+  object Charts::CoordList dadosmirror_amarelo
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <0,370,180,410>
+  object Charts::CoordList dados_verde
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <180,370,440,410>
+  object Charts::CoordList dadosmirror_verde
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <200,250,380,290>
+  object Core::Timer intervalo
+  {
+    preset OnTrigger = plotar;
+    preset Period = 1000;
+    preset Enabled = true;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_m_inf
+  {
+    preset Bounds = <390,180,480,200>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "110 V";
+    preset Font = Application::Numbers16;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_m_meio
+  {
+    preset Bounds = <390,120,480,140>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "120 V";
+    preset Font = Application::Numbers16;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_m_sup
+  {
+    preset Bounds = <390,60,480,80>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "130 V";
+    preset Font = Application::Numbers16;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_ini
+  {
+    preset Bounds = <350,220,410,240>;
+    preset String = "0s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_1
+  {
+    preset Bounds = <260,220,320,240>;
+    preset String = "45s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_2
+  {
+    preset Bounds = <170,220,230,240>;
+    preset String = "90s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_3
+  {
+    preset Bounds = <80,220,140,240>;
+    preset String = "135s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_fim
+  {
+    preset Bounds = <-10,220,50,240>;
+    preset String = "180s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Tval_vermelho
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <350,0,420,40>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "100,0";
+    preset Font = Application::Numbers22;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Sval_amarelo
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <270,0,340,40>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "100,0";
+    preset Font = Application::Numbers22;
+    preset Color = #FFFB39FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Rval_verde
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <190,0,260,40>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "100,0";
+    preset Font = Application::Numbers22;
+    preset Color = #00FF00FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelUnidades
+  {
+    preset Bounds = <20,0,188,40>;
+    preset AutoSize = false;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Magnitudes (V):";
+    preset Font = Application::Numbers22;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_1
+  {
+    preset Point2 = <290,220>;
+    preset Point1 = <290,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_2
+  {
+    preset Point2 = <200,220>;
+    preset Point1 = <200,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_3
+  {
+    preset Point2 = <110,220>;
+    preset Point1 = <110,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_m_0
+  {
+    preset Point2 = <380,190>;
+    preset Point1 = <20,190>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_m_1
+  {
+    preset Point2 = <380,160>;
+    preset Point1 = <20,160>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_m_2
+  {
+    preset Point2 = <380,130>;
+    preset Point1 = <20,130>;
+    preset Width = 1;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_m_3
+  {
+    preset Point2 = <380,100>;
+    preset Point1 = <20,100>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_m_4
+  {
+    preset Point2 = <380,70>;
+    preset Point1 = <20,70>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border borda
+  {
+    preset Bounds = <20,40,380,220>;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Core::Outline JanelaG
+  {
+    preset Bounds = <20,40,380,220>;
+    preset ScrollOffset = <0,0>;
+  }
+
+  $rect <20,20,160,60>
+  object Charts::Graph Tgraf_fvermelho
+  {
+    preset Bounds = <20,40,740,220>;
+    preset Embedded = true;
+    preset Coordinates = dados_verde;
+    preset LineColor = #FF0000FF;
+    preset LineWidth = 2.0;
+    preset DotWidth = 0.0;
+    preset CoordOrigin = <0,90>;
+    preset PixelPerUnit = <2,6>;
+    preset BackColor = #00000000;
+    preset HorzGridColor = #00000000;
+    preset VertGridColor = #FFFBFA00;
+    preset GridDistance = <20,30>;
+  }
+
+  $rect <20,20,160,60>
+  object Charts::Graph Sgraf_famarelo
+  {
+    preset Bounds = <20,40,740,220>;
+    preset Embedded = true;
+    preset Coordinates = dados_verde;
+    preset LineColor = #FFFB39FF;
+    preset LineWidth = 2.0;
+    preset DotWidth = 0.0;
+    preset CoordOrigin = <0,90>;
+    preset PixelPerUnit = <2,6>;
+    preset BackColor = #00000000;
+    preset HorzGridColor = #00000000;
+    preset VertGridColor = #FFFBFA00;
+    preset GridDistance = <20,30>;
+  }
+
+  $rect <20,20,160,60>
+  object Charts::Graph Rgraf_fverde
+  {
+    preset Bounds = <20,40,740,220>;
+    preset Embedded = true;
+    preset Coordinates = dados_verde;
+    preset LineColor = #00FF00FF;
+    preset LineWidth = 2.0;
+    preset DotWidth = 0.0;
+    preset CoordOrigin = <0,90>;
+    preset PixelPerUnit = <2,6>;
+    preset BackColor = #00000000;
+    preset HorzGridColor = #00000000;
+    preset VertGridColor = #FFFBFA00;
+    preset GridDistance = <20,30>;
+  }
+
+  $rect <200,290,380,330>
+  slot plotar
+  {
+    var float verde;
+    var float amarelo;
+    var float vermelho;
+
+    verde = device.getMagR();
+    amarelo = device.getMagS();
+    vermelho = device.getMagT();
+
+    Rval_verde.String = float2String(verde);
+    Sval_amarelo.String = float2String(amarelo);
+    Tval_vermelho.String = float2String(vermelho);
+
+    verde = verde - valorMeio;
+    amarelo = amarelo - valorMeio;
+    vermelho = vermelho - valorMeio;
+
+    if (!troca) {  
+      dados_verde.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Rgraf_fverde.PixelPerUnit.x, -verde);
+      dadosmirror_verde.AddCoord(-JanelaG.ScrollOffset.x/Rgraf_fverde.PixelPerUnit.x, -verde);
+
+      dados_amarelo.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+      dadosmirror_amarelo.AddCoord(-JanelaG.ScrollOffset.x/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+
+      dados_vermelho.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+      dadosmirror_vermelho.AddCoord(-JanelaG.ScrollOffset.x/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+
+      JanelaG.ScrollOffset.x = JanelaG.ScrollOffset.x - Rgraf_fverde.PixelPerUnit.x;
+      Rgraf_fverde.Coordinates = dados_verde;
+      Sgraf_famarelo.Coordinates = dados_amarelo;
+      Tgraf_fvermelho.Coordinates = dados_vermelho;
+      
+      if ((0-JanelaG.ScrollOffset.x) == JanelaG.Bounds.w) {
+        Rgraf_fverde.Coordinates = dadosmirror_verde;
+        dados_verde.ClearList();
+
+        Sgraf_famarelo.Coordinates = dadosmirror_amarelo;
+        dados_amarelo.ClearList();
+
+        Tgraf_fvermelho.Coordinates = dadosmirror_vermelho;
+        dados_vermelho.ClearList();
+
+        JanelaG.ScrollOffset.x = 0;
+        troca = true;
+      }
+    } else {
+      dadosmirror_verde.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Rgraf_fverde.PixelPerUnit.x, -verde);
+      dados_verde.AddCoord( -JanelaG.ScrollOffset.x/Rgraf_fverde.PixelPerUnit.x, -verde);
+
+      dadosmirror_amarelo.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+      dados_amarelo.AddCoord( -JanelaG.ScrollOffset.x/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+
+      dadosmirror_vermelho.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+      dados_vermelho.AddCoord( -JanelaG.ScrollOffset.x/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+
+      JanelaG.ScrollOffset.x = JanelaG.ScrollOffset.x - Rgraf_fverde.PixelPerUnit.x;
+      Rgraf_fverde.Coordinates = dadosmirror_verde;
+      Sgraf_famarelo.Coordinates = dadosmirror_amarelo;
+      Tgraf_fvermelho.Coordinates = dadosmirror_vermelho;
+      
+      if ((0-JanelaG.ScrollOffset.x) == JanelaG.Bounds.w) {
+        Rgraf_fverde.Coordinates = dados_verde;
+        dadosmirror_verde.ClearList();
+
+        Sgraf_famarelo.Coordinates = dados_amarelo;
+        dadosmirror_amarelo.ClearList();
+
+        Tgraf_fvermelho.Coordinates = dados_vermelho;
+        dadosmirror_vermelho.ClearList();
+
+        JanelaG.ScrollOffset.x = 0;
+        troca = false;
+      }
+    }
+  }
+
+  $rect <500,0,700,40>
+  method string float2String( arg float arg1 )
+  {
+    var string valor = "";
+    var string valor2;
+    var int32 inteiro;
+    var float dec;
+
+    if (arg1 < 0.0) {
+      valor = "-";
+      inteiro = (int32)(-arg1);
+      dec = (arg1 + (float)inteiro)*-10.0;
+    } else {
+      inteiro = (int32)arg1;
+      dec = (arg1 - (float)inteiro)*10.0;
+    }
+
+    valor = valor + string(inteiro);
+    valor2 = string((int32)dec, 1);
+    return (valor + "," + valor2);
+  }
+
+  $rect <720,270,900,310>
+  var float valorMeio = 120.0;
+
+  $rect <900,270,1080,310>
+  var int32 deltaUnidades = 10;
+
+  // ATENÇÃO:
+  // O método "float2String" existe devido ao casting nativo de float para string \
+  // do Embedded Wizard não exibir quando estiver rodando na MCU real, apesar de \
+  // mostrar corretamente no prototipador do EW Studio.
+  // 
+  // Esta versão retorna uma string a partir de um float com 3 casas após a vírgula.
+  note legend Note
+  {
+    attr Bounds = <500,40,890,210>;
+  }
+
+  // Os rótulos horizontais e verticais têm seus valores calculos automaticamente \
+  // quando esta classe é instanciada, pelo método de inicialização Init().
+  note legend Note1
+  {
+    attr Bounds = <890,40,1140,210>;
+  }
+
+  // O princípio de funcionamento é idem ao gráfico de frequência (classe Application::Freq), \
+  // porém aplicado a três gráficos ao invés de um. Essas mudanças estão refletidas \
+  // no método slot "plotar".
+  note legend Note2
+  {
+    attr Bounds = <0,490,430,570>;
+  }
+
+  // O intervalo de atualização dos dados do gráfico é dado pelo período deste timer.
+  note legend Note6
+  {
+    attr Bounds = <530,230,710,350>;
+  }
+
+  note arrow Note5
+  {
+    attr Point1 = <380,270>;
+    attr Point2 = <530,270>;
+  }
+
+  // A variável valorMeio pode ser alterada, ela define qual o valor que será usada \
+  // no meio do gráfico (em verde).
+  // A variável deltaUnidades também, define qual é o espaçamento entre o valorMeio \
+  // e uma das linhas vermelhas.
+  // Ex: Se valorMeio = 120 e deltaUnidades = 10, o valor do meio será 120, o inferior \
+  // 110 e o superior, 120.
+  note legend Note4
+  {
+    attr Bounds = <720,310,1110,480>;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <700,0,900,40>
+  var Application::Classe device = Application::Autoobjeto;
+}
+
+$rect <460,20,660,60>
+inline Inline
+{
+  #include "vnc_app.h"
+}
+
+$rect <460,90,670,130>
+class Classe : Templates::DeviceClass
+{
+  // This object represents an individual system event.
+  $rect <10,40,210,80>
+  object Core::SystemEvent LogMessageEvent;
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about a particular system event.
+  $rect <10,0,210,40>
+  $output true
+  method void LogMessageTrigger( arg string message )
+  {
+    var Application::contextoMsg contexto = new Application::contextoMsg;
+
+    contexto.message = message;
+
+    LogMessageEvent.Trigger( contexto, false );
+  }
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about a particular system event.
+  $rect <10,180,210,220>
+  $output true
+  method native void startVNC()
+  {
+    VNC_SetState(VNC_INIT);
+    VNC_SERVER_Start();
+  }
+
+  $rect <10,130,210,170>
+  object Core::SystemEvent StatusChangedEvent;
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about a particular system event.
+  $rect <10,90,210,130>
+  $output true
+  method void StatusTrigger( arg string status )
+  {
+    var Application::contextoStatus contexto = new Application::contextoStatus;
+
+    contexto.Status = status;
+
+    StatusChangedEvent.Trigger( contexto, false );
+  }
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about a particular system event.
+  $rect <10,220,210,260>
+  $output true
+  method native void stopVNC()
+  {
+    VNC_SERVER_Stop();
+  }
+
+  // Métodos contendo código em C que são chamados pela GUI para iniciar e parar \
+  // a máquina de estados do servidor VNC.
+  // Tais métodos devem ter a propriedade "native" habilitada.
+  note legend Note
+  {
+    attr Bounds = <210,180,490,260>;
+  }
+
+  // System Event de quando a máquina de estados quer registrar uma mensagem. LogMessageTrigger \
+  // é chamado fora da GUI, passando a mensagem como contexto e ativa o trigger de \
+  // LogMessageEvent.
+  // Com LogMessageEvent trigado, o handler dentro do módulo VNC recebe o contexto \
+  // e mostra a mensagem na tela.
+  note legend Note1
+  {
+    attr Bounds = <210,0,990,80>;
+  }
+
+  // System Event de quando a máquina de estados registra a troca de estado. Princípio \
+  // de funcionamento análogo ao do registro de mensagem.
+  note legend Note2
+  {
+    attr Bounds = <210,90,570,170>;
+  }
+
+  $rect <10,290,210,330>
+  method float getFreq()
+  {
+    var float frequencia = 0.0;
+
+    $if !$prototyper
+    native (frequencia) {
+      extern float Freq_final;
+      
+      frequencia = (XFloat)Freq_final;
+    }
+    $endif
+
+    return frequencia;
+  }
+
+  $rect <10,330,210,370>
+  method float getMagR()
+  {
+    var float magR = 0.0;
+
+    $if !$prototyper
+    native (magR) {
+      extern float Mag_R_final;
+
+      magR = (XFloat)Mag_R_final;
+    }
+    $endif
+
+    return magR;
+  }
+
+  $rect <10,410,210,450>
+  method float getMagT()
+  {
+    var float magT = 0.0;
+
+    $if !$prototyper
+    native (magT) {
+      extern float Mag_T_final;
+
+      magT = (XFloat)Mag_T_final;
+    }
+    $endif
+
+    return magT;
+  }
+
+  $rect <10,370,210,410>
+  method float getMagS()
+  {
+    var float magS = 0.0;
+
+    $if !$prototyper
+    native (magS) {
+      extern float Mag_S_final;
+
+      magS = (XFloat)Mag_S_final;
+    }
+    $endif
+
+    return magS;
+  }
+
+  $rect <210,330,410,370>
+  method float getFaseR()
+  {
+    var float faseR = 0.0;
+
+    $if !$prototyper
+    native (faseR) {
+      extern float Fase_R_final;
+
+      faseR = (XFloat)Fase_R_final;
+    }
+    $endif
+
+    return faseR;
+  }
+
+  $rect <210,410,410,450>
+  method float getFaseT()
+  {
+    var float faseT = 0.0;
+
+    $if !$prototyper
+    native (faseT) {
+      extern float Fase_T_final;
+
+      faseT = (XFloat)Fase_T_final;
+    }
+    $endif
+
+    return faseT;
+  }
+
+  $rect <210,370,410,410>
+  method float getFaseS()
+  {
+    var float faseS = 0.0;
+
+    $if !$prototyper
+    native (faseS) {
+      extern float Fase_S_final;
+
+      faseS = (XFloat)Fase_S_final;
+    }
+    $endif
+
+    return faseS;
+  }
+}
+
+$rect <470,130,690,170>
+autoobject Application::Classe Autoobjeto;
+
+$rect <460,180,660,220>
+$output false
+class contextoMsg
+{
+  $rect <10,10,210,50>
+  property string message = 0;
+
+  $rect <10,50,210,90>
+  onset message
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure message == value )
+      return;
+
+    // Remember the property's new value.
+    pure message = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <10,90,210,130>
+  onget message
+  {
+    return pure message;
+  }
+}
+
+$rect <460,220,660,260>
+$output false
+class contextoStatus
+{
+  $rect <10,10,210,50>
+  property string Status = 0;
+
+  $rect <10,50,210,90>
+  onset Status
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Status == value )
+      return;
+
+    // Remember the property's new value.
+    pure Status = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <10,90,210,130>
+  onget Status
+  {
+    return pure Status;
+  }
+}
+
+$rect <30,180,230,220>
+$output false
+class Fase : Core::Group
+{
+  $rect <0,250,200,290>
+  inherited property Bounds = <0,0,480,242>;
+
+  $rect <0,330,200,370>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <0,290,200,330>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <900,0,1040,40>
+  inherited method Init()
+  {
+    /* Define a razão de pixels por unidade dos três gráficos para ser condizente com a propriedade de deltaUnidades. 
+       ATENÇÃO: Essa propriedade é um int e tem que ser maior que 1. Caso a divisão dê um número menor, ele será 1.  */
+    Rgraf_fverde.PixelPerUnit.y = 120 / deltaUnidades;
+    Sgraf_famarelo.PixelPerUnit.y = 120 / deltaUnidades;
+    Tgraf_fvermelho.PixelPerUnit.y = 120 / deltaUnidades;
+
+    /* Cálculo dos rótulos de tempo, com base no período do objeto Core::Timer "intervalo"
+       e a proporção de pixels por unidade de medida do eixo x (PixelPerUnit.x) do objeto Charts::Graph "grafico".    
+       A distância entre cada divisão vertical é de 90 pixels, o que explica os valores 90, 180, 270 e 360. */
+    val_t_1.String = string(int32( 90.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+    val_t_2.String = string(int32( 180.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+    val_t_3.String = string(int32( 270.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+    val_t_fim.String = string(int32( 360.0 * (float(intervalo.Period)/1000.0) / float(Rgraf_fverde.PixelPerUnit.x) )) + "s";
+
+    /* Cálculo dos rótulos dos valores de frequência, com base na proporção de pixels por unidade de medida  do
+       eixo y (PixelPerUnit.y) do objeto Charts::Graph "grafico". A distância entre cada divisão horizontal é 
+       de 60 pixels. */
+    labelFaseMeio.String = float2String(valorMeio) + " °";
+    labelFaseInf.String = float2String(valorMeio - 120.0/float(Rgraf_fverde.PixelPerUnit.y)) + " °";
+    labelFaseSup.String = float2String(valorMeio + 120.0/float(Rgraf_fverde.PixelPerUnit.y)) + " °";
+  }
+
+  $rect <450,370,630,410>
+  var bool troca = false;
+
+  $rect <0,450,180,490>
+  object Charts::CoordList dados_vermelho
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <180,450,440,490>
+  object Charts::CoordList dadosmirror_vermelho
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <0,410,180,450>
+  object Charts::CoordList dados_amarelo
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <180,410,440,450>
+  object Charts::CoordList dadosmirror_amarelo
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <0,370,180,410>
+  object Charts::CoordList dados_verde
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <180,370,440,410>
+  object Charts::CoordList dadosmirror_verde
+  {
+    preset MaxNoOfItems = 480;
+  }
+
+  $rect <200,250,380,290>
+  object Core::Timer intervalo
+  {
+    preset OnTrigger = plotar;
+    preset Period = 1000;
+    preset Enabled = true;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelFaseInf
+  {
+    preset Bounds = <390,180,480,200>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "0 °";
+    preset Font = Application::Numbers16;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelFaseMeio
+  {
+    preset Bounds = <390,120,480,140>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "180 °";
+    preset Font = Application::Numbers16;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelFaseSup
+  {
+    preset Bounds = <390,60,480,80>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "360 °";
+    preset Font = Application::Numbers16;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_ini
+  {
+    preset Bounds = <350,220,410,240>;
+    preset String = "0s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_1
+  {
+    preset Bounds = <260,220,320,240>;
+    preset String = "45s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_2
+  {
+    preset Bounds = <170,220,230,240>;
+    preset String = "90s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_3
+  {
+    preset Bounds = <80,220,140,240>;
+    preset String = "135s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_t_fim
+  {
+    preset Bounds = <-10,220,50,240>;
+    preset String = "180s";
+    preset Font = Application::Numbers16;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_1
+  {
+    preset Point2 = <290,220>;
+    preset Point1 = <290,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_2
+  {
+    preset Point2 = <200,220>;
+    preset Point1 = <200,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_t_3
+  {
+    preset Point2 = <110,220>;
+    preset Point1 = <110,40>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_f_0
+  {
+    preset Point2 = <380,190>;
+    preset Point1 = <20,190>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_f_1
+  {
+    preset Point2 = <380,160>;
+    preset Point1 = <20,160>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_f_2
+  {
+    preset Point2 = <380,130>;
+    preset Point1 = <20,130>;
+    preset Width = 1;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_f_3
+  {
+    preset Point2 = <380,100>;
+    preset Point1 = <20,100>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line linha_f_4
+  {
+    preset Point2 = <380,70>;
+    preset Point1 = <20,70>;
+    preset Width = 1;
+    preset Color = #777777FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border borda
+  {
+    preset Bounds = <20,40,380,220>;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Tval_vermelho
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <310,0,380,40>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "100,0";
+    preset Font = Application::Numbers22;
+    preset Color = #FF0000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Sval_amarelo
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <230,0,300,40>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "100,0";
+    preset Font = Application::Numbers22;
+    preset Color = #FFFB39FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Rval_verde
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <150,0,220,40>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "100,0";
+    preset Font = Application::Numbers22;
+    preset Color = #00FF00FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text labelUni
+  {
+    preset Bounds = <20,0,188,40>;
+    preset AutoSize = false;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Fases (°):";
+    preset Font = Application::Numbers22;
+  }
+
+  $rect <20,20,160,60>
+  object Core::Outline JanelaG
+  {
+    preset Bounds = <20,40,380,220>;
+    preset ScrollOffset = <0,0>;
+  }
+
+  $rect <20,20,160,60>
+  object Charts::Graph Tgraf_fvermelho
+  {
+    preset Bounds = <20,40,740,220>;
+    preset Embedded = true;
+    preset Coordinates = dados_verde;
+    preset LineColor = #FF0000FF;
+    preset LineWidth = 2.0;
+    preset DotWidth = 0.0;
+    preset CoordOrigin = <0,90>;
+    preset PixelPerUnit = <2,6>;
+    preset BackColor = #00000000;
+    preset HorzGridColor = #00000000;
+    preset VertGridColor = #FFFBFA00;
+    preset GridDistance = <20,30>;
+  }
+
+  $rect <20,20,160,60>
+  object Charts::Graph Sgraf_famarelo
+  {
+    preset Bounds = <20,40,740,220>;
+    preset Embedded = true;
+    preset Coordinates = dados_verde;
+    preset LineColor = #FFFB39FF;
+    preset LineWidth = 2.0;
+    preset DotWidth = 0.0;
+    preset CoordOrigin = <0,90>;
+    preset PixelPerUnit = <2,6>;
+    preset BackColor = #00000000;
+    preset HorzGridColor = #00000000;
+    preset VertGridColor = #FFFBFA00;
+    preset GridDistance = <20,30>;
+  }
+
+  $rect <20,20,160,60>
+  object Charts::Graph Rgraf_fverde
+  {
+    preset Bounds = <20,40,740,220>;
+    preset Embedded = true;
+    preset Coordinates = dados_verde;
+    preset LineColor = #00FF00FF;
+    preset LineWidth = 2.0;
+    preset DotWidth = 0.0;
+    preset CoordOrigin = <0,90>;
+    preset PixelPerUnit = <2,6>;
+    preset BackColor = #00000000;
+    preset HorzGridColor = #00000000;
+    preset VertGridColor = #FFFBFA00;
+    preset GridDistance = <20,30>;
+  }
+
+  $rect <200,290,380,330>
+  slot plotar
+  {
+    var float verde;
+    var float amarelo;
+    var float vermelho;
+
+    verde = device.getFaseR();
+    amarelo = device.getFaseS();
+    vermelho = device.getFaseT();
+
+    Rval_verde.String = float2String(verde);
+    Sval_amarelo.String = float2String(amarelo);
+    Tval_vermelho.String = float2String(vermelho);
+
+    verde = (verde - valorMeio)/2.0;
+    amarelo = (amarelo - valorMeio)/2.0;
+    vermelho = (vermelho - valorMeio)/2.0;
+
+    if (!troca) {  
+      dados_verde.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Rgraf_fverde.PixelPerUnit.x, -verde);
+      dadosmirror_verde.AddCoord(-JanelaG.ScrollOffset.x/Rgraf_fverde.PixelPerUnit.x, -verde);
+
+      dados_amarelo.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+      dadosmirror_amarelo.AddCoord(-JanelaG.ScrollOffset.x/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+
+      dados_vermelho.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+      dadosmirror_vermelho.AddCoord(-JanelaG.ScrollOffset.x/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+
+      JanelaG.ScrollOffset.x = JanelaG.ScrollOffset.x - Rgraf_fverde.PixelPerUnit.x;
+      Rgraf_fverde.Coordinates = dados_verde;
+      Sgraf_famarelo.Coordinates = dados_amarelo;
+      Tgraf_fvermelho.Coordinates = dados_vermelho;
+      
+      if ((0-JanelaG.ScrollOffset.x) == JanelaG.Bounds.w) {
+        Rgraf_fverde.Coordinates = dadosmirror_verde;
+        dados_verde.ClearList();
+
+        Sgraf_famarelo.Coordinates = dadosmirror_amarelo;
+        dados_amarelo.ClearList();
+
+        Tgraf_fvermelho.Coordinates = dadosmirror_vermelho;
+        dados_vermelho.ClearList();
+
+        JanelaG.ScrollOffset.x = 0;
+        troca = true;
+      }
+    } else {
+      dadosmirror_verde.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Rgraf_fverde.PixelPerUnit.x, -verde);
+      dados_verde.AddCoord( -JanelaG.ScrollOffset.x/Rgraf_fverde.PixelPerUnit.x, -verde);
+
+      dadosmirror_amarelo.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+      dados_amarelo.AddCoord( -JanelaG.ScrollOffset.x/Sgraf_famarelo.PixelPerUnit.x, -amarelo);
+
+      dadosmirror_vermelho.AddCoord( (-JanelaG.ScrollOffset.x + JanelaG.Bounds.w)/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+      dados_vermelho.AddCoord( -JanelaG.ScrollOffset.x/Tgraf_fvermelho.PixelPerUnit.x, -vermelho);
+
+      JanelaG.ScrollOffset.x = JanelaG.ScrollOffset.x - Rgraf_fverde.PixelPerUnit.x;
+      Rgraf_fverde.Coordinates = dadosmirror_verde;
+      Sgraf_famarelo.Coordinates = dadosmirror_amarelo;
+      Tgraf_fvermelho.Coordinates = dadosmirror_vermelho;
+      
+      if ((0-JanelaG.ScrollOffset.x) == JanelaG.Bounds.w) {
+        Rgraf_fverde.Coordinates = dados_verde;
+        dadosmirror_verde.ClearList();
+
+        Sgraf_famarelo.Coordinates = dados_amarelo;
+        dadosmirror_amarelo.ClearList();
+
+        Tgraf_fvermelho.Coordinates = dados_vermelho;
+        dadosmirror_vermelho.ClearList();
+
+        JanelaG.ScrollOffset.x = 0;
+        troca = false;
+      }
+    }
+  }
+
+  $rect <500,0,700,40>
+  method string float2String( arg float arg1 )
+  {
+    var string valor = "";
+    var string valor2;
+    var int32 inteiro;
+    var float dec;
+
+    if (arg1 < 0.0) {
+      valor = "-";
+      inteiro = (int32)(-arg1);
+      dec = (arg1 + (float)inteiro)*-10.0;
+    } else {
+      inteiro = (int32)arg1;
+      dec = (arg1 - (float)inteiro)*10.0;
+    }
+
+    valor = valor + string(inteiro);
+    valor2 = string((int32)dec, 1);
+    return (valor + "," + valor2);
+  }
+
+  $rect <720,270,900,310>
+  var float valorMeio = 180.0;
+
+  $rect <900,270,1080,310>
+  var int32 deltaUnidades = 120;
+
+  // ATENÇÃO:
+  // O método "float2String" existe devido ao casting nativo de float para string \
+  // do Embedded Wizard não exibir quando estiver rodando na MCU real, apesar de \
+  // mostrar corretamente no prototipador do EW Studio.
+  // 
+  // Esta versão retorna uma string a partir de um float com 3 casas após a vírgula.
+  note legend Note
+  {
+    attr Bounds = <500,40,890,210>;
+  }
+
+  // Os rótulos horizontais e verticais têm seus valores calculos automaticamente \
+  // quando esta classe é instanciada, pelo método de inicialização Init().
+  note legend Note1
+  {
+    attr Bounds = <890,40,1140,210>;
+  }
+
+  // O princípio de funcionamento é idem ao gráfico de frequência (classe Application::Freq), \
+  // porém aplicado a três gráficos ao invés de um. Essas mudanças estão refletidas \
+  // no método slot "plotar".
+  note legend Note2
+  {
+    attr Bounds = <0,490,430,570>;
+  }
+
+  // O intervalo de atualização dos dados do gráfico é dado pelo período deste timer.
+  note legend Note6
+  {
+    attr Bounds = <530,230,710,350>;
+  }
+
+  // A variável valorMeio pode ser alterada, ela define qual o valor que será usada \
+  // no meio do gráfico (em verde).
+  // A variável deltaUnidades também, define qual é o espaçamento entre o valorMeio \
+  // e uma das linhas vermelhas.
+  // Ex: Se valorMeio = 120 e deltaUnidades = 10, o valor do meio será 120, o inferior \
+  // 110 e o superior, 120.
+  note legend Note4
+  {
+    attr Bounds = <720,310,1110,480>;
+  }
+
+  note arrow Note5
+  {
+    attr Point1 = <380,270>;
+    attr Point2 = <530,270>;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <700,0,900,40>
+  var Application::Classe device = Application::Autoobjeto;
+}
+
+// Classe das aplicações que são utilizadas. Os objetos Core::Group são módulos que \
+// são instanciados no objeto Core::Root Aplic.
+note legend Note
+{
+  attr Bounds = <230,60,430,260>;
+}
+
+// Inline com os includes necessários para executar código externo ao GUI.
+note legend Note1
+{
+  attr Bounds = <660,20,920,80>;
+}
+
+// Classe de dispositivo e autoobjeto necessários para a comunicação entre a GUI \
+// e os códigos externos a ela.
+note legend Note2
+{
+  attr Bounds = <690,90,950,170>;
+}
+
+// Classes de contexo para uso com os system handlers dentro do DeviceClass Classe.
+note legend Note3
+{
+  attr Bounds = <660,180,880,260>;
+}
