@@ -13,6 +13,7 @@
 #include "arm_const_structs.h"
 
 #define MCLOCK_FREQ 200000000
+#define numero_pontos 256
 
 extern osSemaphoreId SerialGPS_semId;
 extern osMessageQId SerialGPSq;
@@ -20,7 +21,7 @@ extern osMessageQId SerialGPSq;
 extern TIM_HandleTypeDef 			 htim1;
 extern UART_HandleTypeDef 			 huart6;
 
-extern volatile unsigned short adcBuffer[768];
+extern volatile unsigned short adcBuffer[numero_pontos*3];
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 
@@ -91,11 +92,12 @@ unsigned int flag=0;
 unsigned int r,s,t, rr, ss, tt;
 
 //Tabela da DFT
-float teta, seno[256], cosseno[256];
+float teta, seno[numero_pontos], cosseno[numero_pontos];
 //aplicacao do fator de calibracao
 float FC;
-float FasesAC[768];
-float FasesAC_mod_R[256], FasesAC_mod_S[256], FasesAC_mod_T[256];
+float FasesAC[numero_pontos*3];
+float FasesAC_mod_R[numero_pontos], FasesAC_mod_S[numero_pontos], FasesAC_mod_T[numero_pontos];
+float FasesAC_ReIm_R[numero_pontos*2], FasesAC_ReIm_S[numero_pontos*2], FasesAC_ReIm_T[numero_pontos*2];
 //Aplicacao da DFT
 float modulor,modulos,modulot,faser,fases,faset,somaMr,somaMs,somaMt,somaFr,somaFs,somaFt;
 //Fasor em coordenadas retangulares
@@ -245,11 +247,24 @@ void PMU_Task(void const * argument)
 
 
 		//Aplicacao da DFT
+		int k2 = 0;
 		for (k=0;k<n_amostras;k++){
 
 			modulor = FasesAC[r]*cosseno[k];
 			modulos = FasesAC[s]*cosseno[k];
 			modulot = FasesAC[t]*cosseno[k];
+
+			//##############################
+			// Para FFT
+			FasesAC_ReIm_R[k2]=FasesAC[r];
+			FasesAC_ReIm_S[k2]=FasesAC[s];
+			FasesAC_ReIm_T[k2]=FasesAC[t];
+			FasesAC_ReIm_R[k2+1]=0;
+			FasesAC_ReIm_S[k2+1]=0;
+			FasesAC_ReIm_T[k2+1]=0;
+
+			k2 += 2;
+			//##############################
 
 			faser = FasesAC[r]*seno[k];
 			fases = FasesAC[s]*seno[k];
@@ -268,8 +283,17 @@ void PMU_Task(void const * argument)
 			t +=3;
 		}
 
-		arm_cfft_f32(&arm_cfft_sR_f32_len256,&FasesAC[r],0,1);
-		arm_cmplx_mag_f32(&FasesAC[r],FasesAC_mod_R,256);
+		//##############################
+		// Para FFT
+		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_R,0,1);
+		arm_cmplx_mag_f32(FasesAC_ReIm_R,FasesAC_mod_R,256);
+
+		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_S,0,1);
+		arm_cmplx_mag_f32(FasesAC_ReIm_S,FasesAC_mod_S,256);
+
+		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_T,0,1);
+		arm_cmplx_mag_f32(FasesAC_ReIm_T,FasesAC_mod_T,256);
+		//##############################
 
 
 		//Fasor em coordenadas retangulares
