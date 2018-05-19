@@ -222,7 +222,7 @@ $output false
 resource Resources::Bitmap flecha
 {
   attr bitmapfile FileName;
-  attr alphafile AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\arrow_a.bmp;
+  attr alphafile AlphaName = .\arrow_a.bmp;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
 }
@@ -232,7 +232,7 @@ $output false
 resource Resources::Bitmap grid
 {
   attr bitmapfile FileName;
-  attr alphafile AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\grid_a.bmp;
+  attr alphafile AlphaName = .\grid_a.bmp;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
 }

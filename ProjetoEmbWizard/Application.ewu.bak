@@ -2862,8 +2862,7 @@ class Fase : Core::Group
 
     verde = device.getFaseR();
     amarelo = device.getFaseS();
-    //vermelho = device.getFaseT();
-    vermelho = -128.88;
+    vermelho = device.getFaseT();
 
     Rval_verde.String = float2String(verde);
     Sval_amarelo.String = float2String(amarelo);
