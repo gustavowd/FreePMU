@@ -51,6 +51,12 @@
 #define _ApplicationClasse_
 #endif
 
+/* Forward declaration of the class Charts::CoordList */
+#ifndef _ChartsCoordList_
+  EW_DECLARE_CLASS( ChartsCoordList )
+#define _ChartsCoordList_
+#endif
+
 
 /* Deklaration of class : 'Application::Classe' */
 EW_DEFINE_FIELDS( ApplicationClasse, TemplatesDeviceClass )
@@ -122,6 +128,15 @@ XFloat ApplicationClasse_getFaseT( ApplicationClasse _this );
 
 /* 'C' function for method : 'Application::Classe.getFaseS()' */
 XFloat ApplicationClasse_getFaseS( ApplicationClasse _this );
+
+/* 'C' function for method : 'Application::Classe.getFFT_R()' */
+ChartsCoordList ApplicationClasse_getFFT_R( ApplicationClasse _this );
+
+/* 'C' function for method : 'Application::Classe.getFFT_S()' */
+ChartsCoordList ApplicationClasse_getFFT_S( ApplicationClasse _this );
+
+/* 'C' function for method : 'Application::Classe.getFFT_T()' */
+ChartsCoordList ApplicationClasse_getFFT_T( ApplicationClasse _this );
 
 #ifdef __cplusplus
   }

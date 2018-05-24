@@ -42,13 +42,6 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_FlatActionButton.h"
-
-/* Font resources used for the different widgets. If you want to change the fonts 
-   within your project, just create a variant of these font resources and define 
-   the attributes of the font resources according your design ideas. */
-EW_DECLARE_FONT_RES( FlatFontM )
-
 /* Bitmap resources used for the different widgets. If you want to change the bitmaps 
    within your project, just create a variant of these bitmap resources and define 
    the attributes of the bitmap resources according your design ideas. */

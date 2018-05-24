@@ -27,26 +27,29 @@
 #include "ewlocale.h"
 #include "_ApplicationAplic.h"
 #include "_ApplicationClasse.h"
+#include "_ApplicationFFT.h"
 #include "_ApplicationFase.h"
 #include "_ApplicationFasores.h"
 #include "_ApplicationFreq.h"
 #include "_ApplicationMag.h"
+#include "_ApplicationModifiedButton.h"
 #include "_ApplicationVNC.h"
 #include "_ApplicationcontextoMsg.h"
 #include "_ApplicationcontextoStatus.h"
 #include "_ChartsCoordList.h"
 #include "_ChartsGraph.h"
 #include "_CoreOutline.h"
+#include "_CoreSimpleTouchHandler.h"
 #include "_CoreSystemEvent.h"
 #include "_CoreSystemEventHandler.h"
 #include "_CoreTimer.h"
 #include "_CoreView.h"
 #include "_CoreWipeTouchHandler.h"
 #include "_EffectsPointEffect.h"
-#include "_FlatActionButton.h"
 #include "_ResourcesBitmap.h"
 #include "_ResourcesFont.h"
 #include "_ViewsBorder.h"
+#include "_ViewsFrame.h"
 #include "_ViewsImage.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
@@ -62,33 +65,37 @@
 /* Compressed strings for the language 'Default'. */
 static const unsigned int _StringsDefault0[] =
 {
-  0x0000040A, /* ratio 48.36 % */
+  0x00000416, /* ratio 46.27 % */
   0xB8001700, 0x00000452, 0x00C20023, 0x0DE00398, 0xCA003900, 0xC008342C, 0x0782C0C1,
   0x1004461F, 0x001D4007, 0x01B800EA, 0x9A400630, 0x5C1B1484, 0xE504D834, 0x01269119,
-  0x8008F1D0, 0x088346CC, 0xC8546656, 0x0841A250, 0x846CA73A, 0x4DA62768, 0x00411087,
-  0x09C002B0, 0x0B142180, 0xF14184E8, 0x0018CE80, 0x6AA00070, 0x1CCE80D0, 0x94EAAB5B,
-  0x5846E001, 0x1A095683, 0x2B96119C, 0xC918B480, 0x76FB38D2, 0x6EAC002C, 0x4AC41AE1,
-  0xB557ADD6, 0xD5D06C00, 0x5B2D800B, 0x8B0F3ABF, 0x06B58C05, 0x5B3A08DD, 0xF2397C2A,
-  0x368FCCE4, 0xB2DD2A25, 0x8A174014, 0xE422740C, 0x003371B9, 0xEAA39E58, 0x301AA16C,
-  0x1D3A948B, 0xB54D7D6B, 0x48A50036, 0x0D81E800, 0xDA553058, 0xC8036F6D, 0xCAA0DBBD,
-  0x02C800DE, 0x375B8DB7, 0xA918BFC5, 0x73AB4432, 0x75E9E3AE, 0x4E958301, 0xC2E32731,
-  0xBF77AE00, 0xF62C359A, 0x4A35A207, 0xE431F8EC, 0x152792C8, 0x118D68EA, 0xC5E6E13B,
-  0x2C064001, 0xE11B6254, 0x1234492D, 0x346D9343, 0x04094520, 0x104A1325, 0x075064CD,
-  0x51381991, 0x7709FE81, 0x69FD7094, 0x1749D454, 0x5399D526, 0xD067CD50, 0xC4153A06,
-  0x5D0A4CD0, 0x008A94A8, 0x51944864, 0x14A4690D, 0x20022053, 0x01400022, 0x0C46C446,
-  0x48D0E495, 0x5F046C68, 0xA4E2314D, 0xC10E4CE0, 0x344E9A01, 0x17C0053E, 0xC0012400,
-  0x80004C8E, 0x364C7E91, 0x559424E5, 0x12D4E94A, 0xC0094E4F, 0x69690313, 0x35806850,
-  0x5E941509, 0x15000946, 0x97879208, 0x94194C70, 0xD17D77E0, 0x8A77E719, 0x4627B8CD,
-  0xD746FE73, 0x58161104, 0xF19882D9, 0x9D0A1C28, 0x73E360A5, 0x1D49F93A, 0x85295460,
-  0x69E49D9A, 0x7F69E955, 0x585815AE, 0x6A245296, 0x00000040, 0x00000000
+  0x8008F1D0, 0x088346CC, 0xC8546656, 0x03C1A250, 0xA422113A, 0xCE821142, 0xDA211B29,
+  0x21D36989, 0xAC001044, 0x60027000, 0x3A02C508, 0x4A045061, 0x000C60D0, 0x35680038,
+  0x0E674068, 0xCA755BB1, 0xED037000, 0xD0339D4F, 0x15C0058E, 0x6E1A5AE3, 0xF005AAE9,
+  0xAF5D6E75, 0x2DCED600, 0x8D8015DB, 0xC4017FBC, 0x2E183B8D, 0x6B5F9D62, 0xB3A08DE4,
+  0x2397C2A5, 0x68FCCE4F, 0x2DD42253, 0xA1740151, 0xCA2820C8, 0x033E009E, 0xAAFA2580,
+  0x0BAE16CE, 0x53A948B3, 0x5AD9D872, 0x8006A773, 0xDA1E8004, 0xC56B0F85, 0xEF77772D,
+  0x065506DF, 0xB8800C0F, 0x29C7A86E, 0x95A8C612, 0x78C2DBE1, 0x5BD75B25, 0x8A756CF8,
+  0x8D7F0B39, 0x643C1DAB, 0x3FB768B0, 0x62510D30, 0x47218FC7, 0x50A93C96, 0xDB8C6C47,
+  0x4DF74313, 0xBEF9C131, 0x906549BB, 0xA731E27F, 0x02025415, 0xE3462040, 0x7F6085A1,
+  0x9C46E9E7, 0xE6541341, 0xD19A4C12, 0x5044D9D4, 0x0A5A10A1, 0x9647D800, 0x475E0F4E,
+  0x0DAC6EDD, 0x07585E78, 0x616106AE, 0x22870971, 0x86151645, 0x311B4F10, 0x208BA1D4,
+  0x74C0088A, 0xE2954106, 0xB74A118F, 0xE5D86357, 0xB389DE15, 0x899925AD, 0xC0070D06,
+  0x192C0093, 0x4D6C7365, 0xA6029149, 0x0019E8E1, 0xE5D96C52, 0x65225F44, 0x9E369710,
+  0x445411B6, 0x61594419, 0xC6D44948, 0x34492D6E, 0x6D974312, 0x188BE774, 0x42933521,
+  0x5064CD10, 0x39DA1607, 0xEE729E51, 0x716ED4D6, 0x49D4B46A, 0x1A153E8B, 0x48F95655,
+  0x01010011, 0x00000000
 };
 
 /* Compressed strings for the language 'Default'. */
 static const unsigned int _StringsDefault1[] =
 {
-  0x0000002C, /* ratio 100.00 % */
-  0xB8001D00, 0x00000452, 0x00C20023, 0xCCA00398, 0x00200042, 0x0B0000A0, 0x3A000A40,
-  0x3030020C, 0x8A4420B0, 0x0406431A, 0x00000000
+  0x000000D0, /* ratio 69.23 % */
+  0xB8003700, 0x80000452, 0xD0007382, 0x00061001, 0x006F0019, 0x51087080, 0x00298022,
+  0x039000CA, 0x34800EC0, 0x9C722314, 0x13800568, 0xE8004300, 0xC2000830, 0x880082C0,
+  0x70900464, 0x0037454C, 0x09B4CCD0, 0x834461F2, 0xC41A5E08, 0x1C2230B8, 0x02840C96,
+  0xE5327928, 0x62490017, 0x90726002, 0x4CA50465, 0x4A780251, 0x25C9EA35, 0x193EA55B,
+  0xD6291268, 0x96A14EB2, 0xA5854A8D, 0x0042A502, 0x374851D4, 0x2C964E22, 0x00000203,
+  0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -104,147 +111,210 @@ static const XRect _Const0008 = {{ 480, 0 }, { 960, 242 }};
 static const XRect _Const0009 = {{ 960, 0 }, { 1440, 242 }};
 static const XRect _Const000A = {{ 1440, 0 }, { 1920, 242 }};
 static const XRect _Const000B = {{ 1920, 0 }, { 2400, 242 }};
-static const XStringRes _Const000C = { _StringsDefault0, 0x000E };
-static const XStringRes _Const000D = { _StringsDefault0, 0x001C };
-static const XStringRes _Const000E = { _StringsDefault0, 0x0029 };
-static const XStringRes _Const000F = { _StringsDefault0, 0x0031 };
-static const XPoint _Const0010 = { 135, 120 };
-static const XRect _Const0011 = {{ 25, 10 }, { 245, 230 }};
-static const XColor _Const0012 = { 0xFF, 0xFF, 0xFF, 0xFF };
-static const XRect _Const0013 = {{ 230, 110 }, { 280, 130 }};
-static const XStringRes _Const0014 = { _StringsDefault0, 0x0041 };
-static const XRect _Const0015 = {{ -12, 110 }, { 38, 130 }};
-static const XStringRes _Const0016 = { _StringsDefault0, 0x0046 };
-static const XRect _Const0017 = {{ 110, -5 }, { 160, 15 }};
+static const XRect _Const000C = {{ 2400, 0 }, { 2880, 242 }};
+static const XStringRes _Const000D = { _StringsDefault0, 0x000E };
+static const XStringRes _Const000E = { _StringsDefault0, 0x001C };
+static const XStringRes _Const000F = { _StringsDefault0, 0x0029 };
+static const XStringRes _Const0010 = { _StringsDefault0, 0x0031 };
+static const XStringRes _Const0011 = { _StringsDefault0, 0x0038 };
+static const XPoint _Const0012 = { 135, 120 };
+static const XRect _Const0013 = {{ 25, 10 }, { 245, 230 }};
+static const XColor _Const0014 = { 0xFF, 0xFF, 0xFF, 0xFF };
+static const XRect _Const0015 = {{ 230, 110 }, { 280, 130 }};
+static const XStringRes _Const0016 = { _StringsDefault0, 0x0048 };
+static const XRect _Const0017 = {{ -12, 110 }, { 38, 130 }};
 static const XStringRes _Const0018 = { _StringsDefault0, 0x004D };
-static const XRect _Const0019 = {{ 110, 225 }, { 160, 245 }};
-static const XStringRes _Const001A = { _StringsDefault0, 0x0053 };
-static const XRect _Const001B = {{ 192, 213 }, { 210, 225 }};
+static const XRect _Const0019 = {{ 110, -5 }, { 160, 15 }};
+static const XStringRes _Const001A = { _StringsDefault0, 0x0054 };
+static const XRect _Const001B = {{ 110, 225 }, { 160, 245 }};
 static const XStringRes _Const001C = { _StringsDefault0, 0x005A };
-static const XRect _Const001D = {{ 60, 213 }, { 78, 225 }};
+static const XRect _Const001D = {{ 192, 213 }, { 210, 225 }};
 static const XStringRes _Const001E = { _StringsDefault0, 0x0061 };
-static const XRect _Const001F = {{ 19, 171 }, { 37, 183 }};
+static const XRect _Const001F = {{ 60, 213 }, { 78, 225 }};
 static const XStringRes _Const0020 = { _StringsDefault0, 0x0068 };
-static const XRect _Const0021 = {{ 62, 13 }, { 80, 25 }};
+static const XRect _Const0021 = {{ 19, 171 }, { 37, 183 }};
 static const XStringRes _Const0022 = { _StringsDefault0, 0x006F };
-static const XRect _Const0023 = {{ 192, 13 }, { 204, 25 }};
+static const XRect _Const0023 = {{ 62, 13 }, { 80, 25 }};
 static const XStringRes _Const0024 = { _StringsDefault0, 0x0076 };
-static const XRect _Const0025 = {{ 234, 171 }, { 252, 183 }};
-static const XStringRes _Const0026 = { _StringsDefault0, 0x007C };
-static const XRect _Const0027 = {{ 236, 58 }, { 248, 70 }};
+static const XRect _Const0025 = {{ 192, 13 }, { 204, 25 }};
+static const XStringRes _Const0026 = { _StringsDefault0, 0x007D };
+static const XRect _Const0027 = {{ 234, 171 }, { 252, 183 }};
 static const XStringRes _Const0028 = { _StringsDefault0, 0x0083 };
-static const XRect _Const0029 = {{ 18, 58 }, { 36, 70 }};
-static const XStringRes _Const002A = { _StringsDefault0, 0x0089 };
-static const XRect _Const002B = {{ 282, 16 }, { 386, 32 }};
+static const XRect _Const0029 = {{ 236, 58 }, { 248, 70 }};
+static const XStringRes _Const002A = { _StringsDefault0, 0x008A };
+static const XRect _Const002B = {{ 18, 58 }, { 36, 70 }};
 static const XStringRes _Const002C = { _StringsDefault0, 0x0090 };
-static const XRect _Const002D = {{ 401, 16 }, { 465, 32 }};
-static const XStringRes _Const002E = { _StringsDefault0, 0x00A1 };
-static const XRect _Const002F = {{ 376, 95 }, { 385, 113 }};
-static const XColor _Const0030 = { 0xFF, 0x00, 0x00, 0xFF };
-static const XRect _Const0031 = {{ 455, 95 }, { 464, 113 }};
-static const XRect _Const0032 = {{ 376, 70 }, { 385, 88 }};
-static const XColor _Const0033 = { 0xFF, 0xFB, 0x39, 0xFF };
+static const XRect _Const002D = {{ 282, 16 }, { 386, 32 }};
+static const XStringRes _Const002E = { _StringsDefault0, 0x0097 };
+static const XRect _Const002F = {{ 401, 16 }, { 465, 32 }};
+static const XStringRes _Const0030 = { _StringsDefault0, 0x00A8 };
+static const XRect _Const0031 = {{ 376, 95 }, { 385, 113 }};
+static const XRect _Const0032 = {{ 455, 95 }, { 464, 113 }};
+static const XRect _Const0033 = {{ 376, 70 }, { 385, 88 }};
 static const XRect _Const0034 = {{ 455, 70 }, { 464, 88 }};
 static const XRect _Const0035 = {{ 376, 45 }, { 385, 63 }};
-static const XColor _Const0036 = { 0x00, 0xFF, 0x00, 0xFF };
-static const XRect _Const0037 = {{ 455, 45 }, { 464, 63 }};
-static const XPoint _Const0038 = { 475, 37 };
-static const XPoint _Const0039 = { 272, 37 };
-static const XPoint _Const003A = { 115, 160 };
-static const XPoint _Const003B = { 240, 160 };
-static const XPoint _Const003C = { 240, 152 };
-static const XPoint _Const003D = { 115, 152 };
-static const XPoint _Const003E = { 0, 4 };
-static const XPoint _Const003F = { 115, 148 };
-static const XPoint _Const0040 = { 240, 148 };
-static const XPoint _Const0041 = { 240, 140 };
-static const XPoint _Const0042 = { 115, 140 };
-static const XPoint _Const0043 = { 115, 138 };
-static const XPoint _Const0044 = { 240, 138 };
-static const XPoint _Const0045 = { 240, 130 };
-static const XPoint _Const0046 = { 115, 130 };
-static const XStringRes _Const0047 = { _StringsDefault0, 0x00AD };
-static const XStringRes _Const0048 = { _StringsDefault0, 0x00B2 };
-static const XRect _Const0049 = {{ 390, 180 }, { 480, 200 }};
-static const XStringRes _Const004A = { _StringsDefault0, 0x00B7 };
+static const XRect _Const0036 = {{ 455, 45 }, { 464, 63 }};
+static const XPoint _Const0037 = { 475, 37 };
+static const XPoint _Const0038 = { 272, 37 };
+static const XPoint _Const0039 = { 115, 160 };
+static const XPoint _Const003A = { 240, 160 };
+static const XPoint _Const003B = { 240, 152 };
+static const XPoint _Const003C = { 115, 152 };
+static const XPoint _Const003D = { 0, 4 };
+static const XPoint _Const003E = { 115, 148 };
+static const XPoint _Const003F = { 240, 148 };
+static const XPoint _Const0040 = { 240, 140 };
+static const XPoint _Const0041 = { 115, 140 };
+static const XPoint _Const0042 = { 115, 138 };
+static const XPoint _Const0043 = { 240, 138 };
+static const XPoint _Const0044 = { 240, 130 };
+static const XPoint _Const0045 = { 115, 130 };
+static const XStringRes _Const0046 = { _StringsDefault0, 0x00B4 };
+static const XStringRes _Const0047 = { _StringsDefault0, 0x00B9 };
+static const XRect _Const0048 = {{ 390, 180 }, { 480, 200 }};
+static const XStringRes _Const0049 = { _StringsDefault0, 0x00BE };
+static const XColor _Const004A = { 0xFF, 0x00, 0x00, 0xFF };
 static const XRect _Const004B = {{ 390, 120 }, { 480, 140 }};
-static const XStringRes _Const004C = { _StringsDefault0, 0x00C4 };
-static const XRect _Const004D = {{ 390, 60 }, { 480, 80 }};
-static const XStringRes _Const004E = { _StringsDefault0, 0x00D1 };
-static const XRect _Const004F = {{ 350, 220 }, { 410, 240 }};
-static const XStringRes _Const0050 = { _StringsDefault0, 0x00DE };
-static const XRect _Const0051 = {{ 260, 220 }, { 320, 240 }};
-static const XStringRes _Const0052 = { _StringsDefault0, 0x00E4 };
-static const XRect _Const0053 = {{ 170, 220 }, { 230, 240 }};
-static const XStringRes _Const0054 = { _StringsDefault0, 0x00EB };
-static const XRect _Const0055 = {{ 80, 220 }, { 140, 240 }};
-static const XStringRes _Const0056 = { _StringsDefault0, 0x00F2 };
-static const XRect _Const0057 = {{ -10, 220 }, { 50, 240 }};
-static const XStringRes _Const0058 = { _StringsDefault0, 0x00FA };
-static const XRect _Const0059 = {{ 20, 0 }, { 140, 40 }};
-static const XStringRes _Const005A = { _StringsDefault0, 0x0102 };
-static const XRect _Const005B = {{ 140, 0 }, { 270, 40 }};
-static const XPoint _Const005C = { 290, 220 };
-static const XPoint _Const005D = { 290, 40 };
-static const XColor _Const005E = { 0x77, 0x77, 0x77, 0xFF };
-static const XPoint _Const005F = { 200, 220 };
-static const XPoint _Const0060 = { 200, 40 };
-static const XPoint _Const0061 = { 110, 220 };
-static const XPoint _Const0062 = { 110, 40 };
-static const XPoint _Const0063 = { 380, 190 };
-static const XPoint _Const0064 = { 20, 190 };
-static const XPoint _Const0065 = { 380, 160 };
-static const XPoint _Const0066 = { 20, 160 };
-static const XPoint _Const0067 = { 380, 130 };
-static const XPoint _Const0068 = { 20, 130 };
-static const XPoint _Const0069 = { 380, 100 };
-static const XPoint _Const006A = { 20, 100 };
-static const XPoint _Const006B = { 380, 70 };
-static const XPoint _Const006C = { 20, 70 };
-static const XRect _Const006D = {{ 20, 40 }, { 380, 220 }};
-static const XRect _Const006E = {{ 20, 40 }, { 740, 220 }};
-static const XColor _Const006F = { 0xFF, 0xF5, 0x12, 0xFF };
-static const XPoint _Const0070 = { 0, 90 };
-static const XPoint _Const0071 = { 1, 30 };
-static const XColor _Const0072 = { 0x00, 0x00, 0x00, 0x00 };
-static const XColor _Const0073 = { 0xFF, 0xFB, 0xFA, 0x00 };
-static const XPoint _Const0074 = { 20, 30 };
-static const XStringRes _Const0075 = { _StringsDefault0, 0x0111 };
-static const XStringRes _Const0076 = { _StringsDefault0, 0x0116 };
-static const XRect _Const0077 = {{ 10, 30 }, { 470, 80 }};
-static const XStringRes _Const0078 = { _StringsDefault0, 0x011D };
-static const XRect _Const0079 = {{ 100, 180 }, { 220, 210 }};
-static const XStringRes _Const007A = { _StringsDefault0, 0x012E };
-static const XRect _Const007B = {{ 0, 0 }, { 260, 30 }};
-static const XStringRes _Const007C = { _StringsDefault0, 0x0137 };
-static const XRect _Const007D = {{ 0, 80 }, { 220, 110 }};
-static const XStringRes _Const007E = { _StringsDefault0, 0x0154 };
-static const XRect _Const007F = {{ 10, 110 }, { 470, 160 }};
-static const XStringRes _Const0080 = { _StringsDefault0, 0x016F };
-static const XRect _Const0081 = {{ 260, 180 }, { 380, 210 }};
-static const XStringRes _Const0082 = { _StringsDefault0, 0x017F };
-static const XStringRes _Const0083 = { _StringsDefault0, 0x0187 };
-static const XStringRes _Const0084 = { _StringsDefault0, 0x0193 };
-static const XStringRes _Const0085 = { _StringsDefault0, 0x01A4 };
-static const XStringRes _Const0086 = { _StringsDefault0, 0x01B0 };
-static const XStringRes _Const0087 = { _StringsDefault0, 0x01B9 };
-static const XStringRes _Const0088 = { _StringsDefault0, 0x01C2 };
-static const XRect _Const0089 = {{ 350, 0 }, { 420, 40 }};
-static const XStringRes _Const008A = { _StringsDefault0, 0x01CB };
-static const XRect _Const008B = {{ 270, 0 }, { 340, 40 }};
-static const XRect _Const008C = {{ 190, 0 }, { 260, 40 }};
-static const XRect _Const008D = {{ 20, 0 }, { 188, 40 }};
-static const XStringRes _Const008E = { _StringsDefault0, 0x01D4 };
-static const XPoint _Const008F = { 2, 6 };
-static const XStringRes _Const0090 = { _StringsDefault0, 0x01E7 };
-static const XStringRes _Const0091 = { _StringsDefault0, 0x01ED };
-static const XStringRes _Const0092 = { _StringsDefault0, 0x01F4 };
-static const XStringRes _Const0093 = { _StringsDefault0, 0x01FD };
-static const XRect _Const0094 = {{ 310, 0 }, { 380, 40 }};
-static const XRect _Const0095 = {{ 230, 0 }, { 300, 40 }};
-static const XRect _Const0096 = {{ 150, 0 }, { 220, 40 }};
-static const XStringRes _Const0097 = { _StringsDefault1, 0x0003 };
-static const XStringRes _Const0098 = { _StringsDefault1, 0x0011 };
+static const XStringRes _Const004C = { _StringsDefault0, 0x00CB };
+static const XColor _Const004D = { 0x00, 0xFF, 0x00, 0xFF };
+static const XRect _Const004E = {{ 390, 60 }, { 480, 80 }};
+static const XStringRes _Const004F = { _StringsDefault0, 0x00D8 };
+static const XRect _Const0050 = {{ 350, 220 }, { 410, 240 }};
+static const XStringRes _Const0051 = { _StringsDefault0, 0x00E5 };
+static const XRect _Const0052 = {{ 260, 220 }, { 320, 240 }};
+static const XStringRes _Const0053 = { _StringsDefault0, 0x00EB };
+static const XRect _Const0054 = {{ 170, 220 }, { 230, 240 }};
+static const XStringRes _Const0055 = { _StringsDefault0, 0x00F2 };
+static const XRect _Const0056 = {{ 80, 220 }, { 140, 240 }};
+static const XStringRes _Const0057 = { _StringsDefault0, 0x00F9 };
+static const XRect _Const0058 = {{ -10, 220 }, { 50, 240 }};
+static const XStringRes _Const0059 = { _StringsDefault0, 0x0101 };
+static const XRect _Const005A = {{ 20, 0 }, { 140, 40 }};
+static const XStringRes _Const005B = { _StringsDefault0, 0x0109 };
+static const XRect _Const005C = {{ 140, 0 }, { 270, 40 }};
+static const XPoint _Const005D = { 290, 220 };
+static const XPoint _Const005E = { 290, 40 };
+static const XColor _Const005F = { 0x77, 0x77, 0x77, 0xFF };
+static const XPoint _Const0060 = { 200, 220 };
+static const XPoint _Const0061 = { 200, 40 };
+static const XPoint _Const0062 = { 110, 220 };
+static const XPoint _Const0063 = { 110, 40 };
+static const XPoint _Const0064 = { 380, 190 };
+static const XPoint _Const0065 = { 20, 190 };
+static const XPoint _Const0066 = { 380, 160 };
+static const XPoint _Const0067 = { 20, 160 };
+static const XPoint _Const0068 = { 380, 130 };
+static const XPoint _Const0069 = { 20, 130 };
+static const XPoint _Const006A = { 380, 100 };
+static const XPoint _Const006B = { 20, 100 };
+static const XPoint _Const006C = { 380, 70 };
+static const XPoint _Const006D = { 20, 70 };
+static const XRect _Const006E = {{ 20, 40 }, { 380, 220 }};
+static const XRect _Const006F = {{ 20, 40 }, { 740, 220 }};
+static const XColor _Const0070 = { 0xFF, 0xF5, 0x12, 0xFF };
+static const XPoint _Const0071 = { 0, 90 };
+static const XPoint _Const0072 = { 1, 30 };
+static const XColor _Const0073 = { 0x00, 0x00, 0x00, 0x00 };
+static const XColor _Const0074 = { 0xFF, 0xFB, 0xFA, 0x00 };
+static const XPoint _Const0075 = { 20, 30 };
+static const XStringRes _Const0076 = { _StringsDefault0, 0x0118 };
+static const XStringRes _Const0077 = { _StringsDefault0, 0x011D };
+static const XStringRes _Const0078 = { _StringsDefault0, 0x0124 };
+static const XStringRes _Const0079 = { _StringsDefault0, 0x012D };
+static const XStringRes _Const007A = { _StringsDefault0, 0x0136 };
+static const XRect _Const007B = {{ 350, 0 }, { 420, 40 }};
+static const XStringRes _Const007C = { _StringsDefault0, 0x013F };
+static const XRect _Const007D = {{ 270, 0 }, { 340, 40 }};
+static const XRect _Const007E = {{ 190, 0 }, { 260, 40 }};
+static const XRect _Const007F = {{ 20, 0 }, { 188, 40 }};
+static const XStringRes _Const0080 = { _StringsDefault0, 0x0148 };
+static const XPoint _Const0081 = { 2, 6 };
+static const XStringRes _Const0082 = { _StringsDefault0, 0x015B };
+static const XStringRes _Const0083 = { _StringsDefault0, 0x0161 };
+static const XStringRes _Const0084 = { _StringsDefault0, 0x0168 };
+static const XStringRes _Const0085 = { _StringsDefault0, 0x0171 };
+static const XRect _Const0086 = {{ 310, 0 }, { 380, 40 }};
+static const XRect _Const0087 = {{ 230, 0 }, { 300, 40 }};
+static const XRect _Const0088 = {{ 150, 0 }, { 220, 40 }};
+static const XStringRes _Const0089 = { _StringsDefault0, 0x017A };
+static const XStringRes _Const008A = { _StringsDefault0, 0x0188 };
+static const XPoint _Const008B = { 80, 220 };
+static const XPoint _Const008C = { 80, 20 };
+static const XPoint _Const008D = { 140, 220 };
+static const XPoint _Const008E = { 140, 20 };
+static const XPoint _Const008F = { 200, 20 };
+static const XPoint _Const0090 = { 260, 220 };
+static const XPoint _Const0091 = { 260, 20 };
+static const XPoint _Const0092 = { 320, 170 };
+static const XPoint _Const0093 = { 20, 170 };
+static const XPoint _Const0094 = { 320, 120 };
+static const XPoint _Const0095 = { 20, 120 };
+static const XPoint _Const0096 = { 320, 70 };
+static const XRect _Const0097 = {{ 60, 220 }, { 100, 240 }};
+static const XStringRes _Const0098 = { _StringsDefault0, 0x018E };
+static const XRect _Const0099 = {{ 120, 220 }, { 160, 240 }};
+static const XStringRes _Const009A = { _StringsDefault0, 0x0194 };
+static const XRect _Const009B = {{ 180, 220 }, { 220, 240 }};
+static const XRect _Const009C = {{ 240, 220 }, { 280, 240 }};
+static const XStringRes _Const009D = { _StringsDefault0, 0x019A };
+static const XRect _Const009E = {{ 330, 160 }, { 370, 180 }};
+static const XStringRes _Const009F = { _StringsDefault0, 0x01A0 };
+static const XRect _Const00A0 = {{ 330, 110 }, { 370, 130 }};
+static const XStringRes _Const00A1 = { _StringsDefault0, 0x01A8 };
+static const XRect _Const00A2 = {{ 330, 60 }, { 370, 80 }};
+static const XStringRes _Const00A3 = { _StringsDefault0, 0x01AF };
+static const XRect _Const00A4 = {{ 20, 20 }, { 320, 220 }};
+static const XPoint _Const00A5 = { 0, 200 };
+static const XPoint _Const00A6 = { 6, 200 };
+static const XColor _Const00A7 = { 0x5B, 0x56, 0x27, 0x00 };
+static const XColor _Const00A8 = { 0x0C, 0x0E, 0x6E, 0x00 };
+static const XRect _Const00A9 = {{ 370, 40 }, { 470, 85 }};
+static const XStringRes _Const00AA = { _StringsDefault0, 0x01B7 };
+static const XRect _Const00AB = {{ 370, 100 }, { 470, 145 }};
+static const XStringRes _Const00AC = { _StringsDefault0, 0x01C1 };
+static const XRect _Const00AD = {{ 370, 160 }, { 470, 205 }};
+static const XStringRes _Const00AE = { _StringsDefault0, 0x01CB };
+static const XRect _Const00AF = {{ 10, 30 }, { 470, 80 }};
+static const XStringRes _Const00B0 = { _StringsDefault0, 0x01D5 };
+static const XRect _Const00B1 = {{ 100, 180 }, { 220, 210 }};
+static const XStringRes _Const00B2 = { _StringsDefault0, 0x01E6 };
+static const XRect _Const00B3 = {{ 0, 0 }, { 260, 30 }};
+static const XStringRes _Const00B4 = { _StringsDefault0, 0x01EF };
+static const XRect _Const00B5 = {{ 0, 80 }, { 220, 110 }};
+static const XStringRes _Const00B6 = { _StringsDefault1, 0x0003 };
+static const XRect _Const00B7 = {{ 10, 110 }, { 470, 160 }};
+static const XStringRes _Const00B8 = { _StringsDefault1, 0x001E };
+static const XRect _Const00B9 = {{ 260, 180 }, { 380, 210 }};
+static const XStringRes _Const00BA = { _StringsDefault1, 0x002E };
+static const XStringRes _Const00BB = { _StringsDefault1, 0x0036 };
+static const XStringRes _Const00BC = { _StringsDefault1, 0x0042 };
+static const XStringRes _Const00BD = { _StringsDefault1, 0x0053 };
+static const XRect _Const00BE = {{ 0, 0 }, { 120, 30 }};
+static const XPoint _Const00BF = { 0, 30 };
+static const XPoint _Const00C0 = { 120, 30 };
+static const XPoint _Const00C1 = { 120, 0 };
+static const XStringRes _Const00C2 = { _StringsDefault1, 0x005F };
+
+#ifndef EW_DONT_CHECK_INDEX
+  /* This function is used to check the indices when accessing an array.
+     If you don't want this verification add the define EW_DONT_CHECK_INDEX
+     to your Makefile or project settings. */
+  static int EwCheckIndex( int aIndex, int aRange, const char* aFile, int aLine )
+  {
+    if (( aIndex < 0 ) || ( aIndex >= aRange ))
+    {
+      EwPrint( "[FATAL ERROR in %s:%d] Array index %d out of bounds %d",
+                aFile, aLine, aIndex, aRange );
+      EwPanic();
+    }
+    return aIndex;
+  }
+
+  #define EwCheckIndex( aIndex, aRange ) \
+    EwCheckIndex( aIndex, aRange, __FILE__, __LINE__ )
+#else
+  #define EwCheckIndex( aIndex, aRange ) aIndex
+#endif
 
 /* Initializer for the class 'Application::Aplic' */
 void ApplicationAplic__Init( ApplicationAplic _this, XObject aLink, XHandle aArg )
@@ -263,6 +333,7 @@ void ApplicationAplic__Init( ApplicationAplic _this, XObject aLink, XHandle aArg
   ApplicationFreq__Init( &_this->TFreq, &_this->_XObject, 0 );
   ApplicationMag__Init( &_this->TMag, &_this->_XObject, 0 );
   ApplicationFase__Init( &_this->TFase, &_this->_XObject, 0 );
+  ApplicationFFT__Init( &_this->TFFT, &_this->_XObject, 0 );
   ApplicationVNC__Init( &_this->TVNC, &_this->_XObject, 0 );
 
   /* Setup the VMT pointer */
@@ -292,7 +363,9 @@ void ApplicationAplic__Init( ApplicationAplic _this, XObject aLink, XHandle aArg
   CoreGroup_OnSetEmbedded((CoreGroup)&_this->TMag, 1 );
   CoreRectView__OnSetBounds( &_this->TFase, _Const000A );
   CoreGroup_OnSetEmbedded((CoreGroup)&_this->TFase, 1 );
-  CoreRectView__OnSetBounds( &_this->TVNC, _Const000B );
+  CoreRectView__OnSetBounds( &_this->TFFT, _Const000B );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->TFFT, 1 );
+  CoreRectView__OnSetBounds( &_this->TVNC, _Const000C );
   CoreGroup_OnSetEmbedded((CoreGroup)&_this->TVNC, 1 );
   CoreGroup__Add( _this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Rectangle1 ), 0 );
@@ -303,6 +376,7 @@ void ApplicationAplic__Init( ApplicationAplic _this, XObject aLink, XHandle aArg
   CoreGroup__Add( _this, ((CoreView)&_this->TFreq ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->TMag ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->TFase ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->TFFT ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->TVNC ), 0 );
   _this->Anima.Outlet = EwNewRef( &_this->Janela, CoreOutline_OnGetScrollOffset, 
   CoreOutline_OnSetScrollOffset );
@@ -342,6 +416,7 @@ void ApplicationAplic__ReInit( ApplicationAplic _this )
   ApplicationFreq__ReInit( &_this->TFreq );
   ApplicationMag__ReInit( &_this->TMag );
   ApplicationFase__ReInit( &_this->TFase );
+  ApplicationFFT__ReInit( &_this->TFFT );
   ApplicationVNC__ReInit( &_this->TVNC );
 }
 
@@ -362,6 +437,7 @@ void ApplicationAplic__Done( ApplicationAplic _this )
   ApplicationFreq__Done( &_this->TFreq );
   ApplicationMag__Done( &_this->TMag );
   ApplicationFase__Done( &_this->TFase );
+  ApplicationFFT__Done( &_this->TFFT );
   ApplicationVNC__Done( &_this->TVNC );
 
   /* Don't forget to deinitialize the super class ... */
@@ -381,6 +457,7 @@ void ApplicationAplic__Mark( ApplicationAplic _this )
   EwMarkObject( &_this->TFreq );
   EwMarkObject( &_this->TMag );
   EwMarkObject( &_this->TFase );
+  EwMarkObject( &_this->TFFT );
   EwMarkObject( &_this->TVNC );
 
   /* Give the super class a chance to mark its objects and references */
@@ -416,9 +493,9 @@ void ApplicationAplic_onWipeLeft( ApplicationAplic _this, XObject sender )
   EffectsEffect_OnSetEnabled((EffectsEffect)&_this->Anima, 1 );
   _this->nrTela = _this->nrTela + 1;
 
-  if ( _this->nrTela > 5 )
+  if ( _this->nrTela > 6 )
   {
-    _this->nrTela = 5;
+    _this->nrTela = 6;
   }
 
   switch ( _this->nrTela )
@@ -428,19 +505,23 @@ void ApplicationAplic_onWipeLeft( ApplicationAplic _this, XObject sender )
     break;
 
     case 2 :
-      ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000C ));
-    break;
-
-    case 3 :
       ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000D ));
     break;
 
-    case 4 :
+    case 3 :
       ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000E ));
     break;
 
-    case 5 :
+    case 4 :
       ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000F ));
+    break;
+
+    case 5 :
+      ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const0010 ));
+    break;
+
+    case 6 :
+      ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const0011 ));
     break;
 
     default : 
@@ -479,19 +560,23 @@ void ApplicationAplic_onWipeRight( ApplicationAplic _this, XObject sender )
     break;
 
     case 2 :
-      ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000C ));
-    break;
-
-    case 3 :
       ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000D ));
     break;
 
-    case 4 :
+    case 3 :
       ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000E ));
     break;
 
-    case 5 :
+    case 4 :
       ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const000F ));
+    break;
+
+    case 5 :
+      ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const0010 ));
+    break;
+
+    case 6 :
+      ViewsText_OnSetString( &_this->Title, EwLoadString( &_Const0011 ));
     break;
 
     default : 
@@ -516,6 +601,7 @@ EW_DEFINE_CLASS( ApplicationAplic, CoreRoot, "Application::Aplic" )
   CoreRoot_ChangeViewState,
   CoreGroup_OnSetBounds,
   CoreRoot_OnSetFocus,
+  CoreRoot_OnSetOpacity,
   CoreRoot_DispatchEvent,
   CoreRoot_BroadcastEvent,
   CoreGroup_UpdateLayout,
@@ -777,1176 +863,6 @@ EW_END_OF_BITMAP_RES( Applicationgrid )
 
 /* Table with links to derived variants of the bitmap resource : 'Application::grid' */
 EW_RES_WITHOUT_VARIANTS( Applicationgrid )
-
-/* Initializer for the class 'Application::Fasores' */
-void ApplicationFasores__Init( ApplicationFasores _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_Super, aLink, aArg );
-
-  /* ... then construct all embedded objects */
-  ViewsImage__Init( &_this->grid, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label0, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label180, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label90, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label270, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label300, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label240, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label210, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label120, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label60, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label330, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label30, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->label150, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelMag, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelAng, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->fTverm_mag, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->fTverm_ang, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->fSamarelo_mag, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->fSamarelo_ang, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->fRverde_mag, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->fRverde_ang, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->Line, &_this->_XObject, 0 );
-  CoreTimer__Init( &_this->Timer, &_this->_XObject, 0 );
-  ViewsWarpImage__Init( &_this->flT_vermelho, &_this->_XObject, 0 );
-  ViewsWarpImage__Init( &_this->flS_amarelo, &_this->_XObject, 0 );
-  ViewsWarpImage__Init( &_this->flR_verde, &_this->_XObject, 0 );
-
-  /* Setup the VMT pointer */
-  _this->_VMT = EW_CLASS( ApplicationFasores );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0007 );
-  _this->angulo = 0.000000f;
-  _this->amplitude = 1.000000f;
-  _this->centro = _Const0010;
-  CoreRectView__OnSetBounds( &_this->grid, _Const0011 );
-  ViewsImage_OnSetColor( &_this->grid, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label0, _Const0013 );
-  ViewsText_OnSetAutoSize( &_this->label0, 0 );
-  ViewsText_OnSetString( &_this->label0, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->label0, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label180, _Const0015 );
-  ViewsText_OnSetAutoSize( &_this->label180, 0 );
-  ViewsText_OnSetString( &_this->label180, EwLoadString( &_Const0016 ));
-  ViewsText_OnSetColor( &_this->label180, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label90, _Const0017 );
-  ViewsText_OnSetAutoSize( &_this->label90, 0 );
-  ViewsText_OnSetString( &_this->label90, EwLoadString( &_Const0018 ));
-  ViewsText_OnSetColor( &_this->label90, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label270, _Const0019 );
-  ViewsText_OnSetAutoSize( &_this->label270, 0 );
-  ViewsText_OnSetString( &_this->label270, EwLoadString( &_Const001A ));
-  ViewsText_OnSetColor( &_this->label270, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label300, _Const001B );
-  ViewsText_OnSetAutoSize( &_this->label300, 1 );
-  ViewsText_OnSetString( &_this->label300, EwLoadString( &_Const001C ));
-  ViewsText_OnSetColor( &_this->label300, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label240, _Const001D );
-  ViewsText_OnSetAutoSize( &_this->label240, 1 );
-  ViewsText_OnSetString( &_this->label240, EwLoadString( &_Const001E ));
-  ViewsText_OnSetColor( &_this->label240, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label210, _Const001F );
-  ViewsText_OnSetAutoSize( &_this->label210, 1 );
-  ViewsText_OnSetString( &_this->label210, EwLoadString( &_Const0020 ));
-  ViewsText_OnSetColor( &_this->label210, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label120, _Const0021 );
-  ViewsText_OnSetAutoSize( &_this->label120, 1 );
-  ViewsText_OnSetString( &_this->label120, EwLoadString( &_Const0022 ));
-  ViewsText_OnSetColor( &_this->label120, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label60, _Const0023 );
-  ViewsText_OnSetAutoSize( &_this->label60, 1 );
-  ViewsText_OnSetString( &_this->label60, EwLoadString( &_Const0024 ));
-  ViewsText_OnSetColor( &_this->label60, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label330, _Const0025 );
-  ViewsText_OnSetAutoSize( &_this->label330, 1 );
-  ViewsText_OnSetString( &_this->label330, EwLoadString( &_Const0026 ));
-  ViewsText_OnSetColor( &_this->label330, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label30, _Const0027 );
-  ViewsText_OnSetAutoSize( &_this->label30, 1 );
-  ViewsText_OnSetString( &_this->label30, EwLoadString( &_Const0028 ));
-  ViewsText_OnSetColor( &_this->label30, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->label150, _Const0029 );
-  ViewsText_OnSetAutoSize( &_this->label150, 1 );
-  ViewsText_OnSetString( &_this->label150, EwLoadString( &_Const002A ));
-  ViewsText_OnSetColor( &_this->label150, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->labelMag, _Const002B );
-  ViewsText_OnSetAutoSize( &_this->labelMag, 1 );
-  ViewsText_OnSetAlignment( &_this->labelMag, ViewsTextAlignmentAlignHorzCenter 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelMag, EwLoadString( &_Const002C ));
-  CoreRectView__OnSetBounds( &_this->labelAng, _Const002D );
-  ViewsText_OnSetAutoSize( &_this->labelAng, 1 );
-  ViewsText_OnSetString( &_this->labelAng, EwLoadString( &_Const002E ));
-  CoreRectView__OnSetBounds( &_this->fTverm_mag, _Const002F );
-  ViewsText_OnSetAutoSize( &_this->fTverm_mag, 1 );
-  ViewsText_OnSetAlignment( &_this->fTverm_mag, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->fTverm_mag, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->fTverm_mag, _Const0030 );
-  CoreRectView__OnSetBounds( &_this->fTverm_ang, _Const0031 );
-  ViewsText_OnSetAutoSize( &_this->fTverm_ang, 1 );
-  ViewsText_OnSetAlignment( &_this->fTverm_ang, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->fTverm_ang, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->fTverm_ang, _Const0030 );
-  CoreRectView__OnSetBounds( &_this->fSamarelo_mag, _Const0032 );
-  ViewsText_OnSetAutoSize( &_this->fSamarelo_mag, 1 );
-  ViewsText_OnSetAlignment( &_this->fSamarelo_mag, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->fSamarelo_mag, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->fSamarelo_mag, _Const0033 );
-  CoreRectView__OnSetBounds( &_this->fSamarelo_ang, _Const0034 );
-  ViewsText_OnSetAutoSize( &_this->fSamarelo_ang, 1 );
-  ViewsText_OnSetAlignment( &_this->fSamarelo_ang, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->fSamarelo_ang, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->fSamarelo_ang, _Const0033 );
-  CoreRectView__OnSetBounds( &_this->fRverde_mag, _Const0035 );
-  ViewsText_OnSetAutoSize( &_this->fRverde_mag, 1 );
-  ViewsText_OnSetAlignment( &_this->fRverde_mag, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->fRverde_mag, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->fRverde_mag, _Const0036 );
-  CoreRectView__OnSetBounds( &_this->fRverde_ang, _Const0037 );
-  ViewsText_OnSetAutoSize( &_this->fRverde_ang, 1 );
-  ViewsText_OnSetAlignment( &_this->fRverde_ang, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->fRverde_ang, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->fRverde_ang, _Const0036 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const0038 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const0039 );
-  ViewsLine_OnSetColor( &_this->Line, _Const0012 );
-  CoreTimer_OnSetPeriod( &_this->Timer, 1000 );
-  CoreTimer_OnSetEnabled( &_this->Timer, 1 );
-  CoreQuadView__OnSetPoint4( &_this->flT_vermelho, _Const003A );
-  CoreQuadView__OnSetPoint3( &_this->flT_vermelho, _Const003B );
-  CoreQuadView__OnSetPoint2( &_this->flT_vermelho, _Const003C );
-  CoreQuadView__OnSetPoint1( &_this->flT_vermelho, _Const003D );
-  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->flT_vermelho, _Const003E 
-  );
-  ViewsWarpImage_OnSetColor1( &_this->flT_vermelho, _Const0012 );
-  ViewsWarpImage_OnSetColor( &_this->flT_vermelho, _Const0030 );
-  CoreQuadView__OnSetPoint4( &_this->flS_amarelo, _Const003F );
-  CoreQuadView__OnSetPoint3( &_this->flS_amarelo, _Const0040 );
-  CoreQuadView__OnSetPoint2( &_this->flS_amarelo, _Const0041 );
-  CoreQuadView__OnSetPoint1( &_this->flS_amarelo, _Const0042 );
-  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->flS_amarelo, _Const003E 
-  );
-  ViewsWarpImage_OnSetColor1( &_this->flS_amarelo, _Const0012 );
-  ViewsWarpImage_OnSetColor( &_this->flS_amarelo, _Const0033 );
-  CoreQuadView__OnSetPoint4( &_this->flR_verde, _Const0043 );
-  CoreQuadView__OnSetPoint3( &_this->flR_verde, _Const0044 );
-  CoreQuadView__OnSetPoint2( &_this->flR_verde, _Const0045 );
-  CoreQuadView__OnSetPoint1( &_this->flR_verde, _Const0046 );
-  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->flR_verde, _Const003E );
-  ViewsWarpImage_OnSetColor1( &_this->flR_verde, _Const0012 );
-  ViewsWarpImage_OnSetColor( &_this->flR_verde, _Const0036 );
-  CoreGroup__Add( _this, ((CoreView)&_this->grid ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label0 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label180 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label90 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label270 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label300 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label240 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label210 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label120 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label60 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label330 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label30 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->label150 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelMag ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelAng ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->fTverm_mag ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->fTverm_ang ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->fSamarelo_mag ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->fSamarelo_ang ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->fRverde_mag ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->fRverde_ang ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Line ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->flT_vermelho ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->flS_amarelo ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->flR_verde ), 0 );
-  ViewsImage_OnSetBitmap( &_this->grid, EwLoadResource( &Applicationgrid, ResourcesBitmap 
-  ));
-  ViewsText_OnSetFont( &_this->label0, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->label180, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->label90, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->label270, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->label300, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->label240, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->label210, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->label120, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->label60, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->label330, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->label30, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->label150, EwLoadResource( &ResourcesFontArial12, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->labelMag, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->labelAng, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->fTverm_mag, EwLoadResource( &ApplicationNumbers18, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->fTverm_ang, EwLoadResource( &ApplicationNumbers18, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->fSamarelo_mag, EwLoadResource( &ApplicationNumbers18, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->fSamarelo_ang, EwLoadResource( &ApplicationNumbers18, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->fRverde_mag, EwLoadResource( &ApplicationNumbers18, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->fRverde_ang, EwLoadResource( &ApplicationNumbers18, 
-  ResourcesFont ));
-  _this->Timer.OnTrigger = EwNewSlot( _this, ApplicationFasores_roda );
-  ViewsWarpImage_OnSetBitmap( &_this->flT_vermelho, EwLoadResource( &Applicationflecha, 
-  ResourcesBitmap ));
-  ViewsWarpImage_OnSetBitmap( &_this->flS_amarelo, EwLoadResource( &Applicationflecha, 
-  ResourcesBitmap ));
-  ViewsWarpImage_OnSetBitmap( &_this->flR_verde, EwLoadResource( &Applicationflecha, 
-  ResourcesBitmap ));
-  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
-
-  /* Call the user defined constructor */
-  ApplicationFasores_Init( _this, aArg );
-}
-
-/* Re-Initializer for the class 'Application::Fasores' */
-void ApplicationFasores__ReInit( ApplicationFasores _this )
-{
-  /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_Super );
-
-  /* ... then re-construct all embedded objects */
-  ViewsImage__ReInit( &_this->grid );
-  ViewsText__ReInit( &_this->label0 );
-  ViewsText__ReInit( &_this->label180 );
-  ViewsText__ReInit( &_this->label90 );
-  ViewsText__ReInit( &_this->label270 );
-  ViewsText__ReInit( &_this->label300 );
-  ViewsText__ReInit( &_this->label240 );
-  ViewsText__ReInit( &_this->label210 );
-  ViewsText__ReInit( &_this->label120 );
-  ViewsText__ReInit( &_this->label60 );
-  ViewsText__ReInit( &_this->label330 );
-  ViewsText__ReInit( &_this->label30 );
-  ViewsText__ReInit( &_this->label150 );
-  ViewsText__ReInit( &_this->labelMag );
-  ViewsText__ReInit( &_this->labelAng );
-  ViewsText__ReInit( &_this->fTverm_mag );
-  ViewsText__ReInit( &_this->fTverm_ang );
-  ViewsText__ReInit( &_this->fSamarelo_mag );
-  ViewsText__ReInit( &_this->fSamarelo_ang );
-  ViewsText__ReInit( &_this->fRverde_mag );
-  ViewsText__ReInit( &_this->fRverde_ang );
-  ViewsLine__ReInit( &_this->Line );
-  CoreTimer__ReInit( &_this->Timer );
-  ViewsWarpImage__ReInit( &_this->flT_vermelho );
-  ViewsWarpImage__ReInit( &_this->flS_amarelo );
-  ViewsWarpImage__ReInit( &_this->flR_verde );
-}
-
-/* Finalizer method for the class 'Application::Fasores' */
-void ApplicationFasores__Done( ApplicationFasores _this )
-{
-  /* Finalize this class */
-  _this->_VMT = EW_CLASS( ApplicationFasores );
-
-  /* Finalize all embedded objects */
-  ViewsImage__Done( &_this->grid );
-  ViewsText__Done( &_this->label0 );
-  ViewsText__Done( &_this->label180 );
-  ViewsText__Done( &_this->label90 );
-  ViewsText__Done( &_this->label270 );
-  ViewsText__Done( &_this->label300 );
-  ViewsText__Done( &_this->label240 );
-  ViewsText__Done( &_this->label210 );
-  ViewsText__Done( &_this->label120 );
-  ViewsText__Done( &_this->label60 );
-  ViewsText__Done( &_this->label330 );
-  ViewsText__Done( &_this->label30 );
-  ViewsText__Done( &_this->label150 );
-  ViewsText__Done( &_this->labelMag );
-  ViewsText__Done( &_this->labelAng );
-  ViewsText__Done( &_this->fTverm_mag );
-  ViewsText__Done( &_this->fTverm_ang );
-  ViewsText__Done( &_this->fSamarelo_mag );
-  ViewsText__Done( &_this->fSamarelo_ang );
-  ViewsText__Done( &_this->fRverde_mag );
-  ViewsText__Done( &_this->fRverde_ang );
-  ViewsLine__Done( &_this->Line );
-  CoreTimer__Done( &_this->Timer );
-  ViewsWarpImage__Done( &_this->flT_vermelho );
-  ViewsWarpImage__Done( &_this->flS_amarelo );
-  ViewsWarpImage__Done( &_this->flR_verde );
-
-  /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_Super );
-}
-
-/* Garbage Collector method for the class 'Application::Fasores' */
-void ApplicationFasores__Mark( ApplicationFasores _this )
-{
-  EwMarkObject( &_this->grid );
-  EwMarkObject( &_this->label0 );
-  EwMarkObject( &_this->label180 );
-  EwMarkObject( &_this->label90 );
-  EwMarkObject( &_this->label270 );
-  EwMarkObject( &_this->label300 );
-  EwMarkObject( &_this->label240 );
-  EwMarkObject( &_this->label210 );
-  EwMarkObject( &_this->label120 );
-  EwMarkObject( &_this->label60 );
-  EwMarkObject( &_this->label330 );
-  EwMarkObject( &_this->label30 );
-  EwMarkObject( &_this->label150 );
-  EwMarkObject( &_this->labelMag );
-  EwMarkObject( &_this->labelAng );
-  EwMarkObject( &_this->fTverm_mag );
-  EwMarkObject( &_this->fTverm_ang );
-  EwMarkObject( &_this->fSamarelo_mag );
-  EwMarkObject( &_this->fSamarelo_ang );
-  EwMarkObject( &_this->fRverde_mag );
-  EwMarkObject( &_this->fRverde_ang );
-  EwMarkObject( &_this->Line );
-  EwMarkObject( &_this->Timer );
-  EwMarkObject( &_this->flT_vermelho );
-  EwMarkObject( &_this->flS_amarelo );
-  EwMarkObject( &_this->flR_verde );
-  EwMarkObject( _this->device );
-
-  /* Give the super class a chance to mark its objects and references */
-  CoreGroup__Mark( &_this->_Super );
-}
-
-/* The method UpdateLayout() is invoked automatically after the size of the component 
-   has been changed. This method can be overridden and filled with logic to perform 
-   a sophisticated arrangement calculation for one or more enclosed views. In this 
-   case the parameter aSize can be used. It contains the current size of the component. 
-   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
-   property. UpdateLayout() gives the derived components a chance to extend this 
-   automatism by a user defined algorithm. */
-void ApplicationFasores_UpdateLayout( ApplicationFasores _this, XPoint aSize )
-{
-  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
-}
-
-/* The method UpdateViewState() is invoked automatically after the state of the 
-   component has been changed. This method can be overridden and filled with logic 
-   to ensure the visual aspect of the component does reflect its current state. 
-   For example, the 'enabled' state of the component can affect its colors (disabled 
-   components may appear pale). In this case the logic of the method should modify 
-   the respective color properties accordingly to the current 'enabled' state. 
-   The current state of the component is passed as a set in the parameter aState. 
-   It reflects the very basic component state like its visibility or the ability 
-   to react to user inputs. Beside this common state, the method can also involve 
-   any other variables used in the component as long as they reflect its current 
-   state. For example, the toggle switch component can take in account its toggle 
-   state 'on' or 'off' and change accordingly the location of the slider, etc.
-   Usually, this method will be invoked automatically by the framework. Optionally 
-   you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationFasores_UpdateViewState( ApplicationFasores _this, XSet aState )
-{
-  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
-}
-
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationFasores_Init( ApplicationFasores _this, XHandle aArg )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( aArg );
-
-  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->flR_verde, _this->centro, 
-  0.000000f, _this->amplitude, 1.000000f );
-  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->flS_amarelo, _this->centro, 
-  0.000000f, _this->amplitude, 1.000000f );
-  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->flT_vermelho, _this->centro, 
-  0.000000f, _this->amplitude, 1.000000f );
-  _this->angulo = EwMathRandFloat( 0.000000f, 90.000000f ) + EwMathRandFloat( -5.000000f, 
-  5.000000f );
-}
-
-/* 'C' function for method : 'Application::Fasores.roda()' */
-void ApplicationFasores_roda( ApplicationFasores _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->flR_verde, _this->centro, 
-  ApplicationClasse_getFaseR( _this->device ), _this->amplitude, 1.000000f );
-  ViewsText_OnSetString( &_this->fRverde_mag, ApplicationFasores_float2String( _this, 
-  ApplicationClasse_getMagR( _this->device )));
-  ViewsText_OnSetString( &_this->fRverde_ang, ApplicationFasores_float2String( _this, 
-  ApplicationClasse_getFaseR( _this->device )));
-  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->flS_amarelo, _this->centro, 
-  ApplicationClasse_getFaseS( _this->device ), _this->amplitude, 1.000000f );
-  ViewsText_OnSetString( &_this->fSamarelo_mag, ApplicationFasores_float2String( 
-  _this, ApplicationClasse_getMagS( _this->device )));
-  ViewsText_OnSetString( &_this->fSamarelo_ang, ApplicationFasores_float2String( 
-  _this, ApplicationClasse_getFaseS( _this->device )));
-  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->flT_vermelho, _this->centro, 
-  ApplicationClasse_getFaseT( _this->device ), _this->amplitude, 1.000000f );
-  ViewsText_OnSetString( &_this->fTverm_mag, ApplicationFasores_float2String( _this, 
-  ApplicationClasse_getMagT( _this->device )));
-  ViewsText_OnSetString( &_this->fTverm_ang, ApplicationFasores_float2String( _this, 
-  ApplicationClasse_getFaseT( _this->device )));
-}
-
-/* 'C' function for method : 'Application::Fasores.float2String()' */
-XString ApplicationFasores_float2String( ApplicationFasores _this, XFloat arg1 )
-{
-  XString valor;
-  XString valor2;
-  XInt32 inteiro;
-  XFloat dec;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-
-  valor = 0;
-
-  if ( arg1 < 0.000000f )
-  {
-    valor = EwLoadString( &_Const0047 );
-    inteiro = (XInt32)-arg1;
-    dec = ( arg1 + (XFloat)inteiro ) * -100.000000f;
-  }
-  else
-  {
-    inteiro = (XInt32)arg1;
-    dec = ( arg1 - (XFloat)inteiro ) * 100.000000f;
-  }
-
-  valor = EwConcatString( valor, EwNewStringInt( inteiro, 0, 10 ));
-  valor2 = EwNewStringInt((XInt32)dec, 2, 10 );
-  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0048 )), valor2 
-    );
-}
-
-/* Variants derived from the class : 'Application::Fasores' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationFasores )
-EW_END_OF_CLASS_VARIANTS( ApplicationFasores )
-
-/* Virtual Method Table (VMT) for the class : 'Application::Fasores' */
-EW_DEFINE_CLASS( ApplicationFasores, CoreGroup, "Application::Fasores" )
-  CoreRectView_initLayoutContext,
-  CoreView_GetRoot,
-  CoreGroup_Draw,
-  CoreView_HandleEvent,
-  CoreGroup_CursorHitTest,
-  CoreRectView_ArrangeView,
-  CoreRectView_MoveView,
-  CoreRectView_GetExtent,
-  CoreGroup_ChangeViewState,
-  CoreGroup_OnSetBounds,
-  CoreGroup_OnSetFocus,
-  CoreGroup_DispatchEvent,
-  CoreGroup_BroadcastEvent,
-  ApplicationFasores_UpdateLayout,
-  ApplicationFasores_UpdateViewState,
-  CoreGroup_InvalidateArea,
-  CoreGroup_Restack,
-  CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationFasores )
-
-/* Initializer for the class 'Application::Freq' */
-void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_Super, aLink, aArg );
-
-  /* ... then construct all embedded objects */
-  ChartsCoordList__Init( &_this->dados, &_this->_XObject, 0 );
-  ChartsCoordList__Init( &_this->dadosmirror, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_fr_0, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_fr_1, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_fr_2, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_0, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_1, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_2, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_3, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_4, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelFreq, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_freq, &_this->_XObject, 0 );
-  CoreTimer__Init( &_this->intervalo, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_t_1, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_t_2, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_t_3, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_fr_0, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_fr_1, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_fr_2, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_fr_3, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_fr_4, &_this->_XObject, 0 );
-  ViewsBorder__Init( &_this->borda, &_this->_XObject, 0 );
-  CoreOutline__Init( &_this->JanelaG, &_this->_XObject, 0 );
-  ChartsGraph__Init( &_this->grafico, &_this->_XObject, 0 );
-
-  /* Setup the VMT pointer */
-  _this->_VMT = EW_CLASS( ApplicationFreq );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0007 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados, 480 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror, 480 );
-  CoreRectView__OnSetBounds( &_this->val_fr_0, _Const0049 );
-  ViewsText_OnSetAlignment( &_this->val_fr_0, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_fr_0, EwLoadString( &_Const004A ));
-  ViewsText_OnSetColor( &_this->val_fr_0, _Const0030 );
-  CoreRectView__OnSetBounds( &_this->val_fr_1, _Const004B );
-  ViewsText_OnSetAlignment( &_this->val_fr_1, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_fr_1, EwLoadString( &_Const004C ));
-  ViewsText_OnSetColor( &_this->val_fr_1, _Const0036 );
-  CoreRectView__OnSetBounds( &_this->val_fr_2, _Const004D );
-  ViewsText_OnSetAlignment( &_this->val_fr_2, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_fr_2, EwLoadString( &_Const004E ));
-  ViewsText_OnSetColor( &_this->val_fr_2, _Const0030 );
-  CoreRectView__OnSetBounds( &_this->val_t_0, _Const004F );
-  ViewsText_OnSetString( &_this->val_t_0, EwLoadString( &_Const0050 ));
-  CoreRectView__OnSetBounds( &_this->val_t_1, _Const0051 );
-  ViewsText_OnSetString( &_this->val_t_1, EwLoadString( &_Const0052 ));
-  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0053 );
-  ViewsText_OnSetString( &_this->val_t_2, EwLoadString( &_Const0054 ));
-  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0055 );
-  ViewsText_OnSetString( &_this->val_t_3, EwLoadString( &_Const0056 ));
-  CoreRectView__OnSetBounds( &_this->val_t_4, _Const0057 );
-  ViewsText_OnSetString( &_this->val_t_4, EwLoadString( &_Const0058 ));
-  CoreRectView__OnSetBounds( &_this->labelFreq, _Const0059 );
-  ViewsText_OnSetAutoSize( &_this->labelFreq, 0 );
-  ViewsText_OnSetAlignment( &_this->labelFreq, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelFreq, EwLoadString( &_Const005A ));
-  CoreView_OnSetLayout((CoreView)&_this->val_freq, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
-  );
-  CoreRectView__OnSetBounds( &_this->val_freq, _Const005B );
-  ViewsText_OnSetAlignment( &_this->val_freq, ViewsTextAlignmentAlignHorzRight | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_freq, EwLoadString( &_Const0014 ));
-  CoreTimer_OnSetPeriod( &_this->intervalo, 500 );
-  CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const005C );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const005D );
-  ViewsLine_OnSetWidth( &_this->linha_t_1, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_1, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const005F );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0060 );
-  ViewsLine_OnSetWidth( &_this->linha_t_2, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_2, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0061 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0062 );
-  ViewsLine_OnSetWidth( &_this->linha_t_3, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_3, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_0, _Const0063 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_0, _Const0064 );
-  ViewsLine_OnSetWidth( &_this->linha_fr_0, 1 );
-  ViewsLine_OnSetColor( &_this->linha_fr_0, _Const0030 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_1, _Const0065 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_1, _Const0066 );
-  ViewsLine_OnSetWidth( &_this->linha_fr_1, 1 );
-  ViewsLine_OnSetColor( &_this->linha_fr_1, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_2, _Const0067 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_2, _Const0068 );
-  ViewsLine_OnSetWidth( &_this->linha_fr_2, 1 );
-  ViewsLine_OnSetColor( &_this->linha_fr_2, _Const0036 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_3, _Const0069 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_3, _Const006A );
-  ViewsLine_OnSetWidth( &_this->linha_fr_3, 1 );
-  ViewsLine_OnSetColor( &_this->linha_fr_3, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_4, _Const006B );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_4, _Const006C );
-  ViewsLine_OnSetWidth( &_this->linha_fr_4, 1 );
-  ViewsLine_OnSetColor( &_this->linha_fr_4, _Const0030 );
-  CoreRectView__OnSetBounds( &_this->borda, _Const006D );
-  CoreRectView__OnSetBounds( &_this->JanelaG, _Const006D );
-  CoreOutline_OnSetScrollOffset( &_this->JanelaG, _Const0001 );
-  CoreRectView__OnSetBounds( &_this->grafico, _Const006E );
-  CoreGroup_OnSetEmbedded((CoreGroup)&_this->grafico, 1 );
-  ChartsGraph_OnSetLineColor( &_this->grafico, _Const006F );
-  ChartsGraph_OnSetLineWidth( &_this->grafico, 2.000000f );
-  ChartsGraph_OnSetDotWidth( &_this->grafico, 0.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->grafico, _Const0070 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->grafico, _Const0071 );
-  ChartsGraph_OnSetBackColor( &_this->grafico, _Const0072 );
-  ChartsGraph_OnSetHorzGridColor( &_this->grafico, _Const0072 );
-  ChartsGraph_OnSetVertGridColor( &_this->grafico, _Const0073 );
-  ChartsGraph_OnSetGridDistance( &_this->grafico, _Const0074 );
-  _this->valorMeio = 60.000000f;
-  _this->deltaUnidades = 2;
-  CoreGroup__Add( _this, ((CoreView)&_this->val_fr_0 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_fr_1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_fr_2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_0 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_3 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_4 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelFreq ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_freq ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_3 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_0 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_3 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_4 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->borda ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->JanelaG ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->grafico ), 0 );
-  ViewsText_OnSetFont( &_this->val_fr_0, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->val_fr_1, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->val_fr_2, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->val_t_0, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->val_t_1, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->val_t_2, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->val_t_3, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->val_t_4, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->labelFreq, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->val_freq, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  _this->intervalo.OnTrigger = EwNewSlot( _this, ApplicationFreq_plotar );
-  ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dados );
-  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
-
-  /* Call the user defined constructor */
-  ApplicationFreq_Init( _this, aArg );
-}
-
-/* Re-Initializer for the class 'Application::Freq' */
-void ApplicationFreq__ReInit( ApplicationFreq _this )
-{
-  /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_Super );
-
-  /* ... then re-construct all embedded objects */
-  ChartsCoordList__ReInit( &_this->dados );
-  ChartsCoordList__ReInit( &_this->dadosmirror );
-  ViewsText__ReInit( &_this->val_fr_0 );
-  ViewsText__ReInit( &_this->val_fr_1 );
-  ViewsText__ReInit( &_this->val_fr_2 );
-  ViewsText__ReInit( &_this->val_t_0 );
-  ViewsText__ReInit( &_this->val_t_1 );
-  ViewsText__ReInit( &_this->val_t_2 );
-  ViewsText__ReInit( &_this->val_t_3 );
-  ViewsText__ReInit( &_this->val_t_4 );
-  ViewsText__ReInit( &_this->labelFreq );
-  ViewsText__ReInit( &_this->val_freq );
-  CoreTimer__ReInit( &_this->intervalo );
-  ViewsLine__ReInit( &_this->linha_t_1 );
-  ViewsLine__ReInit( &_this->linha_t_2 );
-  ViewsLine__ReInit( &_this->linha_t_3 );
-  ViewsLine__ReInit( &_this->linha_fr_0 );
-  ViewsLine__ReInit( &_this->linha_fr_1 );
-  ViewsLine__ReInit( &_this->linha_fr_2 );
-  ViewsLine__ReInit( &_this->linha_fr_3 );
-  ViewsLine__ReInit( &_this->linha_fr_4 );
-  ViewsBorder__ReInit( &_this->borda );
-  CoreOutline__ReInit( &_this->JanelaG );
-  ChartsGraph__ReInit( &_this->grafico );
-}
-
-/* Finalizer method for the class 'Application::Freq' */
-void ApplicationFreq__Done( ApplicationFreq _this )
-{
-  /* Finalize this class */
-  _this->_VMT = EW_CLASS( ApplicationFreq );
-
-  /* Finalize all embedded objects */
-  ChartsCoordList__Done( &_this->dados );
-  ChartsCoordList__Done( &_this->dadosmirror );
-  ViewsText__Done( &_this->val_fr_0 );
-  ViewsText__Done( &_this->val_fr_1 );
-  ViewsText__Done( &_this->val_fr_2 );
-  ViewsText__Done( &_this->val_t_0 );
-  ViewsText__Done( &_this->val_t_1 );
-  ViewsText__Done( &_this->val_t_2 );
-  ViewsText__Done( &_this->val_t_3 );
-  ViewsText__Done( &_this->val_t_4 );
-  ViewsText__Done( &_this->labelFreq );
-  ViewsText__Done( &_this->val_freq );
-  CoreTimer__Done( &_this->intervalo );
-  ViewsLine__Done( &_this->linha_t_1 );
-  ViewsLine__Done( &_this->linha_t_2 );
-  ViewsLine__Done( &_this->linha_t_3 );
-  ViewsLine__Done( &_this->linha_fr_0 );
-  ViewsLine__Done( &_this->linha_fr_1 );
-  ViewsLine__Done( &_this->linha_fr_2 );
-  ViewsLine__Done( &_this->linha_fr_3 );
-  ViewsLine__Done( &_this->linha_fr_4 );
-  ViewsBorder__Done( &_this->borda );
-  CoreOutline__Done( &_this->JanelaG );
-  ChartsGraph__Done( &_this->grafico );
-
-  /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_Super );
-}
-
-/* Garbage Collector method for the class 'Application::Freq' */
-void ApplicationFreq__Mark( ApplicationFreq _this )
-{
-  EwMarkObject( &_this->dados );
-  EwMarkObject( &_this->dadosmirror );
-  EwMarkObject( &_this->val_fr_0 );
-  EwMarkObject( &_this->val_fr_1 );
-  EwMarkObject( &_this->val_fr_2 );
-  EwMarkObject( &_this->val_t_0 );
-  EwMarkObject( &_this->val_t_1 );
-  EwMarkObject( &_this->val_t_2 );
-  EwMarkObject( &_this->val_t_3 );
-  EwMarkObject( &_this->val_t_4 );
-  EwMarkObject( &_this->labelFreq );
-  EwMarkObject( &_this->val_freq );
-  EwMarkObject( &_this->intervalo );
-  EwMarkObject( &_this->linha_t_1 );
-  EwMarkObject( &_this->linha_t_2 );
-  EwMarkObject( &_this->linha_t_3 );
-  EwMarkObject( &_this->linha_fr_0 );
-  EwMarkObject( &_this->linha_fr_1 );
-  EwMarkObject( &_this->linha_fr_2 );
-  EwMarkObject( &_this->linha_fr_3 );
-  EwMarkObject( &_this->linha_fr_4 );
-  EwMarkObject( &_this->borda );
-  EwMarkObject( &_this->JanelaG );
-  EwMarkObject( &_this->grafico );
-  EwMarkObject( _this->device );
-
-  /* Give the super class a chance to mark its objects and references */
-  CoreGroup__Mark( &_this->_Super );
-}
-
-/* The method UpdateLayout() is invoked automatically after the size of the component 
-   has been changed. This method can be overridden and filled with logic to perform 
-   a sophisticated arrangement calculation for one or more enclosed views. In this 
-   case the parameter aSize can be used. It contains the current size of the component. 
-   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
-   property. UpdateLayout() gives the derived components a chance to extend this 
-   automatism by a user defined algorithm. */
-void ApplicationFreq_UpdateLayout( ApplicationFreq _this, XPoint aSize )
-{
-  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
-}
-
-/* The method UpdateViewState() is invoked automatically after the state of the 
-   component has been changed. This method can be overridden and filled with logic 
-   to ensure the visual aspect of the component does reflect its current state. 
-   For example, the 'enabled' state of the component can affect its colors (disabled 
-   components may appear pale). In this case the logic of the method should modify 
-   the respective color properties accordingly to the current 'enabled' state. 
-   The current state of the component is passed as a set in the parameter aState. 
-   It reflects the very basic component state like its visibility or the ability 
-   to react to user inputs. Beside this common state, the method can also involve 
-   any other variables used in the component as long as they reflect its current 
-   state. For example, the toggle switch component can take in account its toggle 
-   state 'on' or 'off' and change accordingly the location of the slider, etc.
-   Usually, this method will be invoked automatically by the framework. Optionally 
-   you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationFreq_UpdateViewState( ApplicationFreq _this, XSet aState )
-{
-  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
-}
-
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationFreq_Init( ApplicationFreq _this, XHandle aArg )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( aArg );
-
-  ChartsGraph_OnSetPixelPerUnit( &_this->grafico, EwSetPointY( _this->grafico.PixelPerUnit, 
-  60 / _this->deltaUnidades ));
-  ViewsText_OnSetString( &_this->val_t_1, EwConcatString( EwNewStringInt((XInt32)(( 
-  90.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->val_t_2, EwConcatString( EwNewStringInt((XInt32)(( 
-  180.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->val_t_3, EwConcatString( EwNewStringInt((XInt32)(( 
-  270.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->val_t_4, EwConcatString( EwNewStringInt((XInt32)(( 
-  360.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->val_fr_1, EwConcatString( ApplicationFreq_float2String( 
-  _this, _this->valorMeio ), EwLoadString( &_Const0076 )));
-  ViewsText_OnSetString( &_this->val_fr_0, EwConcatString( ApplicationFreq_float2String( 
-  _this, _this->valorMeio - ( 60.000000f / (XFloat)_this->grafico.PixelPerUnit.Y 
-  )), EwLoadString( &_Const0076 )));
-  ViewsText_OnSetString( &_this->val_fr_2, EwConcatString( ApplicationFreq_float2String( 
-  _this, _this->valorMeio + ( 60.000000f / (XFloat)_this->grafico.PixelPerUnit.Y 
-  )), EwLoadString( &_Const0076 )));
-}
-
-/* 'C' function for method : 'Application::Freq.plotar()' */
-void ApplicationFreq_plotar( ApplicationFreq _this, XObject sender )
-{
-  XFloat v;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  v = ApplicationClasse_getFreq( _this->device );
-  ViewsText_OnSetString( &_this->val_freq, EwConcatString( ApplicationFreq_float2String( 
-  _this, v ), EwLoadString( &_Const0076 )));
-  v = v - _this->valorMeio;
-
-  if ( !_this->troca )
-  {
-    ChartsCoordList_AddCoord( &_this->dados, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->grafico.PixelPerUnit.X 
-    ), -v );
-    ChartsCoordList_AddCoord( &_this->dadosmirror, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->grafico.PixelPerUnit.X ), -v );
-    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-    _this->JanelaG.ScrollOffset.X - _this->grafico.PixelPerUnit.X ));
-    ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dados );
-
-    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
-        ))
-    {
-      ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dadosmirror );
-      ChartsCoordList_ClearList( &_this->dados );
-      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-      0 ));
-      _this->troca = 1;
-    }
-  }
-  else
-  {
-    ChartsCoordList_AddCoord( &_this->dadosmirror, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->grafico.PixelPerUnit.X 
-    ), -v );
-    ChartsCoordList_AddCoord( &_this->dados, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->grafico.PixelPerUnit.X ), -v );
-    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-    _this->JanelaG.ScrollOffset.X - _this->grafico.PixelPerUnit.X ));
-    ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dadosmirror );
-
-    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
-        ))
-    {
-      ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dados );
-      ChartsCoordList_ClearList( &_this->dadosmirror );
-      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-      0 ));
-      _this->troca = 0;
-    }
-  }
-}
-
-/* 'C' function for method : 'Application::Freq.float2String()' */
-XString ApplicationFreq_float2String( ApplicationFreq _this, XFloat arg1 )
-{
-  XString valor;
-  XString valor2;
-  XInt32 inteiro;
-  XFloat dec;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-
-  valor = 0;
-
-  if ( arg1 < 0.000000f )
-  {
-    valor = EwLoadString( &_Const0047 );
-    inteiro = (XInt32)-arg1;
-    dec = ( arg1 + (XFloat)inteiro ) * -1000.000000f;
-  }
-  else
-  {
-    inteiro = (XInt32)arg1;
-    dec = ( arg1 - (XFloat)inteiro ) * 1000.000000f;
-  }
-
-  valor = EwConcatString( valor, EwNewStringInt( inteiro, 0, 10 ));
-  valor2 = EwNewStringInt((XInt32)dec, 3, 10 );
-  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0048 )), valor2 
-    );
-}
-
-/* Variants derived from the class : 'Application::Freq' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationFreq )
-EW_END_OF_CLASS_VARIANTS( ApplicationFreq )
-
-/* Virtual Method Table (VMT) for the class : 'Application::Freq' */
-EW_DEFINE_CLASS( ApplicationFreq, CoreGroup, "Application::Freq" )
-  CoreRectView_initLayoutContext,
-  CoreView_GetRoot,
-  CoreGroup_Draw,
-  CoreView_HandleEvent,
-  CoreGroup_CursorHitTest,
-  CoreRectView_ArrangeView,
-  CoreRectView_MoveView,
-  CoreRectView_GetExtent,
-  CoreGroup_ChangeViewState,
-  CoreGroup_OnSetBounds,
-  CoreGroup_OnSetFocus,
-  CoreGroup_DispatchEvent,
-  CoreGroup_BroadcastEvent,
-  ApplicationFreq_UpdateLayout,
-  ApplicationFreq_UpdateViewState,
-  CoreGroup_InvalidateArea,
-  CoreGroup_Restack,
-  CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationFreq )
-
-/* Initializer for the class 'Application::VNC' */
-void ApplicationVNC__Init( ApplicationVNC _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_Super, aLink, aArg );
-
-  /* ... then construct all embedded objects */
-  ViewsText__Init( &_this->Message, &_this->_XObject, 0 );
-  CoreSystemEventHandler__Init( &_this->LogMessageHandler, &_this->_XObject, 0 );
-  FlatActionButton__Init( &_this->BStart, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelMsg, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelState, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->Status, &_this->_XObject, 0 );
-  CoreSystemEventHandler__Init( &_this->StatusChangedHandler, &_this->_XObject, 0 );
-  FlatActionButton__Init( &_this->BStop, &_this->_XObject, 0 );
-
-  /* Setup the VMT pointer */
-  _this->_VMT = EW_CLASS( ApplicationVNC );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0007 );
-  CoreRectView__OnSetBounds( &_this->Message, _Const0077 );
-  ViewsText_OnSetString( &_this->Message, EwLoadString( &_Const0078 ));
-  ViewsText_OnSetColor( &_this->Message, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->BStart, _Const0079 );
-  FlatActionButton_OnSetCaption( &_this->BStart, EwLoadString( &_Const007A ));
-  CoreRectView__OnSetBounds( &_this->labelMsg, _Const007B );
-  ViewsText_OnSetString( &_this->labelMsg, EwLoadString( &_Const007C ));
-  CoreRectView__OnSetBounds( &_this->labelState, _Const007D );
-  ViewsText_OnSetString( &_this->labelState, EwLoadString( &_Const007E ));
-  CoreRectView__OnSetBounds( &_this->Status, _Const007F );
-  ViewsText_OnSetString( &_this->Status, EwLoadString( &_Const0080 ));
-  ViewsText_OnSetColor( &_this->Status, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->BStop, _Const0081 );
-  CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 0 );
-  FlatActionButton_OnSetCaption( &_this->BStop, EwLoadString( &_Const0082 ));
-  CoreGroup__Add( _this, ((CoreView)&_this->Message ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->BStart ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelMsg ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelState ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Status ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->BStop ), 0 );
-  ViewsText_OnSetFont( &_this->Message, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
-  ));
-  _this->LogMessageHandler.OnEvent = EwNewSlot( _this, ApplicationVNC_LogMessage 
-  );
-  CoreSystemEventHandler_OnSetEvent( &_this->LogMessageHandler, &EwGetAutoObject( 
-  &ApplicationAutoobjeto, ApplicationClasse )->LogMessageEvent );
-  _this->BStart.OnAction = EwNewSlot( _this, ApplicationVNC_startVNC );
-  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
-  ViewsText_OnSetFont( &_this->labelMsg, EwLoadResource( &ResourcesFontVerdana20, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->labelState, EwLoadResource( &ResourcesFontVerdana20, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Status, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
-  ));
-  _this->StatusChangedHandler.OnEvent = EwNewSlot( _this, ApplicationVNC_StatusChange 
-  );
-  CoreSystemEventHandler_OnSetEvent( &_this->StatusChangedHandler, &EwGetAutoObject( 
-  &ApplicationAutoobjeto, ApplicationClasse )->StatusChangedEvent );
-  _this->BStop.OnAction = EwNewSlot( _this, ApplicationVNC_stopVNC );
-}
-
-/* Re-Initializer for the class 'Application::VNC' */
-void ApplicationVNC__ReInit( ApplicationVNC _this )
-{
-  /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_Super );
-
-  /* ... then re-construct all embedded objects */
-  ViewsText__ReInit( &_this->Message );
-  CoreSystemEventHandler__ReInit( &_this->LogMessageHandler );
-  FlatActionButton__ReInit( &_this->BStart );
-  ViewsText__ReInit( &_this->labelMsg );
-  ViewsText__ReInit( &_this->labelState );
-  ViewsText__ReInit( &_this->Status );
-  CoreSystemEventHandler__ReInit( &_this->StatusChangedHandler );
-  FlatActionButton__ReInit( &_this->BStop );
-}
-
-/* Finalizer method for the class 'Application::VNC' */
-void ApplicationVNC__Done( ApplicationVNC _this )
-{
-  /* Finalize this class */
-  _this->_VMT = EW_CLASS( ApplicationVNC );
-
-  /* Finalize all embedded objects */
-  ViewsText__Done( &_this->Message );
-  CoreSystemEventHandler__Done( &_this->LogMessageHandler );
-  FlatActionButton__Done( &_this->BStart );
-  ViewsText__Done( &_this->labelMsg );
-  ViewsText__Done( &_this->labelState );
-  ViewsText__Done( &_this->Status );
-  CoreSystemEventHandler__Done( &_this->StatusChangedHandler );
-  FlatActionButton__Done( &_this->BStop );
-
-  /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_Super );
-}
-
-/* Garbage Collector method for the class 'Application::VNC' */
-void ApplicationVNC__Mark( ApplicationVNC _this )
-{
-  EwMarkObject( &_this->Message );
-  EwMarkObject( &_this->LogMessageHandler );
-  EwMarkObject( &_this->BStart );
-  EwMarkObject( _this->device );
-  EwMarkObject( &_this->labelMsg );
-  EwMarkObject( &_this->labelState );
-  EwMarkObject( &_this->Status );
-  EwMarkObject( &_this->StatusChangedHandler );
-  EwMarkObject( &_this->BStop );
-
-  /* Give the super class a chance to mark its objects and references */
-  CoreGroup__Mark( &_this->_Super );
-}
-
-/* The method UpdateLayout() is invoked automatically after the size of the component 
-   has been changed. This method can be overridden and filled with logic to perform 
-   a sophisticated arrangement calculation for one or more enclosed views. In this 
-   case the parameter aSize can be used. It contains the current size of the component. 
-   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
-   property. UpdateLayout() gives the derived components a chance to extend this 
-   automatism by a user defined algorithm. */
-void ApplicationVNC_UpdateLayout( ApplicationVNC _this, XPoint aSize )
-{
-  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
-}
-
-/* The method UpdateViewState() is invoked automatically after the state of the 
-   component has been changed. This method can be overridden and filled with logic 
-   to ensure the visual aspect of the component does reflect its current state. 
-   For example, the 'enabled' state of the component can affect its colors (disabled 
-   components may appear pale). In this case the logic of the method should modify 
-   the respective color properties accordingly to the current 'enabled' state. 
-   The current state of the component is passed as a set in the parameter aState. 
-   It reflects the very basic component state like its visibility or the ability 
-   to react to user inputs. Beside this common state, the method can also involve 
-   any other variables used in the component as long as they reflect its current 
-   state. For example, the toggle switch component can take in account its toggle 
-   state 'on' or 'off' and change accordingly the location of the slider, etc.
-   Usually, this method will be invoked automatically by the framework. Optionally 
-   you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationVNC_UpdateViewState( ApplicationVNC _this, XSet aState )
-{
-  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
-}
-
-/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
-   receives an event. */
-void ApplicationVNC_LogMessage( ApplicationVNC _this, XObject sender )
-{
-  ApplicationcontextoMsg ctxRecebido;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ctxRecebido = EwCastObject( _this->LogMessageHandler.Context, ApplicationcontextoMsg 
-  );
-  ViewsText_OnSetString( &_this->Message, ctxRecebido->message );
-}
-
-/* 'C' function for method : 'Application::VNC.startVNC()' */
-void ApplicationVNC_startVNC( ApplicationVNC _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ApplicationClasse_startVNC( _this->device );
-}
-
-/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
-   receives an event. */
-void ApplicationVNC_StatusChange( ApplicationVNC _this, XObject sender )
-{
-  ApplicationcontextoStatus ctxRecebido;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ctxRecebido = EwCastObject( _this->StatusChangedHandler.Context, ApplicationcontextoStatus 
-  );
-  ViewsText_OnSetString( &_this->Status, ctxRecebido->Status );
-
-  if (( !EwCompString( _this->Status.String, EwLoadString( &_Const0083 )) || !EwCompString( 
-      _this->Status.String, EwLoadString( &_Const0084 ))) || !EwCompString( _this->Status.String, 
-      EwLoadString( &_Const0085 )))
-  {
-    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStart, 1 );
-    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 0 );
-  }
-  else
-  {
-    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStart, 0 );
-    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 1 );
-  }
-}
-
-/* 'C' function for method : 'Application::VNC.stopVNC()' */
-void ApplicationVNC_stopVNC( ApplicationVNC _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ApplicationClasse_stopVNC( _this->device );
-}
-
-/* Variants derived from the class : 'Application::VNC' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationVNC )
-EW_END_OF_CLASS_VARIANTS( ApplicationVNC )
-
-/* Virtual Method Table (VMT) for the class : 'Application::VNC' */
-EW_DEFINE_CLASS( ApplicationVNC, CoreGroup, "Application::VNC" )
-  CoreRectView_initLayoutContext,
-  CoreView_GetRoot,
-  CoreGroup_Draw,
-  CoreView_HandleEvent,
-  CoreGroup_CursorHitTest,
-  CoreRectView_ArrangeView,
-  CoreRectView_MoveView,
-  CoreRectView_GetExtent,
-  CoreGroup_ChangeViewState,
-  CoreGroup_OnSetBounds,
-  CoreGroup_OnSetFocus,
-  CoreGroup_DispatchEvent,
-  CoreGroup_BroadcastEvent,
-  ApplicationVNC_UpdateLayout,
-  ApplicationVNC_UpdateViewState,
-  CoreGroup_InvalidateArea,
-  CoreGroup_Restack,
-  CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationVNC )
 
 /* Font resource : 'Application::Numbers18' */
 EW_DEFINE_FONT_RES( ApplicationNumbers18, 14, 4, 0, 16, 0x0016, 0x00BE )
@@ -3291,6 +2207,943 @@ EW_END_OF_FONT_RES( ApplicationNumbers22 )
 /* Table with links to derived variants of the font resource : 'Application::Numbers22' */
 EW_RES_WITHOUT_VARIANTS( ApplicationNumbers22 )
 
+/* Initializer for the class 'Application::Fasores' */
+void ApplicationFasores__Init( ApplicationFasores _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_Super, aLink, aArg );
+
+  /* ... then construct all embedded objects */
+  ViewsImage__Init( &_this->grid, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label0, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label180, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label90, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label270, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label300, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label240, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label210, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label120, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label60, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label330, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label30, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->label150, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelMag, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelAng, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->fTverm_mag, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->fTverm_ang, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->fSamarelo_mag, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->fSamarelo_ang, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->fRverde_mag, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->fRverde_ang, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->Line, &_this->_XObject, 0 );
+  CoreTimer__Init( &_this->Timer, &_this->_XObject, 0 );
+  ViewsWarpImage__Init( &_this->fasor_T, &_this->_XObject, 0 );
+  ViewsWarpImage__Init( &_this->fasor_S, &_this->_XObject, 0 );
+  ViewsWarpImage__Init( &_this->fasor_R, &_this->_XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( ApplicationFasores );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0007 );
+  _this->angulo = 0.000000f;
+  _this->amplitude = 1.000000f;
+  _this->centro = _Const0012;
+  CoreRectView__OnSetBounds( &_this->grid, _Const0013 );
+  ViewsImage_OnSetColor( &_this->grid, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label0, _Const0015 );
+  ViewsText_OnSetAutoSize( &_this->label0, 0 );
+  ViewsText_OnSetString( &_this->label0, EwLoadString( &_Const0016 ));
+  ViewsText_OnSetColor( &_this->label0, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label180, _Const0017 );
+  ViewsText_OnSetAutoSize( &_this->label180, 0 );
+  ViewsText_OnSetString( &_this->label180, EwLoadString( &_Const0018 ));
+  ViewsText_OnSetColor( &_this->label180, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label90, _Const0019 );
+  ViewsText_OnSetAutoSize( &_this->label90, 0 );
+  ViewsText_OnSetString( &_this->label90, EwLoadString( &_Const001A ));
+  ViewsText_OnSetColor( &_this->label90, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label270, _Const001B );
+  ViewsText_OnSetAutoSize( &_this->label270, 0 );
+  ViewsText_OnSetString( &_this->label270, EwLoadString( &_Const001C ));
+  ViewsText_OnSetColor( &_this->label270, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label300, _Const001D );
+  ViewsText_OnSetAutoSize( &_this->label300, 1 );
+  ViewsText_OnSetString( &_this->label300, EwLoadString( &_Const001E ));
+  ViewsText_OnSetColor( &_this->label300, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label240, _Const001F );
+  ViewsText_OnSetAutoSize( &_this->label240, 1 );
+  ViewsText_OnSetString( &_this->label240, EwLoadString( &_Const0020 ));
+  ViewsText_OnSetColor( &_this->label240, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label210, _Const0021 );
+  ViewsText_OnSetAutoSize( &_this->label210, 1 );
+  ViewsText_OnSetString( &_this->label210, EwLoadString( &_Const0022 ));
+  ViewsText_OnSetColor( &_this->label210, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label120, _Const0023 );
+  ViewsText_OnSetAutoSize( &_this->label120, 1 );
+  ViewsText_OnSetString( &_this->label120, EwLoadString( &_Const0024 ));
+  ViewsText_OnSetColor( &_this->label120, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label60, _Const0025 );
+  ViewsText_OnSetAutoSize( &_this->label60, 1 );
+  ViewsText_OnSetString( &_this->label60, EwLoadString( &_Const0026 ));
+  ViewsText_OnSetColor( &_this->label60, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label330, _Const0027 );
+  ViewsText_OnSetAutoSize( &_this->label330, 1 );
+  ViewsText_OnSetString( &_this->label330, EwLoadString( &_Const0028 ));
+  ViewsText_OnSetColor( &_this->label330, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label30, _Const0029 );
+  ViewsText_OnSetAutoSize( &_this->label30, 1 );
+  ViewsText_OnSetString( &_this->label30, EwLoadString( &_Const002A ));
+  ViewsText_OnSetColor( &_this->label30, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->label150, _Const002B );
+  ViewsText_OnSetAutoSize( &_this->label150, 1 );
+  ViewsText_OnSetString( &_this->label150, EwLoadString( &_Const002C ));
+  ViewsText_OnSetColor( &_this->label150, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->labelMag, _Const002D );
+  ViewsText_OnSetAutoSize( &_this->labelMag, 1 );
+  ViewsText_OnSetAlignment( &_this->labelMag, ViewsTextAlignmentAlignHorzCenter 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelMag, EwLoadString( &_Const002E ));
+  CoreRectView__OnSetBounds( &_this->labelAng, _Const002F );
+  ViewsText_OnSetAutoSize( &_this->labelAng, 1 );
+  ViewsText_OnSetString( &_this->labelAng, EwLoadString( &_Const0030 ));
+  CoreRectView__OnSetBounds( &_this->fTverm_mag, _Const0031 );
+  ViewsText_OnSetAutoSize( &_this->fTverm_mag, 1 );
+  ViewsText_OnSetAlignment( &_this->fTverm_mag, ViewsTextAlignmentAlignHorzRight 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->fTverm_mag, EwLoadString( &_Const0016 ));
+  ViewsText_OnSetColor( &_this->fTverm_mag, Applicationcor_T );
+  CoreRectView__OnSetBounds( &_this->fTverm_ang, _Const0032 );
+  ViewsText_OnSetAutoSize( &_this->fTverm_ang, 1 );
+  ViewsText_OnSetAlignment( &_this->fTverm_ang, ViewsTextAlignmentAlignHorzRight 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->fTverm_ang, EwLoadString( &_Const0016 ));
+  ViewsText_OnSetColor( &_this->fTverm_ang, Applicationcor_T );
+  CoreRectView__OnSetBounds( &_this->fSamarelo_mag, _Const0033 );
+  ViewsText_OnSetAutoSize( &_this->fSamarelo_mag, 1 );
+  ViewsText_OnSetAlignment( &_this->fSamarelo_mag, ViewsTextAlignmentAlignHorzRight 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->fSamarelo_mag, EwLoadString( &_Const0016 ));
+  ViewsText_OnSetColor( &_this->fSamarelo_mag, Applicationcor_S );
+  CoreRectView__OnSetBounds( &_this->fSamarelo_ang, _Const0034 );
+  ViewsText_OnSetAutoSize( &_this->fSamarelo_ang, 1 );
+  ViewsText_OnSetAlignment( &_this->fSamarelo_ang, ViewsTextAlignmentAlignHorzRight 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->fSamarelo_ang, EwLoadString( &_Const0016 ));
+  ViewsText_OnSetColor( &_this->fSamarelo_ang, Applicationcor_S );
+  CoreRectView__OnSetBounds( &_this->fRverde_mag, _Const0035 );
+  ViewsText_OnSetAutoSize( &_this->fRverde_mag, 1 );
+  ViewsText_OnSetAlignment( &_this->fRverde_mag, ViewsTextAlignmentAlignHorzRight 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->fRverde_mag, EwLoadString( &_Const0016 ));
+  ViewsText_OnSetColor( &_this->fRverde_mag, Applicationcor_R );
+  CoreRectView__OnSetBounds( &_this->fRverde_ang, _Const0036 );
+  ViewsText_OnSetAutoSize( &_this->fRverde_ang, 1 );
+  ViewsText_OnSetAlignment( &_this->fRverde_ang, ViewsTextAlignmentAlignHorzRight 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->fRverde_ang, EwLoadString( &_Const0016 ));
+  ViewsText_OnSetColor( &_this->fRverde_ang, Applicationcor_R );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const0037 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const0038 );
+  ViewsLine_OnSetColor( &_this->Line, _Const0014 );
+  CoreTimer_OnSetPeriod( &_this->Timer, 1000 );
+  CoreTimer_OnSetEnabled( &_this->Timer, 1 );
+  CoreQuadView__OnSetPoint4( &_this->fasor_T, _Const0039 );
+  CoreQuadView__OnSetPoint3( &_this->fasor_T, _Const003A );
+  CoreQuadView__OnSetPoint2( &_this->fasor_T, _Const003B );
+  CoreQuadView__OnSetPoint1( &_this->fasor_T, _Const003C );
+  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_T, _Const003D );
+  ViewsWarpImage_OnSetColor1( &_this->fasor_T, _Const0014 );
+  ViewsWarpImage_OnSetColor( &_this->fasor_T, Applicationcor_T );
+  CoreQuadView__OnSetPoint4( &_this->fasor_S, _Const003E );
+  CoreQuadView__OnSetPoint3( &_this->fasor_S, _Const003F );
+  CoreQuadView__OnSetPoint2( &_this->fasor_S, _Const0040 );
+  CoreQuadView__OnSetPoint1( &_this->fasor_S, _Const0041 );
+  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_S, _Const003D );
+  ViewsWarpImage_OnSetColor1( &_this->fasor_S, _Const0014 );
+  ViewsWarpImage_OnSetColor( &_this->fasor_S, Applicationcor_S );
+  CoreQuadView__OnSetPoint4( &_this->fasor_R, _Const0042 );
+  CoreQuadView__OnSetPoint3( &_this->fasor_R, _Const0043 );
+  CoreQuadView__OnSetPoint2( &_this->fasor_R, _Const0044 );
+  CoreQuadView__OnSetPoint1( &_this->fasor_R, _Const0045 );
+  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_R, _Const003D );
+  ViewsWarpImage_OnSetColor1( &_this->fasor_R, _Const0014 );
+  ViewsWarpImage_OnSetColor( &_this->fasor_R, Applicationcor_R );
+  CoreGroup__Add( _this, ((CoreView)&_this->grid ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label0 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label180 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label90 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label270 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label300 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label240 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label210 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label120 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label60 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label330 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label30 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->label150 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelMag ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelAng ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fTverm_mag ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fTverm_ang ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fSamarelo_mag ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fSamarelo_ang ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fRverde_mag ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fRverde_ang ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Line ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fasor_T ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fasor_S ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->fasor_R ), 0 );
+  ViewsImage_OnSetBitmap( &_this->grid, EwLoadResource( &Applicationgrid, ResourcesBitmap 
+  ));
+  ViewsText_OnSetFont( &_this->label0, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->label180, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->label90, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->label270, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->label300, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->label240, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->label210, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->label120, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->label60, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->label330, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->label30, EwLoadResource( &ResourcesFontArial12, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->label150, EwLoadResource( &ResourcesFontArial12, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->labelMag, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->labelAng, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->fTverm_mag, EwLoadResource( &ApplicationNumbers18, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->fTverm_ang, EwLoadResource( &ApplicationNumbers18, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->fSamarelo_mag, EwLoadResource( &ApplicationNumbers18, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->fSamarelo_ang, EwLoadResource( &ApplicationNumbers18, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->fRverde_mag, EwLoadResource( &ApplicationNumbers18, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->fRverde_ang, EwLoadResource( &ApplicationNumbers18, 
+  ResourcesFont ));
+  _this->Timer.OnTrigger = EwNewSlot( _this, ApplicationFasores_roda );
+  ViewsWarpImage_OnSetBitmap( &_this->fasor_T, EwLoadResource( &Applicationflecha, 
+  ResourcesBitmap ));
+  ViewsWarpImage_OnSetBitmap( &_this->fasor_S, EwLoadResource( &Applicationflecha, 
+  ResourcesBitmap ));
+  ViewsWarpImage_OnSetBitmap( &_this->fasor_R, EwLoadResource( &Applicationflecha, 
+  ResourcesBitmap ));
+  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
+
+  /* Call the user defined constructor */
+  ApplicationFasores_Init( _this, aArg );
+}
+
+/* Re-Initializer for the class 'Application::Fasores' */
+void ApplicationFasores__ReInit( ApplicationFasores _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_Super );
+
+  /* ... then re-construct all embedded objects */
+  ViewsImage__ReInit( &_this->grid );
+  ViewsText__ReInit( &_this->label0 );
+  ViewsText__ReInit( &_this->label180 );
+  ViewsText__ReInit( &_this->label90 );
+  ViewsText__ReInit( &_this->label270 );
+  ViewsText__ReInit( &_this->label300 );
+  ViewsText__ReInit( &_this->label240 );
+  ViewsText__ReInit( &_this->label210 );
+  ViewsText__ReInit( &_this->label120 );
+  ViewsText__ReInit( &_this->label60 );
+  ViewsText__ReInit( &_this->label330 );
+  ViewsText__ReInit( &_this->label30 );
+  ViewsText__ReInit( &_this->label150 );
+  ViewsText__ReInit( &_this->labelMag );
+  ViewsText__ReInit( &_this->labelAng );
+  ViewsText__ReInit( &_this->fTverm_mag );
+  ViewsText__ReInit( &_this->fTverm_ang );
+  ViewsText__ReInit( &_this->fSamarelo_mag );
+  ViewsText__ReInit( &_this->fSamarelo_ang );
+  ViewsText__ReInit( &_this->fRverde_mag );
+  ViewsText__ReInit( &_this->fRverde_ang );
+  ViewsLine__ReInit( &_this->Line );
+  CoreTimer__ReInit( &_this->Timer );
+  ViewsWarpImage__ReInit( &_this->fasor_T );
+  ViewsWarpImage__ReInit( &_this->fasor_S );
+  ViewsWarpImage__ReInit( &_this->fasor_R );
+}
+
+/* Finalizer method for the class 'Application::Fasores' */
+void ApplicationFasores__Done( ApplicationFasores _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( ApplicationFasores );
+
+  /* Finalize all embedded objects */
+  ViewsImage__Done( &_this->grid );
+  ViewsText__Done( &_this->label0 );
+  ViewsText__Done( &_this->label180 );
+  ViewsText__Done( &_this->label90 );
+  ViewsText__Done( &_this->label270 );
+  ViewsText__Done( &_this->label300 );
+  ViewsText__Done( &_this->label240 );
+  ViewsText__Done( &_this->label210 );
+  ViewsText__Done( &_this->label120 );
+  ViewsText__Done( &_this->label60 );
+  ViewsText__Done( &_this->label330 );
+  ViewsText__Done( &_this->label30 );
+  ViewsText__Done( &_this->label150 );
+  ViewsText__Done( &_this->labelMag );
+  ViewsText__Done( &_this->labelAng );
+  ViewsText__Done( &_this->fTverm_mag );
+  ViewsText__Done( &_this->fTverm_ang );
+  ViewsText__Done( &_this->fSamarelo_mag );
+  ViewsText__Done( &_this->fSamarelo_ang );
+  ViewsText__Done( &_this->fRverde_mag );
+  ViewsText__Done( &_this->fRverde_ang );
+  ViewsLine__Done( &_this->Line );
+  CoreTimer__Done( &_this->Timer );
+  ViewsWarpImage__Done( &_this->fasor_T );
+  ViewsWarpImage__Done( &_this->fasor_S );
+  ViewsWarpImage__Done( &_this->fasor_R );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Application::Fasores' */
+void ApplicationFasores__Mark( ApplicationFasores _this )
+{
+  EwMarkObject( &_this->grid );
+  EwMarkObject( &_this->label0 );
+  EwMarkObject( &_this->label180 );
+  EwMarkObject( &_this->label90 );
+  EwMarkObject( &_this->label270 );
+  EwMarkObject( &_this->label300 );
+  EwMarkObject( &_this->label240 );
+  EwMarkObject( &_this->label210 );
+  EwMarkObject( &_this->label120 );
+  EwMarkObject( &_this->label60 );
+  EwMarkObject( &_this->label330 );
+  EwMarkObject( &_this->label30 );
+  EwMarkObject( &_this->label150 );
+  EwMarkObject( &_this->labelMag );
+  EwMarkObject( &_this->labelAng );
+  EwMarkObject( &_this->fTverm_mag );
+  EwMarkObject( &_this->fTverm_ang );
+  EwMarkObject( &_this->fSamarelo_mag );
+  EwMarkObject( &_this->fSamarelo_ang );
+  EwMarkObject( &_this->fRverde_mag );
+  EwMarkObject( &_this->fRverde_ang );
+  EwMarkObject( &_this->Line );
+  EwMarkObject( &_this->Timer );
+  EwMarkObject( &_this->fasor_T );
+  EwMarkObject( &_this->fasor_S );
+  EwMarkObject( &_this->fasor_R );
+  EwMarkObject( _this->device );
+
+  /* Give the super class a chance to mark its objects and references */
+  CoreGroup__Mark( &_this->_Super );
+}
+
+/* The method UpdateLayout() is invoked automatically after the size of the component 
+   has been changed. This method can be overridden and filled with logic to perform 
+   a sophisticated arrangement calculation for one or more enclosed views. In this 
+   case the parameter aSize can be used. It contains the current size of the component. 
+   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
+   property. UpdateLayout() gives the derived components a chance to extend this 
+   automatism by a user defined algorithm. */
+void ApplicationFasores_UpdateLayout( ApplicationFasores _this, XPoint aSize )
+{
+  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
+}
+
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationFasores_UpdateViewState( ApplicationFasores _this, XSet aState )
+{
+  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationFasores_Init( ApplicationFasores _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aArg );
+
+  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->fasor_R, _this->centro, 0.000000f, 
+  _this->amplitude, 1.000000f );
+  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->fasor_S, _this->centro, 0.000000f, 
+  _this->amplitude, 1.000000f );
+  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->fasor_T, _this->centro, 0.000000f, 
+  _this->amplitude, 1.000000f );
+  _this->angulo = EwMathRandFloat( 0.000000f, 90.000000f ) + EwMathRandFloat( -5.000000f, 
+  5.000000f );
+}
+
+/* 'C' function for method : 'Application::Fasores.roda()' */
+void ApplicationFasores_roda( ApplicationFasores _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->fasor_R, _this->centro, ApplicationClasse_getFaseR( 
+  _this->device ), _this->amplitude, 1.000000f );
+  ViewsText_OnSetString( &_this->fRverde_mag, ApplicationFasores_float2String( _this, 
+  ApplicationClasse_getMagR( _this->device )));
+  ViewsText_OnSetString( &_this->fRverde_ang, ApplicationFasores_float2String( _this, 
+  ApplicationClasse_getFaseR( _this->device )));
+  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->fasor_S, _this->centro, ApplicationClasse_getFaseS( 
+  _this->device ), _this->amplitude, 1.000000f );
+  ViewsText_OnSetString( &_this->fSamarelo_mag, ApplicationFasores_float2String( 
+  _this, ApplicationClasse_getMagS( _this->device )));
+  ViewsText_OnSetString( &_this->fSamarelo_ang, ApplicationFasores_float2String( 
+  _this, ApplicationClasse_getFaseS( _this->device )));
+  ViewsWarpView_RotateAndScale((ViewsWarpView)&_this->fasor_T, _this->centro, ApplicationClasse_getFaseT( 
+  _this->device ), _this->amplitude, 1.000000f );
+  ViewsText_OnSetString( &_this->fTverm_mag, ApplicationFasores_float2String( _this, 
+  ApplicationClasse_getMagT( _this->device )));
+  ViewsText_OnSetString( &_this->fTverm_ang, ApplicationFasores_float2String( _this, 
+  ApplicationClasse_getFaseT( _this->device )));
+}
+
+/* 'C' function for method : 'Application::Fasores.float2String()' */
+XString ApplicationFasores_float2String( ApplicationFasores _this, XFloat arg1 )
+{
+  XString valor;
+  XString valor2;
+  XInt32 inteiro;
+  XFloat dec;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  valor = 0;
+
+  if ( arg1 < 0.000000f )
+  {
+    valor = EwLoadString( &_Const0046 );
+    inteiro = (XInt32)-arg1;
+    dec = ( arg1 + (XFloat)inteiro ) * -100.000000f;
+  }
+  else
+  {
+    inteiro = (XInt32)arg1;
+    dec = ( arg1 - (XFloat)inteiro ) * 100.000000f;
+  }
+
+  valor = EwConcatString( valor, EwNewStringInt( inteiro, 0, 10 ));
+  valor2 = EwNewStringInt((XInt32)dec, 2, 10 );
+  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0047 )), valor2 
+    );
+}
+
+/* Variants derived from the class : 'Application::Fasores' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationFasores )
+EW_END_OF_CLASS_VARIANTS( ApplicationFasores )
+
+/* Virtual Method Table (VMT) for the class : 'Application::Fasores' */
+EW_DEFINE_CLASS( ApplicationFasores, CoreGroup, "Application::Fasores" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  ApplicationFasores_UpdateLayout,
+  ApplicationFasores_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_Restack,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationFasores )
+
+/* Initializer for the class 'Application::Freq' */
+void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_Super, aLink, aArg );
+
+  /* ... then construct all embedded objects */
+  ChartsCoordList__Init( &_this->dados, &_this->_XObject, 0 );
+  ChartsCoordList__Init( &_this->dadosmirror, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_fr_0, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_fr_1, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_fr_2, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_0, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_1, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_2, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_3, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_4, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelFreq, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_freq, &_this->_XObject, 0 );
+  CoreTimer__Init( &_this->intervalo, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_t_1, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_t_2, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_t_3, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_fr_0, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_fr_1, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_fr_2, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_fr_3, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_fr_4, &_this->_XObject, 0 );
+  CoreOutline__Init( &_this->JanelaG, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->grafico, &_this->_XObject, 0 );
+  ViewsBorder__Init( &_this->borda, &_this->_XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( ApplicationFreq );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0007 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados, 480 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror, 480 );
+  CoreRectView__OnSetBounds( &_this->val_fr_0, _Const0048 );
+  ViewsText_OnSetAlignment( &_this->val_fr_0, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->val_fr_0, EwLoadString( &_Const0049 ));
+  ViewsText_OnSetColor( &_this->val_fr_0, _Const004A );
+  CoreRectView__OnSetBounds( &_this->val_fr_1, _Const004B );
+  ViewsText_OnSetAlignment( &_this->val_fr_1, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->val_fr_1, EwLoadString( &_Const004C ));
+  ViewsText_OnSetColor( &_this->val_fr_1, _Const004D );
+  CoreRectView__OnSetBounds( &_this->val_fr_2, _Const004E );
+  ViewsText_OnSetAlignment( &_this->val_fr_2, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->val_fr_2, EwLoadString( &_Const004F ));
+  ViewsText_OnSetColor( &_this->val_fr_2, _Const004A );
+  CoreRectView__OnSetBounds( &_this->val_t_0, _Const0050 );
+  ViewsText_OnSetString( &_this->val_t_0, EwLoadString( &_Const0051 ));
+  CoreRectView__OnSetBounds( &_this->val_t_1, _Const0052 );
+  ViewsText_OnSetString( &_this->val_t_1, EwLoadString( &_Const0053 ));
+  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0054 );
+  ViewsText_OnSetString( &_this->val_t_2, EwLoadString( &_Const0055 ));
+  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0056 );
+  ViewsText_OnSetString( &_this->val_t_3, EwLoadString( &_Const0057 ));
+  CoreRectView__OnSetBounds( &_this->val_t_4, _Const0058 );
+  ViewsText_OnSetString( &_this->val_t_4, EwLoadString( &_Const0059 ));
+  CoreRectView__OnSetBounds( &_this->labelFreq, _Const005A );
+  ViewsText_OnSetAutoSize( &_this->labelFreq, 0 );
+  ViewsText_OnSetAlignment( &_this->labelFreq, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelFreq, EwLoadString( &_Const005B ));
+  CoreView_OnSetLayout((CoreView)&_this->val_freq, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  );
+  CoreRectView__OnSetBounds( &_this->val_freq, _Const005C );
+  ViewsText_OnSetAlignment( &_this->val_freq, ViewsTextAlignmentAlignHorzRight | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->val_freq, EwLoadString( &_Const0016 ));
+  CoreTimer_OnSetPeriod( &_this->intervalo, 500 );
+  CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const005D );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const005E );
+  ViewsLine_OnSetWidth( &_this->linha_t_1, 1 );
+  ViewsLine_OnSetColor( &_this->linha_t_1, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const0060 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0061 );
+  ViewsLine_OnSetWidth( &_this->linha_t_2, 1 );
+  ViewsLine_OnSetColor( &_this->linha_t_2, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0062 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0063 );
+  ViewsLine_OnSetWidth( &_this->linha_t_3, 1 );
+  ViewsLine_OnSetColor( &_this->linha_t_3, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_0, _Const0064 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_0, _Const0065 );
+  ViewsLine_OnSetWidth( &_this->linha_fr_0, 1 );
+  ViewsLine_OnSetColor( &_this->linha_fr_0, _Const004A );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_1, _Const0066 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_1, _Const0067 );
+  ViewsLine_OnSetWidth( &_this->linha_fr_1, 1 );
+  ViewsLine_OnSetColor( &_this->linha_fr_1, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_2, _Const0068 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_2, _Const0069 );
+  ViewsLine_OnSetWidth( &_this->linha_fr_2, 1 );
+  ViewsLine_OnSetColor( &_this->linha_fr_2, _Const004D );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_3, _Const006A );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_3, _Const006B );
+  ViewsLine_OnSetWidth( &_this->linha_fr_3, 1 );
+  ViewsLine_OnSetColor( &_this->linha_fr_3, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_4, _Const006C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_4, _Const006D );
+  ViewsLine_OnSetWidth( &_this->linha_fr_4, 1 );
+  ViewsLine_OnSetColor( &_this->linha_fr_4, _Const004A );
+  CoreRectView__OnSetBounds( &_this->JanelaG, _Const006E );
+  CoreOutline_OnSetScrollOffset( &_this->JanelaG, _Const0001 );
+  CoreRectView__OnSetBounds( &_this->grafico, _Const006F );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->grafico, 1 );
+  ChartsGraph_OnSetLineColor( &_this->grafico, _Const0070 );
+  ChartsGraph_OnSetLineWidth( &_this->grafico, 2.000000f );
+  ChartsGraph_OnSetDotWidth( &_this->grafico, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->grafico, _Const0071 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->grafico, _Const0072 );
+  ChartsGraph_OnSetBackColor( &_this->grafico, _Const0073 );
+  ChartsGraph_OnSetHorzGridColor( &_this->grafico, _Const0073 );
+  ChartsGraph_OnSetVertGridColor( &_this->grafico, _Const0074 );
+  ChartsGraph_OnSetGridDistance( &_this->grafico, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->borda, _Const006E );
+  _this->valorMeio = 60.000000f;
+  _this->deltaUnidades = 2;
+  CoreGroup__Add( _this, ((CoreView)&_this->val_fr_0 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_fr_1 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_fr_2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_0 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_1 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_3 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_4 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelFreq ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_freq ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_1 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_3 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_0 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_1 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_3 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_fr_4 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->JanelaG ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->grafico ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->borda ), 0 );
+  ViewsText_OnSetFont( &_this->val_fr_0, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_fr_1, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_fr_2, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_t_0, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_t_1, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_t_2, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_t_3, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_t_4, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->labelFreq, EwLoadResource( &ApplicationNumbers22, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_freq, EwLoadResource( &ApplicationNumbers22, 
+  ResourcesFont ));
+  _this->intervalo.OnTrigger = EwNewSlot( _this, ApplicationFreq_plotar );
+  ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dados );
+  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
+
+  /* Call the user defined constructor */
+  ApplicationFreq_Init( _this, aArg );
+}
+
+/* Re-Initializer for the class 'Application::Freq' */
+void ApplicationFreq__ReInit( ApplicationFreq _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_Super );
+
+  /* ... then re-construct all embedded objects */
+  ChartsCoordList__ReInit( &_this->dados );
+  ChartsCoordList__ReInit( &_this->dadosmirror );
+  ViewsText__ReInit( &_this->val_fr_0 );
+  ViewsText__ReInit( &_this->val_fr_1 );
+  ViewsText__ReInit( &_this->val_fr_2 );
+  ViewsText__ReInit( &_this->val_t_0 );
+  ViewsText__ReInit( &_this->val_t_1 );
+  ViewsText__ReInit( &_this->val_t_2 );
+  ViewsText__ReInit( &_this->val_t_3 );
+  ViewsText__ReInit( &_this->val_t_4 );
+  ViewsText__ReInit( &_this->labelFreq );
+  ViewsText__ReInit( &_this->val_freq );
+  CoreTimer__ReInit( &_this->intervalo );
+  ViewsLine__ReInit( &_this->linha_t_1 );
+  ViewsLine__ReInit( &_this->linha_t_2 );
+  ViewsLine__ReInit( &_this->linha_t_3 );
+  ViewsLine__ReInit( &_this->linha_fr_0 );
+  ViewsLine__ReInit( &_this->linha_fr_1 );
+  ViewsLine__ReInit( &_this->linha_fr_2 );
+  ViewsLine__ReInit( &_this->linha_fr_3 );
+  ViewsLine__ReInit( &_this->linha_fr_4 );
+  CoreOutline__ReInit( &_this->JanelaG );
+  ChartsGraph__ReInit( &_this->grafico );
+  ViewsBorder__ReInit( &_this->borda );
+}
+
+/* Finalizer method for the class 'Application::Freq' */
+void ApplicationFreq__Done( ApplicationFreq _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( ApplicationFreq );
+
+  /* Finalize all embedded objects */
+  ChartsCoordList__Done( &_this->dados );
+  ChartsCoordList__Done( &_this->dadosmirror );
+  ViewsText__Done( &_this->val_fr_0 );
+  ViewsText__Done( &_this->val_fr_1 );
+  ViewsText__Done( &_this->val_fr_2 );
+  ViewsText__Done( &_this->val_t_0 );
+  ViewsText__Done( &_this->val_t_1 );
+  ViewsText__Done( &_this->val_t_2 );
+  ViewsText__Done( &_this->val_t_3 );
+  ViewsText__Done( &_this->val_t_4 );
+  ViewsText__Done( &_this->labelFreq );
+  ViewsText__Done( &_this->val_freq );
+  CoreTimer__Done( &_this->intervalo );
+  ViewsLine__Done( &_this->linha_t_1 );
+  ViewsLine__Done( &_this->linha_t_2 );
+  ViewsLine__Done( &_this->linha_t_3 );
+  ViewsLine__Done( &_this->linha_fr_0 );
+  ViewsLine__Done( &_this->linha_fr_1 );
+  ViewsLine__Done( &_this->linha_fr_2 );
+  ViewsLine__Done( &_this->linha_fr_3 );
+  ViewsLine__Done( &_this->linha_fr_4 );
+  CoreOutline__Done( &_this->JanelaG );
+  ChartsGraph__Done( &_this->grafico );
+  ViewsBorder__Done( &_this->borda );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Application::Freq' */
+void ApplicationFreq__Mark( ApplicationFreq _this )
+{
+  EwMarkObject( &_this->dados );
+  EwMarkObject( &_this->dadosmirror );
+  EwMarkObject( &_this->val_fr_0 );
+  EwMarkObject( &_this->val_fr_1 );
+  EwMarkObject( &_this->val_fr_2 );
+  EwMarkObject( &_this->val_t_0 );
+  EwMarkObject( &_this->val_t_1 );
+  EwMarkObject( &_this->val_t_2 );
+  EwMarkObject( &_this->val_t_3 );
+  EwMarkObject( &_this->val_t_4 );
+  EwMarkObject( &_this->labelFreq );
+  EwMarkObject( &_this->val_freq );
+  EwMarkObject( &_this->intervalo );
+  EwMarkObject( &_this->linha_t_1 );
+  EwMarkObject( &_this->linha_t_2 );
+  EwMarkObject( &_this->linha_t_3 );
+  EwMarkObject( &_this->linha_fr_0 );
+  EwMarkObject( &_this->linha_fr_1 );
+  EwMarkObject( &_this->linha_fr_2 );
+  EwMarkObject( &_this->linha_fr_3 );
+  EwMarkObject( &_this->linha_fr_4 );
+  EwMarkObject( &_this->JanelaG );
+  EwMarkObject( &_this->grafico );
+  EwMarkObject( &_this->borda );
+  EwMarkObject( _this->device );
+
+  /* Give the super class a chance to mark its objects and references */
+  CoreGroup__Mark( &_this->_Super );
+}
+
+/* The method UpdateLayout() is invoked automatically after the size of the component 
+   has been changed. This method can be overridden and filled with logic to perform 
+   a sophisticated arrangement calculation for one or more enclosed views. In this 
+   case the parameter aSize can be used. It contains the current size of the component. 
+   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
+   property. UpdateLayout() gives the derived components a chance to extend this 
+   automatism by a user defined algorithm. */
+void ApplicationFreq_UpdateLayout( ApplicationFreq _this, XPoint aSize )
+{
+  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
+}
+
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationFreq_UpdateViewState( ApplicationFreq _this, XSet aState )
+{
+  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationFreq_Init( ApplicationFreq _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aArg );
+
+  ChartsGraph_OnSetPixelPerUnit( &_this->grafico, EwSetPointY( _this->grafico.PixelPerUnit, 
+  60 / _this->deltaUnidades ));
+  ViewsText_OnSetString( &_this->val_t_1, EwConcatString( EwNewStringInt((XInt32)(( 
+  90.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->val_t_2, EwConcatString( EwNewStringInt((XInt32)(( 
+  180.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->val_t_3, EwConcatString( EwNewStringInt((XInt32)(( 
+  270.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->val_t_4, EwConcatString( EwNewStringInt((XInt32)(( 
+  360.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->grafico.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->val_fr_1, EwConcatString( ApplicationFreq_float2String( 
+  _this, _this->valorMeio ), EwLoadString( &_Const0077 )));
+  ViewsText_OnSetString( &_this->val_fr_0, EwConcatString( ApplicationFreq_float2String( 
+  _this, _this->valorMeio - ( 60.000000f / (XFloat)_this->grafico.PixelPerUnit.Y 
+  )), EwLoadString( &_Const0077 )));
+  ViewsText_OnSetString( &_this->val_fr_2, EwConcatString( ApplicationFreq_float2String( 
+  _this, _this->valorMeio + ( 60.000000f / (XFloat)_this->grafico.PixelPerUnit.Y 
+  )), EwLoadString( &_Const0077 )));
+}
+
+/* 'C' function for method : 'Application::Freq.plotar()' */
+void ApplicationFreq_plotar( ApplicationFreq _this, XObject sender )
+{
+  XFloat v;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  v = ApplicationClasse_getFreq( _this->device );
+  ViewsText_OnSetString( &_this->val_freq, EwConcatString( ApplicationFreq_float2String( 
+  _this, v ), EwLoadString( &_Const0077 )));
+  v = v - _this->valorMeio;
+
+  if ( !_this->troca )
+  {
+    ChartsCoordList_AddCoord( &_this->dados, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->grafico.PixelPerUnit.X 
+    ), -v );
+    ChartsCoordList_AddCoord( &_this->dadosmirror, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->grafico.PixelPerUnit.X ), -v );
+    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+    _this->JanelaG.ScrollOffset.X - _this->grafico.PixelPerUnit.X ));
+    ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dados );
+
+    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
+        ))
+    {
+      ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dadosmirror );
+      ChartsCoordList_ClearList( &_this->dados );
+      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+      0 ));
+      _this->troca = 1;
+    }
+  }
+  else
+  {
+    ChartsCoordList_AddCoord( &_this->dadosmirror, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->grafico.PixelPerUnit.X 
+    ), -v );
+    ChartsCoordList_AddCoord( &_this->dados, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->grafico.PixelPerUnit.X ), -v );
+    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+    _this->JanelaG.ScrollOffset.X - _this->grafico.PixelPerUnit.X ));
+    ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dadosmirror );
+
+    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
+        ))
+    {
+      ChartsGraph_OnSetCoordinates( &_this->grafico, &_this->dados );
+      ChartsCoordList_ClearList( &_this->dadosmirror );
+      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+      0 ));
+      _this->troca = 0;
+    }
+  }
+}
+
+/* 'C' function for method : 'Application::Freq.float2String()' */
+XString ApplicationFreq_float2String( ApplicationFreq _this, XFloat arg1 )
+{
+  XString valor;
+  XString valor2;
+  XInt32 inteiro;
+  XFloat dec;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  valor = 0;
+
+  if ( arg1 < 0.000000f )
+  {
+    valor = EwLoadString( &_Const0046 );
+    inteiro = (XInt32)-arg1;
+    dec = ( arg1 + (XFloat)inteiro ) * -1000.000000f;
+  }
+  else
+  {
+    inteiro = (XInt32)arg1;
+    dec = ( arg1 - (XFloat)inteiro ) * 1000.000000f;
+  }
+
+  valor = EwConcatString( valor, EwNewStringInt( inteiro, 0, 10 ));
+  valor2 = EwNewStringInt((XInt32)dec, 3, 10 );
+  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0047 )), valor2 
+    );
+}
+
+/* Variants derived from the class : 'Application::Freq' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationFreq )
+EW_END_OF_CLASS_VARIANTS( ApplicationFreq )
+
+/* Virtual Method Table (VMT) for the class : 'Application::Freq' */
+EW_DEFINE_CLASS( ApplicationFreq, CoreGroup, "Application::Freq" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  ApplicationFreq_UpdateLayout,
+  ApplicationFreq_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_Restack,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationFreq )
+
 /* Initializer for the class 'Application::Mag' */
 void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
 {
@@ -3313,9 +3166,9 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ViewsText__Init( &_this->val_t_2, &_this->_XObject, 0 );
   ViewsText__Init( &_this->val_t_3, &_this->_XObject, 0 );
   ViewsText__Init( &_this->val_t_fim, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->Tval_vermelho, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->Sval_amarelo, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->Rval_verde, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_T, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_S, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_R, &_this->_XObject, 0 );
   ViewsText__Init( &_this->labelUnidades, &_this->_XObject, 0 );
   ViewsLine__Init( &_this->linha_t_1, &_this->_XObject, 0 );
   ViewsLine__Init( &_this->linha_t_2, &_this->_XObject, 0 );
@@ -3325,11 +3178,11 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ViewsLine__Init( &_this->linha_m_2, &_this->_XObject, 0 );
   ViewsLine__Init( &_this->linha_m_3, &_this->_XObject, 0 );
   ViewsLine__Init( &_this->linha_m_4, &_this->_XObject, 0 );
-  ViewsBorder__Init( &_this->borda, &_this->_XObject, 0 );
   CoreOutline__Init( &_this->JanelaG, &_this->_XObject, 0 );
-  ChartsGraph__Init( &_this->Tgraf_fvermelho, &_this->_XObject, 0 );
-  ChartsGraph__Init( &_this->Sgraf_famarelo, &_this->_XObject, 0 );
-  ChartsGraph__Init( &_this->Rgraf_fverde, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->graf_T, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->graf_S, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->graf_R, &_this->_XObject, 0 );
+  ViewsBorder__Init( &_this->borda, &_this->_XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_VMT = EW_CLASS( ApplicationMag );
@@ -3344,126 +3197,126 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_verde, 480 );
   CoreTimer_OnSetPeriod( &_this->intervalo, 1000 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
-  CoreRectView__OnSetBounds( &_this->val_m_inf, _Const0049 );
+  CoreRectView__OnSetBounds( &_this->val_m_inf, _Const0048 );
   ViewsText_OnSetAlignment( &_this->val_m_inf, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_m_inf, EwLoadString( &_Const0086 ));
-  ViewsText_OnSetColor( &_this->val_m_inf, _Const0012 );
+  ViewsText_OnSetString( &_this->val_m_inf, EwLoadString( &_Const0078 ));
+  ViewsText_OnSetColor( &_this->val_m_inf, _Const0014 );
   CoreRectView__OnSetBounds( &_this->val_m_meio, _Const004B );
   ViewsText_OnSetAlignment( &_this->val_m_meio, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_m_meio, EwLoadString( &_Const0087 ));
-  ViewsText_OnSetColor( &_this->val_m_meio, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->val_m_sup, _Const004D );
+  ViewsText_OnSetString( &_this->val_m_meio, EwLoadString( &_Const0079 ));
+  ViewsText_OnSetColor( &_this->val_m_meio, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->val_m_sup, _Const004E );
   ViewsText_OnSetAlignment( &_this->val_m_sup, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_m_sup, EwLoadString( &_Const0088 ));
-  ViewsText_OnSetColor( &_this->val_m_sup, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const004F );
-  ViewsText_OnSetString( &_this->val_t_ini, EwLoadString( &_Const0050 ));
-  CoreRectView__OnSetBounds( &_this->val_t_1, _Const0051 );
-  ViewsText_OnSetString( &_this->val_t_1, EwLoadString( &_Const0052 ));
-  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0053 );
-  ViewsText_OnSetString( &_this->val_t_2, EwLoadString( &_Const0054 ));
-  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0055 );
-  ViewsText_OnSetString( &_this->val_t_3, EwLoadString( &_Const0056 ));
-  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const0057 );
-  ViewsText_OnSetString( &_this->val_t_fim, EwLoadString( &_Const0058 ));
-  CoreView_OnSetLayout((CoreView)&_this->Tval_vermelho, CoreLayoutAlignToLeft | 
-  CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->Tval_vermelho, _Const0089 );
-  ViewsText_OnSetAlignment( &_this->Tval_vermelho, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Tval_vermelho, EwLoadString( &_Const008A ));
-  ViewsText_OnSetColor( &_this->Tval_vermelho, _Const0030 );
-  CoreView_OnSetLayout((CoreView)&_this->Sval_amarelo, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  ViewsText_OnSetString( &_this->val_m_sup, EwLoadString( &_Const007A ));
+  ViewsText_OnSetColor( &_this->val_m_sup, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const0050 );
+  ViewsText_OnSetString( &_this->val_t_ini, EwLoadString( &_Const0051 ));
+  CoreRectView__OnSetBounds( &_this->val_t_1, _Const0052 );
+  ViewsText_OnSetString( &_this->val_t_1, EwLoadString( &_Const0053 ));
+  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0054 );
+  ViewsText_OnSetString( &_this->val_t_2, EwLoadString( &_Const0055 ));
+  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0056 );
+  ViewsText_OnSetString( &_this->val_t_3, EwLoadString( &_Const0057 ));
+  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const0058 );
+  ViewsText_OnSetString( &_this->val_t_fim, EwLoadString( &_Const0059 ));
+  CoreView_OnSetLayout((CoreView)&_this->val_T, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
   );
-  CoreRectView__OnSetBounds( &_this->Sval_amarelo, _Const008B );
-  ViewsText_OnSetAlignment( &_this->Sval_amarelo, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Sval_amarelo, EwLoadString( &_Const008A ));
-  ViewsText_OnSetColor( &_this->Sval_amarelo, _Const0033 );
-  CoreView_OnSetLayout((CoreView)&_this->Rval_verde, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  CoreRectView__OnSetBounds( &_this->val_T, _Const007B );
+  ViewsText_OnSetAlignment( &_this->val_T, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
   );
-  CoreRectView__OnSetBounds( &_this->Rval_verde, _Const008C );
-  ViewsText_OnSetAlignment( &_this->Rval_verde, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Rval_verde, EwLoadString( &_Const008A ));
-  ViewsText_OnSetColor( &_this->Rval_verde, _Const0036 );
-  CoreRectView__OnSetBounds( &_this->labelUnidades, _Const008D );
+  ViewsText_OnSetString( &_this->val_T, EwLoadString( &_Const007C ));
+  ViewsText_OnSetColor( &_this->val_T, Applicationcor_T );
+  CoreView_OnSetLayout((CoreView)&_this->val_S, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  );
+  CoreRectView__OnSetBounds( &_this->val_S, _Const007D );
+  ViewsText_OnSetAlignment( &_this->val_S, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
+  );
+  ViewsText_OnSetString( &_this->val_S, EwLoadString( &_Const007C ));
+  ViewsText_OnSetColor( &_this->val_S, Applicationcor_S );
+  CoreView_OnSetLayout((CoreView)&_this->val_R, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  );
+  CoreRectView__OnSetBounds( &_this->val_R, _Const007E );
+  ViewsText_OnSetAlignment( &_this->val_R, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
+  );
+  ViewsText_OnSetString( &_this->val_R, EwLoadString( &_Const007C ));
+  ViewsText_OnSetColor( &_this->val_R, Applicationcor_R );
+  CoreRectView__OnSetBounds( &_this->labelUnidades, _Const007F );
   ViewsText_OnSetAutoSize( &_this->labelUnidades, 0 );
   ViewsText_OnSetAlignment( &_this->labelUnidades, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelUnidades, EwLoadString( &_Const008E ));
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const005C );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const005D );
+  ViewsText_OnSetString( &_this->labelUnidades, EwLoadString( &_Const0080 ));
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const005D );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const005E );
   ViewsLine_OnSetWidth( &_this->linha_t_1, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_1, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const005F );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0060 );
+  ViewsLine_OnSetColor( &_this->linha_t_1, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const0060 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0061 );
   ViewsLine_OnSetWidth( &_this->linha_t_2, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_2, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0061 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0062 );
+  ViewsLine_OnSetColor( &_this->linha_t_2, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0062 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0063 );
   ViewsLine_OnSetWidth( &_this->linha_t_3, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_3, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_0, _Const0063 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_0, _Const0064 );
+  ViewsLine_OnSetColor( &_this->linha_t_3, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_0, _Const0064 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_0, _Const0065 );
   ViewsLine_OnSetWidth( &_this->linha_m_0, 1 );
-  ViewsLine_OnSetColor( &_this->linha_m_0, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_1, _Const0065 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_1, _Const0066 );
+  ViewsLine_OnSetColor( &_this->linha_m_0, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_1, _Const0066 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_1, _Const0067 );
   ViewsLine_OnSetWidth( &_this->linha_m_1, 1 );
-  ViewsLine_OnSetColor( &_this->linha_m_1, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_2, _Const0067 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_2, _Const0068 );
+  ViewsLine_OnSetColor( &_this->linha_m_1, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_2, _Const0068 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_2, _Const0069 );
   ViewsLine_OnSetWidth( &_this->linha_m_2, 1 );
-  ViewsLine_OnSetColor( &_this->linha_m_2, _Const0012 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_3, _Const0069 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_3, _Const006A );
+  ViewsLine_OnSetColor( &_this->linha_m_2, _Const0014 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_3, _Const006A );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_3, _Const006B );
   ViewsLine_OnSetWidth( &_this->linha_m_3, 1 );
-  ViewsLine_OnSetColor( &_this->linha_m_3, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_4, _Const006B );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_4, _Const006C );
+  ViewsLine_OnSetColor( &_this->linha_m_3, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_4, _Const006C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_4, _Const006D );
   ViewsLine_OnSetWidth( &_this->linha_m_4, 1 );
-  ViewsLine_OnSetColor( &_this->linha_m_4, _Const005E );
-  CoreRectView__OnSetBounds( &_this->borda, _Const006D );
-  ViewsBorder_OnSetColor( &_this->borda, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->JanelaG, _Const006D );
+  ViewsLine_OnSetColor( &_this->linha_m_4, _Const005F );
+  CoreRectView__OnSetBounds( &_this->JanelaG, _Const006E );
   CoreOutline_OnSetScrollOffset( &_this->JanelaG, _Const0001 );
-  CoreRectView__OnSetBounds( &_this->Tgraf_fvermelho, _Const006E );
-  CoreGroup_OnSetEmbedded((CoreGroup)&_this->Tgraf_fvermelho, 1 );
-  ChartsGraph_OnSetLineColor( &_this->Tgraf_fvermelho, _Const0030 );
-  ChartsGraph_OnSetLineWidth( &_this->Tgraf_fvermelho, 2.000000f );
-  ChartsGraph_OnSetDotWidth( &_this->Tgraf_fvermelho, 0.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->Tgraf_fvermelho, _Const0070 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->Tgraf_fvermelho, _Const008F );
-  ChartsGraph_OnSetBackColor( &_this->Tgraf_fvermelho, _Const0072 );
-  ChartsGraph_OnSetHorzGridColor( &_this->Tgraf_fvermelho, _Const0072 );
-  ChartsGraph_OnSetVertGridColor( &_this->Tgraf_fvermelho, _Const0073 );
-  ChartsGraph_OnSetGridDistance( &_this->Tgraf_fvermelho, _Const0074 );
-  CoreRectView__OnSetBounds( &_this->Sgraf_famarelo, _Const006E );
-  CoreGroup_OnSetEmbedded((CoreGroup)&_this->Sgraf_famarelo, 1 );
-  ChartsGraph_OnSetLineColor( &_this->Sgraf_famarelo, _Const0033 );
-  ChartsGraph_OnSetLineWidth( &_this->Sgraf_famarelo, 2.000000f );
-  ChartsGraph_OnSetDotWidth( &_this->Sgraf_famarelo, 0.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->Sgraf_famarelo, _Const0070 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->Sgraf_famarelo, _Const008F );
-  ChartsGraph_OnSetBackColor( &_this->Sgraf_famarelo, _Const0072 );
-  ChartsGraph_OnSetHorzGridColor( &_this->Sgraf_famarelo, _Const0072 );
-  ChartsGraph_OnSetVertGridColor( &_this->Sgraf_famarelo, _Const0073 );
-  ChartsGraph_OnSetGridDistance( &_this->Sgraf_famarelo, _Const0074 );
-  CoreRectView__OnSetBounds( &_this->Rgraf_fverde, _Const006E );
-  CoreGroup_OnSetEmbedded((CoreGroup)&_this->Rgraf_fverde, 1 );
-  ChartsGraph_OnSetLineColor( &_this->Rgraf_fverde, _Const0036 );
-  ChartsGraph_OnSetLineWidth( &_this->Rgraf_fverde, 2.000000f );
-  ChartsGraph_OnSetDotWidth( &_this->Rgraf_fverde, 0.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->Rgraf_fverde, _Const0070 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->Rgraf_fverde, _Const008F );
-  ChartsGraph_OnSetBackColor( &_this->Rgraf_fverde, _Const0072 );
-  ChartsGraph_OnSetHorzGridColor( &_this->Rgraf_fverde, _Const0072 );
-  ChartsGraph_OnSetVertGridColor( &_this->Rgraf_fverde, _Const0073 );
-  ChartsGraph_OnSetGridDistance( &_this->Rgraf_fverde, _Const0074 );
+  CoreRectView__OnSetBounds( &_this->graf_T, _Const006F );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->graf_T, 1 );
+  ChartsGraph_OnSetLineColor( &_this->graf_T, Applicationcor_T );
+  ChartsGraph_OnSetLineWidth( &_this->graf_T, 2.000000f );
+  ChartsGraph_OnSetDotWidth( &_this->graf_T, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_T, _Const0071 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, _Const0081 );
+  ChartsGraph_OnSetBackColor( &_this->graf_T, _Const0073 );
+  ChartsGraph_OnSetHorzGridColor( &_this->graf_T, _Const0073 );
+  ChartsGraph_OnSetVertGridColor( &_this->graf_T, _Const0074 );
+  ChartsGraph_OnSetGridDistance( &_this->graf_T, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->graf_S, _Const006F );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->graf_S, 1 );
+  ChartsGraph_OnSetLineColor( &_this->graf_S, Applicationcor_S );
+  ChartsGraph_OnSetLineWidth( &_this->graf_S, 2.000000f );
+  ChartsGraph_OnSetDotWidth( &_this->graf_S, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_S, _Const0071 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, _Const0081 );
+  ChartsGraph_OnSetBackColor( &_this->graf_S, _Const0073 );
+  ChartsGraph_OnSetHorzGridColor( &_this->graf_S, _Const0073 );
+  ChartsGraph_OnSetVertGridColor( &_this->graf_S, _Const0074 );
+  ChartsGraph_OnSetGridDistance( &_this->graf_S, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->graf_R, _Const006F );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->graf_R, 1 );
+  ChartsGraph_OnSetLineColor( &_this->graf_R, Applicationcor_R );
+  ChartsGraph_OnSetLineWidth( &_this->graf_R, 2.000000f );
+  ChartsGraph_OnSetDotWidth( &_this->graf_R, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_R, _Const0071 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, _Const0081 );
+  ChartsGraph_OnSetBackColor( &_this->graf_R, _Const0073 );
+  ChartsGraph_OnSetHorzGridColor( &_this->graf_R, _Const0073 );
+  ChartsGraph_OnSetVertGridColor( &_this->graf_R, _Const0074 );
+  ChartsGraph_OnSetGridDistance( &_this->graf_R, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->borda, _Const006E );
+  ViewsBorder_OnSetColor( &_this->borda, _Const0014 );
   _this->valorMeio = 120.000000f;
   _this->deltaUnidades = 10;
   CoreGroup__Add( _this, ((CoreView)&_this->val_m_inf ), 0 );
@@ -3474,9 +3327,9 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   CoreGroup__Add( _this, ((CoreView)&_this->val_t_2 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->val_t_3 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->val_t_fim ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Tval_vermelho ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Sval_amarelo ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Rval_verde ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_T ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_S ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_R ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->labelUnidades ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->linha_t_1 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->linha_t_2 ), 0 );
@@ -3486,11 +3339,11 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   CoreGroup__Add( _this, ((CoreView)&_this->linha_m_2 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->linha_m_3 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->linha_m_4 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->borda ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->JanelaG ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Tgraf_fvermelho ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Sgraf_famarelo ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Rgraf_fverde ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->graf_T ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->graf_S ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->graf_R ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->borda ), 0 );
   _this->intervalo.OnTrigger = EwNewSlot( _this, ApplicationMag_plotar );
   ViewsText_OnSetFont( &_this->val_m_inf, EwLoadResource( &ApplicationNumbers16, 
   ResourcesFont ));
@@ -3508,17 +3361,17 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ));
   ViewsText_OnSetFont( &_this->val_t_fim, EwLoadResource( &ApplicationNumbers16, 
   ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Tval_vermelho, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Sval_amarelo, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Rval_verde, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_T, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_S, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_R, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
   ViewsText_OnSetFont( &_this->labelUnidades, EwLoadResource( &ApplicationNumbers22, 
   ResourcesFont ));
-  ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dados_verde );
-  ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dados_verde );
-  ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dados_verde );
+  ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dados_verde );
+  ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dados_verde );
+  ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dados_verde );
   _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
 
   /* Call the user defined constructor */
@@ -3547,9 +3400,9 @@ void ApplicationMag__ReInit( ApplicationMag _this )
   ViewsText__ReInit( &_this->val_t_2 );
   ViewsText__ReInit( &_this->val_t_3 );
   ViewsText__ReInit( &_this->val_t_fim );
-  ViewsText__ReInit( &_this->Tval_vermelho );
-  ViewsText__ReInit( &_this->Sval_amarelo );
-  ViewsText__ReInit( &_this->Rval_verde );
+  ViewsText__ReInit( &_this->val_T );
+  ViewsText__ReInit( &_this->val_S );
+  ViewsText__ReInit( &_this->val_R );
   ViewsText__ReInit( &_this->labelUnidades );
   ViewsLine__ReInit( &_this->linha_t_1 );
   ViewsLine__ReInit( &_this->linha_t_2 );
@@ -3559,11 +3412,11 @@ void ApplicationMag__ReInit( ApplicationMag _this )
   ViewsLine__ReInit( &_this->linha_m_2 );
   ViewsLine__ReInit( &_this->linha_m_3 );
   ViewsLine__ReInit( &_this->linha_m_4 );
-  ViewsBorder__ReInit( &_this->borda );
   CoreOutline__ReInit( &_this->JanelaG );
-  ChartsGraph__ReInit( &_this->Tgraf_fvermelho );
-  ChartsGraph__ReInit( &_this->Sgraf_famarelo );
-  ChartsGraph__ReInit( &_this->Rgraf_fverde );
+  ChartsGraph__ReInit( &_this->graf_T );
+  ChartsGraph__ReInit( &_this->graf_S );
+  ChartsGraph__ReInit( &_this->graf_R );
+  ViewsBorder__ReInit( &_this->borda );
 }
 
 /* Finalizer method for the class 'Application::Mag' */
@@ -3588,9 +3441,9 @@ void ApplicationMag__Done( ApplicationMag _this )
   ViewsText__Done( &_this->val_t_2 );
   ViewsText__Done( &_this->val_t_3 );
   ViewsText__Done( &_this->val_t_fim );
-  ViewsText__Done( &_this->Tval_vermelho );
-  ViewsText__Done( &_this->Sval_amarelo );
-  ViewsText__Done( &_this->Rval_verde );
+  ViewsText__Done( &_this->val_T );
+  ViewsText__Done( &_this->val_S );
+  ViewsText__Done( &_this->val_R );
   ViewsText__Done( &_this->labelUnidades );
   ViewsLine__Done( &_this->linha_t_1 );
   ViewsLine__Done( &_this->linha_t_2 );
@@ -3600,11 +3453,11 @@ void ApplicationMag__Done( ApplicationMag _this )
   ViewsLine__Done( &_this->linha_m_2 );
   ViewsLine__Done( &_this->linha_m_3 );
   ViewsLine__Done( &_this->linha_m_4 );
-  ViewsBorder__Done( &_this->borda );
   CoreOutline__Done( &_this->JanelaG );
-  ChartsGraph__Done( &_this->Tgraf_fvermelho );
-  ChartsGraph__Done( &_this->Sgraf_famarelo );
-  ChartsGraph__Done( &_this->Rgraf_fverde );
+  ChartsGraph__Done( &_this->graf_T );
+  ChartsGraph__Done( &_this->graf_S );
+  ChartsGraph__Done( &_this->graf_R );
+  ViewsBorder__Done( &_this->borda );
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_Super );
@@ -3628,9 +3481,9 @@ void ApplicationMag__Mark( ApplicationMag _this )
   EwMarkObject( &_this->val_t_2 );
   EwMarkObject( &_this->val_t_3 );
   EwMarkObject( &_this->val_t_fim );
-  EwMarkObject( &_this->Tval_vermelho );
-  EwMarkObject( &_this->Sval_amarelo );
-  EwMarkObject( &_this->Rval_verde );
+  EwMarkObject( &_this->val_T );
+  EwMarkObject( &_this->val_S );
+  EwMarkObject( &_this->val_R );
   EwMarkObject( &_this->labelUnidades );
   EwMarkObject( &_this->linha_t_1 );
   EwMarkObject( &_this->linha_t_2 );
@@ -3640,11 +3493,11 @@ void ApplicationMag__Mark( ApplicationMag _this )
   EwMarkObject( &_this->linha_m_2 );
   EwMarkObject( &_this->linha_m_3 );
   EwMarkObject( &_this->linha_m_4 );
-  EwMarkObject( &_this->borda );
   EwMarkObject( &_this->JanelaG );
-  EwMarkObject( &_this->Tgraf_fvermelho );
-  EwMarkObject( &_this->Sgraf_famarelo );
-  EwMarkObject( &_this->Rgraf_fverde );
+  EwMarkObject( &_this->graf_T );
+  EwMarkObject( &_this->graf_S );
+  EwMarkObject( &_this->graf_R );
+  EwMarkObject( &_this->borda );
   EwMarkObject( _this->device );
 
   /* Give the super class a chance to mark its objects and references */
@@ -3690,32 +3543,32 @@ void ApplicationMag_Init( ApplicationMag _this, XHandle aArg )
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( aArg );
 
-  ChartsGraph_OnSetPixelPerUnit( &_this->Rgraf_fverde, EwSetPointY( _this->Rgraf_fverde.PixelPerUnit, 
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, EwSetPointY( _this->graf_R.PixelPerUnit, 
   60 / _this->deltaUnidades ));
-  ChartsGraph_OnSetPixelPerUnit( &_this->Sgraf_famarelo, EwSetPointY( _this->Sgraf_famarelo.PixelPerUnit, 
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, EwSetPointY( _this->graf_S.PixelPerUnit, 
   60 / _this->deltaUnidades ));
-  ChartsGraph_OnSetPixelPerUnit( &_this->Tgraf_fvermelho, EwSetPointY( _this->Tgraf_fvermelho.PixelPerUnit, 
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, EwSetPointY( _this->graf_T.PixelPerUnit, 
   60 / _this->deltaUnidades ));
   ViewsText_OnSetString( &_this->val_t_1, EwConcatString( EwNewStringInt((XInt32)(( 
-  90.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
+  90.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
   ViewsText_OnSetString( &_this->val_t_2, EwConcatString( EwNewStringInt((XInt32)(( 
-  180.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
+  180.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
   ViewsText_OnSetString( &_this->val_t_3, EwConcatString( EwNewStringInt((XInt32)(( 
-  270.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
+  270.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
   ViewsText_OnSetString( &_this->val_t_fim, EwConcatString( EwNewStringInt((XInt32)(( 
-  360.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
+  360.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
   ViewsText_OnSetString( &_this->val_m_meio, EwConcatString( ApplicationMag_float2String( 
-  _this, _this->valorMeio ), EwLoadString( &_Const0090 )));
+  _this, _this->valorMeio ), EwLoadString( &_Const0082 )));
   ViewsText_OnSetString( &_this->val_m_inf, EwConcatString( ApplicationMag_float2String( 
-  _this, _this->valorMeio - ( 60.000000f / (XFloat)_this->Rgraf_fverde.PixelPerUnit.Y 
-  )), EwLoadString( &_Const0090 )));
+  _this, _this->valorMeio - ( 60.000000f / (XFloat)_this->graf_R.PixelPerUnit.Y 
+  )), EwLoadString( &_Const0082 )));
   ViewsText_OnSetString( &_this->val_m_sup, EwConcatString( ApplicationMag_float2String( 
-  _this, _this->valorMeio + ( 60.000000f / (XFloat)_this->Rgraf_fverde.PixelPerUnit.Y 
-  )), EwLoadString( &_Const0090 )));
+  _this, _this->valorMeio + ( 60.000000f / (XFloat)_this->graf_R.PixelPerUnit.Y 
+  )), EwLoadString( &_Const0082 )));
 }
 
 /* 'C' function for method : 'Application::Mag.plotar()' */
@@ -3731,12 +3584,12 @@ void ApplicationMag_plotar( ApplicationMag _this, XObject sender )
   verde = ApplicationClasse_getMagR( _this->device );
   amarelo = ApplicationClasse_getMagS( _this->device );
   vermelho = ApplicationClasse_getMagT( _this->device );
-  ViewsText_OnSetString( &_this->Rval_verde, ApplicationMag_float2String( _this, 
-  verde ));
-  ViewsText_OnSetString( &_this->Sval_amarelo, ApplicationMag_float2String( _this, 
-  amarelo ));
-  ViewsText_OnSetString( &_this->Tval_vermelho, ApplicationMag_float2String( _this, 
-  vermelho ));
+  ViewsText_OnSetString( &_this->val_R, ApplicationMag_float2String( _this, verde 
+  ));
+  ViewsText_OnSetString( &_this->val_S, ApplicationMag_float2String( _this, amarelo 
+  ));
+  ViewsText_OnSetString( &_this->val_T, ApplicationMag_float2String( _this, vermelho 
+  ));
   verde = verde - _this->valorMeio;
   amarelo = amarelo - _this->valorMeio;
   vermelho = vermelho - _this->valorMeio;
@@ -3744,38 +3597,35 @@ void ApplicationMag_plotar( ApplicationMag _this, XObject sender )
   if ( !_this->troca )
   {
     ChartsCoordList_AddCoord( &_this->dados_verde, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Rgraf_fverde.PixelPerUnit.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_R.PixelPerUnit.X 
     ), -verde );
     ChartsCoordList_AddCoord( &_this->dadosmirror_verde, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Rgraf_fverde.PixelPerUnit.X ), -verde );
+    / _this->graf_R.PixelPerUnit.X ), -verde );
     ChartsCoordList_AddCoord( &_this->dados_amarelo, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Sgraf_famarelo.PixelPerUnit.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_S.PixelPerUnit.X 
     ), -amarelo );
     ChartsCoordList_AddCoord( &_this->dadosmirror_amarelo, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Sgraf_famarelo.PixelPerUnit.X ), -amarelo );
+    / _this->graf_S.PixelPerUnit.X ), -amarelo );
     ChartsCoordList_AddCoord( &_this->dados_vermelho, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Tgraf_fvermelho.PixelPerUnit.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_T.PixelPerUnit.X 
     ), -vermelho );
     ChartsCoordList_AddCoord( &_this->dadosmirror_vermelho, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Tgraf_fvermelho.PixelPerUnit.X ), -vermelho );
+    / _this->graf_T.PixelPerUnit.X ), -vermelho );
     CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-    _this->JanelaG.ScrollOffset.X - _this->Rgraf_fverde.PixelPerUnit.X ));
-    ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dados_verde );
-    ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dados_amarelo 
-    );
-    ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dados_vermelho 
-    );
+    _this->JanelaG.ScrollOffset.X - _this->graf_R.PixelPerUnit.X ));
+    ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dados_verde );
+    ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dados_amarelo );
+    ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dados_vermelho );
 
     if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
         ))
     {
-      ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dadosmirror_verde 
-      );
+      ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dadosmirror_verde );
       ChartsCoordList_ClearList( &_this->dados_verde );
-      ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dadosmirror_amarelo 
+      ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dadosmirror_amarelo 
       );
       ChartsCoordList_ClearList( &_this->dados_amarelo );
-      ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dadosmirror_vermelho 
+      ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dadosmirror_vermelho 
       );
       ChartsCoordList_ClearList( &_this->dados_vermelho );
       CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
@@ -3786,39 +3636,34 @@ void ApplicationMag_plotar( ApplicationMag _this, XObject sender )
   else
   {
     ChartsCoordList_AddCoord( &_this->dadosmirror_verde, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Rgraf_fverde.PixelPerUnit.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_R.PixelPerUnit.X 
     ), -verde );
     ChartsCoordList_AddCoord( &_this->dados_verde, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Rgraf_fverde.PixelPerUnit.X ), -verde );
+    / _this->graf_R.PixelPerUnit.X ), -verde );
     ChartsCoordList_AddCoord( &_this->dadosmirror_amarelo, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Sgraf_famarelo.PixelPerUnit.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_S.PixelPerUnit.X 
     ), -amarelo );
     ChartsCoordList_AddCoord( &_this->dados_amarelo, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Sgraf_famarelo.PixelPerUnit.X ), -amarelo );
+    / _this->graf_S.PixelPerUnit.X ), -amarelo );
     ChartsCoordList_AddCoord( &_this->dadosmirror_vermelho, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Tgraf_fvermelho.PixelPerUnit.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_T.PixelPerUnit.X 
     ), -vermelho );
     ChartsCoordList_AddCoord( &_this->dados_vermelho, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Tgraf_fvermelho.PixelPerUnit.X ), -vermelho );
+    / _this->graf_T.PixelPerUnit.X ), -vermelho );
     CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-    _this->JanelaG.ScrollOffset.X - _this->Rgraf_fverde.PixelPerUnit.X ));
-    ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dadosmirror_verde 
-    );
-    ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dadosmirror_amarelo 
-    );
-    ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dadosmirror_vermelho 
-    );
+    _this->JanelaG.ScrollOffset.X - _this->graf_R.PixelPerUnit.X ));
+    ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dadosmirror_verde );
+    ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dadosmirror_amarelo );
+    ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dadosmirror_vermelho );
 
     if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
         ))
     {
-      ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dados_verde );
+      ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dados_verde );
       ChartsCoordList_ClearList( &_this->dadosmirror_verde );
-      ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dados_amarelo 
-      );
+      ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dados_amarelo );
       ChartsCoordList_ClearList( &_this->dadosmirror_amarelo );
-      ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dados_vermelho 
-      );
+      ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dados_vermelho );
       ChartsCoordList_ClearList( &_this->dadosmirror_vermelho );
       CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
       0 ));
@@ -3842,7 +3687,7 @@ XString ApplicationMag_float2String( ApplicationMag _this, XFloat arg1 )
 
   if ( arg1 < 0.000000f )
   {
-    valor = EwLoadString( &_Const0047 );
+    valor = EwLoadString( &_Const0046 );
     inteiro = (XInt32)-arg1;
     dec = ( arg1 + (XFloat)inteiro ) * -10.000000f;
   }
@@ -3854,7 +3699,7 @@ XString ApplicationMag_float2String( ApplicationMag _this, XFloat arg1 )
 
   valor = EwConcatString( valor, EwNewStringInt( inteiro, 0, 10 ));
   valor2 = EwNewStringInt((XInt32)dec, 1, 10 );
-  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0048 )), valor2 
+  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0047 )), valor2 
     );
 }
 
@@ -3875,6 +3720,7 @@ EW_DEFINE_CLASS( ApplicationMag, CoreGroup, "Application::Mag" )
   CoreGroup_ChangeViewState,
   CoreGroup_OnSetBounds,
   CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
   ApplicationMag_UpdateLayout,
@@ -3883,6 +3729,1429 @@ EW_DEFINE_CLASS( ApplicationMag, CoreGroup, "Application::Mag" )
   CoreGroup_Restack,
   CoreGroup_Add,
 EW_END_OF_CLASS( ApplicationMag )
+
+/* Initializer for the class 'Application::Fase' */
+void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_Super, aLink, aArg );
+
+  /* ... then construct all embedded objects */
+  ChartsCoordList__Init( &_this->dados_vermelho, &_this->_XObject, 0 );
+  ChartsCoordList__Init( &_this->dadosmirror_vermelho, &_this->_XObject, 0 );
+  ChartsCoordList__Init( &_this->dados_amarelo, &_this->_XObject, 0 );
+  ChartsCoordList__Init( &_this->dadosmirror_amarelo, &_this->_XObject, 0 );
+  ChartsCoordList__Init( &_this->dados_verde, &_this->_XObject, 0 );
+  ChartsCoordList__Init( &_this->dadosmirror_verde, &_this->_XObject, 0 );
+  CoreTimer__Init( &_this->intervalo, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelFaseInf, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelFaseMeio, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelFaseSup, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_ini, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_1, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_2, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_3, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_t_fim, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_t_1, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_t_2, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_t_3, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_f_0, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_f_1, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_f_2, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_f_3, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_f_4, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_T, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_S, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_R, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelUni, &_this->_XObject, 0 );
+  CoreOutline__Init( &_this->JanelaG, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->graf_T, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->graf_S, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->graf_R, &_this->_XObject, 0 );
+  ViewsBorder__Init( &_this->borda, &_this->_XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( ApplicationFase );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0007 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_vermelho, 480 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_vermelho, 480 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_amarelo, 480 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_amarelo, 480 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_verde, 480 );
+  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_verde, 480 );
+  CoreTimer_OnSetPeriod( &_this->intervalo, 1000 );
+  CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
+  CoreRectView__OnSetBounds( &_this->labelFaseInf, _Const0048 );
+  ViewsText_OnSetAlignment( &_this->labelFaseInf, ViewsTextAlignmentAlignHorzLeft 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelFaseInf, EwLoadString( &_Const0083 ));
+  ViewsText_OnSetColor( &_this->labelFaseInf, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->labelFaseMeio, _Const004B );
+  ViewsText_OnSetAlignment( &_this->labelFaseMeio, ViewsTextAlignmentAlignHorzLeft 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelFaseMeio, EwLoadString( &_Const0084 ));
+  ViewsText_OnSetColor( &_this->labelFaseMeio, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->labelFaseSup, _Const004E );
+  ViewsText_OnSetAlignment( &_this->labelFaseSup, ViewsTextAlignmentAlignHorzLeft 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelFaseSup, EwLoadString( &_Const0085 ));
+  ViewsText_OnSetColor( &_this->labelFaseSup, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const0050 );
+  ViewsText_OnSetString( &_this->val_t_ini, EwLoadString( &_Const0051 ));
+  CoreRectView__OnSetBounds( &_this->val_t_1, _Const0052 );
+  ViewsText_OnSetString( &_this->val_t_1, EwLoadString( &_Const0053 ));
+  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0054 );
+  ViewsText_OnSetString( &_this->val_t_2, EwLoadString( &_Const0055 ));
+  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0056 );
+  ViewsText_OnSetString( &_this->val_t_3, EwLoadString( &_Const0057 ));
+  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const0058 );
+  ViewsText_OnSetString( &_this->val_t_fim, EwLoadString( &_Const0059 ));
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const005D );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const005E );
+  ViewsLine_OnSetWidth( &_this->linha_t_1, 1 );
+  ViewsLine_OnSetColor( &_this->linha_t_1, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const0060 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0061 );
+  ViewsLine_OnSetWidth( &_this->linha_t_2, 1 );
+  ViewsLine_OnSetColor( &_this->linha_t_2, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0062 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0063 );
+  ViewsLine_OnSetWidth( &_this->linha_t_3, 1 );
+  ViewsLine_OnSetColor( &_this->linha_t_3, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_0, _Const0064 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_0, _Const0065 );
+  ViewsLine_OnSetWidth( &_this->linha_f_0, 1 );
+  ViewsLine_OnSetColor( &_this->linha_f_0, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_1, _Const0066 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_1, _Const0067 );
+  ViewsLine_OnSetWidth( &_this->linha_f_1, 1 );
+  ViewsLine_OnSetColor( &_this->linha_f_1, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_2, _Const0068 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_2, _Const0069 );
+  ViewsLine_OnSetWidth( &_this->linha_f_2, 1 );
+  ViewsLine_OnSetColor( &_this->linha_f_2, _Const0014 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_3, _Const006A );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_3, _Const006B );
+  ViewsLine_OnSetWidth( &_this->linha_f_3, 1 );
+  ViewsLine_OnSetColor( &_this->linha_f_3, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_4, _Const006C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_4, _Const006D );
+  ViewsLine_OnSetWidth( &_this->linha_f_4, 1 );
+  ViewsLine_OnSetColor( &_this->linha_f_4, _Const005F );
+  CoreView_OnSetLayout((CoreView)&_this->val_T, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  );
+  CoreRectView__OnSetBounds( &_this->val_T, _Const0086 );
+  ViewsText_OnSetAlignment( &_this->val_T, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
+  );
+  ViewsText_OnSetString( &_this->val_T, EwLoadString( &_Const007C ));
+  ViewsText_OnSetColor( &_this->val_T, Applicationcor_T );
+  CoreView_OnSetLayout((CoreView)&_this->val_S, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  );
+  CoreRectView__OnSetBounds( &_this->val_S, _Const0087 );
+  ViewsText_OnSetAlignment( &_this->val_S, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
+  );
+  ViewsText_OnSetString( &_this->val_S, EwLoadString( &_Const007C ));
+  ViewsText_OnSetColor( &_this->val_S, Applicationcor_S );
+  CoreView_OnSetLayout((CoreView)&_this->val_R, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
+  );
+  CoreRectView__OnSetBounds( &_this->val_R, _Const0088 );
+  ViewsText_OnSetAlignment( &_this->val_R, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
+  );
+  ViewsText_OnSetString( &_this->val_R, EwLoadString( &_Const007C ));
+  ViewsText_OnSetColor( &_this->val_R, Applicationcor_R );
+  CoreRectView__OnSetBounds( &_this->labelUni, _Const007F );
+  ViewsText_OnSetAutoSize( &_this->labelUni, 0 );
+  ViewsText_OnSetAlignment( &_this->labelUni, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelUni, EwLoadString( &_Const0089 ));
+  CoreRectView__OnSetBounds( &_this->JanelaG, _Const006E );
+  CoreOutline_OnSetScrollOffset( &_this->JanelaG, _Const0001 );
+  CoreRectView__OnSetBounds( &_this->graf_T, _Const006F );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->graf_T, 1 );
+  ChartsGraph_OnSetLineColor( &_this->graf_T, Applicationcor_T );
+  ChartsGraph_OnSetLineWidth( &_this->graf_T, 2.000000f );
+  ChartsGraph_OnSetDotWidth( &_this->graf_T, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_T, _Const0071 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, _Const0081 );
+  ChartsGraph_OnSetBackColor( &_this->graf_T, _Const0073 );
+  ChartsGraph_OnSetHorzGridColor( &_this->graf_T, _Const0073 );
+  ChartsGraph_OnSetVertGridColor( &_this->graf_T, _Const0074 );
+  ChartsGraph_OnSetGridDistance( &_this->graf_T, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->graf_S, _Const006F );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->graf_S, 1 );
+  ChartsGraph_OnSetLineColor( &_this->graf_S, Applicationcor_S );
+  ChartsGraph_OnSetLineWidth( &_this->graf_S, 2.000000f );
+  ChartsGraph_OnSetDotWidth( &_this->graf_S, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_S, _Const0071 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, _Const0081 );
+  ChartsGraph_OnSetBackColor( &_this->graf_S, _Const0073 );
+  ChartsGraph_OnSetHorzGridColor( &_this->graf_S, _Const0073 );
+  ChartsGraph_OnSetVertGridColor( &_this->graf_S, _Const0074 );
+  ChartsGraph_OnSetGridDistance( &_this->graf_S, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->graf_R, _Const006F );
+  CoreGroup_OnSetEmbedded((CoreGroup)&_this->graf_R, 1 );
+  ChartsGraph_OnSetLineColor( &_this->graf_R, Applicationcor_R );
+  ChartsGraph_OnSetLineWidth( &_this->graf_R, 2.000000f );
+  ChartsGraph_OnSetDotWidth( &_this->graf_R, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_R, _Const0071 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, _Const0081 );
+  ChartsGraph_OnSetBackColor( &_this->graf_R, _Const0073 );
+  ChartsGraph_OnSetHorzGridColor( &_this->graf_R, _Const0073 );
+  ChartsGraph_OnSetVertGridColor( &_this->graf_R, _Const0074 );
+  ChartsGraph_OnSetGridDistance( &_this->graf_R, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->borda, _Const006E );
+  ViewsBorder_OnSetColor( &_this->borda, _Const0014 );
+  _this->valorMeio = 180.000000f;
+  _this->deltaUnidades = 120;
+  CoreGroup__Add( _this, ((CoreView)&_this->labelFaseInf ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelFaseMeio ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelFaseSup ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_ini ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_1 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_3 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_t_fim ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_1 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_3 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_0 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_1 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_3 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_4 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_T ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_S ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_R ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelUni ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->JanelaG ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->graf_T ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->graf_S ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->graf_R ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->borda ), 0 );
+  _this->intervalo.OnTrigger = EwNewSlot( _this, ApplicationFase_plotar );
+  ViewsText_OnSetFont( &_this->labelFaseInf, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->labelFaseMeio, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->labelFaseSup, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_t_ini, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_t_1, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_t_2, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_t_3, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_t_fim, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_T, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_S, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->val_R, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
+  ViewsText_OnSetFont( &_this->labelUni, EwLoadResource( &ApplicationNumbers22, 
+  ResourcesFont ));
+  ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dados_verde );
+  ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dados_verde );
+  ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dados_verde );
+  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
+
+  /* Call the user defined constructor */
+  ApplicationFase_Init( _this, aArg );
+}
+
+/* Re-Initializer for the class 'Application::Fase' */
+void ApplicationFase__ReInit( ApplicationFase _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_Super );
+
+  /* ... then re-construct all embedded objects */
+  ChartsCoordList__ReInit( &_this->dados_vermelho );
+  ChartsCoordList__ReInit( &_this->dadosmirror_vermelho );
+  ChartsCoordList__ReInit( &_this->dados_amarelo );
+  ChartsCoordList__ReInit( &_this->dadosmirror_amarelo );
+  ChartsCoordList__ReInit( &_this->dados_verde );
+  ChartsCoordList__ReInit( &_this->dadosmirror_verde );
+  CoreTimer__ReInit( &_this->intervalo );
+  ViewsText__ReInit( &_this->labelFaseInf );
+  ViewsText__ReInit( &_this->labelFaseMeio );
+  ViewsText__ReInit( &_this->labelFaseSup );
+  ViewsText__ReInit( &_this->val_t_ini );
+  ViewsText__ReInit( &_this->val_t_1 );
+  ViewsText__ReInit( &_this->val_t_2 );
+  ViewsText__ReInit( &_this->val_t_3 );
+  ViewsText__ReInit( &_this->val_t_fim );
+  ViewsLine__ReInit( &_this->linha_t_1 );
+  ViewsLine__ReInit( &_this->linha_t_2 );
+  ViewsLine__ReInit( &_this->linha_t_3 );
+  ViewsLine__ReInit( &_this->linha_f_0 );
+  ViewsLine__ReInit( &_this->linha_f_1 );
+  ViewsLine__ReInit( &_this->linha_f_2 );
+  ViewsLine__ReInit( &_this->linha_f_3 );
+  ViewsLine__ReInit( &_this->linha_f_4 );
+  ViewsText__ReInit( &_this->val_T );
+  ViewsText__ReInit( &_this->val_S );
+  ViewsText__ReInit( &_this->val_R );
+  ViewsText__ReInit( &_this->labelUni );
+  CoreOutline__ReInit( &_this->JanelaG );
+  ChartsGraph__ReInit( &_this->graf_T );
+  ChartsGraph__ReInit( &_this->graf_S );
+  ChartsGraph__ReInit( &_this->graf_R );
+  ViewsBorder__ReInit( &_this->borda );
+}
+
+/* Finalizer method for the class 'Application::Fase' */
+void ApplicationFase__Done( ApplicationFase _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( ApplicationFase );
+
+  /* Finalize all embedded objects */
+  ChartsCoordList__Done( &_this->dados_vermelho );
+  ChartsCoordList__Done( &_this->dadosmirror_vermelho );
+  ChartsCoordList__Done( &_this->dados_amarelo );
+  ChartsCoordList__Done( &_this->dadosmirror_amarelo );
+  ChartsCoordList__Done( &_this->dados_verde );
+  ChartsCoordList__Done( &_this->dadosmirror_verde );
+  CoreTimer__Done( &_this->intervalo );
+  ViewsText__Done( &_this->labelFaseInf );
+  ViewsText__Done( &_this->labelFaseMeio );
+  ViewsText__Done( &_this->labelFaseSup );
+  ViewsText__Done( &_this->val_t_ini );
+  ViewsText__Done( &_this->val_t_1 );
+  ViewsText__Done( &_this->val_t_2 );
+  ViewsText__Done( &_this->val_t_3 );
+  ViewsText__Done( &_this->val_t_fim );
+  ViewsLine__Done( &_this->linha_t_1 );
+  ViewsLine__Done( &_this->linha_t_2 );
+  ViewsLine__Done( &_this->linha_t_3 );
+  ViewsLine__Done( &_this->linha_f_0 );
+  ViewsLine__Done( &_this->linha_f_1 );
+  ViewsLine__Done( &_this->linha_f_2 );
+  ViewsLine__Done( &_this->linha_f_3 );
+  ViewsLine__Done( &_this->linha_f_4 );
+  ViewsText__Done( &_this->val_T );
+  ViewsText__Done( &_this->val_S );
+  ViewsText__Done( &_this->val_R );
+  ViewsText__Done( &_this->labelUni );
+  CoreOutline__Done( &_this->JanelaG );
+  ChartsGraph__Done( &_this->graf_T );
+  ChartsGraph__Done( &_this->graf_S );
+  ChartsGraph__Done( &_this->graf_R );
+  ViewsBorder__Done( &_this->borda );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Application::Fase' */
+void ApplicationFase__Mark( ApplicationFase _this )
+{
+  EwMarkObject( &_this->dados_vermelho );
+  EwMarkObject( &_this->dadosmirror_vermelho );
+  EwMarkObject( &_this->dados_amarelo );
+  EwMarkObject( &_this->dadosmirror_amarelo );
+  EwMarkObject( &_this->dados_verde );
+  EwMarkObject( &_this->dadosmirror_verde );
+  EwMarkObject( &_this->intervalo );
+  EwMarkObject( &_this->labelFaseInf );
+  EwMarkObject( &_this->labelFaseMeio );
+  EwMarkObject( &_this->labelFaseSup );
+  EwMarkObject( &_this->val_t_ini );
+  EwMarkObject( &_this->val_t_1 );
+  EwMarkObject( &_this->val_t_2 );
+  EwMarkObject( &_this->val_t_3 );
+  EwMarkObject( &_this->val_t_fim );
+  EwMarkObject( &_this->linha_t_1 );
+  EwMarkObject( &_this->linha_t_2 );
+  EwMarkObject( &_this->linha_t_3 );
+  EwMarkObject( &_this->linha_f_0 );
+  EwMarkObject( &_this->linha_f_1 );
+  EwMarkObject( &_this->linha_f_2 );
+  EwMarkObject( &_this->linha_f_3 );
+  EwMarkObject( &_this->linha_f_4 );
+  EwMarkObject( &_this->val_T );
+  EwMarkObject( &_this->val_S );
+  EwMarkObject( &_this->val_R );
+  EwMarkObject( &_this->labelUni );
+  EwMarkObject( &_this->JanelaG );
+  EwMarkObject( &_this->graf_T );
+  EwMarkObject( &_this->graf_S );
+  EwMarkObject( &_this->graf_R );
+  EwMarkObject( &_this->borda );
+  EwMarkObject( _this->device );
+
+  /* Give the super class a chance to mark its objects and references */
+  CoreGroup__Mark( &_this->_Super );
+}
+
+/* The method UpdateLayout() is invoked automatically after the size of the component 
+   has been changed. This method can be overridden and filled with logic to perform 
+   a sophisticated arrangement calculation for one or more enclosed views. In this 
+   case the parameter aSize can be used. It contains the current size of the component. 
+   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
+   property. UpdateLayout() gives the derived components a chance to extend this 
+   automatism by a user defined algorithm. */
+void ApplicationFase_UpdateLayout( ApplicationFase _this, XPoint aSize )
+{
+  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
+}
+
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationFase_UpdateViewState( ApplicationFase _this, XSet aState )
+{
+  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationFase_Init( ApplicationFase _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aArg );
+
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, EwSetPointY( _this->graf_R.PixelPerUnit, 
+  120 / _this->deltaUnidades ));
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, EwSetPointY( _this->graf_S.PixelPerUnit, 
+  120 / _this->deltaUnidades ));
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, EwSetPointY( _this->graf_T.PixelPerUnit, 
+  120 / _this->deltaUnidades ));
+  ViewsText_OnSetString( &_this->val_t_1, EwConcatString( EwNewStringInt((XInt32)(( 
+  90.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->val_t_2, EwConcatString( EwNewStringInt((XInt32)(( 
+  180.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->val_t_3, EwConcatString( EwNewStringInt((XInt32)(( 
+  270.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->val_t_fim, EwConcatString( EwNewStringInt((XInt32)(( 
+  360.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->graf_R.PixelPerUnit.X 
+  ), 0, 10 ), EwLoadString( &_Const0076 )));
+  ViewsText_OnSetString( &_this->labelFaseMeio, EwConcatString( ApplicationFase_float2String( 
+  _this, _this->valorMeio ), EwLoadString( &_Const008A )));
+  ViewsText_OnSetString( &_this->labelFaseInf, EwConcatString( ApplicationFase_float2String( 
+  _this, _this->valorMeio - ( 120.000000f / (XFloat)_this->graf_R.PixelPerUnit.Y 
+  )), EwLoadString( &_Const008A )));
+  ViewsText_OnSetString( &_this->labelFaseSup, EwConcatString( ApplicationFase_float2String( 
+  _this, _this->valorMeio + ( 120.000000f / (XFloat)_this->graf_R.PixelPerUnit.Y 
+  )), EwLoadString( &_Const008A )));
+}
+
+/* 'C' function for method : 'Application::Fase.plotar()' */
+void ApplicationFase_plotar( ApplicationFase _this, XObject sender )
+{
+  XFloat verde;
+  XFloat amarelo;
+  XFloat vermelho;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  verde = ApplicationClasse_getFaseR( _this->device );
+  amarelo = ApplicationClasse_getFaseS( _this->device );
+  vermelho = ApplicationClasse_getFaseT( _this->device );
+  ViewsText_OnSetString( &_this->val_R, ApplicationFase_float2String( _this, verde 
+  ));
+  ViewsText_OnSetString( &_this->val_S, ApplicationFase_float2String( _this, amarelo 
+  ));
+  ViewsText_OnSetString( &_this->val_T, ApplicationFase_float2String( _this, vermelho 
+  ));
+  verde = ( verde - _this->valorMeio ) / 2.000000f;
+  amarelo = ( amarelo - _this->valorMeio ) / 2.000000f;
+  vermelho = ( vermelho - _this->valorMeio ) / 2.000000f;
+
+  if ( !_this->troca )
+  {
+    ChartsCoordList_AddCoord( &_this->dados_verde, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_R.PixelPerUnit.X 
+    ), -verde );
+    ChartsCoordList_AddCoord( &_this->dadosmirror_verde, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->graf_R.PixelPerUnit.X ), -verde );
+    ChartsCoordList_AddCoord( &_this->dados_amarelo, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_S.PixelPerUnit.X 
+    ), -amarelo );
+    ChartsCoordList_AddCoord( &_this->dadosmirror_amarelo, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->graf_S.PixelPerUnit.X ), -amarelo );
+    ChartsCoordList_AddCoord( &_this->dados_vermelho, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_T.PixelPerUnit.X 
+    ), -vermelho );
+    ChartsCoordList_AddCoord( &_this->dadosmirror_vermelho, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->graf_T.PixelPerUnit.X ), -vermelho );
+    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+    _this->JanelaG.ScrollOffset.X - _this->graf_R.PixelPerUnit.X ));
+    ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dados_verde );
+    ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dados_amarelo );
+    ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dados_vermelho );
+
+    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
+        ))
+    {
+      ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dadosmirror_verde );
+      ChartsCoordList_ClearList( &_this->dados_verde );
+      ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dadosmirror_amarelo 
+      );
+      ChartsCoordList_ClearList( &_this->dados_amarelo );
+      ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dadosmirror_vermelho 
+      );
+      ChartsCoordList_ClearList( &_this->dados_vermelho );
+      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+      0 ));
+      _this->troca = 1;
+    }
+  }
+  else
+  {
+    ChartsCoordList_AddCoord( &_this->dadosmirror_verde, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_R.PixelPerUnit.X 
+    ), -verde );
+    ChartsCoordList_AddCoord( &_this->dados_verde, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->graf_R.PixelPerUnit.X ), -verde );
+    ChartsCoordList_AddCoord( &_this->dadosmirror_amarelo, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_S.PixelPerUnit.X 
+    ), -amarelo );
+    ChartsCoordList_AddCoord( &_this->dados_amarelo, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->graf_S.PixelPerUnit.X ), -amarelo );
+    ChartsCoordList_AddCoord( &_this->dadosmirror_vermelho, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
+    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->graf_T.PixelPerUnit.X 
+    ), -vermelho );
+    ChartsCoordList_AddCoord( &_this->dados_vermelho, (XFloat)( -_this->JanelaG.ScrollOffset.X 
+    / _this->graf_T.PixelPerUnit.X ), -vermelho );
+    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+    _this->JanelaG.ScrollOffset.X - _this->graf_R.PixelPerUnit.X ));
+    ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dadosmirror_verde );
+    ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dadosmirror_amarelo );
+    ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dadosmirror_vermelho );
+
+    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
+        ))
+    {
+      ChartsGraph_OnSetCoordinates( &_this->graf_R, &_this->dados_verde );
+      ChartsCoordList_ClearList( &_this->dadosmirror_verde );
+      ChartsGraph_OnSetCoordinates( &_this->graf_S, &_this->dados_amarelo );
+      ChartsCoordList_ClearList( &_this->dadosmirror_amarelo );
+      ChartsGraph_OnSetCoordinates( &_this->graf_T, &_this->dados_vermelho );
+      ChartsCoordList_ClearList( &_this->dadosmirror_vermelho );
+      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
+      0 ));
+      _this->troca = 0;
+    }
+  }
+}
+
+/* 'C' function for method : 'Application::Fase.float2String()' */
+XString ApplicationFase_float2String( ApplicationFase _this, XFloat arg1 )
+{
+  XString valor;
+  XString valor2;
+  XInt32 inteiro;
+  XFloat dec;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  valor = 0;
+
+  if ( arg1 < 0.000000f )
+  {
+    valor = EwLoadString( &_Const0046 );
+    inteiro = (XInt32)-arg1;
+    dec = ( arg1 + (XFloat)inteiro ) * -10.000000f;
+  }
+  else
+  {
+    inteiro = (XInt32)arg1;
+    dec = ( arg1 - (XFloat)inteiro ) * 10.000000f;
+  }
+
+  valor = EwConcatString( valor, EwNewStringInt( inteiro, 0, 10 ));
+  valor2 = EwNewStringInt((XInt32)dec, 1, 10 );
+  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0047 )), valor2 
+    );
+}
+
+/* Variants derived from the class : 'Application::Fase' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationFase )
+EW_END_OF_CLASS_VARIANTS( ApplicationFase )
+
+/* Virtual Method Table (VMT) for the class : 'Application::Fase' */
+EW_DEFINE_CLASS( ApplicationFase, CoreGroup, "Application::Fase" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  ApplicationFase_UpdateLayout,
+  ApplicationFase_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_Restack,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationFase )
+
+/* Initializer for the class 'Application::FFT' */
+void ApplicationFFT__Init( ApplicationFFT _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_Super, aLink, aArg );
+
+  /* ... then construct all embedded objects */
+  ViewsLine__Init( &_this->linha_h_10, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_h_20, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_h_30, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_h_40, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_m_25, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_m_50, &_this->_XObject, 0 );
+  ViewsLine__Init( &_this->linha_m_75, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_h_10, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_h_20, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_h_30, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_h_40, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_m_25, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_m_50, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->val_m_75, &_this->_XObject, 0 );
+  ChartsGraph__Init( &_this->graf_FFT, &_this->_XObject, 0 );
+  ViewsBorder__Init( &_this->borda, &_this->_XObject, 0 );
+  CoreTimer__Init( &_this->intervalo, &_this->_XObject, 0 );
+  ApplicationModifiedButton__Init( &_this->botao_R, &_this->_XObject, 0 );
+  ApplicationModifiedButton__Init( &_this->botao_S, &_this->_XObject, 0 );
+  ApplicationModifiedButton__Init( &_this->botao_T, &_this->_XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( ApplicationFFT );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0007 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_10, _Const008B );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_10, _Const008C );
+  ViewsLine_OnSetWidth( &_this->linha_h_10, 1 );
+  ViewsLine_OnSetColor( &_this->linha_h_10, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_20, _Const008D );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_20, _Const008E );
+  ViewsLine_OnSetWidth( &_this->linha_h_20, 1 );
+  ViewsLine_OnSetColor( &_this->linha_h_20, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_30, _Const0060 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_30, _Const008F );
+  ViewsLine_OnSetWidth( &_this->linha_h_30, 1 );
+  ViewsLine_OnSetColor( &_this->linha_h_30, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_40, _Const0090 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_40, _Const0091 );
+  ViewsLine_OnSetWidth( &_this->linha_h_40, 1 );
+  ViewsLine_OnSetColor( &_this->linha_h_40, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_25, _Const0092 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_25, _Const0093 );
+  ViewsLine_OnSetWidth( &_this->linha_m_25, 1 );
+  ViewsLine_OnSetColor( &_this->linha_m_25, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_50, _Const0094 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_50, _Const0095 );
+  ViewsLine_OnSetWidth( &_this->linha_m_50, 1 );
+  ViewsLine_OnSetColor( &_this->linha_m_50, _Const005F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_75, _Const0096 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_75, _Const006D );
+  ViewsLine_OnSetWidth( &_this->linha_m_75, 1 );
+  ViewsLine_OnSetColor( &_this->linha_m_75, _Const005F );
+  CoreRectView__OnSetBounds( &_this->val_h_10, _Const0097 );
+  ViewsText_OnSetString( &_this->val_h_10, EwLoadString( &_Const0098 ));
+  CoreRectView__OnSetBounds( &_this->val_h_20, _Const0099 );
+  ViewsText_OnSetString( &_this->val_h_20, EwLoadString( &_Const009A ));
+  CoreRectView__OnSetBounds( &_this->val_h_30, _Const009B );
+  ViewsText_OnSetString( &_this->val_h_30, EwLoadString( &_Const002A ));
+  CoreRectView__OnSetBounds( &_this->val_h_40, _Const009C );
+  ViewsText_OnSetString( &_this->val_h_40, EwLoadString( &_Const009D ));
+  CoreRectView__OnSetBounds( &_this->val_m_25, _Const009E );
+  ViewsText_OnSetAlignment( &_this->val_m_25, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->val_m_25, EwLoadString( &_Const009F ));
+  CoreRectView__OnSetBounds( &_this->val_m_50, _Const00A0 );
+  ViewsText_OnSetAlignment( &_this->val_m_50, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->val_m_50, EwLoadString( &_Const00A1 ));
+  CoreRectView__OnSetBounds( &_this->val_m_75, _Const00A2 );
+  ViewsText_OnSetAlignment( &_this->val_m_75, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->val_m_75, EwLoadString( &_Const00A3 ));
+  CoreRectView__OnSetBounds( &_this->graf_FFT, _Const00A4 );
+  CoreGroup__OnSetOpacity( &_this->graf_FFT, 255 );
+  ChartsGraph_OnSetLineColor( &_this->graf_FFT, Applicationcor_R );
+  ChartsGraph_OnSetDotColor( &_this->graf_FFT, _Const004A );
+  ChartsGraph_OnSetDotWidth( &_this->graf_FFT, 0.000000f );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_FFT, _Const00A5 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_FFT, _Const00A6 );
+  ChartsGraph_OnSetBackColor( &_this->graf_FFT, _Const00A7 );
+  ChartsGraph_OnSetHorzGridColor( &_this->graf_FFT, _Const00A8 );
+  ChartsGraph_OnSetVertGridColor( &_this->graf_FFT, _Const00A8 );
+  CoreRectView__OnSetBounds( &_this->borda, _Const00A4 );
+  ViewsBorder_OnSetColor( &_this->borda, _Const0014 );
+  CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
+  CoreRectView__OnSetBounds( &_this->botao_R, _Const00A9 );
+  ApplicationModifiedButton_OnSetCaption( &_this->botao_R, EwLoadString( &_Const00AA 
+  ));
+  ApplicationModifiedButton_OnSetItemColor( &_this->botao_R, FlatColorOfTouch );
+  ApplicationModifiedButton_OnSetItemColorActive( &_this->botao_R, Applicationcor_R 
+  );
+  CoreRectView__OnSetBounds( &_this->botao_S, _Const00AB );
+  ApplicationModifiedButton_OnSetCaption( &_this->botao_S, EwLoadString( &_Const00AC 
+  ));
+  ApplicationModifiedButton_OnSetItemColor( &_this->botao_S, FlatColorOfDisabled 
+  );
+  ApplicationModifiedButton_OnSetItemColorActive( &_this->botao_S, Applicationcor_S 
+  );
+  CoreRectView__OnSetBounds( &_this->botao_T, _Const00AD );
+  ApplicationModifiedButton_OnSetCaption( &_this->botao_T, EwLoadString( &_Const00AE 
+  ));
+  ApplicationModifiedButton_OnSetItemColor( &_this->botao_T, FlatColorOfDisabled 
+  );
+  ApplicationModifiedButton_OnSetItemColorActive( &_this->botao_T, Applicationcor_T 
+  );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_h_10 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_h_20 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_h_30 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_h_40 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_m_25 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_m_50 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->linha_m_75 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_h_10 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_h_20 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_h_30 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_h_40 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_m_25 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_m_50 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->val_m_75 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->graf_FFT ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->borda ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->botao_R ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->botao_S ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->botao_T ), 0 );
+  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
+  ViewsText_OnSetFont( &_this->val_h_10, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_h_20, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_h_30, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_h_40, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_m_25, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_m_50, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->val_m_75, EwLoadResource( &ApplicationNumbers16, 
+  ResourcesFont ));
+  _this->intervalo.OnTrigger = EwNewSlot( _this, ApplicationFFT_atualizaFFT );
+  _this->botao_R.OnAction = EwNewSlot( _this, ApplicationFFT_acaoBotao );
+  _this->botao_S.OnAction = EwNewSlot( _this, ApplicationFFT_acaoBotao );
+  _this->botao_T.OnAction = EwNewSlot( _this, ApplicationFFT_acaoBotao );
+
+  /* Call the user defined constructor */
+  ApplicationFFT_Init( _this, aArg );
+}
+
+/* Re-Initializer for the class 'Application::FFT' */
+void ApplicationFFT__ReInit( ApplicationFFT _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_Super );
+
+  /* ... then re-construct all embedded objects */
+  ViewsLine__ReInit( &_this->linha_h_10 );
+  ViewsLine__ReInit( &_this->linha_h_20 );
+  ViewsLine__ReInit( &_this->linha_h_30 );
+  ViewsLine__ReInit( &_this->linha_h_40 );
+  ViewsLine__ReInit( &_this->linha_m_25 );
+  ViewsLine__ReInit( &_this->linha_m_50 );
+  ViewsLine__ReInit( &_this->linha_m_75 );
+  ViewsText__ReInit( &_this->val_h_10 );
+  ViewsText__ReInit( &_this->val_h_20 );
+  ViewsText__ReInit( &_this->val_h_30 );
+  ViewsText__ReInit( &_this->val_h_40 );
+  ViewsText__ReInit( &_this->val_m_25 );
+  ViewsText__ReInit( &_this->val_m_50 );
+  ViewsText__ReInit( &_this->val_m_75 );
+  ChartsGraph__ReInit( &_this->graf_FFT );
+  ViewsBorder__ReInit( &_this->borda );
+  CoreTimer__ReInit( &_this->intervalo );
+  ApplicationModifiedButton__ReInit( &_this->botao_R );
+  ApplicationModifiedButton__ReInit( &_this->botao_S );
+  ApplicationModifiedButton__ReInit( &_this->botao_T );
+}
+
+/* Finalizer method for the class 'Application::FFT' */
+void ApplicationFFT__Done( ApplicationFFT _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( ApplicationFFT );
+
+  /* Finalize all embedded objects */
+  ViewsLine__Done( &_this->linha_h_10 );
+  ViewsLine__Done( &_this->linha_h_20 );
+  ViewsLine__Done( &_this->linha_h_30 );
+  ViewsLine__Done( &_this->linha_h_40 );
+  ViewsLine__Done( &_this->linha_m_25 );
+  ViewsLine__Done( &_this->linha_m_50 );
+  ViewsLine__Done( &_this->linha_m_75 );
+  ViewsText__Done( &_this->val_h_10 );
+  ViewsText__Done( &_this->val_h_20 );
+  ViewsText__Done( &_this->val_h_30 );
+  ViewsText__Done( &_this->val_h_40 );
+  ViewsText__Done( &_this->val_m_25 );
+  ViewsText__Done( &_this->val_m_50 );
+  ViewsText__Done( &_this->val_m_75 );
+  ChartsGraph__Done( &_this->graf_FFT );
+  ViewsBorder__Done( &_this->borda );
+  CoreTimer__Done( &_this->intervalo );
+  ApplicationModifiedButton__Done( &_this->botao_R );
+  ApplicationModifiedButton__Done( &_this->botao_S );
+  ApplicationModifiedButton__Done( &_this->botao_T );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Application::FFT' */
+void ApplicationFFT__Mark( ApplicationFFT _this )
+{
+  EwMarkObject( _this->device );
+  EwMarkObject( &_this->linha_h_10 );
+  EwMarkObject( &_this->linha_h_20 );
+  EwMarkObject( &_this->linha_h_30 );
+  EwMarkObject( &_this->linha_h_40 );
+  EwMarkObject( &_this->linha_m_25 );
+  EwMarkObject( &_this->linha_m_50 );
+  EwMarkObject( &_this->linha_m_75 );
+  EwMarkObject( &_this->val_h_10 );
+  EwMarkObject( &_this->val_h_20 );
+  EwMarkObject( &_this->val_h_30 );
+  EwMarkObject( &_this->val_h_40 );
+  EwMarkObject( &_this->val_m_25 );
+  EwMarkObject( &_this->val_m_50 );
+  EwMarkObject( &_this->val_m_75 );
+  EwMarkObject( &_this->graf_FFT );
+  EwMarkObject( &_this->borda );
+  EwMarkObject( &_this->intervalo );
+  EwMarkObject( &_this->botao_R );
+  EwMarkObject( &_this->botao_S );
+  EwMarkObject( &_this->botao_T );
+
+  /* Give the super class a chance to mark its objects and references */
+  CoreGroup__Mark( &_this->_Super );
+}
+
+/* The method UpdateLayout() is invoked automatically after the size of the component 
+   has been changed. This method can be overridden and filled with logic to perform 
+   a sophisticated arrangement calculation for one or more enclosed views. In this 
+   case the parameter aSize can be used. It contains the current size of the component. 
+   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
+   property. UpdateLayout() gives the derived components a chance to extend this 
+   automatism by a user defined algorithm. */
+void ApplicationFFT_UpdateLayout( ApplicationFFT _this, XPoint aSize )
+{
+  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
+}
+
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationFFT_UpdateViewState( ApplicationFFT _this, XSet aState )
+{
+  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationFFT_Init( ApplicationFFT _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+  EW_UNUSED_ARG( aArg );
+}
+
+/* 'C' function for method : 'Application::FFT.atualizaFFT()' */
+void ApplicationFFT_atualizaFFT( ApplicationFFT _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->faseAtual == 0 )
+  {
+    ChartsGraph_OnSetCoordinates( &_this->graf_FFT, ApplicationClasse_getFFT_R( 
+    _this->device ));
+  }
+  else
+    if ( _this->faseAtual == 1 )
+    {
+      ChartsGraph_OnSetCoordinates( &_this->graf_FFT, ApplicationClasse_getFFT_S( 
+      _this->device ));
+    }
+    else
+      if ( _this->faseAtual == 2 )
+      {
+        ChartsGraph_OnSetCoordinates( &_this->graf_FFT, ApplicationClasse_getFFT_T( 
+        _this->device ));
+      }
+}
+
+/* 'C' function for method : 'Application::FFT.acaoBotao()' */
+void ApplicationFFT_acaoBotao( ApplicationFFT _this, XObject sender )
+{
+  if ( sender == ((XObject)&_this->botao_R ))
+  {
+    if ( _this->faseAtual == 0 )
+      return;
+
+    CoreTimer_OnSetEnabled( &_this->intervalo, 0 );
+    _this->faseAtual = 0;
+    ApplicationModifiedButton_OnSetItemColor( &_this->botao_R, FlatColorOfTouch 
+    );
+    ApplicationModifiedButton_OnSetItemColor( &_this->botao_S, FlatColorOfDisabled 
+    );
+    ApplicationModifiedButton_OnSetItemColor( &_this->botao_T, FlatColorOfDisabled 
+    );
+    ChartsGraph_OnSetLineColor( &_this->graf_FFT, Applicationcor_R );
+    ChartsGraph_OnSetCoordinates( &_this->graf_FFT, ApplicationClasse_getFFT_R( 
+    _this->device ));
+  }
+  else
+    if ( sender == ((XObject)&_this->botao_S ))
+    {
+      if ( _this->faseAtual == 1 )
+        return;
+
+      CoreTimer_OnSetEnabled( &_this->intervalo, 0 );
+      _this->faseAtual = 1;
+      ApplicationModifiedButton_OnSetItemColor( &_this->botao_S, FlatColorOfTouch 
+      );
+      ApplicationModifiedButton_OnSetItemColor( &_this->botao_R, FlatColorOfDisabled 
+      );
+      ApplicationModifiedButton_OnSetItemColor( &_this->botao_T, FlatColorOfDisabled 
+      );
+      ChartsGraph_OnSetLineColor( &_this->graf_FFT, Applicationcor_S );
+      ChartsGraph_OnSetCoordinates( &_this->graf_FFT, ApplicationClasse_getFFT_S( 
+      _this->device ));
+    }
+    else
+      if ( sender == ((XObject)&_this->botao_T ))
+      {
+        if ( _this->faseAtual == 2 )
+          return;
+
+        CoreTimer_OnSetEnabled( &_this->intervalo, 0 );
+        _this->faseAtual = 2;
+        ApplicationModifiedButton_OnSetItemColor( &_this->botao_T, FlatColorOfTouch 
+        );
+        ApplicationModifiedButton_OnSetItemColor( &_this->botao_S, FlatColorOfDisabled 
+        );
+        ApplicationModifiedButton_OnSetItemColor( &_this->botao_R, FlatColorOfDisabled 
+        );
+        ChartsGraph_OnSetLineColor( &_this->graf_FFT, Applicationcor_T );
+        ChartsGraph_OnSetCoordinates( &_this->graf_FFT, ApplicationClasse_getFFT_T( 
+        _this->device ));
+      }
+
+  CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
+}
+
+/* Variants derived from the class : 'Application::FFT' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationFFT )
+EW_END_OF_CLASS_VARIANTS( ApplicationFFT )
+
+/* Virtual Method Table (VMT) for the class : 'Application::FFT' */
+EW_DEFINE_CLASS( ApplicationFFT, CoreGroup, "Application::FFT" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  ApplicationFFT_UpdateLayout,
+  ApplicationFFT_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_Restack,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationFFT )
+
+/* Initializer for the class 'Application::VNC' */
+void ApplicationVNC__Init( ApplicationVNC _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_Super, aLink, aArg );
+
+  /* ... then construct all embedded objects */
+  ViewsText__Init( &_this->Message, &_this->_XObject, 0 );
+  CoreSystemEventHandler__Init( &_this->LogMessageHandler, &_this->_XObject, 0 );
+  ApplicationModifiedButton__Init( &_this->BStart, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelMsg, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->labelState, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->Status, &_this->_XObject, 0 );
+  CoreSystemEventHandler__Init( &_this->StatusChangedHandler, &_this->_XObject, 0 );
+  ApplicationModifiedButton__Init( &_this->BStop, &_this->_XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( ApplicationVNC );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0007 );
+  CoreRectView__OnSetBounds( &_this->Message, _Const00AF );
+  ViewsText_OnSetString( &_this->Message, EwLoadString( &_Const00B0 ));
+  ViewsText_OnSetColor( &_this->Message, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->BStart, _Const00B1 );
+  ApplicationModifiedButton_OnSetCaption( &_this->BStart, EwLoadString( &_Const00B2 
+  ));
+  CoreRectView__OnSetBounds( &_this->labelMsg, _Const00B3 );
+  ViewsText_OnSetString( &_this->labelMsg, EwLoadString( &_Const00B4 ));
+  CoreRectView__OnSetBounds( &_this->labelState, _Const00B5 );
+  ViewsText_OnSetString( &_this->labelState, EwLoadString( &_Const00B6 ));
+  CoreRectView__OnSetBounds( &_this->Status, _Const00B7 );
+  ViewsText_OnSetString( &_this->Status, EwLoadString( &_Const00B8 ));
+  ViewsText_OnSetColor( &_this->Status, _Const0014 );
+  CoreRectView__OnSetBounds( &_this->BStop, _Const00B9 );
+  CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 0 );
+  ApplicationModifiedButton_OnSetCaption( &_this->BStop, EwLoadString( &_Const00BA 
+  ));
+  CoreGroup__Add( _this, ((CoreView)&_this->Message ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->BStart ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelMsg ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->labelState ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Status ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->BStop ), 0 );
+  ViewsText_OnSetFont( &_this->Message, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
+  _this->LogMessageHandler.OnEvent = EwNewSlot( _this, ApplicationVNC_LogMessage 
+  );
+  CoreSystemEventHandler_OnSetEvent( &_this->LogMessageHandler, &EwGetAutoObject( 
+  &ApplicationAutoobjeto, ApplicationClasse )->LogMessageEvent );
+  _this->BStart.OnAction = EwNewSlot( _this, ApplicationVNC_startVNC );
+  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
+  ViewsText_OnSetFont( &_this->labelMsg, EwLoadResource( &ResourcesFontVerdana20, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->labelState, EwLoadResource( &ResourcesFontVerdana20, 
+  ResourcesFont ));
+  ViewsText_OnSetFont( &_this->Status, EwLoadResource( &ApplicationNumbers22, ResourcesFont 
+  ));
+  _this->StatusChangedHandler.OnEvent = EwNewSlot( _this, ApplicationVNC_StatusChange 
+  );
+  CoreSystemEventHandler_OnSetEvent( &_this->StatusChangedHandler, &EwGetAutoObject( 
+  &ApplicationAutoobjeto, ApplicationClasse )->StatusChangedEvent );
+  _this->BStop.OnAction = EwNewSlot( _this, ApplicationVNC_stopVNC );
+}
+
+/* Re-Initializer for the class 'Application::VNC' */
+void ApplicationVNC__ReInit( ApplicationVNC _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_Super );
+
+  /* ... then re-construct all embedded objects */
+  ViewsText__ReInit( &_this->Message );
+  CoreSystemEventHandler__ReInit( &_this->LogMessageHandler );
+  ApplicationModifiedButton__ReInit( &_this->BStart );
+  ViewsText__ReInit( &_this->labelMsg );
+  ViewsText__ReInit( &_this->labelState );
+  ViewsText__ReInit( &_this->Status );
+  CoreSystemEventHandler__ReInit( &_this->StatusChangedHandler );
+  ApplicationModifiedButton__ReInit( &_this->BStop );
+}
+
+/* Finalizer method for the class 'Application::VNC' */
+void ApplicationVNC__Done( ApplicationVNC _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( ApplicationVNC );
+
+  /* Finalize all embedded objects */
+  ViewsText__Done( &_this->Message );
+  CoreSystemEventHandler__Done( &_this->LogMessageHandler );
+  ApplicationModifiedButton__Done( &_this->BStart );
+  ViewsText__Done( &_this->labelMsg );
+  ViewsText__Done( &_this->labelState );
+  ViewsText__Done( &_this->Status );
+  CoreSystemEventHandler__Done( &_this->StatusChangedHandler );
+  ApplicationModifiedButton__Done( &_this->BStop );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Application::VNC' */
+void ApplicationVNC__Mark( ApplicationVNC _this )
+{
+  EwMarkObject( &_this->Message );
+  EwMarkObject( &_this->LogMessageHandler );
+  EwMarkObject( &_this->BStart );
+  EwMarkObject( _this->device );
+  EwMarkObject( &_this->labelMsg );
+  EwMarkObject( &_this->labelState );
+  EwMarkObject( &_this->Status );
+  EwMarkObject( &_this->StatusChangedHandler );
+  EwMarkObject( &_this->BStop );
+
+  /* Give the super class a chance to mark its objects and references */
+  CoreGroup__Mark( &_this->_Super );
+}
+
+/* The method UpdateLayout() is invoked automatically after the size of the component 
+   has been changed. This method can be overridden and filled with logic to perform 
+   a sophisticated arrangement calculation for one or more enclosed views. In this 
+   case the parameter aSize can be used. It contains the current size of the component. 
+   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
+   property. UpdateLayout() gives the derived components a chance to extend this 
+   automatism by a user defined algorithm. */
+void ApplicationVNC_UpdateLayout( ApplicationVNC _this, XPoint aSize )
+{
+  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
+}
+
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationVNC_UpdateViewState( ApplicationVNC _this, XSet aState )
+{
+  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
+}
+
+/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
+   receives an event. */
+void ApplicationVNC_LogMessage( ApplicationVNC _this, XObject sender )
+{
+  ApplicationcontextoMsg ctxRecebido;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ctxRecebido = EwCastObject( _this->LogMessageHandler.Context, ApplicationcontextoMsg 
+  );
+  ViewsText_OnSetString( &_this->Message, ctxRecebido->message );
+}
+
+/* 'C' function for method : 'Application::VNC.startVNC()' */
+void ApplicationVNC_startVNC( ApplicationVNC _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ApplicationClasse_startVNC( _this->device );
+}
+
+/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
+   receives an event. */
+void ApplicationVNC_StatusChange( ApplicationVNC _this, XObject sender )
+{
+  ApplicationcontextoStatus ctxRecebido;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ctxRecebido = EwCastObject( _this->StatusChangedHandler.Context, ApplicationcontextoStatus 
+  );
+  ViewsText_OnSetString( &_this->Status, ctxRecebido->Status );
+
+  if (( !EwCompString( _this->Status.String, EwLoadString( &_Const00BB )) || !EwCompString( 
+      _this->Status.String, EwLoadString( &_Const00BC ))) || !EwCompString( _this->Status.String, 
+      EwLoadString( &_Const00BD )))
+  {
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStart, 1 );
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 0 );
+  }
+  else
+  {
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStart, 0 );
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 1 );
+  }
+}
+
+/* 'C' function for method : 'Application::VNC.stopVNC()' */
+void ApplicationVNC_stopVNC( ApplicationVNC _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ApplicationClasse_stopVNC( _this->device );
+}
+
+/* Variants derived from the class : 'Application::VNC' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationVNC )
+EW_END_OF_CLASS_VARIANTS( ApplicationVNC )
+
+/* Virtual Method Table (VMT) for the class : 'Application::VNC' */
+EW_DEFINE_CLASS( ApplicationVNC, CoreGroup, "Application::VNC" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  ApplicationVNC_UpdateLayout,
+  ApplicationVNC_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_Restack,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationVNC )
+
+/* Initializer for the class 'Application::ModifiedButton' */
+void ApplicationModifiedButton__Init( ApplicationModifiedButton _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_Super, aLink, aArg );
+
+  /* ... then construct all embedded objects */
+  CoreSimpleTouchHandler__Init( &_this->TouchHandler, &_this->_XObject, 0 );
+  ViewsFrame__Init( &_this->Frame, &_this->_XObject, 0 );
+  ViewsText__Init( &_this->CaptionText, &_this->_XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( ApplicationModifiedButton );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const00BE );
+  CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
+  CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
+  | CoreLayoutResizeVert );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00BF );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00C0 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00C1 );
+  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0001 );
+  CoreView_OnSetLayout((CoreView)&_this->Frame, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
+  | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert 
+  );
+  CoreRectView__OnSetBounds( &_this->Frame, _Const00BE );
+  ViewsFrame_OnSetColor( &_this->Frame, FlatColorOfTouch );
+  CoreView_OnSetLayout((CoreView)&_this->CaptionText, CoreLayoutAlignToBottom | 
+  CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
+  | CoreLayoutResizeVert );
+  CoreRectView__OnSetBounds( &_this->CaptionText, _Const00BE );
+  ViewsText_OnSetString( &_this->CaptionText, EwLoadString( &_Const00C2 ));
+  ViewsText_OnSetColor( &_this->CaptionText, FlatColorOfBackground );
+  EwRetainString( &_this->Caption, EwLoadString( &_Const00C2 ));
+  _this->ItemColor = FlatColorOfTouch;
+  _this->TextColor = FlatColorOfBackground;
+  _this->ItemColorActive = FlatColorOfTheme;
+  CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Frame ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->CaptionText ), 0 );
+  _this->TouchHandler.OnLeave = EwNewSlot( _this, ApplicationModifiedButton_enterLeaveSlot 
+  );
+  _this->TouchHandler.OnEnter = EwNewSlot( _this, ApplicationModifiedButton_enterLeaveSlot 
+  );
+  _this->TouchHandler.OnRelease = EwNewSlot( _this, ApplicationModifiedButton_pressReleaseSlot 
+  );
+  _this->TouchHandler.OnPress = EwNewSlot( _this, ApplicationModifiedButton_pressReleaseSlot 
+  );
+  ViewsFrame_OnSetBitmap( &_this->Frame, EwLoadResource( &FlatFlatFrame, ResourcesBitmap 
+  ));
+  ViewsText_OnSetFont( &_this->CaptionText, EwLoadResource( &ApplicationNumbers22, 
+  ResourcesFont ));
+}
+
+/* Re-Initializer for the class 'Application::ModifiedButton' */
+void ApplicationModifiedButton__ReInit( ApplicationModifiedButton _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_Super );
+
+  /* ... then re-construct all embedded objects */
+  CoreSimpleTouchHandler__ReInit( &_this->TouchHandler );
+  ViewsFrame__ReInit( &_this->Frame );
+  ViewsText__ReInit( &_this->CaptionText );
+}
+
+/* Finalizer method for the class 'Application::ModifiedButton' */
+void ApplicationModifiedButton__Done( ApplicationModifiedButton _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( ApplicationModifiedButton );
+
+  /* Finalize all embedded objects */
+  CoreSimpleTouchHandler__Done( &_this->TouchHandler );
+  ViewsFrame__Done( &_this->Frame );
+  ViewsText__Done( &_this->CaptionText );
+
+  /* Release all used strings */
+  EwReleaseString( &_this->Caption );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Application::ModifiedButton' */
+void ApplicationModifiedButton__Mark( ApplicationModifiedButton _this )
+{
+  EwMarkSlot( _this->OnAction );
+  EwMarkObject( &_this->TouchHandler );
+  EwMarkObject( &_this->Frame );
+  EwMarkObject( &_this->CaptionText );
+
+  /* Give the super class a chance to mark its objects and references */
+  CoreGroup__Mark( &_this->_Super );
+}
+
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationModifiedButton_UpdateViewState( ApplicationModifiedButton _this, 
+  XSet aState )
+{
+  if ((( aState & CoreViewStateEnabled ) == CoreViewStateEnabled ))
+  {
+    if ( _this->TouchHandler.Down && _this->TouchHandler.Inside )
+      ViewsFrame_OnSetColor( &_this->Frame, _this->ItemColorActive );
+    else
+      ViewsFrame_OnSetColor( &_this->Frame, _this->ItemColor );
+  }
+  else
+    ViewsFrame_OnSetColor( &_this->Frame, FlatColorOfDisabled );
+}
+
+/* This internal slot method is used to receive the corresponding signals form the 
+   touch handler. */
+void ApplicationModifiedButton_enterLeaveSlot( ApplicationModifiedButton _this, 
+  XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  CoreGroup_InvalidateViewState((CoreGroup)_this );
+}
+
+/* This internal slot method is used to receive the corresponding signals form the 
+   touch handler. */
+void ApplicationModifiedButton_pressReleaseSlot( ApplicationModifiedButton _this, 
+  XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( !_this->TouchHandler.Down && _this->TouchHandler.Inside )
+  {
+    EwIdleSignal( _this->OnAction, ((XObject)_this ));
+  }
+}
+
+/* 'C' function for method : 'Application::ModifiedButton.OnSetCaption()' */
+void ApplicationModifiedButton_OnSetCaption( ApplicationModifiedButton _this, XString 
+  value )
+{
+  EwRetainString( &_this->Caption, value );
+  ViewsText_OnSetString( &_this->CaptionText, value );
+}
+
+/* 'C' function for method : 'Application::ModifiedButton.OnSetItemColor()' */
+void ApplicationModifiedButton_OnSetItemColor( ApplicationModifiedButton _this, 
+  XColor value )
+{
+  _this->ItemColor = value;
+  CoreGroup_InvalidateViewState((CoreGroup)_this );
+}
+
+/* 'C' function for method : 'Application::ModifiedButton.OnSetItemColorActive()' */
+void ApplicationModifiedButton_OnSetItemColorActive( ApplicationModifiedButton _this, 
+  XColor value )
+{
+  _this->ItemColorActive = value;
+  CoreGroup_InvalidateViewState((CoreGroup)_this );
+}
+
+/* Variants derived from the class : 'Application::ModifiedButton' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationModifiedButton )
+EW_END_OF_CLASS_VARIANTS( ApplicationModifiedButton )
+
+/* Virtual Method Table (VMT) for the class : 'Application::ModifiedButton' */
+EW_DEFINE_CLASS( ApplicationModifiedButton, CoreGroup, "Application::ModifiedButton" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
+  ApplicationModifiedButton_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_Restack,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationModifiedButton )
 
 /* User defined inline code: 'Application::Inline' */
 #include "vnc_app.h"
@@ -4115,6 +5384,111 @@ XFloat ApplicationClasse_getFaseS( ApplicationClasse _this )
   return faseS;
 }
 
+/* 'C' function for method : 'Application::Classe.getFFT_R()' */
+ChartsCoordList ApplicationClasse_getFFT_R( ApplicationClasse _this )
+{
+  XFloat aFFT[ 50 ];
+  XInt32 j;
+  ChartsCoordList cordFFT;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  cordFFT = EwNewObject( ChartsCoordList, 0 );
+
+  for ( j = 0; j < 50; j = j + 1 )
+    aFFT[ EwCheckIndex( j, 50 )] = 0.000000f;
+
+  {
+    extern float FasesAC_mod_R[50];
+    int i;
+
+    for (i = 0; i < 50; i++) {
+      aFFT[i] = FasesAC_mod_R[i]/127.0;
+    }
+  }
+  ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 50 );
+  ChartsCoordList_ClearList( cordFFT );
+
+  for ( j = 0; j < 50; j = j + 1 )
+  {
+    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j + 1 ), -aFFT[ EwCheckIndex( j, 
+    50 )]);
+  }
+
+  return cordFFT;
+}
+
+/* 'C' function for method : 'Application::Classe.getFFT_S()' */
+ChartsCoordList ApplicationClasse_getFFT_S( ApplicationClasse _this )
+{
+  XFloat aFFT[ 50 ];
+  XInt32 j;
+  ChartsCoordList cordFFT;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  cordFFT = EwNewObject( ChartsCoordList, 0 );
+
+  for ( j = 0; j < 50; j = j + 1 )
+    aFFT[ EwCheckIndex( j, 50 )] = 0.000000f;
+
+  {
+    extern float FasesAC_mod_S[50];
+    int i;
+
+    for (i = 0; i < 50; i++) {
+      aFFT[i] = FasesAC_mod_S[i]/127.0;
+    }
+  }
+  ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 50 );
+  ChartsCoordList_ClearList( cordFFT );
+
+  for ( j = 0; j < 50; j = j + 1 )
+  {
+    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j + 1 ), -aFFT[ EwCheckIndex( j, 
+    50 )]);
+  }
+
+  return cordFFT;
+}
+
+/* 'C' function for method : 'Application::Classe.getFFT_T()' */
+ChartsCoordList ApplicationClasse_getFFT_T( ApplicationClasse _this )
+{
+  XFloat aFFT[ 50 ];
+  XInt32 j;
+  ChartsCoordList cordFFT;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  cordFFT = EwNewObject( ChartsCoordList, 0 );
+
+  for ( j = 0; j < 50; j = j + 1 )
+    aFFT[ EwCheckIndex( j, 50 )] = 0.000000f;
+
+  {
+    extern float FasesAC_mod_T[50];
+    int i;
+
+    for (i = 0; i < 50; i++) {
+      aFFT[i] = FasesAC_mod_T[i]/127.0;
+    }
+  }
+  ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 50 );
+  ChartsCoordList_ClearList( cordFFT );
+
+  for ( j = 0; j < 50; j = j + 1 )
+  {
+    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j + 1 ), -aFFT[ EwCheckIndex( j, 
+    50 )]);
+  }
+
+  return cordFFT;
+}
+
 /* Variants derived from the class : 'Application::Classe' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationClasse )
 EW_END_OF_CLASS_VARIANTS( ApplicationClasse )
@@ -4146,7 +5520,7 @@ void ApplicationcontextoMsg__Init( ApplicationcontextoMsg _this, XObject aLink, 
   _this->_VMT = EW_CLASS( ApplicationcontextoMsg );
 
   /* ... and initialize objects, variables, properties, etc. */
-  EwRetainString( &_this->message, EwLoadString( &_Const0014 ));
+  EwRetainString( &_this->message, EwLoadString( &_Const0016 ));
 }
 
 /* Re-Initializer for the class 'Application::contextoMsg' */
@@ -4204,7 +5578,7 @@ void ApplicationcontextoStatus__Init( ApplicationcontextoStatus _this, XObject a
   _this->_VMT = EW_CLASS( ApplicationcontextoStatus );
 
   /* ... and initialize objects, variables, properties, etc. */
-  EwRetainString( &_this->Status, EwLoadString( &_Const0014 ));
+  EwRetainString( &_this->Status, EwLoadString( &_Const0016 ));
 }
 
 /* Re-Initializer for the class 'Application::contextoStatus' */
@@ -4252,597 +5626,13 @@ EW_END_OF_CLASS_VARIANTS( ApplicationcontextoStatus )
 EW_DEFINE_CLASS( ApplicationcontextoStatus, XObject, "Application::contextoStatus" )
 EW_END_OF_CLASS( ApplicationcontextoStatus )
 
-/* Initializer for the class 'Application::Fase' */
-void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_Super, aLink, aArg );
+/* User defined constant: 'Application::cor_R' */
+const XColor Applicationcor_R = { 0x00, 0xFF, 0x00, 0xFF };
 
-  /* ... then construct all embedded objects */
-  ChartsCoordList__Init( &_this->dados_vermelho, &_this->_XObject, 0 );
-  ChartsCoordList__Init( &_this->dadosmirror_vermelho, &_this->_XObject, 0 );
-  ChartsCoordList__Init( &_this->dados_amarelo, &_this->_XObject, 0 );
-  ChartsCoordList__Init( &_this->dadosmirror_amarelo, &_this->_XObject, 0 );
-  ChartsCoordList__Init( &_this->dados_verde, &_this->_XObject, 0 );
-  ChartsCoordList__Init( &_this->dadosmirror_verde, &_this->_XObject, 0 );
-  CoreTimer__Init( &_this->intervalo, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelFaseInf, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelFaseMeio, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelFaseSup, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_ini, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_1, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_2, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_3, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->val_t_fim, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_t_1, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_t_2, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_t_3, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_f_0, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_f_1, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_f_2, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_f_3, &_this->_XObject, 0 );
-  ViewsLine__Init( &_this->linha_f_4, &_this->_XObject, 0 );
-  ViewsBorder__Init( &_this->borda, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->Tval_vermelho, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->Sval_amarelo, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->Rval_verde, &_this->_XObject, 0 );
-  ViewsText__Init( &_this->labelUni, &_this->_XObject, 0 );
-  CoreOutline__Init( &_this->JanelaG, &_this->_XObject, 0 );
-  ChartsGraph__Init( &_this->Tgraf_fvermelho, &_this->_XObject, 0 );
-  ChartsGraph__Init( &_this->Sgraf_famarelo, &_this->_XObject, 0 );
-  ChartsGraph__Init( &_this->Rgraf_fverde, &_this->_XObject, 0 );
+/* User defined constant: 'Application::cor_S' */
+const XColor Applicationcor_S = { 0xFF, 0xFF, 0x00, 0xFF };
 
-  /* Setup the VMT pointer */
-  _this->_VMT = EW_CLASS( ApplicationFase );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0007 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_vermelho, 480 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_vermelho, 480 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_amarelo, 480 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_amarelo, 480 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_verde, 480 );
-  ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_verde, 480 );
-  CoreTimer_OnSetPeriod( &_this->intervalo, 1000 );
-  CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
-  CoreRectView__OnSetBounds( &_this->labelFaseInf, _Const0049 );
-  ViewsText_OnSetAlignment( &_this->labelFaseInf, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelFaseInf, EwLoadString( &_Const0091 ));
-  ViewsText_OnSetColor( &_this->labelFaseInf, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->labelFaseMeio, _Const004B );
-  ViewsText_OnSetAlignment( &_this->labelFaseMeio, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelFaseMeio, EwLoadString( &_Const0092 ));
-  ViewsText_OnSetColor( &_this->labelFaseMeio, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->labelFaseSup, _Const004D );
-  ViewsText_OnSetAlignment( &_this->labelFaseSup, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelFaseSup, EwLoadString( &_Const0093 ));
-  ViewsText_OnSetColor( &_this->labelFaseSup, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const004F );
-  ViewsText_OnSetString( &_this->val_t_ini, EwLoadString( &_Const0050 ));
-  CoreRectView__OnSetBounds( &_this->val_t_1, _Const0051 );
-  ViewsText_OnSetString( &_this->val_t_1, EwLoadString( &_Const0052 ));
-  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0053 );
-  ViewsText_OnSetString( &_this->val_t_2, EwLoadString( &_Const0054 ));
-  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0055 );
-  ViewsText_OnSetString( &_this->val_t_3, EwLoadString( &_Const0056 ));
-  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const0057 );
-  ViewsText_OnSetString( &_this->val_t_fim, EwLoadString( &_Const0058 ));
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const005C );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const005D );
-  ViewsLine_OnSetWidth( &_this->linha_t_1, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_1, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const005F );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0060 );
-  ViewsLine_OnSetWidth( &_this->linha_t_2, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_2, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0061 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0062 );
-  ViewsLine_OnSetWidth( &_this->linha_t_3, 1 );
-  ViewsLine_OnSetColor( &_this->linha_t_3, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_0, _Const0063 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_0, _Const0064 );
-  ViewsLine_OnSetWidth( &_this->linha_f_0, 1 );
-  ViewsLine_OnSetColor( &_this->linha_f_0, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_1, _Const0065 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_1, _Const0066 );
-  ViewsLine_OnSetWidth( &_this->linha_f_1, 1 );
-  ViewsLine_OnSetColor( &_this->linha_f_1, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_2, _Const0067 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_2, _Const0068 );
-  ViewsLine_OnSetWidth( &_this->linha_f_2, 1 );
-  ViewsLine_OnSetColor( &_this->linha_f_2, _Const0012 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_3, _Const0069 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_3, _Const006A );
-  ViewsLine_OnSetWidth( &_this->linha_f_3, 1 );
-  ViewsLine_OnSetColor( &_this->linha_f_3, _Const005E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_4, _Const006B );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_4, _Const006C );
-  ViewsLine_OnSetWidth( &_this->linha_f_4, 1 );
-  ViewsLine_OnSetColor( &_this->linha_f_4, _Const005E );
-  CoreRectView__OnSetBounds( &_this->borda, _Const006D );
-  ViewsBorder_OnSetColor( &_this->borda, _Const0012 );
-  CoreView_OnSetLayout((CoreView)&_this->Tval_vermelho, CoreLayoutAlignToLeft | 
-  CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->Tval_vermelho, _Const0094 );
-  ViewsText_OnSetAlignment( &_this->Tval_vermelho, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Tval_vermelho, EwLoadString( &_Const008A ));
-  ViewsText_OnSetColor( &_this->Tval_vermelho, _Const0030 );
-  CoreView_OnSetLayout((CoreView)&_this->Sval_amarelo, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
-  );
-  CoreRectView__OnSetBounds( &_this->Sval_amarelo, _Const0095 );
-  ViewsText_OnSetAlignment( &_this->Sval_amarelo, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Sval_amarelo, EwLoadString( &_Const008A ));
-  ViewsText_OnSetColor( &_this->Sval_amarelo, _Const0033 );
-  CoreView_OnSetLayout((CoreView)&_this->Rval_verde, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
-  );
-  CoreRectView__OnSetBounds( &_this->Rval_verde, _Const0096 );
-  ViewsText_OnSetAlignment( &_this->Rval_verde, ViewsTextAlignmentAlignHorzRight 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Rval_verde, EwLoadString( &_Const008A ));
-  ViewsText_OnSetColor( &_this->Rval_verde, _Const0036 );
-  CoreRectView__OnSetBounds( &_this->labelUni, _Const008D );
-  ViewsText_OnSetAutoSize( &_this->labelUni, 0 );
-  ViewsText_OnSetAlignment( &_this->labelUni, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelUni, EwLoadString( &_Const0097 ));
-  CoreRectView__OnSetBounds( &_this->JanelaG, _Const006D );
-  CoreOutline_OnSetScrollOffset( &_this->JanelaG, _Const0001 );
-  CoreRectView__OnSetBounds( &_this->Tgraf_fvermelho, _Const006E );
-  CoreGroup_OnSetEmbedded((CoreGroup)&_this->Tgraf_fvermelho, 1 );
-  ChartsGraph_OnSetLineColor( &_this->Tgraf_fvermelho, _Const0030 );
-  ChartsGraph_OnSetLineWidth( &_this->Tgraf_fvermelho, 2.000000f );
-  ChartsGraph_OnSetDotWidth( &_this->Tgraf_fvermelho, 0.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->Tgraf_fvermelho, _Const0070 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->Tgraf_fvermelho, _Const008F );
-  ChartsGraph_OnSetBackColor( &_this->Tgraf_fvermelho, _Const0072 );
-  ChartsGraph_OnSetHorzGridColor( &_this->Tgraf_fvermelho, _Const0072 );
-  ChartsGraph_OnSetVertGridColor( &_this->Tgraf_fvermelho, _Const0073 );
-  ChartsGraph_OnSetGridDistance( &_this->Tgraf_fvermelho, _Const0074 );
-  CoreRectView__OnSetBounds( &_this->Sgraf_famarelo, _Const006E );
-  CoreGroup_OnSetEmbedded((CoreGroup)&_this->Sgraf_famarelo, 1 );
-  ChartsGraph_OnSetLineColor( &_this->Sgraf_famarelo, _Const0033 );
-  ChartsGraph_OnSetLineWidth( &_this->Sgraf_famarelo, 2.000000f );
-  ChartsGraph_OnSetDotWidth( &_this->Sgraf_famarelo, 0.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->Sgraf_famarelo, _Const0070 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->Sgraf_famarelo, _Const008F );
-  ChartsGraph_OnSetBackColor( &_this->Sgraf_famarelo, _Const0072 );
-  ChartsGraph_OnSetHorzGridColor( &_this->Sgraf_famarelo, _Const0072 );
-  ChartsGraph_OnSetVertGridColor( &_this->Sgraf_famarelo, _Const0073 );
-  ChartsGraph_OnSetGridDistance( &_this->Sgraf_famarelo, _Const0074 );
-  CoreRectView__OnSetBounds( &_this->Rgraf_fverde, _Const006E );
-  CoreGroup_OnSetEmbedded((CoreGroup)&_this->Rgraf_fverde, 1 );
-  ChartsGraph_OnSetLineColor( &_this->Rgraf_fverde, _Const0036 );
-  ChartsGraph_OnSetLineWidth( &_this->Rgraf_fverde, 2.000000f );
-  ChartsGraph_OnSetDotWidth( &_this->Rgraf_fverde, 0.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->Rgraf_fverde, _Const0070 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->Rgraf_fverde, _Const008F );
-  ChartsGraph_OnSetBackColor( &_this->Rgraf_fverde, _Const0072 );
-  ChartsGraph_OnSetHorzGridColor( &_this->Rgraf_fverde, _Const0072 );
-  ChartsGraph_OnSetVertGridColor( &_this->Rgraf_fverde, _Const0073 );
-  ChartsGraph_OnSetGridDistance( &_this->Rgraf_fverde, _Const0074 );
-  _this->valorMeio = 180.000000f;
-  _this->deltaUnidades = 120;
-  CoreGroup__Add( _this, ((CoreView)&_this->labelFaseInf ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelFaseMeio ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelFaseSup ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_ini ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_3 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->val_t_fim ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_t_3 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_0 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_3 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->linha_f_4 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->borda ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Tval_vermelho ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Sval_amarelo ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Rval_verde ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->labelUni ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->JanelaG ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Tgraf_fvermelho ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Sgraf_famarelo ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Rgraf_fverde ), 0 );
-  _this->intervalo.OnTrigger = EwNewSlot( _this, ApplicationFase_plotar );
-  ViewsText_OnSetFont( &_this->labelFaseInf, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->labelFaseMeio, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->labelFaseSup, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->val_t_ini, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->val_t_1, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->val_t_2, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->val_t_3, EwLoadResource( &ApplicationNumbers16, ResourcesFont 
-  ));
-  ViewsText_OnSetFont( &_this->val_t_fim, EwLoadResource( &ApplicationNumbers16, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Tval_vermelho, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Sval_amarelo, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Rval_verde, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->labelUni, EwLoadResource( &ApplicationNumbers22, 
-  ResourcesFont ));
-  ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dados_verde );
-  ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dados_verde );
-  ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dados_verde );
-  _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
-
-  /* Call the user defined constructor */
-  ApplicationFase_Init( _this, aArg );
-}
-
-/* Re-Initializer for the class 'Application::Fase' */
-void ApplicationFase__ReInit( ApplicationFase _this )
-{
-  /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_Super );
-
-  /* ... then re-construct all embedded objects */
-  ChartsCoordList__ReInit( &_this->dados_vermelho );
-  ChartsCoordList__ReInit( &_this->dadosmirror_vermelho );
-  ChartsCoordList__ReInit( &_this->dados_amarelo );
-  ChartsCoordList__ReInit( &_this->dadosmirror_amarelo );
-  ChartsCoordList__ReInit( &_this->dados_verde );
-  ChartsCoordList__ReInit( &_this->dadosmirror_verde );
-  CoreTimer__ReInit( &_this->intervalo );
-  ViewsText__ReInit( &_this->labelFaseInf );
-  ViewsText__ReInit( &_this->labelFaseMeio );
-  ViewsText__ReInit( &_this->labelFaseSup );
-  ViewsText__ReInit( &_this->val_t_ini );
-  ViewsText__ReInit( &_this->val_t_1 );
-  ViewsText__ReInit( &_this->val_t_2 );
-  ViewsText__ReInit( &_this->val_t_3 );
-  ViewsText__ReInit( &_this->val_t_fim );
-  ViewsLine__ReInit( &_this->linha_t_1 );
-  ViewsLine__ReInit( &_this->linha_t_2 );
-  ViewsLine__ReInit( &_this->linha_t_3 );
-  ViewsLine__ReInit( &_this->linha_f_0 );
-  ViewsLine__ReInit( &_this->linha_f_1 );
-  ViewsLine__ReInit( &_this->linha_f_2 );
-  ViewsLine__ReInit( &_this->linha_f_3 );
-  ViewsLine__ReInit( &_this->linha_f_4 );
-  ViewsBorder__ReInit( &_this->borda );
-  ViewsText__ReInit( &_this->Tval_vermelho );
-  ViewsText__ReInit( &_this->Sval_amarelo );
-  ViewsText__ReInit( &_this->Rval_verde );
-  ViewsText__ReInit( &_this->labelUni );
-  CoreOutline__ReInit( &_this->JanelaG );
-  ChartsGraph__ReInit( &_this->Tgraf_fvermelho );
-  ChartsGraph__ReInit( &_this->Sgraf_famarelo );
-  ChartsGraph__ReInit( &_this->Rgraf_fverde );
-}
-
-/* Finalizer method for the class 'Application::Fase' */
-void ApplicationFase__Done( ApplicationFase _this )
-{
-  /* Finalize this class */
-  _this->_VMT = EW_CLASS( ApplicationFase );
-
-  /* Finalize all embedded objects */
-  ChartsCoordList__Done( &_this->dados_vermelho );
-  ChartsCoordList__Done( &_this->dadosmirror_vermelho );
-  ChartsCoordList__Done( &_this->dados_amarelo );
-  ChartsCoordList__Done( &_this->dadosmirror_amarelo );
-  ChartsCoordList__Done( &_this->dados_verde );
-  ChartsCoordList__Done( &_this->dadosmirror_verde );
-  CoreTimer__Done( &_this->intervalo );
-  ViewsText__Done( &_this->labelFaseInf );
-  ViewsText__Done( &_this->labelFaseMeio );
-  ViewsText__Done( &_this->labelFaseSup );
-  ViewsText__Done( &_this->val_t_ini );
-  ViewsText__Done( &_this->val_t_1 );
-  ViewsText__Done( &_this->val_t_2 );
-  ViewsText__Done( &_this->val_t_3 );
-  ViewsText__Done( &_this->val_t_fim );
-  ViewsLine__Done( &_this->linha_t_1 );
-  ViewsLine__Done( &_this->linha_t_2 );
-  ViewsLine__Done( &_this->linha_t_3 );
-  ViewsLine__Done( &_this->linha_f_0 );
-  ViewsLine__Done( &_this->linha_f_1 );
-  ViewsLine__Done( &_this->linha_f_2 );
-  ViewsLine__Done( &_this->linha_f_3 );
-  ViewsLine__Done( &_this->linha_f_4 );
-  ViewsBorder__Done( &_this->borda );
-  ViewsText__Done( &_this->Tval_vermelho );
-  ViewsText__Done( &_this->Sval_amarelo );
-  ViewsText__Done( &_this->Rval_verde );
-  ViewsText__Done( &_this->labelUni );
-  CoreOutline__Done( &_this->JanelaG );
-  ChartsGraph__Done( &_this->Tgraf_fvermelho );
-  ChartsGraph__Done( &_this->Sgraf_famarelo );
-  ChartsGraph__Done( &_this->Rgraf_fverde );
-
-  /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_Super );
-}
-
-/* Garbage Collector method for the class 'Application::Fase' */
-void ApplicationFase__Mark( ApplicationFase _this )
-{
-  EwMarkObject( &_this->dados_vermelho );
-  EwMarkObject( &_this->dadosmirror_vermelho );
-  EwMarkObject( &_this->dados_amarelo );
-  EwMarkObject( &_this->dadosmirror_amarelo );
-  EwMarkObject( &_this->dados_verde );
-  EwMarkObject( &_this->dadosmirror_verde );
-  EwMarkObject( &_this->intervalo );
-  EwMarkObject( &_this->labelFaseInf );
-  EwMarkObject( &_this->labelFaseMeio );
-  EwMarkObject( &_this->labelFaseSup );
-  EwMarkObject( &_this->val_t_ini );
-  EwMarkObject( &_this->val_t_1 );
-  EwMarkObject( &_this->val_t_2 );
-  EwMarkObject( &_this->val_t_3 );
-  EwMarkObject( &_this->val_t_fim );
-  EwMarkObject( &_this->linha_t_1 );
-  EwMarkObject( &_this->linha_t_2 );
-  EwMarkObject( &_this->linha_t_3 );
-  EwMarkObject( &_this->linha_f_0 );
-  EwMarkObject( &_this->linha_f_1 );
-  EwMarkObject( &_this->linha_f_2 );
-  EwMarkObject( &_this->linha_f_3 );
-  EwMarkObject( &_this->linha_f_4 );
-  EwMarkObject( &_this->borda );
-  EwMarkObject( &_this->Tval_vermelho );
-  EwMarkObject( &_this->Sval_amarelo );
-  EwMarkObject( &_this->Rval_verde );
-  EwMarkObject( &_this->labelUni );
-  EwMarkObject( &_this->JanelaG );
-  EwMarkObject( &_this->Tgraf_fvermelho );
-  EwMarkObject( &_this->Sgraf_famarelo );
-  EwMarkObject( &_this->Rgraf_fverde );
-  EwMarkObject( _this->device );
-
-  /* Give the super class a chance to mark its objects and references */
-  CoreGroup__Mark( &_this->_Super );
-}
-
-/* The method UpdateLayout() is invoked automatically after the size of the component 
-   has been changed. This method can be overridden and filled with logic to perform 
-   a sophisticated arrangement calculation for one or more enclosed views. In this 
-   case the parameter aSize can be used. It contains the current size of the component. 
-   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
-   property. UpdateLayout() gives the derived components a chance to extend this 
-   automatism by a user defined algorithm. */
-void ApplicationFase_UpdateLayout( ApplicationFase _this, XPoint aSize )
-{
-  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
-}
-
-/* The method UpdateViewState() is invoked automatically after the state of the 
-   component has been changed. This method can be overridden and filled with logic 
-   to ensure the visual aspect of the component does reflect its current state. 
-   For example, the 'enabled' state of the component can affect its colors (disabled 
-   components may appear pale). In this case the logic of the method should modify 
-   the respective color properties accordingly to the current 'enabled' state. 
-   The current state of the component is passed as a set in the parameter aState. 
-   It reflects the very basic component state like its visibility or the ability 
-   to react to user inputs. Beside this common state, the method can also involve 
-   any other variables used in the component as long as they reflect its current 
-   state. For example, the toggle switch component can take in account its toggle 
-   state 'on' or 'off' and change accordingly the location of the slider, etc.
-   Usually, this method will be invoked automatically by the framework. Optionally 
-   you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationFase_UpdateViewState( ApplicationFase _this, XSet aState )
-{
-  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
-}
-
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationFase_Init( ApplicationFase _this, XHandle aArg )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( aArg );
-
-  ChartsGraph_OnSetPixelPerUnit( &_this->Rgraf_fverde, EwSetPointY( _this->Rgraf_fverde.PixelPerUnit, 
-  120 / _this->deltaUnidades ));
-  ChartsGraph_OnSetPixelPerUnit( &_this->Sgraf_famarelo, EwSetPointY( _this->Sgraf_famarelo.PixelPerUnit, 
-  120 / _this->deltaUnidades ));
-  ChartsGraph_OnSetPixelPerUnit( &_this->Tgraf_fvermelho, EwSetPointY( _this->Tgraf_fvermelho.PixelPerUnit, 
-  120 / _this->deltaUnidades ));
-  ViewsText_OnSetString( &_this->val_t_1, EwConcatString( EwNewStringInt((XInt32)(( 
-  90.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->val_t_2, EwConcatString( EwNewStringInt((XInt32)(( 
-  180.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->val_t_3, EwConcatString( EwNewStringInt((XInt32)(( 
-  270.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->val_t_fim, EwConcatString( EwNewStringInt((XInt32)(( 
-  360.000000f * ((XFloat)_this->intervalo.Period / 1000.000000f )) / (XFloat)_this->Rgraf_fverde.PixelPerUnit.X 
-  ), 0, 10 ), EwLoadString( &_Const0075 )));
-  ViewsText_OnSetString( &_this->labelFaseMeio, EwConcatString( ApplicationFase_float2String( 
-  _this, _this->valorMeio ), EwLoadString( &_Const0098 )));
-  ViewsText_OnSetString( &_this->labelFaseInf, EwConcatString( ApplicationFase_float2String( 
-  _this, _this->valorMeio - ( 120.000000f / (XFloat)_this->Rgraf_fverde.PixelPerUnit.Y 
-  )), EwLoadString( &_Const0098 )));
-  ViewsText_OnSetString( &_this->labelFaseSup, EwConcatString( ApplicationFase_float2String( 
-  _this, _this->valorMeio + ( 120.000000f / (XFloat)_this->Rgraf_fverde.PixelPerUnit.Y 
-  )), EwLoadString( &_Const0098 )));
-}
-
-/* 'C' function for method : 'Application::Fase.plotar()' */
-void ApplicationFase_plotar( ApplicationFase _this, XObject sender )
-{
-  XFloat verde;
-  XFloat amarelo;
-  XFloat vermelho;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  verde = ApplicationClasse_getFaseR( _this->device );
-  amarelo = ApplicationClasse_getFaseS( _this->device );
-  vermelho = ApplicationClasse_getFaseT( _this->device );
-  ViewsText_OnSetString( &_this->Rval_verde, ApplicationFase_float2String( _this, 
-  verde ));
-  ViewsText_OnSetString( &_this->Sval_amarelo, ApplicationFase_float2String( _this, 
-  amarelo ));
-  ViewsText_OnSetString( &_this->Tval_vermelho, ApplicationFase_float2String( _this, 
-  vermelho ));
-  verde = ( verde - _this->valorMeio ) / 2.000000f;
-  amarelo = ( amarelo - _this->valorMeio ) / 2.000000f;
-  vermelho = ( vermelho - _this->valorMeio ) / 2.000000f;
-
-  if ( !_this->troca )
-  {
-    ChartsCoordList_AddCoord( &_this->dados_verde, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Rgraf_fverde.PixelPerUnit.X 
-    ), -verde );
-    ChartsCoordList_AddCoord( &_this->dadosmirror_verde, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Rgraf_fverde.PixelPerUnit.X ), -verde );
-    ChartsCoordList_AddCoord( &_this->dados_amarelo, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Sgraf_famarelo.PixelPerUnit.X 
-    ), -amarelo );
-    ChartsCoordList_AddCoord( &_this->dadosmirror_amarelo, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Sgraf_famarelo.PixelPerUnit.X ), -amarelo );
-    ChartsCoordList_AddCoord( &_this->dados_vermelho, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Tgraf_fvermelho.PixelPerUnit.X 
-    ), -vermelho );
-    ChartsCoordList_AddCoord( &_this->dadosmirror_vermelho, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Tgraf_fvermelho.PixelPerUnit.X ), -vermelho );
-    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-    _this->JanelaG.ScrollOffset.X - _this->Rgraf_fverde.PixelPerUnit.X ));
-    ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dados_verde );
-    ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dados_amarelo 
-    );
-    ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dados_vermelho 
-    );
-
-    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
-        ))
-    {
-      ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dadosmirror_verde 
-      );
-      ChartsCoordList_ClearList( &_this->dados_verde );
-      ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dadosmirror_amarelo 
-      );
-      ChartsCoordList_ClearList( &_this->dados_amarelo );
-      ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dadosmirror_vermelho 
-      );
-      ChartsCoordList_ClearList( &_this->dados_vermelho );
-      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-      0 ));
-      _this->troca = 1;
-    }
-  }
-  else
-  {
-    ChartsCoordList_AddCoord( &_this->dadosmirror_verde, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Rgraf_fverde.PixelPerUnit.X 
-    ), -verde );
-    ChartsCoordList_AddCoord( &_this->dados_verde, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Rgraf_fverde.PixelPerUnit.X ), -verde );
-    ChartsCoordList_AddCoord( &_this->dadosmirror_amarelo, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Sgraf_famarelo.PixelPerUnit.X 
-    ), -amarelo );
-    ChartsCoordList_AddCoord( &_this->dados_amarelo, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Sgraf_famarelo.PixelPerUnit.X ), -amarelo );
-    ChartsCoordList_AddCoord( &_this->dadosmirror_vermelho, (XFloat)(( -_this->JanelaG.ScrollOffset.X 
-    + EwGetRectW( _this->JanelaG.Super1.Bounds )) / _this->Tgraf_fvermelho.PixelPerUnit.X 
-    ), -vermelho );
-    ChartsCoordList_AddCoord( &_this->dados_vermelho, (XFloat)( -_this->JanelaG.ScrollOffset.X 
-    / _this->Tgraf_fvermelho.PixelPerUnit.X ), -vermelho );
-    CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-    _this->JanelaG.ScrollOffset.X - _this->Rgraf_fverde.PixelPerUnit.X ));
-    ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dadosmirror_verde 
-    );
-    ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dadosmirror_amarelo 
-    );
-    ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dadosmirror_vermelho 
-    );
-
-    if (( 0 - _this->JanelaG.ScrollOffset.X ) == EwGetRectW( _this->JanelaG.Super1.Bounds 
-        ))
-    {
-      ChartsGraph_OnSetCoordinates( &_this->Rgraf_fverde, &_this->dados_verde );
-      ChartsCoordList_ClearList( &_this->dadosmirror_verde );
-      ChartsGraph_OnSetCoordinates( &_this->Sgraf_famarelo, &_this->dados_amarelo 
-      );
-      ChartsCoordList_ClearList( &_this->dadosmirror_amarelo );
-      ChartsGraph_OnSetCoordinates( &_this->Tgraf_fvermelho, &_this->dados_vermelho 
-      );
-      ChartsCoordList_ClearList( &_this->dadosmirror_vermelho );
-      CoreOutline_OnSetScrollOffset( &_this->JanelaG, EwSetPointX( _this->JanelaG.ScrollOffset, 
-      0 ));
-      _this->troca = 0;
-    }
-  }
-}
-
-/* 'C' function for method : 'Application::Fase.float2String()' */
-XString ApplicationFase_float2String( ApplicationFase _this, XFloat arg1 )
-{
-  XString valor;
-  XString valor2;
-  XInt32 inteiro;
-  XFloat dec;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-
-  valor = 0;
-
-  if ( arg1 < 0.000000f )
-  {
-    valor = EwLoadString( &_Const0047 );
-    inteiro = (XInt32)-arg1;
-    dec = ( arg1 + (XFloat)inteiro ) * -10.000000f;
-  }
-  else
-  {
-    inteiro = (XInt32)arg1;
-    dec = ( arg1 - (XFloat)inteiro ) * 10.000000f;
-  }
-
-  valor = EwConcatString( valor, EwNewStringInt( inteiro, 0, 10 ));
-  valor2 = EwNewStringInt((XInt32)dec, 1, 10 );
-  return EwConcatString( EwConcatString( valor, EwLoadString( &_Const0048 )), valor2 
-    );
-}
-
-/* Variants derived from the class : 'Application::Fase' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationFase )
-EW_END_OF_CLASS_VARIANTS( ApplicationFase )
-
-/* Virtual Method Table (VMT) for the class : 'Application::Fase' */
-EW_DEFINE_CLASS( ApplicationFase, CoreGroup, "Application::Fase" )
-  CoreRectView_initLayoutContext,
-  CoreView_GetRoot,
-  CoreGroup_Draw,
-  CoreView_HandleEvent,
-  CoreGroup_CursorHitTest,
-  CoreRectView_ArrangeView,
-  CoreRectView_MoveView,
-  CoreRectView_GetExtent,
-  CoreGroup_ChangeViewState,
-  CoreGroup_OnSetBounds,
-  CoreGroup_OnSetFocus,
-  CoreGroup_DispatchEvent,
-  CoreGroup_BroadcastEvent,
-  ApplicationFase_UpdateLayout,
-  ApplicationFase_UpdateViewState,
-  CoreGroup_InvalidateArea,
-  CoreGroup_Restack,
-  CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationFase )
+/* User defined constant: 'Application::cor_T' */
+const XColor Applicationcor_T = { 0xFF, 0x00, 0x00, 0xFF };
 
 /* Embedded Wizard */

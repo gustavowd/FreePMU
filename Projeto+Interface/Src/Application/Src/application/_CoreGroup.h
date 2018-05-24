@@ -176,6 +176,7 @@ EW_DEFINE_METHODS( CoreGroup, CoreRectView )
   EW_METHOD( ChangeViewState,   void )( CoreGroup _this, XSet aSetState, XSet aClearState )
   EW_METHOD( OnSetBounds,       void )( CoreGroup _this, XRect value )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
+  EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -288,6 +289,12 @@ void CoreGroup__OnSetFocus( void* _this, CoreView value );
 
 /* 'C' function for method : 'Core::Group.OnSetEnabled()' */
 void CoreGroup_OnSetEnabled( CoreGroup _this, XBool value );
+
+/* 'C' function for method : 'Core::Group.OnSetOpacity()' */
+void CoreGroup_OnSetOpacity( CoreGroup _this, XInt32 value );
+
+/* Wrapper function for the virtual method : 'Core::Group.OnSetOpacity()' */
+void CoreGroup__OnSetOpacity( void* _this, XInt32 value );
 
 /* 'C' function for method : 'Core::Group.OnSetEmbedded()' */
 void CoreGroup_OnSetEmbedded( CoreGroup _this, XBool value );

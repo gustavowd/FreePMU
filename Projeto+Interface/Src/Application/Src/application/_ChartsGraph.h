@@ -126,6 +126,7 @@ EW_DEFINE_METHODS( ChartsGraph, CoreGroup )
   EW_METHOD( ChangeViewState,   void )( CoreGroup _this, XSet aSetState, XSet aClearState )
   EW_METHOD( OnSetBounds,       void )( CoreGroup _this, XRect value )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
+  EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -174,6 +175,9 @@ void ChartsGraph_OnSetLineColor( ChartsGraph _this, XColor value );
 
 /* 'C' function for method : 'Charts::Graph.OnSetLineWidth()' */
 void ChartsGraph_OnSetLineWidth( ChartsGraph _this, XFloat value );
+
+/* 'C' function for method : 'Charts::Graph.OnSetDotColor()' */
+void ChartsGraph_OnSetDotColor( ChartsGraph _this, XColor value );
 
 /* 'C' function for method : 'Charts::Graph.OnSetDotWidth()' */
 void ChartsGraph_OnSetDotWidth( ChartsGraph _this, XFloat value );

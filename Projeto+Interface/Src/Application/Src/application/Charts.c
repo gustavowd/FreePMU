@@ -340,6 +340,16 @@ void ChartsGraph_OnSetLineWidth( ChartsGraph _this, XFloat value )
   CoreGroup__InvalidateArea( _this, EwGetRectORect( _this->Super2.Bounds ));
 }
 
+/* 'C' function for method : 'Charts::Graph.OnSetDotColor()' */
+void ChartsGraph_OnSetDotColor( ChartsGraph _this, XColor value )
+{
+  if ( !EwCompColor( value, _this->DotColor ))
+    return;
+
+  _this->DotColor = value;
+  CoreGroup__InvalidateArea( _this, EwGetRectORect( _this->Super2.Bounds ));
+}
+
 /* 'C' function for method : 'Charts::Graph.OnSetDotWidth()' */
 void ChartsGraph_OnSetDotWidth( ChartsGraph _this, XFloat value )
 {
@@ -442,6 +452,7 @@ EW_DEFINE_CLASS( ChartsGraph, CoreGroup, "Charts::Graph" )
   CoreGroup_ChangeViewState,
   CoreGroup_OnSetBounds,
   CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
   CoreGroup_UpdateLayout,

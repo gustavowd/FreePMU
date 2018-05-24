@@ -2526,6 +2526,31 @@ void CoreGroup_OnSetEnabled( CoreGroup _this, XBool value )
     CoreView__ChangeViewState( _this, 0, CoreViewStateEnabled );
 }
 
+/* 'C' function for method : 'Core::Group.OnSetOpacity()' */
+void CoreGroup_OnSetOpacity( CoreGroup _this, XInt32 value )
+{
+  if ( value > 255 )
+    value = 255;
+
+  if ( value < 0 )
+    value = 0;
+
+  if ( value == _this->Opacity )
+    return;
+
+  _this->Opacity = value;
+
+  if (( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+}
+
+/* Wrapper function for the virtual method : 'Core::Group.OnSetOpacity()' */
+void CoreGroup__OnSetOpacity( void* _this, XInt32 value )
+{
+  ((CoreGroup)_this)->_VMT->OnSetOpacity((CoreGroup)_this, value );
+}
+
 /* 'C' function for method : 'Core::Group.OnSetEmbedded()' */
 void CoreGroup_OnSetEmbedded( CoreGroup _this, XBool value )
 {
@@ -3048,6 +3073,7 @@ EW_DEFINE_CLASS( CoreGroup, CoreRectView, "Core::Group" )
   CoreGroup_ChangeViewState,
   CoreGroup_OnSetBounds,
   CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
   CoreGroup_UpdateLayout,
@@ -3200,6 +3226,19 @@ void CoreRoot_OnSetFocus( CoreRoot _this, CoreView value )
 {
   if (( value != (CoreView)_this->VirtualKeyboard ) || ( value == 0 ))
     CoreGroup_OnSetFocus((CoreGroup)_this, value );
+}
+
+/* 'C' function for method : 'Core::Root.OnSetOpacity()' */
+void CoreRoot_OnSetOpacity( CoreRoot _this, XInt32 value )
+{
+  XInt32 oldValue = _this->Super1.Opacity;
+
+  CoreGroup_OnSetOpacity((CoreGroup)_this, value );
+
+  if ((( oldValue != _this->Super1.Opacity ) && ( _this->Super3.Owner == 0 )) && 
+      (( _this->Super3.viewState & CoreViewStateVisible ) == CoreViewStateVisible 
+      ))
+    CoreGroup__InvalidateArea( _this, EwGetRectORect( _this->Super2.Bounds ));
 }
 
 /* The method DispatchEvent() feeds the component with the event passed in the parameter 
@@ -4511,6 +4550,7 @@ EW_DEFINE_CLASS( CoreRoot, CoreGroup, "Core::Root" )
   CoreRoot_ChangeViewState,
   CoreGroup_OnSetBounds,
   CoreRoot_OnSetFocus,
+  CoreRoot_OnSetOpacity,
   CoreRoot_DispatchEvent,
   CoreRoot_BroadcastEvent,
   CoreGroup_UpdateLayout,

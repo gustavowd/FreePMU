@@ -5,6 +5,5 @@ module Resources                file "Resources.c";
 module Views                    file "Views.c";
 module Application              file "Application.c";
 module Charts                   file "Charts.c";
-module Flat                     file "Flat.c";
 module Templates                file "Templates.c";
-module Steel                    file "Steel.c";
+module Flat                     file "Flat.c";

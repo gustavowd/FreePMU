@@ -8,6 +8,5 @@ EMWIFILES := \
 	Views.c \
 	Application.c \
 	Charts.c \
-	Flat.c \
 	Templates.c \
-	Steel.c
+	Flat.c

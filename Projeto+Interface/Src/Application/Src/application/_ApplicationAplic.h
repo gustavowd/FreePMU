@@ -42,6 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationFFT.h"
 #include "_ApplicationFase.h"
 #include "_ApplicationFasores.h"
 #include "_ApplicationFreq.h"
@@ -111,6 +112,7 @@ EW_DEFINE_FIELDS( ApplicationAplic, CoreRoot )
   EW_OBJECT  ( TFreq,           ApplicationFreq )
   EW_OBJECT  ( TMag,            ApplicationMag )
   EW_OBJECT  ( TFase,           ApplicationFase )
+  EW_OBJECT  ( TFFT,            ApplicationFFT )
   EW_OBJECT  ( TVNC,            ApplicationVNC )
 EW_END_OF_FIELDS( ApplicationAplic )
 
@@ -132,6 +134,7 @@ EW_DEFINE_METHODS( ApplicationAplic, CoreRoot )
   EW_METHOD( ChangeViewState,   void )( CoreRoot _this, XSet aSetState, XSet aClearState )
   EW_METHOD( OnSetBounds,       void )( CoreGroup _this, XRect value )
   EW_METHOD( OnSetFocus,        void )( CoreRoot _this, CoreView value )
+  EW_METHOD( OnSetOpacity,      void )( CoreRoot _this, XInt32 value )
   EW_METHOD( DispatchEvent,     XObject )( CoreRoot _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreRoot _this, CoreEvent aEvent, XSet 
     aFilter )

@@ -199,6 +199,7 @@ EW_DEFINE_METHODS( CoreRoot, CoreGroup )
   EW_METHOD( ChangeViewState,   void )( CoreRoot _this, XSet aSetState, XSet aClearState )
   EW_METHOD( OnSetBounds,       void )( CoreGroup _this, XRect value )
   EW_METHOD( OnSetFocus,        void )( CoreRoot _this, CoreView value )
+  EW_METHOD( OnSetOpacity,      void )( CoreRoot _this, XInt32 value )
   EW_METHOD( DispatchEvent,     XObject )( CoreRoot _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreRoot _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -260,6 +261,9 @@ void CoreRoot_ChangeViewState( CoreRoot _this, XSet aSetState, XSet aClearState 
 
 /* 'C' function for method : 'Core::Root.OnSetFocus()' */
 void CoreRoot_OnSetFocus( CoreRoot _this, CoreView value );
+
+/* 'C' function for method : 'Core::Root.OnSetOpacity()' */
+void CoreRoot_OnSetOpacity( CoreRoot _this, XInt32 value );
 
 /* The method DispatchEvent() feeds the component with the event passed in the parameter 
    aEvent and propagates it along the so-called focus path. This focus path leads 

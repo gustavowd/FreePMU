@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationVNC_H
-#define _ApplicationVNC_H
+#ifndef _ApplicationModifiedButton_H
+#define _ApplicationModifiedButton_H
 
 #ifdef __cplusplus
   extern "C"
@@ -42,21 +42,15 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationModifiedButton.h"
 #include "_CoreGroup.h"
-#include "_CoreSystemEventHandler.h"
+#include "_CoreSimpleTouchHandler.h"
+#include "_ViewsFrame.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::Classe */
-#ifndef _ApplicationClasse_
-  EW_DECLARE_CLASS( ApplicationClasse )
-#define _ApplicationClasse_
-#endif
-
-/* Forward declaration of the class Application::VNC */
-#ifndef _ApplicationVNC_
-  EW_DECLARE_CLASS( ApplicationVNC )
-#define _ApplicationVNC_
+/* Forward declaration of the class Application::ModifiedButton */
+#ifndef _ApplicationModifiedButton_
+  EW_DECLARE_CLASS( ApplicationModifiedButton )
+#define _ApplicationModifiedButton_
 #endif
 
 /* Forward declaration of the class Core::KeyPressHandler */
@@ -84,21 +78,21 @@
 #endif
 
 
-/* Deklaration of class : 'Application::VNC' */
-EW_DEFINE_FIELDS( ApplicationVNC, CoreGroup )
-  EW_OBJECT  ( Message,         ViewsText )
-  EW_OBJECT  ( LogMessageHandler, CoreSystemEventHandler )
-  EW_OBJECT  ( BStart,          ApplicationModifiedButton )
-  EW_VARIABLE( device,          ApplicationClasse )
-  EW_OBJECT  ( labelMsg,        ViewsText )
-  EW_OBJECT  ( labelState,      ViewsText )
-  EW_OBJECT  ( Status,          ViewsText )
-  EW_OBJECT  ( StatusChangedHandler, CoreSystemEventHandler )
-  EW_OBJECT  ( BStop,           ApplicationModifiedButton )
-EW_END_OF_FIELDS( ApplicationVNC )
+/* Action button widget with a flat design. The widget is used as a simple push 
+   button with a text. */
+EW_DEFINE_FIELDS( ApplicationModifiedButton, CoreGroup )
+  EW_PROPERTY( OnAction,        XSlot )
+  EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
+  EW_OBJECT  ( Frame,           ViewsFrame )
+  EW_OBJECT  ( CaptionText,     ViewsText )
+  EW_PROPERTY( Caption,         XString )
+  EW_PROPERTY( ItemColor,       XColor )
+  EW_PROPERTY( TextColor,       XColor )
+  EW_PROPERTY( ItemColorActive, XColor )
+EW_END_OF_FIELDS( ApplicationModifiedButton )
 
-/* Virtual Method Table (VMT) for the class : 'Application::VNC' */
-EW_DEFINE_METHODS( ApplicationVNC, CoreGroup )
+/* Virtual Method Table (VMT) for the class : 'Application::ModifiedButton' */
+EW_DEFINE_METHODS( ApplicationModifiedButton, CoreGroup )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -119,23 +113,14 @@ EW_DEFINE_METHODS( ApplicationVNC, CoreGroup )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
-  EW_METHOD( UpdateLayout,      void )( ApplicationVNC _this, XPoint aSize )
-  EW_METHOD( UpdateViewState,   void )( ApplicationVNC _this, XSet aState )
+  EW_METHOD( UpdateLayout,      void )( CoreGroup _this, XPoint aSize )
+  EW_METHOD( UpdateViewState,   void )( ApplicationModifiedButton _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-EW_END_OF_METHODS( ApplicationVNC )
-
-/* The method UpdateLayout() is invoked automatically after the size of the component 
-   has been changed. This method can be overridden and filled with logic to perform 
-   a sophisticated arrangement calculation for one or more enclosed views. In this 
-   case the parameter aSize can be used. It contains the current size of the component. 
-   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
-   property. UpdateLayout() gives the derived components a chance to extend this 
-   automatism by a user defined algorithm. */
-void ApplicationVNC_UpdateLayout( ApplicationVNC _this, XPoint aSize );
+EW_END_OF_METHODS( ApplicationModifiedButton )
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 
@@ -151,26 +136,35 @@ void ApplicationVNC_UpdateLayout( ApplicationVNC _this, XPoint aSize );
    state 'on' or 'off' and change accordingly the location of the slider, etc.
    Usually, this method will be invoked automatically by the framework. Optionally 
    you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationVNC_UpdateViewState( ApplicationVNC _this, XSet aState );
+void ApplicationModifiedButton_UpdateViewState( ApplicationModifiedButton _this, 
+  XSet aState );
 
-/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
-   receives an event. */
-void ApplicationVNC_LogMessage( ApplicationVNC _this, XObject sender );
+/* This internal slot method is used to receive the corresponding signals form the 
+   touch handler. */
+void ApplicationModifiedButton_enterLeaveSlot( ApplicationModifiedButton _this, 
+  XObject sender );
 
-/* 'C' function for method : 'Application::VNC.startVNC()' */
-void ApplicationVNC_startVNC( ApplicationVNC _this, XObject sender );
+/* This internal slot method is used to receive the corresponding signals form the 
+   touch handler. */
+void ApplicationModifiedButton_pressReleaseSlot( ApplicationModifiedButton _this, 
+  XObject sender );
 
-/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
-   receives an event. */
-void ApplicationVNC_StatusChange( ApplicationVNC _this, XObject sender );
+/* 'C' function for method : 'Application::ModifiedButton.OnSetCaption()' */
+void ApplicationModifiedButton_OnSetCaption( ApplicationModifiedButton _this, XString 
+  value );
 
-/* 'C' function for method : 'Application::VNC.stopVNC()' */
-void ApplicationVNC_stopVNC( ApplicationVNC _this, XObject sender );
+/* 'C' function for method : 'Application::ModifiedButton.OnSetItemColor()' */
+void ApplicationModifiedButton_OnSetItemColor( ApplicationModifiedButton _this, 
+  XColor value );
+
+/* 'C' function for method : 'Application::ModifiedButton.OnSetItemColorActive()' */
+void ApplicationModifiedButton_OnSetItemColorActive( ApplicationModifiedButton _this, 
+  XColor value );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationVNC_H */
+#endif /* _ApplicationModifiedButton_H */
 
 /* Embedded Wizard */

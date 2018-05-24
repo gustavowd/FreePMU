@@ -44,10 +44,12 @@
 
 #include "_ApplicationAplic.h"
 #include "_ApplicationClasse.h"
+#include "_ApplicationFFT.h"
 #include "_ApplicationFase.h"
 #include "_ApplicationFasores.h"
 #include "_ApplicationFreq.h"
 #include "_ApplicationMag.h"
+#include "_ApplicationModifiedButton.h"
 #include "_ApplicationVNC.h"
 #include "_ApplicationcontextoMsg.h"
 #include "_ApplicationcontextoStatus.h"
@@ -69,6 +71,15 @@ EW_DECLARE_FONT_RES( ApplicationNumbers22 )
 
 /* User defined auto object: 'Application::Autoobjeto' */
 EW_DECLARE_AUTOOBJECT( ApplicationAutoobjeto, ApplicationClasse )
+
+/* User defined constant: 'Application::cor_R' */
+extern const XColor Applicationcor_R;
+
+/* User defined constant: 'Application::cor_S' */
+extern const XColor Applicationcor_S;
+
+/* User defined constant: 'Application::cor_T' */
+extern const XColor Applicationcor_T;
 
 #ifdef __cplusplus
   }
