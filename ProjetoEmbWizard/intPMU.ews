@@ -1,11 +1,12 @@
 $version 1.0
 
+attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,0>;
-attr codeInspector = Application::Classe.StatusTrigger;
-attr codeSelEnd = <30,2>;
-attr codeSelStart = <30,2>;
+attr codeFirstPos = <0,19>;
+attr codeInspector = Application::Aplic.onWipeLeft;
+attr codeSelEnd = <18,31>;
+attr codeSelStart = <18,31>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -47,85 +48,13 @@ view unit Application
   attr zoom = 1.0;
 }
 
-view unit Graphics
-{
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
 view class Application::Aplic
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,17>;
-  attr codeSelEnd = <13,21>;
-  attr codeSelStart = <13,21>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Fasores
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = float2String;
-  attr codeSelEnd = <101,7>;
-  attr codeSelStart = <101,7>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Freq
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = plotar;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Mag
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = plotar;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Fase
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = plotar;
-  attr codeSelEnd = <26,4>;
-  attr codeSelStart = <26,4>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Classe
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = StatusTrigger;
-  attr codeSelEnd = <30,2>;
-  attr codeSelStart = <30,2>;
+  attr codeFirstPos = <0,19>;
+  attr codeInspector = onWipeLeft;
+  attr codeSelEnd = <18,31>;
+  attr codeSelStart = <18,31>;
   attr enableGrid = true;
   attr grid = 10;
   attr scrollTo = <-7,-7>;

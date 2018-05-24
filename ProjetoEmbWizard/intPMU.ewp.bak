@@ -37,12 +37,12 @@ unit Views
 
 // The 'default' Language. Each project has to contain at least one language brick \
 // called 'Default'
-$rect <540,70,740,110>
+$rect <750,70,950,110>
 language Default;
 
 // This unit is intended to contain the application class and other GUI components.
-$rect <290,190,490,230>
-unit Application
+$rect <500,190,700,230>
+unit PMU
 {
   attr Directory = .\;
 }
@@ -50,19 +50,19 @@ unit Application
 // Mosaic Framework
 note group Note1
 {
-  attr Bounds = <20,20,260,290>;
+  attr Bounds = <20,20,470,290>;
 }
 
 // Profile Configuration
 note group Note2
 {
-  attr Bounds = <270,20,510,130>;
+  attr Bounds = <480,20,720,130>;
 }
 
 // Languages
 note group Note3
 {
-  attr Bounds = <520,20,760,130>;
+  attr Bounds = <730,20,970,130>;
 }
 
 // To do:
@@ -93,7 +93,7 @@ note legend Note4
 // Project Units
 note group Note5
 {
-  attr Bounds = <270,140,760,290>;
+  attr Bounds = <480,140,970,290>;
 }
 
 // Welcome to Embedded Wizard!
@@ -112,13 +112,13 @@ note legend Note
 
 // This is a profile member for the project. This profile controls the code generation \
 // for the target system.
-$rect <290,70,490,110>
+$rect <500,70,700,110>
 profile STM32F746 : STM.STM32.RGB565
 {
   attr ScreenOrientation = Normal;
   attr ScreenSize = <480,272>;
   attr Optimization = High;
-  attr ApplicationClass = Application::Aplic;
+  attr ApplicationClass = PMU::Aplic;
   attr FormatOfBitmapResources = Compressed;
   attr FormatOfStringConstants = Compressed;
   attr CleanOutputDirectories = false;
@@ -128,19 +128,19 @@ profile STM32F746 : STM.STM32.RGB565
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
 }
 
-$rect <40,270,240,310>
+$rect <250,70,450,110>
 unit Flat
 {
   attr Directory = $Mosaic\Flat;
 }
 
-$rect <40,310,240,350>
+$rect <250,110,450,150>
 unit Charts
 {
   attr Directory = $Mosaic\Charts;
 }
 
-$rect <40,350,240,390>
+$rect <250,150,450,190>
 unit Templates
 {
   attr Directory = $Mosaic;
