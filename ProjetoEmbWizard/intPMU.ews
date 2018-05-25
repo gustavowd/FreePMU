@@ -3,10 +3,10 @@ $version 1.0
 attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,19>;
-attr codeInspector = Application::Aplic.onWipeLeft;
-attr codeSelEnd = <18,31>;
-attr codeSelStart = <18,31>;
+attr codeFirstPos = <0,0>;
+attr codeInspector = Application::Freq769.Init;
+attr codeSelEnd = <0,0>;
+attr codeSelStart = <0,0>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -38,23 +38,6 @@ view Project
 
 view unit Application
 {
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Aplic
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,19>;
-  attr codeInspector = onWipeLeft;
-  attr codeSelEnd = <18,31>;
-  attr codeSelStart = <18,31>;
   attr enableGrid = true;
   attr grid = 10;
   attr scrollTo = <-7,-7>;
