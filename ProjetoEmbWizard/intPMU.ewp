@@ -41,7 +41,7 @@ $rect <750,70,950,110>
 language Default;
 
 // This unit is intended to contain the application class and other GUI components.
-$rect <500,190,700,230>
+$rect <750,190,950,230>
 unit Application
 {
   attr Directory = .\;
@@ -56,7 +56,7 @@ note group Note1
 // Profile Configuration
 note group Note2
 {
-  attr Bounds = <480,20,720,130>;
+  attr Bounds = <480,20,720,180>;
 }
 
 // Languages
@@ -93,7 +93,7 @@ note legend Note4
 // Project Units
 note group Note5
 {
-  attr Bounds = <480,140,970,290>;
+  attr Bounds = <730,140,970,290>;
 }
 
 // Welcome to Embedded Wizard!
@@ -117,6 +117,24 @@ profile STM32F746 : STM.STM32.RGB565
 {
   attr ScreenOrientation = Normal;
   attr ScreenSize = <480,272>;
+  attr Optimization = High;
+  attr ApplicationClass = Application::Aplic;
+  attr FormatOfBitmapResources = Compressed;
+  attr FormatOfStringConstants = Compressed;
+  attr CleanOutputDirectories = false;
+  attr Verbose = false;
+
+  $rect <10,10,154,50>
+  macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
+}
+
+// This is a profile member for the project. This profile controls the code generation \
+// for the target system.
+$rect <500,120,700,160>
+profile STM32F769 : STM.STM32.RGB565
+{
+  attr ScreenOrientation = Normal;
+  attr ScreenSize = <800,480>;
   attr Optimization = High;
   attr ApplicationClass = Application::Aplic;
   attr FormatOfBitmapResources = Compressed;
