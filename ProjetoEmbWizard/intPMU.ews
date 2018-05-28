@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::Classe;
+attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,0>;
-attr codeInspector = Application::Classe.startVNC;
-attr codeSelEnd = <0,0>;
-attr codeSelStart = <0,0>;
+attr codeFirstPos = <0,19>;
+attr codeInspector = Application::Aplic.onWipeRight;
+attr codeSelEnd = <46,29>;
+attr codeSelStart = <46,29>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -38,35 +38,6 @@ view Project
 }
 
 view unit Application
-{
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::ModifiedButton
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = pressReleaseSlot;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Classe
-{
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,89>;
-  attr zoom = 1.0;
-}
-
-view vclass Application::VNC769
 {
   attr enableGrid = true;
   attr grid = 10;

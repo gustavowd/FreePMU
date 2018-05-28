@@ -4,19 +4,19 @@ $version 6.60
 $rect <20,20,220,60>
 class Aplic : Core::Root
 {
-  $rect <0,650,200,690>
+  $rect <0,330,200,370>
   inherited property Bounds = <0,0,480,270>;
 
-  $rect <0,610,140,650>
+  $rect <0,290,140,330>
   inherited method Init()
   {
   }
 
-  $rect <0,730,200,770>
+  $rect <0,410,200,450>
   var int32 nrTela = 1;
 
   // This animation effect drives the transition between two screens.
-  $rect <0,690,200,730>
+  $rect <0,370,200,410>
   object Effects::PointEffect Anima
   {
     preset Timing = Effects::Timing.FastIn_EaseOut;
@@ -111,7 +111,7 @@ class Aplic : Core::Root
 
   // This method is called when the user has performed a wipe left gesture. It starts \
   // a transition to the next screen.
-  $rect <210,619,400,659>
+  $rect <210,299,400,339>
   slot onWipeLeft
   {
     // Wait till the preceding screen transition is finished
@@ -143,14 +143,14 @@ class Aplic : Core::Root
       case 5:
         Title.String = "FFT";
       case 6:
-        Title.String = "Servidor VNC";
+        Title.String = "Servidor de Dados para PDC";
       default:;
     }
   }
 
   // This method is called when the user has performed a wipe right gesture. It starts \
   // a transition to the preceding screen.
-  $rect <210,660,400,700>
+  $rect <210,340,400,380>
   slot onWipeRight
   {
     // Wait till the preceding screen transition is finished
@@ -182,7 +182,7 @@ class Aplic : Core::Root
       case 5:
         Title.String = "FFT";
       case 6:
-        Title.String = "Servidor VNC";
+        Title.String = "Servidor de Dados para PDC";
       default:;
     }
   }
@@ -3784,7 +3784,7 @@ vclass Aplic769 : Application::Aplic
   $rect <20,20,160,60>
   inherited object Title
   {
-    preset Bounds = <0,430,800,480>;
+    preset Bounds = <30,430,770,472>;
   }
 
   $rect <20,20,160,60>
@@ -4909,7 +4909,7 @@ vclass VNC769 : Application::VNC
   {
     preset Bounds = <10,170,370,220>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "Estado do Servidor PDC:";
+    preset String = "Estado do Servidor:";
     preset Font = Flat::FontL;
   }
 
