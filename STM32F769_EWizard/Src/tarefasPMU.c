@@ -14,50 +14,20 @@
 #include "cmsis_os.h"
 #include "stm32f7xx_hal.h"
 
-#define MCLOCK_FREQ 200000000
+#define MCLOCK_FREQ 100000000
 #define numero_pontos 256
 
-extern osSemaphoreId SerialGPS_semId;
 extern osMessageQId SerialGPSq;
 
-extern TIM_HandleTypeDef 			 htim1;
+extern TIM_HandleTypeDef 			 htim2;
 extern UART_HandleTypeDef 			 huart6;
 
-extern volatile unsigned short adcBuffer[numero_pontos*3*2];
+extern volatile unsigned short adcBuffer[numero_pontos*3];
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 
-void System_Time(void *param)
-{
-	/*
-   // task setup
-   (void)param;
-   INT16U i = 0;
-
-   OSResetTime();
-   Init_Calendar();
-
-   // task main loop
-   for (;;)
-   {
-      #if (WATCHDOG == 1)
-        __RESET_WATCHDOG();
-      #endif
-
-      DelayTask(10);
-      i++;
-
-      if (i >= 100)
-      {
-        i = 0;
-        OSUpdateUptime();
-        OSUpdateCalendar();
-      }
-   }
-   */
-}
-
-
+extern void MX_USART6_UART_Init(void);
+extern unsigned int Get_ADC_Calib (void);
 
 
 //				LEITURA DOS DADOS DO GPS
@@ -184,7 +154,7 @@ void PMU_Task(void const * argument)
 
 	  HAL_ADC_Start(&hadc3);
 	  HAL_ADC_Start(&hadc2);
-	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768*2);
+	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
 
 
 	// Tabela da DFT
@@ -465,7 +435,7 @@ void PMU_Task(void const * argument)
 		//AJUSTE DA TAXA DE AMOSTRAGEM
 
 
-		htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		htim2.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
@@ -679,7 +649,6 @@ void UpLwIP(void *param)
 extern xSemaphoreHandle sUART;
 char teste;
 
-void UARTPutString(char *string, uint16_t size);
 void GPS_Task(void const * argument)
 {
 
@@ -689,9 +658,7 @@ void GPS_Task(void const * argument)
 
 	sUART = xSemaphoreCreateBinary();
 	MX_USART6_UART_Init();
-	HAL_UART_Receive_IT(&huart6, &teste, 1);
-
-	//UARTPutString("olaMundo", 0);
+	HAL_UART_Receive_IT(&huart6, (uint8_t*)&teste, 1);
 
 	while(1){
 	    volatile unsigned char *p;
@@ -699,14 +666,14 @@ void GPS_Task(void const * argument)
 		p = (unsigned char*)&dado_gps;
 
 		do{
-			UARTGetChar(&huart6, p, osWaitForever);
+			UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		  }while(*p != '$');
 
 		p--;
 
 		do{
 		   p++;
-		   UARTGetChar(&huart6, p, osWaitForever);
+		   UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		}while(*p != '\n');
 
 
