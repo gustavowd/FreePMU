@@ -2913,7 +2913,7 @@ $rect <30,260,230,300>
 class VNC : Core::Group
 {
   $rect <10,310,210,350>
-  inherited property Bounds = <0,0,480,242>;
+  inherited property Bounds = <0,0,480,240>;
 
   $rect <10,390,210,430>
   inherited method UpdateLayout()
@@ -3095,7 +3095,8 @@ class VNC : Core::Group
   object Views::Text labelMsg
   {
     preset Bounds = <0,0,260,30>;
-    preset String = "Mensagem do Servidor VNC:";
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Estado da Conexão:";
     preset Font = Resources::FontVerdana20;
   }
 
@@ -3103,7 +3104,8 @@ class VNC : Core::Group
   object Views::Text labelState
   {
     preset Bounds = <0,80,220,110>;
-    preset String = "Estado do Servidor VNC:";
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Estado do Servidor:";
     preset Font = Resources::FontVerdana20;
   }
 
@@ -3766,67 +3768,67 @@ vclass Aplic769 : Application::Aplic
   $rect <20,20,160,60>
   inherited object WipeTouchHandler
   {
-    preset Bounds = <0,0,800,480>;
+    preset Bounds = <0,8,800,488>;
   }
 
   $rect <20,20,160,60>
   inherited object Rectangle
   {
-    preset Bounds = <0,0,800,480>;
+    preset Bounds = <0,8,800,488>;
   }
 
   $rect <20,20,160,60>
   inherited object Rectangle1
   {
-    preset Bounds = <0,430,800,480>;
+    preset Bounds = <0,438,800,488>;
   }
 
   $rect <20,20,160,60>
   inherited object Title
   {
-    preset Bounds = <30,430,770,472>;
+    preset Bounds = <30,438,770,480>;
   }
 
   $rect <20,20,160,60>
   inherited object Janela
   {
-    preset Bounds = <0,0,800,430>;
+    preset Bounds = <0,8,800,438>;
   }
 
   $rect <20,20,160,60>
   inherited object TFasores
   {
-    preset Bounds = <0,0,800,430>;
+    preset Bounds = <0,8,800,438>;
   }
 
   $rect <20,20,160,60>
   inherited object TFreq
   {
-    preset Bounds = <800,0,1600,430>;
+    preset Bounds = <800,8,1600,438>;
   }
 
   $rect <20,20,160,60>
   inherited object TMag
   {
-    preset Bounds = <1600,0,2400,430>;
+    preset Bounds = <1600,8,2400,438>;
   }
 
   $rect <20,20,160,60>
   inherited object TFase
   {
-    preset Bounds = <2400,0,3200,430>;
+    preset Bounds = <2400,8,3200,438>;
   }
 
   $rect <20,20,160,60>
   inherited object TFFT
   {
-    preset Bounds = <3200,0,4000,430>;
+    preset Bounds = <3200,8,4000,438>;
   }
 
   $rect <20,20,160,60>
   inherited object TVNC
   {
-    preset Bounds = <4000,0,4800,430>;
+    preset Bounds = <4000,8,4800,438>;
   }
 
   $reorder WipeTouchHandler 3
