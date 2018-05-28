@@ -30,6 +30,7 @@ void SERVER_LogMessage (const char *message) {
 	ApplicationClasse__LogMessageTrigger(disp, m);
 }
 
+
 /**
   * @brief  Initializes the lwIP stack
   * @param  None
@@ -136,7 +137,7 @@ void DHCP_Thread(void const * argument) {
     		            (uint8_t)((gnetif.ip_addr.addr) >> 16),
     		            (uint8_t)((gnetif.ip_addr.addr) >> 24));
 
-    		    VNC_SERVER_LogMessage ((char *)text);
+    		    SERVER_LogMessage ((char *)text);
 
     			if (first_connection){
     				first_connection = 0;

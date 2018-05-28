@@ -41,6 +41,8 @@ osMutexId ethMut_id;
 volatile int newsockfd_out;
 volatile unsigned char data_flag=0;
 
+void SERVER_StatusMessage (const char *message);
+
 osMutexDef(ethMut);
 void pmu_tcp_server(void const * argument)
 {
@@ -99,6 +101,8 @@ reboot_server:
 
 	clilen = sizeof(cli_addr);
 
+	SERVER_StatusMessage ("Escutando porta 4712");
+
 	 // While true
 	while (1)
 	{
@@ -138,6 +142,7 @@ reboot_server:
 					close(newsockfd);
 					connected = 0;
 					osMutexRelease(ethMut_id);
+					SERVER_StatusMessage ("Escutando porta 4712");
 					break;
 				}else
 				{
@@ -169,6 +174,7 @@ reboot_server:
 								case 0x05: // Envia frame de cofiguração 2
 									nbytes = frame_config();
 									lwip_send(newsockfd, ucData, nbytes, 0);
+									SERVER_StatusMessage ("Conectado ao PDC!");
 									break;
 
 									default:

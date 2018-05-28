@@ -70,10 +70,12 @@ osSemaphoreId Netif_LinkSemaphore = NULL;
 /* Ethernet link thread Argument */
 struct link_str link_arg;
 int _Sock;
-static uint8_t iptxt[128];
 osThreadId  VNC_ThreadId = 0;
+int escutando = 0;
 /* Private function prototypes -----------------------------------------------*/
-void VNC_SERVER_LogMessage (const char *message);
+void SERVER_StatusMessage (const char *message);
+extern void pmu_tcp_server(void *pvParameters);
+extern void pmu_tcp_server_out(void *pvParameters);
 /* Private functions ---------------------------------------------------------*/
 
 
@@ -82,16 +84,27 @@ void VNC_SERVER_LogMessage (const char *message);
   * @param  None.
   * @retval Audio state.
   */
+osThreadId serverThread_Id;
+osThreadId serveroutThread_Id;
 void VNC_SERVER_Start (void)
 {
-    sprintf((char*)iptxt,
-            "IP address : %d.%d.%d.%d\n",
-            (uint8_t)(gnetif.ip_addr.addr),
-            (uint8_t)((gnetif.ip_addr.addr) >> 8),
-            (uint8_t)((gnetif.ip_addr.addr) >> 16),
-            (uint8_t)((gnetif.ip_addr.addr) >> 24));
+    if (gnetif.ip_addr.addr == 0){
+    	SERVER_StatusMessage ("Sem conexão com a internet!");
+    }else{
+    	if (!escutando){
+    		escutando = 1;
+    	    sys_thread_new("PMU TCP Server", pmu_tcp_server, NULL, 2048, 6);
+    	    sys_thread_new("PMU TCP Server out", pmu_tcp_server_out, NULL, 2048, 5);
+    		/* Cria tarefa do DHCP */
+    		osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 2048);
+    		serverThread_Id = osThreadCreate (osThread(PDCServerTask), NULL);
 
-    VNC_SERVER_LogMessage ((char *)iptxt);
+    		/* Cria tarefa do GPS */
+    		osThreadDef(ServerOutTask, pmu_tcp_server_out, osPriorityNormal, 0, 2048);
+    		serveroutThread_Id = osThreadCreate (osThread(ServerOutTask), NULL);
+    	}
+    }
+
 }
 
 /**
@@ -143,10 +156,10 @@ void  VNC_SetLockState(uint8_t LockState)
   VNC_LockState = LockState;
 }
 
-void VNC_SERVER_LogMessage (const char *message) {
+void SERVER_StatusMessage (const char *message) {
 	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
 	XString m = EwNewStringAnsi(message);
-	ApplicationClasse__LogMessageTrigger(disp, m);
+	ApplicationClasse__StatusTrigger(disp, m);
 }
 
 

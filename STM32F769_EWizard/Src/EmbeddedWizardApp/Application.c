@@ -96,13 +96,14 @@ static const unsigned int _StringsDefault0[] =
 /* Compressed strings for the language 'Default'. */
 static const unsigned int _StringsDefault1[] =
 {
-  0x000000D2, /* ratio 70.48 % */
+  0x0000014C, /* ratio 59.04 % */
   0xB8003700, 0x80000452, 0xD0007382, 0x00061001, 0x006F0019, 0x51087080, 0x00298022,
   0x039000CA, 0x34800EC0, 0x9C722314, 0x13800568, 0xE8004300, 0xC2000830, 0x880082C0,
   0x70900464, 0x0037454C, 0x09B4CCD0, 0x834461F2, 0x841A5E09, 0x516370C2, 0x0819068E,
   0x64F25005, 0x92002FCA, 0xE4C004C4, 0x4B08CB20, 0x0004A29B, 0x93D4AAB5, 0x7D4EB84B,
-  0x4B24D032, 0x6A0D04A5, 0xACD51A7D, 0x152C2A54, 0xA002152C, 0x11BBC28E, 0x1964B271,
-  0x00000010, 0x00000000
+  0x4B24D032, 0x6A0D04A5, 0xACD51A7D, 0x152C2A54, 0xA002152C, 0x11BBC28E, 0xB0B41A71,
+  0x86DDE114, 0x6C3E2D3E, 0xDE66D138, 0x8C007899, 0xE0D2B8AB, 0xFF34BE85, 0x715C1486,
+  0x1C8D4622, 0xC8ACF63D, 0xA5CB71B1, 0xBCD63532, 0x607253B9, 0x02032C96, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -435,9 +436,12 @@ static const XRect _Const0145 = {{ 610, 300 }, { 780, 370 }};
 static const XRect _Const0146 = {{ 10, 80 }, { 790, 130 }};
 static const XRect _Const0147 = {{ 120, 320 }, { 360, 380 }};
 static const XRect _Const0148 = {{ 10, 10 }, { 430, 60 }};
-static const XRect _Const0149 = {{ 10, 170 }, { 370, 220 }};
-static const XRect _Const014A = {{ 10, 220 }, { 780, 280 }};
-static const XRect _Const014B = {{ 440, 320 }, { 680, 380 }};
+static const XStringRes _Const0149 = { _StringsDefault1, 0x006A };
+static const XRect _Const014A = {{ 10, 170 }, { 370, 220 }};
+static const XStringRes _Const014B = { _StringsDefault1, 0x0080 };
+static const XRect _Const014C = {{ 10, 220 }, { 780, 280 }};
+static const XStringRes _Const014D = { _StringsDefault1, 0x0097 };
+static const XRect _Const014E = {{ 440, 320 }, { 680, 380 }};
 
 #ifndef EW_DONT_CHECK_INDEX
   /* This function is used to check the indices when accessing an array.
@@ -7828,11 +7832,14 @@ void ApplicationVNC769__Init( ApplicationVNC _this, XObject aLink, XHandle aArg 
   CoreRectView__OnSetBounds( &_this->labelMsg, _Const0148 );
   ViewsText_OnSetAlignment( &_this->labelMsg, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
-  CoreRectView__OnSetBounds( &_this->labelState, _Const0149 );
+  ViewsText_OnSetString( &_this->labelMsg, EwLoadString( &_Const0149 ));
+  CoreRectView__OnSetBounds( &_this->labelState, _Const014A );
   ViewsText_OnSetAlignment( &_this->labelState, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  CoreRectView__OnSetBounds( &_this->Status, _Const014A );
-  CoreRectView__OnSetBounds( &_this->BStop, _Const014B );
+  ViewsText_OnSetString( &_this->labelState, EwLoadString( &_Const014B ));
+  CoreRectView__OnSetBounds( &_this->Status, _Const014C );
+  ViewsText_OnSetString( &_this->Status, EwLoadString( &_Const014D ));
+  CoreRectView__OnSetBounds( &_this->BStop, _Const014E );
   ViewsText_OnSetFont( &_this->labelMsg, EwLoadResource( &FlatFontL, ResourcesFont 
   ));
   ViewsText_OnSetFont( &_this->labelState, EwLoadResource( &FlatFontL, ResourcesFont 

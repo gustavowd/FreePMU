@@ -1634,7 +1634,7 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
 {
   uint16_t* tmp;
   uint16_t uhMask = huart->Mask;
-
+#if 0
   /* Check that a Rx process is ongoing */
   if(huart->RxState == HAL_UART_STATE_BUSY_RX)
   {
@@ -1675,6 +1675,10 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
 
     return HAL_BUSY;
   }
+#endif
+  HAL_UART_RxCpltCallback(huart);
+
+  return HAL_OK;
 }
 
 /**

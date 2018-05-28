@@ -420,7 +420,7 @@ int main(void)
 
 	  /* create thread that drives the Embedded Wizard GUI application... */
 	  EwPrint( "Create UI thread...                          " );
-	  osThreadDef( EmWiThreadHandle, EmWiMainLoop, osPriorityNormal, 0, semtstSTACK_SIZE );
+	  osThreadDef( EmWiThreadHandle, EmWiMainLoop, osPriorityBelowNormal, 0, semtstSTACK_SIZE );
 	  osThreadCreate( osThread( EmWiThreadHandle ), (void*)0 );
 	  EwPrint( "[OK]\n" );
 
