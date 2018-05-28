@@ -4900,6 +4900,7 @@ vclass VNC769 : Application::VNC
   {
     preset Bounds = <10,10,430,60>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Estado da conexão:";
     preset Font = Flat::FontL;
   }
 
@@ -4908,6 +4909,7 @@ vclass VNC769 : Application::VNC
   {
     preset Bounds = <10,170,370,220>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Estado do Servidor:";
     preset Font = Flat::FontL;
   }
 
@@ -4915,6 +4917,7 @@ vclass VNC769 : Application::VNC
   inherited object Status
   {
     preset Bounds = <10,220,780,280>;
+    preset String = "Desconectado";
   }
 
   $rect <20,20,160,60>

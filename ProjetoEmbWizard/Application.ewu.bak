@@ -233,7 +233,7 @@ $output false
 resource Resources::Bitmap flecha
 {
   attr bitmapfile FileName;
-  attr alphafile AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\arrow_a.bmp;
+  attr alphafile AlphaName = .\arrow_a.bmp;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
 }
@@ -243,7 +243,7 @@ $output false
 resource Resources::Bitmap grid
 {
   attr bitmapfile FileName;
-  attr alphafile AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\grid_a.bmp;
+  attr alphafile AlphaName = .\grid_a.bmp;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
 }
@@ -3836,14 +3836,14 @@ $rect <230,520,430,560>
 $variant STM32F769
 vresource flecha769 : Application::flecha
 {
-  attr AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\arrow_a_769.bmp;
+  attr AlphaName = .\arrow_a_769.bmp;
 }
 
 $rect <230,480,430,520>
 $variant STM32F769
 vresource grid769 : Application::grid
 {
-  attr AlphaName = C:\Users\Leonardo\Google Drive\UTFPR\IC\grid_a_769.bmp;
+  attr AlphaName = .\grid_a_769.bmp;
 }
 
 $rect <230,400,430,440>
@@ -4900,6 +4900,7 @@ vclass VNC769 : Application::VNC
   {
     preset Bounds = <10,10,430,60>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Estado da conexão:";
     preset Font = Flat::FontL;
   }
 
@@ -4908,6 +4909,7 @@ vclass VNC769 : Application::VNC
   {
     preset Bounds = <10,170,370,220>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Estado do Servidor PDC:";
     preset Font = Flat::FontL;
   }
 
@@ -4915,6 +4917,7 @@ vclass VNC769 : Application::VNC
   inherited object Status
   {
     preset Bounds = <10,220,780,280>;
+    preset String = "Desconectado";
   }
 
   $rect <20,20,160,60>
