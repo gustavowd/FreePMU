@@ -72,38 +72,39 @@
 /* Compressed strings for the language 'Default'. */
 static const unsigned int _StringsDefault0[] =
 {
-  0x0000041A, /* ratio 46.48 % */
+  0x00000428, /* ratio 47.74 % */
   0xB8001700, 0x00000452, 0x00C20023, 0x0DE00398, 0xCA003900, 0xC008342C, 0x0782C0C1,
   0x1004461F, 0x001D4007, 0x01B800EA, 0x9A400630, 0x5C1B1484, 0xE504D834, 0x01269119,
-  0x8008F1D0, 0x088346CC, 0xC8546656, 0x03C1A250, 0xA422113A, 0xCE821142, 0xDA211B29,
-  0x21D36989, 0xAC001044, 0x60027000, 0x3A02C508, 0x4A045061, 0x000C60D0, 0x35680038,
-  0x0E674068, 0xCA755BB1, 0xED037000, 0xD0339D4F, 0x15C0058E, 0x6E1A5AE3, 0xF005AAE9,
-  0xAF5D6E75, 0x2DCED600, 0x8D8015DB, 0xC4017FBC, 0x2E183B8D, 0x6B5F9D62, 0xB3A08DE4,
-  0x2397C2A5, 0x68FCCE4F, 0x2DD42253, 0xA1740151, 0xCA2820C8, 0x033E009E, 0xAAFA2580,
-  0x0BAE16CE, 0x53A948B3, 0x5AD9D872, 0x8006A773, 0xDA1E8004, 0xC56B0F85, 0xEF77772D,
-  0x065506DF, 0xB8800C0F, 0x29C7A86E, 0x95A8C612, 0x78C2DBE1, 0x5BD75B25, 0x8A756CF8,
-  0x8D7F0B39, 0x643C1DAB, 0x3FB768B0, 0x62510D30, 0x47218FC7, 0x50A93C96, 0xDB8C6C47,
-  0x4DF74313, 0xBEF9C131, 0x906549BB, 0xA731E27F, 0x02025415, 0xE3462040, 0x7F6085A1,
-  0x9C46E9E7, 0xE6541341, 0xD19A4C12, 0x5044D9D4, 0x0A5A10A1, 0x9647D800, 0x475E0F4E,
-  0x0DAC6EDD, 0x07585E78, 0x616106AE, 0x22870971, 0x86151645, 0x311B4F10, 0x208BA1D4,
-  0x74C0088A, 0xE2954106, 0xB74A118F, 0xE5D86357, 0xB389DE15, 0x899925AD, 0xC0070D06,
-  0x192C0093, 0x4D6C7365, 0xA6029149, 0x0019E8E1, 0xE5D96C52, 0x65225F44, 0x9E369710,
-  0x445411B6, 0x61594419, 0xC6D44948, 0x34492D6E, 0x6D974312, 0x02452774, 0x86049615,
-  0x10A4C524, 0x60750644, 0xE5139DA1, 0x4D6EE729, 0x46A716ED, 0xE8D49D4B, 0x6551A153,
-  0x01148F95, 0x00001010, 0x00000000
+  0x8008F1D0, 0x088346CC, 0xC8546656, 0x03C1A250, 0xA422113A, 0xCE83D142, 0xDA211B29,
+  0x21D36989, 0x37351044, 0xB2822542, 0x70A844E9, 0x08544250, 0xAA000A15, 0xD0162843,
+  0x50228309, 0x00630682, 0xACA001C0, 0x733A0341, 0x53AB35B4, 0x731B8006, 0x319CEA7F,
+  0xB3802DD7, 0xC8D2ED18, 0x002EB7FB, 0xA7017EB5, 0x2FD76005, 0x6C00B45C, 0x800C5610,
+  0x7BC75F2F, 0x5B54EB27, 0x9D047083, 0x1CBE152D, 0x47E67279, 0x6EA1129B, 0x40056001,
+  0x820C8A17, 0x4009ECA2, 0xAE580035, 0xA16CEAC5, 0x948B321B, 0xFDB33B3A, 0x6D78B65D,
+  0xE8004800, 0x72590E01, 0x8F7DE259, 0x506E5F27, 0x00C67365, 0x3A871BA0, 0x8C63E29D,
+  0x85EA1965, 0xF8B3B83C, 0x86E590C2, 0xB21398A7, 0xD9E6BE5A, 0xF73B5E6F, 0x10D903FC,
+  0x18FC7625, 0x93C96472, 0x1BD0E90A, 0xC651E746, 0x2514729D, 0xC7621F30, 0x829066B5,
+  0x165761EE, 0x00020E54, 0xCDEF4621, 0xF3826145, 0x419D0719, 0x12E68013, 0x84D1A54C,
+  0xA00055DA, 0x29001AC0, 0x5BE02000, 0x1E386D3A, 0xF6E1C778, 0x4D6C7CE0, 0x90871B78,
+  0x8D5CE5F1, 0x19045914, 0xC46D3C42, 0xE22A5410, 0x008BE2D6, 0x5410677C, 0xA1D93636,
+  0x46618677, 0xD1ED611E, 0x9D5D9BF8, 0x73D068CD, 0x40097400, 0x77665F96, 0x29149857,
+  0xA9915B20, 0x9A452001, 0x26D44E6B, 0x39A90652, 0x01526CE4, 0x9F419440, 0x44948641,
+  0x92D71C6D, 0x24312344, 0x528546DA, 0x49641024, 0x4C524890, 0x9064410A, 0xC4153A05,
+  0x590A4CD0, 0x5C4D9505, 0x43961001, 0x07844923, 0xE434E300, 0x06A84522, 0x00000004,
+  0x00000000
 };
 
 /* Compressed strings for the language 'Default'. */
 static const unsigned int _StringsDefault1[] =
 {
-  0x0000014C, /* ratio 59.04 % */
-  0xB8003700, 0x80000452, 0xD0007382, 0x00061001, 0x006F0019, 0x51087080, 0x00298022,
-  0x039000CA, 0x34800EC0, 0x9C722314, 0x13800568, 0xE8004300, 0xC2000830, 0x880082C0,
-  0x70900464, 0x0037454C, 0x09B4CCD0, 0x834461F2, 0x841A5E09, 0x516370C2, 0x0819068E,
-  0x64F25005, 0x92002FCA, 0xE4C004C4, 0x4B08CB20, 0x0004A29B, 0x93D4AAB5, 0x7D4EB84B,
-  0x4B24D032, 0x6A0D04A5, 0xACD51A7D, 0x152C2A54, 0xA002152C, 0x11BBC28E, 0xB0B41A71,
-  0x86DDE114, 0x6C3E2D3E, 0xDE66D138, 0x8C007899, 0xE0D2B8AB, 0xFF34BE85, 0x715C1486,
-  0x1C8D4622, 0xC8ACF63D, 0xA5CB71B1, 0xBCD63532, 0x607253B9, 0x02032C96, 0x00000000
+  0x00000116, /* ratio 63.31 % */
+  0xB8002F00, 0x80000452, 0xD0007382, 0x00061001, 0x006F0019, 0x51087080, 0x00298022,
+  0x039000CA, 0x34800EC0, 0xD4722314, 0x84001061, 0x10010581, 0xE12008C9, 0x006E8A98,
+  0x12F961A0, 0x0688C3E4, 0x0834A013, 0x9F46E185, 0xD8320D1C, 0x000AC009, 0x00860027,
+  0x892002F8, 0x0E4C004A, 0xD4408C96, 0x4CA55228, 0xBA453AA3, 0x27D3E964, 0x1C968F03,
+  0xD5A0D04A, 0x36B75EA4, 0xA4A54005, 0x0042A202, 0x374851D4, 0x16834C62, 0xDBA42288,
+  0x87C5A6F0, 0xB4BE270D, 0x800F12CB, 0x1A491571, 0xA9F6593C, 0x69309746, 0xB2590DF2,
+  0x00004072, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -130,33 +131,33 @@ static const XPoint _Const0013 = { 135, 120 };
 static const XRect _Const0014 = {{ 25, 10 }, { 245, 230 }};
 static const XColor _Const0015 = { 0xFF, 0xFF, 0xFF, 0xFF };
 static const XRect _Const0016 = {{ 230, 110 }, { 280, 130 }};
-static const XStringRes _Const0017 = { _StringsDefault0, 0x0048 };
+static const XStringRes _Const0017 = { _StringsDefault0, 0x0056 };
 static const XRect _Const0018 = {{ -12, 110 }, { 38, 130 }};
-static const XStringRes _Const0019 = { _StringsDefault0, 0x004D };
+static const XStringRes _Const0019 = { _StringsDefault0, 0x005B };
 static const XRect _Const001A = {{ 110, -5 }, { 160, 15 }};
-static const XStringRes _Const001B = { _StringsDefault0, 0x0054 };
+static const XStringRes _Const001B = { _StringsDefault0, 0x0062 };
 static const XRect _Const001C = {{ 110, 225 }, { 160, 245 }};
-static const XStringRes _Const001D = { _StringsDefault0, 0x005A };
+static const XStringRes _Const001D = { _StringsDefault0, 0x0068 };
 static const XRect _Const001E = {{ 192, 213 }, { 210, 225 }};
-static const XStringRes _Const001F = { _StringsDefault0, 0x0061 };
+static const XStringRes _Const001F = { _StringsDefault0, 0x006F };
 static const XRect _Const0020 = {{ 60, 213 }, { 78, 225 }};
-static const XStringRes _Const0021 = { _StringsDefault0, 0x0068 };
+static const XStringRes _Const0021 = { _StringsDefault0, 0x0076 };
 static const XRect _Const0022 = {{ 19, 171 }, { 37, 183 }};
-static const XStringRes _Const0023 = { _StringsDefault0, 0x006F };
+static const XStringRes _Const0023 = { _StringsDefault0, 0x007D };
 static const XRect _Const0024 = {{ 62, 13 }, { 80, 25 }};
-static const XStringRes _Const0025 = { _StringsDefault0, 0x0076 };
+static const XStringRes _Const0025 = { _StringsDefault0, 0x0084 };
 static const XRect _Const0026 = {{ 192, 13 }, { 204, 25 }};
-static const XStringRes _Const0027 = { _StringsDefault0, 0x007D };
+static const XStringRes _Const0027 = { _StringsDefault0, 0x008B };
 static const XRect _Const0028 = {{ 234, 171 }, { 252, 183 }};
-static const XStringRes _Const0029 = { _StringsDefault0, 0x0083 };
+static const XStringRes _Const0029 = { _StringsDefault0, 0x0091 };
 static const XRect _Const002A = {{ 236, 58 }, { 248, 70 }};
-static const XStringRes _Const002B = { _StringsDefault0, 0x008A };
+static const XStringRes _Const002B = { _StringsDefault0, 0x0098 };
 static const XRect _Const002C = {{ 18, 58 }, { 36, 70 }};
-static const XStringRes _Const002D = { _StringsDefault0, 0x0090 };
+static const XStringRes _Const002D = { _StringsDefault0, 0x009E };
 static const XRect _Const002E = {{ 282, 16 }, { 386, 32 }};
-static const XStringRes _Const002F = { _StringsDefault0, 0x0097 };
+static const XStringRes _Const002F = { _StringsDefault0, 0x00A5 };
 static const XRect _Const0030 = {{ 401, 16 }, { 465, 32 }};
-static const XStringRes _Const0031 = { _StringsDefault0, 0x00A8 };
+static const XStringRes _Const0031 = { _StringsDefault0, 0x00B6 };
 static const XRect _Const0032 = {{ 376, 95 }, { 385, 113 }};
 static const XRect _Const0033 = {{ 455, 95 }, { 464, 113 }};
 static const XRect _Const0034 = {{ 376, 70 }, { 385, 88 }};
@@ -178,28 +179,28 @@ static const XPoint _Const0043 = { 135, 123 };
 static const XPoint _Const0044 = { 245, 123 };
 static const XPoint _Const0045 = { 245, 115 };
 static const XPoint _Const0046 = { 135, 115 };
-static const XStringRes _Const0047 = { _StringsDefault0, 0x00B4 };
-static const XStringRes _Const0048 = { _StringsDefault0, 0x00B9 };
+static const XStringRes _Const0047 = { _StringsDefault0, 0x00C2 };
+static const XStringRes _Const0048 = { _StringsDefault0, 0x00C7 };
 static const XRect _Const0049 = {{ 390, 180 }, { 480, 200 }};
-static const XStringRes _Const004A = { _StringsDefault0, 0x00BE };
+static const XStringRes _Const004A = { _StringsDefault0, 0x00CC };
 static const XColor _Const004B = { 0xFF, 0x00, 0x00, 0xFF };
 static const XRect _Const004C = {{ 390, 120 }, { 480, 140 }};
-static const XStringRes _Const004D = { _StringsDefault0, 0x00CB };
+static const XStringRes _Const004D = { _StringsDefault0, 0x00D9 };
 static const XColor _Const004E = { 0x00, 0xFF, 0x00, 0xFF };
 static const XRect _Const004F = {{ 390, 60 }, { 480, 80 }};
-static const XStringRes _Const0050 = { _StringsDefault0, 0x00D8 };
+static const XStringRes _Const0050 = { _StringsDefault0, 0x00E6 };
 static const XRect _Const0051 = {{ 350, 220 }, { 410, 240 }};
-static const XStringRes _Const0052 = { _StringsDefault0, 0x00E5 };
+static const XStringRes _Const0052 = { _StringsDefault0, 0x00F3 };
 static const XRect _Const0053 = {{ 260, 220 }, { 320, 240 }};
-static const XStringRes _Const0054 = { _StringsDefault0, 0x00EB };
+static const XStringRes _Const0054 = { _StringsDefault0, 0x00F9 };
 static const XRect _Const0055 = {{ 170, 220 }, { 230, 240 }};
-static const XStringRes _Const0056 = { _StringsDefault0, 0x00F2 };
+static const XStringRes _Const0056 = { _StringsDefault0, 0x0100 };
 static const XRect _Const0057 = {{ 80, 220 }, { 140, 240 }};
-static const XStringRes _Const0058 = { _StringsDefault0, 0x00F9 };
+static const XStringRes _Const0058 = { _StringsDefault0, 0x0107 };
 static const XRect _Const0059 = {{ -10, 220 }, { 50, 240 }};
-static const XStringRes _Const005A = { _StringsDefault0, 0x0101 };
+static const XStringRes _Const005A = { _StringsDefault0, 0x010F };
 static const XRect _Const005B = {{ 20, 0 }, { 140, 40 }};
-static const XStringRes _Const005C = { _StringsDefault0, 0x0109 };
+static const XStringRes _Const005C = { _StringsDefault0, 0x0117 };
 static const XRect _Const005D = {{ 140, 0 }, { 270, 40 }};
 static const XPoint _Const005E = { 290, 220 };
 static const XPoint _Const005F = { 290, 40 };
@@ -226,27 +227,27 @@ static const XPoint _Const0073 = { 1, 30 };
 static const XColor _Const0074 = { 0x00, 0x00, 0x00, 0x00 };
 static const XColor _Const0075 = { 0xFF, 0xFB, 0xFA, 0x00 };
 static const XPoint _Const0076 = { 20, 30 };
-static const XStringRes _Const0077 = { _StringsDefault0, 0x0118 };
-static const XStringRes _Const0078 = { _StringsDefault0, 0x011D };
-static const XStringRes _Const0079 = { _StringsDefault0, 0x0124 };
-static const XStringRes _Const007A = { _StringsDefault0, 0x012D };
-static const XStringRes _Const007B = { _StringsDefault0, 0x0136 };
+static const XStringRes _Const0077 = { _StringsDefault0, 0x0126 };
+static const XStringRes _Const0078 = { _StringsDefault0, 0x012B };
+static const XStringRes _Const0079 = { _StringsDefault0, 0x0132 };
+static const XStringRes _Const007A = { _StringsDefault0, 0x013B };
+static const XStringRes _Const007B = { _StringsDefault0, 0x0144 };
 static const XRect _Const007C = {{ 350, 0 }, { 420, 40 }};
-static const XStringRes _Const007D = { _StringsDefault0, 0x013F };
+static const XStringRes _Const007D = { _StringsDefault0, 0x014D };
 static const XRect _Const007E = {{ 270, 0 }, { 340, 40 }};
 static const XRect _Const007F = {{ 190, 0 }, { 260, 40 }};
 static const XRect _Const0080 = {{ 20, 0 }, { 188, 40 }};
-static const XStringRes _Const0081 = { _StringsDefault0, 0x0148 };
+static const XStringRes _Const0081 = { _StringsDefault0, 0x0156 };
 static const XPoint _Const0082 = { 2, 6 };
-static const XStringRes _Const0083 = { _StringsDefault0, 0x015B };
-static const XStringRes _Const0084 = { _StringsDefault0, 0x0161 };
-static const XStringRes _Const0085 = { _StringsDefault0, 0x0168 };
-static const XStringRes _Const0086 = { _StringsDefault0, 0x0171 };
+static const XStringRes _Const0083 = { _StringsDefault0, 0x0169 };
+static const XStringRes _Const0084 = { _StringsDefault0, 0x016F };
+static const XStringRes _Const0085 = { _StringsDefault0, 0x0176 };
+static const XStringRes _Const0086 = { _StringsDefault0, 0x017F };
 static const XRect _Const0087 = {{ 310, 0 }, { 380, 40 }};
 static const XRect _Const0088 = {{ 230, 0 }, { 300, 40 }};
 static const XRect _Const0089 = {{ 150, 0 }, { 220, 40 }};
-static const XStringRes _Const008A = { _StringsDefault0, 0x017A };
-static const XStringRes _Const008B = { _StringsDefault0, 0x0188 };
+static const XStringRes _Const008A = { _StringsDefault0, 0x0188 };
+static const XStringRes _Const008B = { _StringsDefault0, 0x0196 };
 static const XPoint _Const008C = { 80, 220 };
 static const XPoint _Const008D = { 80, 20 };
 static const XPoint _Const008E = { 140, 220 };
@@ -260,188 +261,191 @@ static const XPoint _Const0095 = { 320, 120 };
 static const XPoint _Const0096 = { 20, 120 };
 static const XPoint _Const0097 = { 320, 70 };
 static const XRect _Const0098 = {{ 60, 220 }, { 100, 240 }};
-static const XStringRes _Const0099 = { _StringsDefault0, 0x018E };
+static const XStringRes _Const0099 = { _StringsDefault0, 0x019C };
 static const XRect _Const009A = {{ 120, 220 }, { 160, 240 }};
-static const XStringRes _Const009B = { _StringsDefault0, 0x0194 };
+static const XStringRes _Const009B = { _StringsDefault0, 0x01A2 };
 static const XRect _Const009C = {{ 180, 220 }, { 220, 240 }};
 static const XRect _Const009D = {{ 240, 220 }, { 280, 240 }};
-static const XStringRes _Const009E = { _StringsDefault0, 0x019A };
+static const XStringRes _Const009E = { _StringsDefault0, 0x01A8 };
 static const XRect _Const009F = {{ 330, 160 }, { 370, 180 }};
-static const XStringRes _Const00A0 = { _StringsDefault0, 0x01A0 };
+static const XStringRes _Const00A0 = { _StringsDefault0, 0x01AE };
 static const XRect _Const00A1 = {{ 330, 110 }, { 370, 130 }};
-static const XStringRes _Const00A2 = { _StringsDefault0, 0x01A8 };
+static const XStringRes _Const00A2 = { _StringsDefault0, 0x01B6 };
 static const XRect _Const00A3 = {{ 330, 60 }, { 370, 80 }};
-static const XStringRes _Const00A4 = { _StringsDefault0, 0x01AF };
+static const XStringRes _Const00A4 = { _StringsDefault0, 0x01BD };
 static const XRect _Const00A5 = {{ 20, 20 }, { 320, 220 }};
 static const XPoint _Const00A6 = { 0, 200 };
 static const XPoint _Const00A7 = { 6, 200 };
 static const XColor _Const00A8 = { 0x5B, 0x56, 0x27, 0x00 };
 static const XColor _Const00A9 = { 0x0C, 0x0E, 0x6E, 0x00 };
 static const XRect _Const00AA = {{ 370, 40 }, { 470, 85 }};
-static const XStringRes _Const00AB = { _StringsDefault0, 0x01B7 };
+static const XStringRes _Const00AB = { _StringsDefault0, 0x01C5 };
 static const XRect _Const00AC = {{ 370, 100 }, { 470, 145 }};
-static const XStringRes _Const00AD = { _StringsDefault0, 0x01C1 };
+static const XStringRes _Const00AD = { _StringsDefault0, 0x01CF };
 static const XRect _Const00AE = {{ 370, 160 }, { 470, 205 }};
-static const XStringRes _Const00AF = { _StringsDefault0, 0x01CB };
-static const XRect _Const00B0 = {{ 10, 30 }, { 470, 80 }};
-static const XStringRes _Const00B1 = { _StringsDefault0, 0x01D5 };
-static const XRect _Const00B2 = {{ 100, 180 }, { 220, 210 }};
-static const XStringRes _Const00B3 = { _StringsDefault0, 0x01E6 };
-static const XRect _Const00B4 = {{ 0, 0 }, { 260, 30 }};
-static const XStringRes _Const00B5 = { _StringsDefault0, 0x01F1 };
-static const XRect _Const00B6 = {{ 0, 80 }, { 220, 110 }};
-static const XStringRes _Const00B7 = { _StringsDefault1, 0x0003 };
-static const XRect _Const00B8 = {{ 10, 110 }, { 470, 160 }};
-static const XStringRes _Const00B9 = { _StringsDefault1, 0x001E };
-static const XRect _Const00BA = {{ 260, 180 }, { 380, 210 }};
-static const XStringRes _Const00BB = { _StringsDefault1, 0x002E };
-static const XStringRes _Const00BC = { _StringsDefault1, 0x0037 };
-static const XStringRes _Const00BD = { _StringsDefault1, 0x0043 };
-static const XStringRes _Const00BE = { _StringsDefault1, 0x0054 };
-static const XRect _Const00BF = {{ 0, 0 }, { 120, 30 }};
-static const XPoint _Const00C0 = { 0, 30 };
-static const XPoint _Const00C1 = { 120, 30 };
-static const XPoint _Const00C2 = { 120, 0 };
-static const XStringRes _Const00C3 = { _StringsDefault1, 0x0060 };
-static const XRect _Const00C4 = {{ 0, 0 }, { 800, 480 }};
-static const XRect _Const00C5 = {{ 0, 430 }, { 800, 480 }};
-static const XRect _Const00C6 = {{ 0, 0 }, { 800, 430 }};
-static const XRect _Const00C7 = {{ 800, 0 }, { 1600, 430 }};
-static const XRect _Const00C8 = {{ 1600, 0 }, { 2400, 430 }};
-static const XRect _Const00C9 = {{ 2400, 0 }, { 3200, 430 }};
-static const XRect _Const00CA = {{ 3200, 0 }, { 4000, 430 }};
-static const XRect _Const00CB = {{ 4000, 0 }, { 4800, 430 }};
-static const XPoint _Const00CC = { 225, 215 };
-static const XRect _Const00CD = {{ 30, 20 }, { 420, 410 }};
-static const XRect _Const00CE = {{ 410, 205 }, { 460, 225 }};
-static const XRect _Const00CF = {{ -11, 205 }, { 39, 225 }};
-static const XRect _Const00D0 = {{ 200, 0 }, { 250, 20 }};
-static const XRect _Const00D1 = {{ 200, 410 }, { 250, 430 }};
-static const XRect _Const00D2 = {{ 318, 385 }, { 348, 406 }};
-static const XRect _Const00D3 = {{ 99, 383 }, { 129, 404 }};
-static const XRect _Const00D4 = {{ 23, 308 }, { 53, 329 }};
-static const XRect _Const00D5 = {{ 105, 24 }, { 135, 45 }};
-static const XRect _Const00D6 = {{ 322, 24 }, { 342, 45 }};
-static const XRect _Const00D7 = {{ 398, 307 }, { 428, 328 }};
-static const XRect _Const00D8 = {{ 400, 100 }, { 420, 121 }};
-static const XRect _Const00D9 = {{ 20, 100 }, { 50, 121 }};
-static const XRect _Const00DA = {{ 450, 20 }, { 632, 48 }};
-static const XRect _Const00DB = {{ 673, 20 }, { 785, 48 }};
-static const XRect _Const00DC = {{ 610, 150 }, { 626, 182 }};
-static const XRect _Const00DD = {{ 760, 150 }, { 776, 182 }};
-static const XRect _Const00DE = {{ 610, 110 }, { 626, 142 }};
-static const XRect _Const00DF = {{ 760, 110 }, { 776, 142 }};
-static const XRect _Const00E0 = {{ 610, 70 }, { 626, 102 }};
-static const XRect _Const00E1 = {{ 760, 70 }, { 776, 102 }};
-static const XPoint _Const00E2 = { 790, 60 };
-static const XPoint _Const00E3 = { 440, 60 };
-static const XPoint _Const00E4 = { 225, 227 };
-static const XPoint _Const00E5 = { 420, 227 };
-static const XPoint _Const00E6 = { 420, 211 };
-static const XPoint _Const00E7 = { 225, 211 };
-static const XPoint _Const00E8 = { 2, 7 };
-static const XRect _Const00E9 = {{ 650, 310 }, { 790, 340 }};
-static const XRect _Const00EA = {{ 650, 200 }, { 800, 230 }};
-static const XRect _Const00EB = {{ 650, 90 }, { 780, 120 }};
-static const XRect _Const00EC = {{ 600, 390 }, { 680, 420 }};
-static const XRect _Const00ED = {{ 450, 390 }, { 530, 420 }};
-static const XRect _Const00EE = {{ 300, 390 }, { 380, 420 }};
-static const XRect _Const00EF = {{ 150, 390 }, { 230, 420 }};
-static const XRect _Const00F0 = {{ 0, 390 }, { 80, 420 }};
-static const XRect _Const00F1 = {{ 40, 0 }, { 280, 50 }};
-static const XRect _Const00F2 = {{ 280, 0 }, { 530, 50 }};
-static const XPoint _Const00F3 = { 490, 380 };
-static const XPoint _Const00F4 = { 490, 50 };
-static const XPoint _Const00F5 = { 340, 380 };
-static const XPoint _Const00F6 = { 340, 50 };
-static const XPoint _Const00F7 = { 190, 380 };
-static const XPoint _Const00F8 = { 190, 50 };
-static const XPoint _Const00F9 = { 640, 325 };
-static const XPoint _Const00FA = { 40, 325 };
-static const XPoint _Const00FB = { 640, 270 };
-static const XPoint _Const00FC = { 40, 270 };
-static const XPoint _Const00FD = { 640, 215 };
-static const XPoint _Const00FE = { 40, 215 };
-static const XPoint _Const00FF = { 640, 160 };
-static const XPoint _Const0100 = { 40, 160 };
-static const XPoint _Const0101 = { 640, 105 };
-static const XPoint _Const0102 = { 40, 105 };
-static const XRect _Const0103 = {{ 40, 50 }, { 640, 380 }};
-static const XRect _Const0104 = {{ 40, 50 }, { 1240, 380 }};
-static const XPoint _Const0105 = { 0, 165 };
-static const XPoint _Const0106 = { 2, 60 };
-static const XRect _Const0107 = {{ 660, 320 }, { 770, 350 }};
-static const XRect _Const0108 = {{ 660, 200 }, { 770, 230 }};
-static const XRect _Const0109 = {{ 660, 80 }, { 770, 110 }};
-static const XRect _Const010A = {{ 600, 400 }, { 680, 430 }};
-static const XRect _Const010B = {{ 450, 400 }, { 530, 430 }};
-static const XRect _Const010C = {{ 300, 400 }, { 380, 430 }};
-static const XRect _Const010D = {{ 150, 400 }, { 230, 430 }};
-static const XRect _Const010E = {{ 0, 400 }, { 80, 430 }};
-static const XRect _Const010F = {{ 610, 0 }, { 740, 40 }};
-static const XRect _Const0110 = {{ 480, 0 }, { 610, 40 }};
-static const XRect _Const0111 = {{ 350, 0 }, { 480, 40 }};
-static const XRect _Const0112 = {{ 40, 0 }, { 350, 40 }};
-static const XPoint _Const0113 = { 490, 399 };
-static const XPoint _Const0114 = { 490, 40 };
-static const XPoint _Const0115 = { 339, 399 };
-static const XPoint _Const0116 = { 339, 40 };
-static const XPoint _Const0117 = { 190, 399 };
-static const XPoint _Const0118 = { 190, 40 };
-static const XPoint _Const0119 = { 639, 339 };
-static const XPoint _Const011A = { 40, 339 };
-static const XPoint _Const011B = { 639, 280 };
-static const XPoint _Const011C = { 40, 280 };
-static const XPoint _Const011D = { 639, 219 };
-static const XPoint _Const011E = { 40, 219 };
-static const XPoint _Const011F = { 639, 159 };
-static const XPoint _Const0120 = { 40, 159 };
-static const XPoint _Const0121 = { 639, 100 };
-static const XPoint _Const0122 = { 40, 100 };
-static const XRect _Const0123 = {{ 40, 40 }, { 640, 400 }};
-static const XRect _Const0124 = {{ 40, 40 }, { 1240, 400 }};
-static const XPoint _Const0125 = { 0, 180 };
-static const XPoint _Const0126 = { 3, 6 };
-static const XRect _Const0127 = {{ 520, 0 }, { 650, 40 }};
-static const XRect _Const0128 = {{ 380, 0 }, { 510, 40 }};
-static const XRect _Const0129 = {{ 250, 0 }, { 380, 40 }};
-static const XRect _Const012A = {{ 40, 0 }, { 250, 40 }};
-static const XPoint _Const012B = { 120, 399 };
-static const XPoint _Const012C = { 120, 20 };
-static const XPoint _Const012D = { 219, 399 };
-static const XPoint _Const012E = { 219, 20 };
-static const XPoint _Const012F = { 320, 399 };
-static const XPoint _Const0130 = { 320, 20 };
-static const XPoint _Const0131 = { 420, 399 };
-static const XPoint _Const0132 = { 420, 20 };
-static const XPoint _Const0133 = { 519, 304 };
-static const XPoint _Const0134 = { 20, 304 };
-static const XPoint _Const0135 = { 519, 209 };
-static const XPoint _Const0136 = { 20, 209 };
-static const XPoint _Const0137 = { 519, 115 };
-static const XPoint _Const0138 = { 20, 115 };
-static const XRect _Const0139 = {{ 90, 400 }, { 150, 430 }};
-static const XRect _Const013A = {{ 190, 400 }, { 250, 430 }};
-static const XRect _Const013B = {{ 290, 400 }, { 350, 430 }};
-static const XRect _Const013C = {{ 390, 400 }, { 450, 430 }};
-static const XRect _Const013D = {{ 530, 290 }, { 600, 320 }};
-static const XRect _Const013E = {{ 530, 195 }, { 600, 225 }};
-static const XRect _Const013F = {{ 530, 100 }, { 600, 130 }};
-static const XRect _Const0140 = {{ 20, 20 }, { 520, 400 }};
-static const XPoint _Const0141 = { 0, 380 };
-static const XPoint _Const0142 = { 10, 380 };
-static const XRect _Const0143 = {{ 610, 60 }, { 780, 130 }};
-static const XRect _Const0144 = {{ 610, 180 }, { 780, 250 }};
-static const XRect _Const0145 = {{ 610, 300 }, { 780, 370 }};
-static const XRect _Const0146 = {{ 10, 80 }, { 790, 130 }};
-static const XRect _Const0147 = {{ 120, 320 }, { 360, 380 }};
-static const XRect _Const0148 = {{ 10, 10 }, { 430, 60 }};
-static const XStringRes _Const0149 = { _StringsDefault1, 0x006A };
-static const XRect _Const014A = {{ 10, 170 }, { 370, 220 }};
-static const XStringRes _Const014B = { _StringsDefault1, 0x0080 };
-static const XRect _Const014C = {{ 10, 220 }, { 780, 280 }};
-static const XStringRes _Const014D = { _StringsDefault1, 0x0097 };
-static const XRect _Const014E = {{ 440, 320 }, { 680, 380 }};
+static const XStringRes _Const00AF = { _StringsDefault0, 0x01D9 };
+static const XRect _Const00B0 = {{ 0, 0 }, { 480, 240 }};
+static const XRect _Const00B1 = {{ 10, 30 }, { 470, 80 }};
+static const XStringRes _Const00B2 = { _StringsDefault0, 0x01E3 };
+static const XRect _Const00B3 = {{ 100, 180 }, { 220, 210 }};
+static const XStringRes _Const00B4 = { _StringsDefault0, 0x01F4 };
+static const XRect _Const00B5 = {{ 0, 0 }, { 260, 30 }};
+static const XStringRes _Const00B6 = { _StringsDefault0, 0x01FF };
+static const XRect _Const00B7 = {{ 0, 80 }, { 220, 110 }};
+static const XStringRes _Const00B8 = { _StringsDefault1, 0x0003 };
+static const XRect _Const00B9 = {{ 10, 110 }, { 470, 160 }};
+static const XStringRes _Const00BA = { _StringsDefault1, 0x001A };
+static const XRect _Const00BB = {{ 260, 180 }, { 380, 210 }};
+static const XStringRes _Const00BC = { _StringsDefault1, 0x002A };
+static const XStringRes _Const00BD = { _StringsDefault1, 0x0033 };
+static const XStringRes _Const00BE = { _StringsDefault1, 0x003F };
+static const XStringRes _Const00BF = { _StringsDefault1, 0x0050 };
+static const XRect _Const00C0 = {{ 0, 0 }, { 120, 30 }};
+static const XPoint _Const00C1 = { 0, 30 };
+static const XPoint _Const00C2 = { 120, 30 };
+static const XPoint _Const00C3 = { 120, 0 };
+static const XStringRes _Const00C4 = { _StringsDefault1, 0x005C };
+static const XRect _Const00C5 = {{ 0, 0 }, { 800, 480 }};
+static const XRect _Const00C6 = {{ 0, 8 }, { 800, 488 }};
+static const XRect _Const00C7 = {{ 0, 438 }, { 800, 488 }};
+static const XRect _Const00C8 = {{ 30, 438 }, { 770, 480 }};
+static const XRect _Const00C9 = {{ 0, 8 }, { 800, 438 }};
+static const XRect _Const00CA = {{ 800, 8 }, { 1600, 438 }};
+static const XRect _Const00CB = {{ 1600, 8 }, { 2400, 438 }};
+static const XRect _Const00CC = {{ 2400, 8 }, { 3200, 438 }};
+static const XRect _Const00CD = {{ 3200, 8 }, { 4000, 438 }};
+static const XRect _Const00CE = {{ 4000, 8 }, { 4800, 438 }};
+static const XRect _Const00CF = {{ 0, 0 }, { 800, 430 }};
+static const XPoint _Const00D0 = { 225, 215 };
+static const XRect _Const00D1 = {{ 30, 20 }, { 420, 410 }};
+static const XRect _Const00D2 = {{ 410, 205 }, { 460, 225 }};
+static const XRect _Const00D3 = {{ -11, 205 }, { 39, 225 }};
+static const XRect _Const00D4 = {{ 200, 0 }, { 250, 20 }};
+static const XRect _Const00D5 = {{ 200, 410 }, { 250, 430 }};
+static const XRect _Const00D6 = {{ 318, 385 }, { 348, 406 }};
+static const XRect _Const00D7 = {{ 99, 383 }, { 129, 404 }};
+static const XRect _Const00D8 = {{ 23, 308 }, { 53, 329 }};
+static const XRect _Const00D9 = {{ 105, 24 }, { 135, 45 }};
+static const XRect _Const00DA = {{ 322, 24 }, { 342, 45 }};
+static const XRect _Const00DB = {{ 398, 307 }, { 428, 328 }};
+static const XRect _Const00DC = {{ 400, 100 }, { 420, 121 }};
+static const XRect _Const00DD = {{ 20, 100 }, { 50, 121 }};
+static const XRect _Const00DE = {{ 450, 20 }, { 632, 48 }};
+static const XRect _Const00DF = {{ 673, 20 }, { 785, 48 }};
+static const XRect _Const00E0 = {{ 610, 150 }, { 626, 182 }};
+static const XRect _Const00E1 = {{ 760, 150 }, { 776, 182 }};
+static const XRect _Const00E2 = {{ 610, 110 }, { 626, 142 }};
+static const XRect _Const00E3 = {{ 760, 110 }, { 776, 142 }};
+static const XRect _Const00E4 = {{ 610, 70 }, { 626, 102 }};
+static const XRect _Const00E5 = {{ 760, 70 }, { 776, 102 }};
+static const XPoint _Const00E6 = { 790, 60 };
+static const XPoint _Const00E7 = { 440, 60 };
+static const XPoint _Const00E8 = { 225, 227 };
+static const XPoint _Const00E9 = { 420, 227 };
+static const XPoint _Const00EA = { 420, 211 };
+static const XPoint _Const00EB = { 225, 211 };
+static const XPoint _Const00EC = { 2, 7 };
+static const XRect _Const00ED = {{ 650, 310 }, { 790, 340 }};
+static const XRect _Const00EE = {{ 650, 200 }, { 800, 230 }};
+static const XRect _Const00EF = {{ 650, 90 }, { 780, 120 }};
+static const XRect _Const00F0 = {{ 600, 390 }, { 680, 420 }};
+static const XRect _Const00F1 = {{ 450, 390 }, { 530, 420 }};
+static const XRect _Const00F2 = {{ 300, 390 }, { 380, 420 }};
+static const XRect _Const00F3 = {{ 150, 390 }, { 230, 420 }};
+static const XRect _Const00F4 = {{ 0, 390 }, { 80, 420 }};
+static const XRect _Const00F5 = {{ 40, 0 }, { 280, 50 }};
+static const XRect _Const00F6 = {{ 280, 0 }, { 530, 50 }};
+static const XPoint _Const00F7 = { 490, 380 };
+static const XPoint _Const00F8 = { 490, 50 };
+static const XPoint _Const00F9 = { 340, 380 };
+static const XPoint _Const00FA = { 340, 50 };
+static const XPoint _Const00FB = { 190, 380 };
+static const XPoint _Const00FC = { 190, 50 };
+static const XPoint _Const00FD = { 640, 325 };
+static const XPoint _Const00FE = { 40, 325 };
+static const XPoint _Const00FF = { 640, 270 };
+static const XPoint _Const0100 = { 40, 270 };
+static const XPoint _Const0101 = { 640, 215 };
+static const XPoint _Const0102 = { 40, 215 };
+static const XPoint _Const0103 = { 640, 160 };
+static const XPoint _Const0104 = { 40, 160 };
+static const XPoint _Const0105 = { 640, 105 };
+static const XPoint _Const0106 = { 40, 105 };
+static const XRect _Const0107 = {{ 40, 50 }, { 640, 380 }};
+static const XRect _Const0108 = {{ 40, 50 }, { 1240, 380 }};
+static const XPoint _Const0109 = { 0, 165 };
+static const XPoint _Const010A = { 2, 60 };
+static const XRect _Const010B = {{ 660, 320 }, { 770, 350 }};
+static const XRect _Const010C = {{ 660, 200 }, { 770, 230 }};
+static const XRect _Const010D = {{ 660, 80 }, { 770, 110 }};
+static const XRect _Const010E = {{ 600, 400 }, { 680, 430 }};
+static const XRect _Const010F = {{ 450, 400 }, { 530, 430 }};
+static const XRect _Const0110 = {{ 300, 400 }, { 380, 430 }};
+static const XRect _Const0111 = {{ 150, 400 }, { 230, 430 }};
+static const XRect _Const0112 = {{ 0, 400 }, { 80, 430 }};
+static const XRect _Const0113 = {{ 610, 0 }, { 740, 40 }};
+static const XRect _Const0114 = {{ 480, 0 }, { 610, 40 }};
+static const XRect _Const0115 = {{ 350, 0 }, { 480, 40 }};
+static const XRect _Const0116 = {{ 40, 0 }, { 350, 40 }};
+static const XPoint _Const0117 = { 490, 399 };
+static const XPoint _Const0118 = { 490, 40 };
+static const XPoint _Const0119 = { 339, 399 };
+static const XPoint _Const011A = { 339, 40 };
+static const XPoint _Const011B = { 190, 399 };
+static const XPoint _Const011C = { 190, 40 };
+static const XPoint _Const011D = { 639, 339 };
+static const XPoint _Const011E = { 40, 339 };
+static const XPoint _Const011F = { 639, 280 };
+static const XPoint _Const0120 = { 40, 280 };
+static const XPoint _Const0121 = { 639, 219 };
+static const XPoint _Const0122 = { 40, 219 };
+static const XPoint _Const0123 = { 639, 159 };
+static const XPoint _Const0124 = { 40, 159 };
+static const XPoint _Const0125 = { 639, 100 };
+static const XPoint _Const0126 = { 40, 100 };
+static const XRect _Const0127 = {{ 40, 40 }, { 640, 400 }};
+static const XRect _Const0128 = {{ 40, 40 }, { 1240, 400 }};
+static const XPoint _Const0129 = { 0, 180 };
+static const XPoint _Const012A = { 3, 6 };
+static const XRect _Const012B = {{ 520, 0 }, { 650, 40 }};
+static const XRect _Const012C = {{ 380, 0 }, { 510, 40 }};
+static const XRect _Const012D = {{ 250, 0 }, { 380, 40 }};
+static const XRect _Const012E = {{ 40, 0 }, { 250, 40 }};
+static const XPoint _Const012F = { 120, 399 };
+static const XPoint _Const0130 = { 120, 20 };
+static const XPoint _Const0131 = { 219, 399 };
+static const XPoint _Const0132 = { 219, 20 };
+static const XPoint _Const0133 = { 320, 399 };
+static const XPoint _Const0134 = { 320, 20 };
+static const XPoint _Const0135 = { 420, 399 };
+static const XPoint _Const0136 = { 420, 20 };
+static const XPoint _Const0137 = { 519, 304 };
+static const XPoint _Const0138 = { 20, 304 };
+static const XPoint _Const0139 = { 519, 209 };
+static const XPoint _Const013A = { 20, 209 };
+static const XPoint _Const013B = { 519, 115 };
+static const XPoint _Const013C = { 20, 115 };
+static const XRect _Const013D = {{ 90, 400 }, { 150, 430 }};
+static const XRect _Const013E = {{ 190, 400 }, { 250, 430 }};
+static const XRect _Const013F = {{ 290, 400 }, { 350, 430 }};
+static const XRect _Const0140 = {{ 390, 400 }, { 450, 430 }};
+static const XRect _Const0141 = {{ 530, 290 }, { 600, 320 }};
+static const XRect _Const0142 = {{ 530, 195 }, { 600, 225 }};
+static const XRect _Const0143 = {{ 530, 100 }, { 600, 130 }};
+static const XRect _Const0144 = {{ 20, 20 }, { 520, 400 }};
+static const XPoint _Const0145 = { 0, 380 };
+static const XPoint _Const0146 = { 10, 380 };
+static const XRect _Const0147 = {{ 610, 60 }, { 780, 130 }};
+static const XRect _Const0148 = {{ 610, 180 }, { 780, 250 }};
+static const XRect _Const0149 = {{ 610, 300 }, { 780, 370 }};
+static const XRect _Const014A = {{ 10, 80 }, { 790, 130 }};
+static const XRect _Const014B = {{ 120, 320 }, { 360, 380 }};
+static const XRect _Const014C = {{ 10, 10 }, { 430, 60 }};
+static const XStringRes _Const014D = { _StringsDefault1, 0x0066 };
+static const XRect _Const014E = {{ 10, 170 }, { 370, 220 }};
+static const XRect _Const014F = {{ 10, 220 }, { 780, 280 }};
+static const XStringRes _Const0150 = { _StringsDefault1, 0x007C };
+static const XRect _Const0151 = {{ 440, 320 }, { 680, 380 }};
 
 #ifndef EW_DONT_CHECK_INDEX
   /* This function is used to check the indices when accessing an array.
@@ -6136,23 +6140,27 @@ void ApplicationVNC__Init( ApplicationVNC _this, XObject aLink, XHandle aArg )
   _this->_VMT = EW_CLASS( ApplicationVNC );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0008 );
-  CoreRectView__OnSetBounds( &_this->Message, _Const00B0 );
-  ViewsText_OnSetString( &_this->Message, EwLoadString( &_Const00B1 ));
+  CoreRectView__OnSetBounds( _this, _Const00B0 );
+  CoreRectView__OnSetBounds( &_this->Message, _Const00B1 );
+  ViewsText_OnSetString( &_this->Message, EwLoadString( &_Const00B2 ));
   ViewsText_OnSetColor( &_this->Message, _Const0015 );
-  CoreRectView__OnSetBounds( &_this->BStart, _Const00B2 );
-  ApplicationModifiedButton_OnSetCaption( &_this->BStart, EwLoadString( &_Const00B3 
+  CoreRectView__OnSetBounds( &_this->BStart, _Const00B3 );
+  ApplicationModifiedButton_OnSetCaption( &_this->BStart, EwLoadString( &_Const00B4 
   ));
-  CoreRectView__OnSetBounds( &_this->labelMsg, _Const00B4 );
-  ViewsText_OnSetString( &_this->labelMsg, EwLoadString( &_Const00B5 ));
-  CoreRectView__OnSetBounds( &_this->labelState, _Const00B6 );
-  ViewsText_OnSetString( &_this->labelState, EwLoadString( &_Const00B7 ));
-  CoreRectView__OnSetBounds( &_this->Status, _Const00B8 );
-  ViewsText_OnSetString( &_this->Status, EwLoadString( &_Const00B9 ));
+  CoreRectView__OnSetBounds( &_this->labelMsg, _Const00B5 );
+  ViewsText_OnSetAlignment( &_this->labelMsg, ViewsTextAlignmentAlignHorzLeft | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelMsg, EwLoadString( &_Const00B6 ));
+  CoreRectView__OnSetBounds( &_this->labelState, _Const00B7 );
+  ViewsText_OnSetAlignment( &_this->labelState, ViewsTextAlignmentAlignHorzLeft 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->labelState, EwLoadString( &_Const00B8 ));
+  CoreRectView__OnSetBounds( &_this->Status, _Const00B9 );
+  ViewsText_OnSetString( &_this->Status, EwLoadString( &_Const00BA ));
   ViewsText_OnSetColor( &_this->Status, _Const0015 );
-  CoreRectView__OnSetBounds( &_this->BStop, _Const00BA );
+  CoreRectView__OnSetBounds( &_this->BStop, _Const00BB );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 0 );
-  ApplicationModifiedButton_OnSetCaption( &_this->BStop, EwLoadString( &_Const00BB 
+  ApplicationModifiedButton_OnSetCaption( &_this->BStop, EwLoadString( &_Const00BC 
   ));
   CoreGroup__Add( _this, ((CoreView)&_this->Message ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->BStart ), 0 );
@@ -6316,9 +6324,9 @@ void ApplicationVNC_StatusChange( ApplicationVNC _this, XObject sender )
   );
   ViewsText_OnSetString( &_this->Status, ctxRecebido->Status );
 
-  if (( !EwCompString( _this->Status.String, EwLoadString( &_Const00BC )) || !EwCompString( 
-      _this->Status.String, EwLoadString( &_Const00BD ))) || !EwCompString( _this->Status.String, 
-      EwLoadString( &_Const00BE )))
+  if (( !EwCompString( _this->Status.String, EwLoadString( &_Const00BD )) || !EwCompString( 
+      _this->Status.String, EwLoadString( &_Const00BE ))) || !EwCompString( _this->Status.String, 
+      EwLoadString( &_Const00BF )))
   {
     CoreGroup_OnSetEnabled((CoreGroup)&_this->BStart, 1 );
     CoreGroup_OnSetEnabled((CoreGroup)&_this->BStop, 0 );
@@ -6382,26 +6390,26 @@ void ApplicationModifiedButton__Init( ApplicationModifiedButton _this, XObject a
   _this->_VMT = EW_CLASS( ApplicationModifiedButton );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00BF );
+  CoreRectView__OnSetBounds( _this, _Const00C0 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00C0 );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00C1 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00C2 );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00C1 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00C2 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00C3 );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0001 );
   CoreView_OnSetLayout((CoreView)&_this->Frame, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert 
   );
-  CoreRectView__OnSetBounds( &_this->Frame, _Const00BF );
+  CoreRectView__OnSetBounds( &_this->Frame, _Const00C0 );
   ViewsFrame_OnSetColor( &_this->Frame, FlatColorOfTouch );
   CoreView_OnSetLayout((CoreView)&_this->CaptionText, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->CaptionText, _Const00BF );
-  ViewsText_OnSetString( &_this->CaptionText, EwLoadString( &_Const00C3 ));
+  CoreRectView__OnSetBounds( &_this->CaptionText, _Const00C0 );
+  ViewsText_OnSetString( &_this->CaptionText, EwLoadString( &_Const00C4 ));
   ViewsText_OnSetColor( &_this->CaptionText, FlatColorOfBackground );
-  EwRetainString( &_this->Caption, EwLoadString( &_Const00C3 ));
+  EwRetainString( &_this->Caption, EwLoadString( &_Const00C4 ));
   _this->ItemColor = FlatColorOfTouch;
   _this->TextColor = FlatColorOfBackground;
   _this->ItemColorActive = FlatColorOfTheme;
@@ -7063,18 +7071,18 @@ void ApplicationAplic769__Init( ApplicationAplic _this, XObject aLink, XHandle a
   _vthis->_VMT = EW_VCLASS( ApplicationAplic769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00C4 );
-  CoreRectView__OnSetBounds( &_this->WipeTouchHandler, _Const00C4 );
-  CoreRectView__OnSetBounds( &_this->Rectangle, _Const00C4 );
-  CoreRectView__OnSetBounds( &_this->Rectangle1, _Const00C5 );
-  CoreRectView__OnSetBounds( &_this->Title, _Const00C5 );
-  CoreRectView__OnSetBounds( &_this->Janela, _Const00C6 );
-  CoreRectView__OnSetBounds( &_this->TFasores, _Const00C6 );
-  CoreRectView__OnSetBounds( &_this->TFreq, _Const00C7 );
-  CoreRectView__OnSetBounds( &_this->TMag, _Const00C8 );
-  CoreRectView__OnSetBounds( &_this->TFase, _Const00C9 );
-  CoreRectView__OnSetBounds( &_this->TFFT, _Const00CA );
-  CoreRectView__OnSetBounds( &_this->TVNC, _Const00CB );
+  CoreRectView__OnSetBounds( _this, _Const00C5 );
+  CoreRectView__OnSetBounds( &_this->WipeTouchHandler, _Const00C6 );
+  CoreRectView__OnSetBounds( &_this->Rectangle, _Const00C6 );
+  CoreRectView__OnSetBounds( &_this->Rectangle1, _Const00C7 );
+  CoreRectView__OnSetBounds( &_this->Title, _Const00C8 );
+  CoreRectView__OnSetBounds( &_this->Janela, _Const00C9 );
+  CoreRectView__OnSetBounds( &_this->TFasores, _Const00C9 );
+  CoreRectView__OnSetBounds( &_this->TFreq, _Const00CA );
+  CoreRectView__OnSetBounds( &_this->TMag, _Const00CB );
+  CoreRectView__OnSetBounds( &_this->TFase, _Const00CC );
+  CoreRectView__OnSetBounds( &_this->TFFT, _Const00CD );
+  CoreRectView__OnSetBounds( &_this->TVNC, _Const00CE );
   CoreGroup__Restack( _this, ((CoreView)&_this->WipeTouchHandler ), -3 );
 }
 
@@ -7122,48 +7130,48 @@ void ApplicationFasores769__Init( ApplicationFasores _this, XObject aLink, XHand
   _vthis->_VMT = EW_VCLASS( ApplicationFasores769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00C6 );
-  _this->centro = _Const00CC;
-  CoreRectView__OnSetBounds( &_this->grid, _Const00CD );
-  CoreRectView__OnSetBounds( &_this->label0, _Const00CE );
-  CoreRectView__OnSetBounds( &_this->label180, _Const00CF );
-  CoreRectView__OnSetBounds( &_this->label90, _Const00D0 );
-  CoreRectView__OnSetBounds( &_this->label270, _Const00D1 );
-  CoreRectView__OnSetBounds( &_this->label300, _Const00D2 );
+  CoreRectView__OnSetBounds( _this, _Const00CF );
+  _this->centro = _Const00D0;
+  CoreRectView__OnSetBounds( &_this->grid, _Const00D1 );
+  CoreRectView__OnSetBounds( &_this->label0, _Const00D2 );
+  CoreRectView__OnSetBounds( &_this->label180, _Const00D3 );
+  CoreRectView__OnSetBounds( &_this->label90, _Const00D4 );
+  CoreRectView__OnSetBounds( &_this->label270, _Const00D5 );
+  CoreRectView__OnSetBounds( &_this->label300, _Const00D6 );
   ViewsText_OnSetAutoSize( &_this->label300, 1 );
-  CoreRectView__OnSetBounds( &_this->label240, _Const00D3 );
+  CoreRectView__OnSetBounds( &_this->label240, _Const00D7 );
   ViewsText_OnSetAutoSize( &_this->label240, 1 );
-  CoreRectView__OnSetBounds( &_this->label210, _Const00D4 );
-  CoreRectView__OnSetBounds( &_this->label120, _Const00D5 );
-  CoreRectView__OnSetBounds( &_this->label60, _Const00D6 );
-  CoreRectView__OnSetBounds( &_this->label330, _Const00D7 );
-  CoreRectView__OnSetBounds( &_this->label30, _Const00D8 );
-  CoreRectView__OnSetBounds( &_this->label150, _Const00D9 );
-  CoreRectView__OnSetBounds( &_this->labelMag, _Const00DA );
-  CoreRectView__OnSetBounds( &_this->labelAng, _Const00DB );
-  CoreRectView__OnSetBounds( &_this->fTverm_mag, _Const00DC );
-  CoreRectView__OnSetBounds( &_this->fTverm_ang, _Const00DD );
-  CoreRectView__OnSetBounds( &_this->fSamarelo_mag, _Const00DE );
-  CoreRectView__OnSetBounds( &_this->fSamarelo_ang, _Const00DF );
-  CoreRectView__OnSetBounds( &_this->fRverde_mag, _Const00E0 );
-  CoreRectView__OnSetBounds( &_this->fRverde_ang, _Const00E1 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00E2 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00E3 );
-  CoreQuadView__OnSetPoint4( &_this->fasor_T, _Const00E4 );
-  CoreQuadView__OnSetPoint3( &_this->fasor_T, _Const00E5 );
-  CoreQuadView__OnSetPoint2( &_this->fasor_T, _Const00E6 );
-  CoreQuadView__OnSetPoint1( &_this->fasor_T, _Const00E7 );
-  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_T, _Const00E8 );
-  CoreQuadView__OnSetPoint4( &_this->fasor_S, _Const00E4 );
-  CoreQuadView__OnSetPoint3( &_this->fasor_S, _Const00E5 );
-  CoreQuadView__OnSetPoint2( &_this->fasor_S, _Const00E6 );
-  CoreQuadView__OnSetPoint1( &_this->fasor_S, _Const00E7 );
-  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_S, _Const00E8 );
-  CoreQuadView__OnSetPoint4( &_this->fasor_R, _Const00E4 );
-  CoreQuadView__OnSetPoint3( &_this->fasor_R, _Const00E5 );
-  CoreQuadView__OnSetPoint2( &_this->fasor_R, _Const00E6 );
-  CoreQuadView__OnSetPoint1( &_this->fasor_R, _Const00E7 );
-  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_R, _Const00E8 );
+  CoreRectView__OnSetBounds( &_this->label210, _Const00D8 );
+  CoreRectView__OnSetBounds( &_this->label120, _Const00D9 );
+  CoreRectView__OnSetBounds( &_this->label60, _Const00DA );
+  CoreRectView__OnSetBounds( &_this->label330, _Const00DB );
+  CoreRectView__OnSetBounds( &_this->label30, _Const00DC );
+  CoreRectView__OnSetBounds( &_this->label150, _Const00DD );
+  CoreRectView__OnSetBounds( &_this->labelMag, _Const00DE );
+  CoreRectView__OnSetBounds( &_this->labelAng, _Const00DF );
+  CoreRectView__OnSetBounds( &_this->fTverm_mag, _Const00E0 );
+  CoreRectView__OnSetBounds( &_this->fTverm_ang, _Const00E1 );
+  CoreRectView__OnSetBounds( &_this->fSamarelo_mag, _Const00E2 );
+  CoreRectView__OnSetBounds( &_this->fSamarelo_ang, _Const00E3 );
+  CoreRectView__OnSetBounds( &_this->fRverde_mag, _Const00E4 );
+  CoreRectView__OnSetBounds( &_this->fRverde_ang, _Const00E5 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00E6 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00E7 );
+  CoreQuadView__OnSetPoint4( &_this->fasor_T, _Const00E8 );
+  CoreQuadView__OnSetPoint3( &_this->fasor_T, _Const00E9 );
+  CoreQuadView__OnSetPoint2( &_this->fasor_T, _Const00EA );
+  CoreQuadView__OnSetPoint1( &_this->fasor_T, _Const00EB );
+  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_T, _Const00EC );
+  CoreQuadView__OnSetPoint4( &_this->fasor_S, _Const00E8 );
+  CoreQuadView__OnSetPoint3( &_this->fasor_S, _Const00E9 );
+  CoreQuadView__OnSetPoint2( &_this->fasor_S, _Const00EA );
+  CoreQuadView__OnSetPoint1( &_this->fasor_S, _Const00EB );
+  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_S, _Const00EC );
+  CoreQuadView__OnSetPoint4( &_this->fasor_R, _Const00E8 );
+  CoreQuadView__OnSetPoint3( &_this->fasor_R, _Const00E9 );
+  CoreQuadView__OnSetPoint2( &_this->fasor_R, _Const00EA );
+  CoreQuadView__OnSetPoint1( &_this->fasor_R, _Const00EB );
+  ViewsWarpView_OnSetSourceAnchor((ViewsWarpView)&_this->fasor_R, _Const00EC );
   ViewsText_OnSetFont( &_this->label0, EwLoadResource( &ApplicationArial21, ResourcesFont 
   ));
   ViewsText_OnSetFont( &_this->label180, EwLoadResource( &ApplicationArial21, ResourcesFont 
@@ -7233,47 +7241,47 @@ void ApplicationFreq769__Init( ApplicationFreq _this, XObject aLink, XHandle aAr
   _vthis->_VMT = EW_VCLASS( ApplicationFreq769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00C6 );
-  CoreRectView__OnSetBounds( &_this->val_fr_0, _Const00E9 );
-  CoreRectView__OnSetBounds( &_this->val_fr_1, _Const00EA );
-  CoreRectView__OnSetBounds( &_this->val_fr_2, _Const00EB );
-  CoreRectView__OnSetBounds( &_this->val_t_0, _Const00EC );
-  CoreRectView__OnSetBounds( &_this->val_t_1, _Const00ED );
-  CoreRectView__OnSetBounds( &_this->val_t_2, _Const00EE );
-  CoreRectView__OnSetBounds( &_this->val_t_3, _Const00EF );
-  CoreRectView__OnSetBounds( &_this->val_t_4, _Const00F0 );
-  CoreRectView__OnSetBounds( &_this->labelFreq, _Const00F1 );
-  CoreRectView__OnSetBounds( &_this->val_freq, _Const00F2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const00F3 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const00F4 );
+  CoreRectView__OnSetBounds( _this, _Const00CF );
+  CoreRectView__OnSetBounds( &_this->val_fr_0, _Const00ED );
+  CoreRectView__OnSetBounds( &_this->val_fr_1, _Const00EE );
+  CoreRectView__OnSetBounds( &_this->val_fr_2, _Const00EF );
+  CoreRectView__OnSetBounds( &_this->val_t_0, _Const00F0 );
+  CoreRectView__OnSetBounds( &_this->val_t_1, _Const00F1 );
+  CoreRectView__OnSetBounds( &_this->val_t_2, _Const00F2 );
+  CoreRectView__OnSetBounds( &_this->val_t_3, _Const00F3 );
+  CoreRectView__OnSetBounds( &_this->val_t_4, _Const00F4 );
+  CoreRectView__OnSetBounds( &_this->labelFreq, _Const00F5 );
+  CoreRectView__OnSetBounds( &_this->val_freq, _Const00F6 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const00F7 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const00F8 );
   ViewsLine_OnSetWidth( &_this->linha_t_1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const00F5 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const00F6 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const00F9 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const00FA );
   ViewsLine_OnSetWidth( &_this->linha_t_2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const00F7 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const00F8 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const00FB );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const00FC );
   ViewsLine_OnSetWidth( &_this->linha_t_3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_0, _Const00F9 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_0, _Const00FA );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_0, _Const00FD );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_0, _Const00FE );
   ViewsLine_OnSetWidth( &_this->linha_fr_0, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_1, _Const00FB );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_1, _Const00FC );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_1, _Const00FF );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_1, _Const0100 );
   ViewsLine_OnSetWidth( &_this->linha_fr_1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_2, _Const00FD );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_2, _Const00FE );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_2, _Const0101 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_2, _Const0102 );
   ViewsLine_OnSetWidth( &_this->linha_fr_2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_3, _Const00FF );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_3, _Const0100 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_3, _Const0103 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_3, _Const0104 );
   ViewsLine_OnSetWidth( &_this->linha_fr_3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_4, _Const0101 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_4, _Const0102 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_fr_4, _Const0105 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_fr_4, _Const0106 );
   ViewsLine_OnSetWidth( &_this->linha_fr_4, 2 );
-  CoreRectView__OnSetBounds( &_this->JanelaG, _Const0103 );
-  CoreRectView__OnSetBounds( &_this->grafico, _Const0104 );
+  CoreRectView__OnSetBounds( &_this->JanelaG, _Const0107 );
+  CoreRectView__OnSetBounds( &_this->grafico, _Const0108 );
   ChartsGraph_OnSetLineWidth( &_this->grafico, 4.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->grafico, _Const0105 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->grafico, _Const0106 );
-  CoreRectView__OnSetBounds( &_this->borda, _Const0103 );
+  ChartsGraph_OnSetCoordOrigin( &_this->grafico, _Const0109 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->grafico, _Const010A );
+  CoreRectView__OnSetBounds( &_this->borda, _Const0107 );
   ViewsBorder_OnSetWidth( &_this->borda, 2 );
 
   /* Call the user defined constructor */
@@ -7359,57 +7367,57 @@ void ApplicationMag769__Init( ApplicationMag _this, XObject aLink, XHandle aArg 
   _vthis->_VMT = EW_VCLASS( ApplicationMag769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00C6 );
-  CoreRectView__OnSetBounds( &_this->val_m_inf, _Const0107 );
-  CoreRectView__OnSetBounds( &_this->val_m_meio, _Const0108 );
-  CoreRectView__OnSetBounds( &_this->val_m_sup, _Const0109 );
-  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const010A );
-  CoreRectView__OnSetBounds( &_this->val_t_1, _Const010B );
-  CoreRectView__OnSetBounds( &_this->val_t_2, _Const010C );
-  CoreRectView__OnSetBounds( &_this->val_t_3, _Const010D );
-  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const010E );
-  CoreRectView__OnSetBounds( &_this->val_T, _Const010F );
-  CoreRectView__OnSetBounds( &_this->val_S, _Const0110 );
-  CoreRectView__OnSetBounds( &_this->val_R, _Const0111 );
-  CoreRectView__OnSetBounds( &_this->labelUnidades, _Const0112 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const0113 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const0114 );
+  CoreRectView__OnSetBounds( _this, _Const00CF );
+  CoreRectView__OnSetBounds( &_this->val_m_inf, _Const010B );
+  CoreRectView__OnSetBounds( &_this->val_m_meio, _Const010C );
+  CoreRectView__OnSetBounds( &_this->val_m_sup, _Const010D );
+  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const010E );
+  CoreRectView__OnSetBounds( &_this->val_t_1, _Const010F );
+  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0110 );
+  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0111 );
+  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const0112 );
+  CoreRectView__OnSetBounds( &_this->val_T, _Const0113 );
+  CoreRectView__OnSetBounds( &_this->val_S, _Const0114 );
+  CoreRectView__OnSetBounds( &_this->val_R, _Const0115 );
+  CoreRectView__OnSetBounds( &_this->labelUnidades, _Const0116 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const0117 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const0118 );
   ViewsLine_OnSetWidth( &_this->linha_t_1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const0115 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0116 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const0119 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const011A );
   ViewsLine_OnSetWidth( &_this->linha_t_2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0117 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0118 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const011B );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const011C );
   ViewsLine_OnSetWidth( &_this->linha_t_3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_0, _Const0119 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_0, _Const011A );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_0, _Const011D );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_0, _Const011E );
   ViewsLine_OnSetWidth( &_this->linha_m_0, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_1, _Const011B );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_1, _Const011C );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_1, _Const011F );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_1, _Const0120 );
   ViewsLine_OnSetWidth( &_this->linha_m_1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_2, _Const011D );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_2, _Const011E );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_2, _Const0121 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_2, _Const0122 );
   ViewsLine_OnSetWidth( &_this->linha_m_2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_3, _Const011F );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_3, _Const0120 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_3, _Const0123 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_3, _Const0124 );
   ViewsLine_OnSetWidth( &_this->linha_m_3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_4, _Const0121 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_4, _Const0122 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_4, _Const0125 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_4, _Const0126 );
   ViewsLine_OnSetWidth( &_this->linha_m_4, 2 );
-  CoreRectView__OnSetBounds( &_this->JanelaG, _Const0123 );
-  CoreRectView__OnSetBounds( &_this->graf_T, _Const0124 );
+  CoreRectView__OnSetBounds( &_this->JanelaG, _Const0127 );
+  CoreRectView__OnSetBounds( &_this->graf_T, _Const0128 );
   ChartsGraph_OnSetLineWidth( &_this->graf_T, 4.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->graf_T, _Const0125 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->graf_S, _Const0124 );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_T, _Const0129 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, _Const012A );
+  CoreRectView__OnSetBounds( &_this->graf_S, _Const0128 );
   ChartsGraph_OnSetLineWidth( &_this->graf_S, 4.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->graf_S, _Const0125 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->graf_R, _Const0124 );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_S, _Const0129 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, _Const012A );
+  CoreRectView__OnSetBounds( &_this->graf_R, _Const0128 );
   ChartsGraph_OnSetLineWidth( &_this->graf_R, 4.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->graf_R, _Const0125 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->borda, _Const0123 );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_R, _Const0129 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, _Const012A );
+  CoreRectView__OnSetBounds( &_this->borda, _Const0127 );
   ViewsBorder_OnSetWidth( &_this->borda, 2 );
 
   /* Call the user defined constructor */
@@ -7499,57 +7507,57 @@ void ApplicationFase769__Init( ApplicationFase _this, XObject aLink, XHandle aAr
   _vthis->_VMT = EW_VCLASS( ApplicationFase769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00C6 );
-  CoreRectView__OnSetBounds( &_this->labelFaseInf, _Const0107 );
-  CoreRectView__OnSetBounds( &_this->labelFaseMeio, _Const0108 );
-  CoreRectView__OnSetBounds( &_this->labelFaseSup, _Const0109 );
-  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const010A );
-  CoreRectView__OnSetBounds( &_this->val_t_1, _Const010B );
-  CoreRectView__OnSetBounds( &_this->val_t_2, _Const010C );
-  CoreRectView__OnSetBounds( &_this->val_t_3, _Const010D );
-  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const010E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const0113 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const0114 );
+  CoreRectView__OnSetBounds( _this, _Const00CF );
+  CoreRectView__OnSetBounds( &_this->labelFaseInf, _Const010B );
+  CoreRectView__OnSetBounds( &_this->labelFaseMeio, _Const010C );
+  CoreRectView__OnSetBounds( &_this->labelFaseSup, _Const010D );
+  CoreRectView__OnSetBounds( &_this->val_t_ini, _Const010E );
+  CoreRectView__OnSetBounds( &_this->val_t_1, _Const010F );
+  CoreRectView__OnSetBounds( &_this->val_t_2, _Const0110 );
+  CoreRectView__OnSetBounds( &_this->val_t_3, _Const0111 );
+  CoreRectView__OnSetBounds( &_this->val_t_fim, _Const0112 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const0117 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const0118 );
   ViewsLine_OnSetWidth( &_this->linha_t_1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const0115 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const0116 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_2, _Const0119 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_2, _Const011A );
   ViewsLine_OnSetWidth( &_this->linha_t_2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const0117 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const0118 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_3, _Const011B );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_3, _Const011C );
   ViewsLine_OnSetWidth( &_this->linha_t_3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_0, _Const0119 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_0, _Const011A );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_0, _Const011D );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_0, _Const011E );
   ViewsLine_OnSetWidth( &_this->linha_f_0, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_1, _Const011B );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_1, _Const011C );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_1, _Const011F );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_1, _Const0120 );
   ViewsLine_OnSetWidth( &_this->linha_f_1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_2, _Const011D );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_2, _Const011E );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_2, _Const0121 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_2, _Const0122 );
   ViewsLine_OnSetWidth( &_this->linha_f_2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_3, _Const011F );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_3, _Const0120 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_3, _Const0123 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_3, _Const0124 );
   ViewsLine_OnSetWidth( &_this->linha_f_3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_4, _Const0121 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_4, _Const0122 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_f_4, _Const0125 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_f_4, _Const0126 );
   ViewsLine_OnSetWidth( &_this->linha_f_4, 2 );
-  CoreRectView__OnSetBounds( &_this->val_T, _Const0127 );
-  CoreRectView__OnSetBounds( &_this->val_S, _Const0128 );
-  CoreRectView__OnSetBounds( &_this->val_R, _Const0129 );
-  CoreRectView__OnSetBounds( &_this->labelUni, _Const012A );
-  CoreRectView__OnSetBounds( &_this->JanelaG, _Const0123 );
-  CoreRectView__OnSetBounds( &_this->graf_T, _Const0124 );
+  CoreRectView__OnSetBounds( &_this->val_T, _Const012B );
+  CoreRectView__OnSetBounds( &_this->val_S, _Const012C );
+  CoreRectView__OnSetBounds( &_this->val_R, _Const012D );
+  CoreRectView__OnSetBounds( &_this->labelUni, _Const012E );
+  CoreRectView__OnSetBounds( &_this->JanelaG, _Const0127 );
+  CoreRectView__OnSetBounds( &_this->graf_T, _Const0128 );
   ChartsGraph_OnSetLineWidth( &_this->graf_T, 4.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->graf_T, _Const0125 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->graf_S, _Const0124 );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_T, _Const0129 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_T, _Const012A );
+  CoreRectView__OnSetBounds( &_this->graf_S, _Const0128 );
   ChartsGraph_OnSetLineWidth( &_this->graf_S, 4.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->graf_S, _Const0125 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->graf_R, _Const0124 );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_S, _Const0129 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_S, _Const012A );
+  CoreRectView__OnSetBounds( &_this->graf_R, _Const0128 );
   ChartsGraph_OnSetLineWidth( &_this->graf_R, 4.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->graf_R, _Const0125 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->borda, _Const0123 );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_R, _Const0129 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_R, _Const012A );
+  CoreRectView__OnSetBounds( &_this->borda, _Const0127 );
   ViewsBorder_OnSetWidth( &_this->borda, 2 );
 
   /* Call the user defined constructor */
@@ -7742,44 +7750,44 @@ void ApplicationFFT769__Init( ApplicationFFT _this, XObject aLink, XHandle aArg 
   _vthis->_VMT = EW_VCLASS( ApplicationFFT769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00C6 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_10, _Const012B );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_10, _Const012C );
+  CoreRectView__OnSetBounds( _this, _Const00CF );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_10, _Const012F );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_10, _Const0130 );
   ViewsLine_OnSetWidth( &_this->linha_h_10, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_20, _Const012D );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_20, _Const012E );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_20, _Const0131 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_20, _Const0132 );
   ViewsLine_OnSetWidth( &_this->linha_h_20, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_30, _Const012F );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_30, _Const0130 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_30, _Const0133 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_30, _Const0134 );
   ViewsLine_OnSetWidth( &_this->linha_h_30, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_40, _Const0131 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_40, _Const0132 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_h_40, _Const0135 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_h_40, _Const0136 );
   ViewsLine_OnSetWidth( &_this->linha_h_40, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_25, _Const0133 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_25, _Const0134 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_25, _Const0137 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_25, _Const0138 );
   ViewsLine_OnSetWidth( &_this->linha_m_25, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_50, _Const0135 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_50, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_50, _Const0139 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_50, _Const013A );
   ViewsLine_OnSetWidth( &_this->linha_m_50, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_75, _Const0137 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_75, _Const0138 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_m_75, _Const013B );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_m_75, _Const013C );
   ViewsLine_OnSetWidth( &_this->linha_m_75, 2 );
-  CoreRectView__OnSetBounds( &_this->val_h_10, _Const0139 );
-  CoreRectView__OnSetBounds( &_this->val_h_20, _Const013A );
-  CoreRectView__OnSetBounds( &_this->val_h_30, _Const013B );
-  CoreRectView__OnSetBounds( &_this->val_h_40, _Const013C );
-  CoreRectView__OnSetBounds( &_this->val_m_25, _Const013D );
-  CoreRectView__OnSetBounds( &_this->val_m_50, _Const013E );
-  CoreRectView__OnSetBounds( &_this->val_m_75, _Const013F );
-  CoreRectView__OnSetBounds( &_this->graf_FFT, _Const0140 );
+  CoreRectView__OnSetBounds( &_this->val_h_10, _Const013D );
+  CoreRectView__OnSetBounds( &_this->val_h_20, _Const013E );
+  CoreRectView__OnSetBounds( &_this->val_h_30, _Const013F );
+  CoreRectView__OnSetBounds( &_this->val_h_40, _Const0140 );
+  CoreRectView__OnSetBounds( &_this->val_m_25, _Const0141 );
+  CoreRectView__OnSetBounds( &_this->val_m_50, _Const0142 );
+  CoreRectView__OnSetBounds( &_this->val_m_75, _Const0143 );
+  CoreRectView__OnSetBounds( &_this->graf_FFT, _Const0144 );
   ChartsGraph_OnSetLineWidth( &_this->graf_FFT, 6.000000f );
-  ChartsGraph_OnSetCoordOrigin( &_this->graf_FFT, _Const0141 );
-  ChartsGraph_OnSetPixelPerUnit( &_this->graf_FFT, _Const0142 );
-  CoreRectView__OnSetBounds( &_this->borda, _Const0140 );
+  ChartsGraph_OnSetCoordOrigin( &_this->graf_FFT, _Const0145 );
+  ChartsGraph_OnSetPixelPerUnit( &_this->graf_FFT, _Const0146 );
+  CoreRectView__OnSetBounds( &_this->borda, _Const0144 );
   ViewsBorder_OnSetWidth( &_this->borda, 2 );
-  CoreRectView__OnSetBounds( &_this->botao_R, _Const0143 );
-  CoreRectView__OnSetBounds( &_this->botao_S, _Const0144 );
-  CoreRectView__OnSetBounds( &_this->botao_T, _Const0145 );
+  CoreRectView__OnSetBounds( &_this->botao_R, _Const0147 );
+  CoreRectView__OnSetBounds( &_this->botao_S, _Const0148 );
+  CoreRectView__OnSetBounds( &_this->botao_T, _Const0149 );
 }
 
 /* Re-Initializer for the class variant 'Application::FFT769' */
@@ -7826,20 +7834,20 @@ void ApplicationVNC769__Init( ApplicationVNC _this, XObject aLink, XHandle aArg 
   _vthis->_VMT = EW_VCLASS( ApplicationVNC769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00C6 );
-  CoreRectView__OnSetBounds( &_this->Message, _Const0146 );
-  CoreRectView__OnSetBounds( &_this->BStart, _Const0147 );
-  CoreRectView__OnSetBounds( &_this->labelMsg, _Const0148 );
+  CoreRectView__OnSetBounds( _this, _Const00CF );
+  CoreRectView__OnSetBounds( &_this->Message, _Const014A );
+  CoreRectView__OnSetBounds( &_this->BStart, _Const014B );
+  CoreRectView__OnSetBounds( &_this->labelMsg, _Const014C );
   ViewsText_OnSetAlignment( &_this->labelMsg, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelMsg, EwLoadString( &_Const0149 ));
-  CoreRectView__OnSetBounds( &_this->labelState, _Const014A );
+  ViewsText_OnSetString( &_this->labelMsg, EwLoadString( &_Const014D ));
+  CoreRectView__OnSetBounds( &_this->labelState, _Const014E );
   ViewsText_OnSetAlignment( &_this->labelState, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelState, EwLoadString( &_Const014B ));
-  CoreRectView__OnSetBounds( &_this->Status, _Const014C );
-  ViewsText_OnSetString( &_this->Status, EwLoadString( &_Const014D ));
-  CoreRectView__OnSetBounds( &_this->BStop, _Const014E );
+  ViewsText_OnSetString( &_this->labelState, EwLoadString( &_Const00B8 ));
+  CoreRectView__OnSetBounds( &_this->Status, _Const014F );
+  ViewsText_OnSetString( &_this->Status, EwLoadString( &_Const0150 ));
+  CoreRectView__OnSetBounds( &_this->BStop, _Const0151 );
   ViewsText_OnSetFont( &_this->labelMsg, EwLoadResource( &FlatFontL, ResourcesFont 
   ));
   ViewsText_OnSetFont( &_this->labelState, EwLoadResource( &FlatFontL, ResourcesFont 

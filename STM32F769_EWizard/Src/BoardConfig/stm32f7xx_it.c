@@ -72,7 +72,7 @@ extern QSPI_HandleTypeDef            QSPIHandle;
 extern UART_HandleTypeDef 			 huart1;
 extern UART_HandleTypeDef 			 huart6;
 extern DMA_HandleTypeDef 			 hdma_adc1;
-extern TIM_HandleTypeDef 			 htim2;
+extern TIM_HandleTypeDef 			 htim1;
 
 //extern unsigned char ADC_UART_Flag;
 
@@ -284,8 +284,8 @@ void DMA2_Stream4_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
 	  HAL_DMA_IRQHandler(&hdma_adc1);
 	  //Interrompe o timer1 e zera sua contagem atribuindo 0 ao Auto Reload Register
-	  HAL_TIM_Base_Stop(&htim2);
-	  htim2.Instance->CNT = 0;
+	  HAL_TIM_Base_Stop(&htim1);
+	  htim1.Instance->CNT = 0;
 
 	  osSemaphoreRelease(pmuSem_id);
 

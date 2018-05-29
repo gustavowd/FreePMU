@@ -14,12 +14,12 @@
 #include "cmsis_os.h"
 #include "stm32f7xx_hal.h"
 
-#define MCLOCK_FREQ 100000000
+#define MCLOCK_FREQ 200000000
 #define numero_pontos 256
 
 extern osMessageQId SerialGPSq;
 
-extern TIM_HandleTypeDef 			 htim2;
+extern TIM_HandleTypeDef 			 htim1;
 extern UART_HandleTypeDef 			 huart6;
 
 extern volatile unsigned short adcBuffer[numero_pontos*3];
@@ -435,7 +435,7 @@ void PMU_Task(void const * argument)
 		//AJUSTE DA TAXA DE AMOSTRAGEM
 
 
-		htim2.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
