@@ -2452,7 +2452,7 @@ class Fase : Core::Group
   }
 
   $rect <720,270,900,310>
-  var float valorMeio = 180.0;
+  var float valorMeio = 0.0;
 
   $rect <900,270,1080,310>
   var int32 deltaUnidades = 120;
@@ -3325,6 +3325,20 @@ $rect <650,30,850,70>
 inline Inline
 {
   #include "vnc_app.h"
+
+  extern float Freq_final;
+
+  extern float Mag_R_final;
+  extern float Mag_S_final;
+  extern float Mag_T_final;
+
+  extern float Fase_R_final;
+  extern float Fase_S_final;
+  extern float Fase_T_final;
+
+  extern float FasesAC_mod_R[50];
+  extern float FasesAC_mod_S[50];
+  extern float FasesAC_mod_T[50];
 }
 
 $rect <650,100,860,140>
@@ -3413,9 +3427,7 @@ class Classe : Templates::DeviceClass
     var float frequencia = 0.0;
 
     $if !$prototyper
-    native (frequencia) {
-      extern float Freq_final;
-      
+    native (frequencia) {  
       frequencia = (XFloat)Freq_final;
     }
     $endif
@@ -3430,8 +3442,6 @@ class Classe : Templates::DeviceClass
 
     $if !$prototyper
     native (magR) {
-      extern float Mag_R_final;
-
       magR = (XFloat)Mag_R_final;
     }
     $endif
@@ -3446,8 +3456,6 @@ class Classe : Templates::DeviceClass
 
     $if !$prototyper
     native (magT) {
-      extern float Mag_T_final;
-
       magT = (XFloat)Mag_T_final;
     }
     $endif
@@ -3462,8 +3470,6 @@ class Classe : Templates::DeviceClass
 
     $if !$prototyper
     native (magS) {
-      extern float Mag_S_final;
-
       magS = (XFloat)Mag_S_final;
     }
     $endif
@@ -3478,8 +3484,6 @@ class Classe : Templates::DeviceClass
 
     $if !$prototyper
     native (faseR) {
-      extern float Fase_R_final;
-
       faseR = (XFloat)Fase_R_final;
     }
     $endif
@@ -3494,8 +3498,6 @@ class Classe : Templates::DeviceClass
 
     $if !$prototyper
     native (faseT) {
-      extern float Fase_T_final;
-
       faseT = (XFloat)Fase_T_final;
     }
     $endif
@@ -3510,8 +3512,6 @@ class Classe : Templates::DeviceClass
 
     $if !$prototyper
     native (faseS) {
-      extern float Fase_S_final;
-
       faseS = (XFloat)Fase_S_final;
     }
     $endif
@@ -3534,11 +3534,10 @@ class Classe : Templates::DeviceClass
     // Código nativo em C: tratamento do vetor de FFT para o vetor aFFT
     $if !$prototyper
     native (aFFT) {
-      extern float FasesAC_mod_R[50];
       int i;
       
       for (i = 0; i < 50; i++) {
-        aFFT[i] = FasesAC_mod_R[i]/256.0;
+        aFFT[i] = FasesAC_mod_R[i]/422.4; //256*1.65
       }
     }
     $endif
@@ -3570,7 +3569,6 @@ class Classe : Templates::DeviceClass
     // Código nativo em C: tratamento do vetor de FFT para o vetor aFFT
     $if !$prototyper
     native (aFFT) {
-      extern float FasesAC_mod_S[50];
       int i;
       
       for (i = 0; i < 50; i++) {
@@ -3606,7 +3604,6 @@ class Classe : Templates::DeviceClass
     // Código nativo em C: tratamento do vetor de FFT para o vetor aFFT
     $if !$prototyper
     native (aFFT) {
-      extern float FasesAC_mod_T[50];
       int i;
       
       for (i = 0; i < 50; i++) {
