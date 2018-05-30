@@ -18,7 +18,7 @@
 extern osSemaphoreId SerialGPS_semId;
 extern osMessageQId SerialGPSq;
 
-extern TIM_HandleTypeDef 			 htim1;
+extern TIM_HandleTypeDef 			 htim8;
 extern UART_HandleTypeDef 			 huart6;
 
 extern volatile unsigned short adcBuffer[numero_pontos*3];
@@ -174,16 +174,7 @@ void PMU_Task(void const * argument)
 
 	  osSemaphoreDef(SEM2);
 	  pmuSem_id = osSemaphoreCreate(osSemaphore(SEM2), 1);
-	  //osSemaphoreWait(pmuSem_id, osWaitForever);
-
-	  MX_ADC1_Init();
-	  MX_ADC2_Init();
-	  MX_ADC3_Init();
-
-	  HAL_ADC_Start(&hadc3);
-	  HAL_ADC_Start(&hadc2);
-	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
-
+	  osSemaphoreWait(pmuSem_id, osWaitForever);
 
 	// Tabela da DFT
 	teta=2*M_PI/n_amostras;
@@ -210,6 +201,14 @@ void PMU_Task(void const * argument)
 		vetor_freq[i]=f0;
 		vetor_rocof[i]=0;
 	}
+
+	  MX_ADC1_Init();
+	  MX_ADC2_Init();
+	  MX_ADC3_Init();
+
+	  HAL_ADC_Start(&hadc3);
+	  HAL_ADC_Start(&hadc2);
+	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
 
 
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
@@ -463,7 +462,7 @@ void PMU_Task(void const * argument)
 		//AJUSTE DA TAXA DE AMOSTRAGEM
 
 
-		htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		htim8.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
@@ -610,6 +609,8 @@ void PMU_Task(void const * argument)
 			//}
 
 		}
+
+		BSP_LED_Toggle(LED1);
 
 	}
 }
@@ -1170,6 +1171,20 @@ int frame_header(void)
 	ucData[19] = (unsigned char)(CRC_CCITT & 0x00FF);
 
 	return 19+1;
+}
+
+
+//Callback chamado quando o ADC finaliza a conversão
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+	  //Interrompe o timer1 e zera sua contagem atribuindo 0 ao Auto Reload Register
+	  //HAL_TIM_Base_Stop(&htim1);
+	  htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
+	  htim8.Instance->CNT = 0;
+
+	  BSP_LED_Toggle(LED1);
+
+	  osSemaphoreRelease(pmuSem_id);
+
 }
 
 

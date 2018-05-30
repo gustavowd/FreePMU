@@ -70,15 +70,23 @@ static void SystemClock_Config( void )
   RCC_OscInitTypeDef        RCC_OscInitStruct;
   RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
 
+  /* Enable Power Control clock */
+  __HAL_RCC_PWR_CLK_ENABLE();
+
+  /* The voltage scaling allows optimizing the power consumption when the device is
+     clocked below the maximum system frequency, to update the voltage scaling value
+     regarding system frequency refer to product datasheet.  */
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /* Enable HSE Oscillator and activate PLL with HSE as source */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState       = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM       = 25;
-  RCC_OscInitStruct.PLL.PLLN       = 400;
+  RCC_OscInitStruct.PLL.PLLN       = 400; //432 p/ 216MHz
   RCC_OscInitStruct.PLL.PLLP       = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ       = 8;
+  RCC_OscInitStruct.PLL.PLLQ       = 9;
 
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
@@ -92,7 +100,8 @@ static void SystemClock_Config( void )
   RCC_ClkInitStruct.AHBCLKDivider  = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_6);
+  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7);
+
 
   /* LCD clock configuration */
   /* PLLSAI_VCO Input = HSE_VALUE/PLL_M = 1 MHz */

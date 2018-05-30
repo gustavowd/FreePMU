@@ -102,7 +102,7 @@ ADC_HandleTypeDef hadc3;
 
 DMA_HandleTypeDef hdma_adc1;
 
-TIM_HandleTypeDef htim1;
+TIM_HandleTypeDef htim8;
 
 RNG_HandleTypeDef RngHandle;
 
@@ -120,7 +120,7 @@ osMessageQId SerialGPSq;
 unsigned int DR1 = 0;
 
 unsigned char TIM2_UART_Flag = 0, ADC_UART_Flag = 0;
-volatile unsigned short adcBuffer[768];
+volatile unsigned short adcBuffer[768] __attribute__((section(".ADCBUF")));;
 
 /********************** DEFINIÇÕES DE FUNÇÕES *******************/
 void UARTPutString(char *string, uint16_t size);
@@ -132,7 +132,7 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADCalibration_Init(void);
-static void MX_TIM1_Init(void);
+static void MX_TIM8_Init(void);
 void MX_USART6_UART_Init(void);
 void SSL_Client(void const *argument);
 void PMU_Task(void const * argument);
@@ -301,11 +301,12 @@ int main( void )
 	/********* Inicialização dos Periféricos *********/
 	MX_GPIO_Init();
 	//MX_USART1_UART_Init();
-	MX_DMA_Init();
 	MX_ADCalibration_Init();
-	MX_TIM1_Init();
+	MX_DMA_Init();
+	MX_TIM8_Init();
 	//MX_TIM8_Init();
 	RNG_Init();
+	BSP_LED_Init(LED1);
 
 	/* initialize serial interface for debugging and connect xprintf module */
 	//  EwBspConfigSerial();
@@ -588,7 +589,7 @@ static void MX_GPIO_Init(void)
 	__HAL_RCC_GPIOF_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
-
+    __HAL_RCC_GPIOI_CLK_ENABLE();
 }
 
 static void MX_USART1_UART_Init(void)
@@ -635,7 +636,7 @@ static void MX_ADCalibration_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -689,44 +690,45 @@ static void MX_ADCalibration_Init(void)
 
 }
 
-static void MX_TIM1_Init(void)
+/* TIM8 init function */
+static void MX_TIM8_Init(void)
 {
-
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_SlaveConfigTypeDef sSlaveConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
 
-  htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
-  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 13020;
-  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim1.Init.RepetitionCounter = 0;
-  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  htim8.Instance = TIM8;
+  htim8.Init.Prescaler = 0;
+  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim8.Init.Period = 13020;
+  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim8.Init.RepetitionCounter = 0;
+  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim8) != HAL_OK)
   {
     Error_Handler();
   }
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  if (HAL_TIM_ConfigClockSource(&htim8, &sClockSourceConfig) != HAL_OK)
   {
-    Error_Handler();
+	  Error_Handler();
   }
 
   sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
-  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
-  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
+  sSlaveConfig.InputTrigger = TIM_TS_ETRF;
+  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+  sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
   sSlaveConfig.TriggerFilter = 0;
-  if (HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig) != HAL_OK)
+  if (HAL_TIM_SlaveConfigSynchronization(&htim8, &sSlaveConfig) != HAL_OK)
   {
     Error_Handler();
   }
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
@@ -809,13 +811,13 @@ void MX_ADC1_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
-  hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T1_TRGO2;
+  hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T8_TRGO2;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
   hadc1.Init.DMAContinuousRequests = ENABLE;
@@ -824,6 +826,30 @@ void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
+
+  /* Peripheral DMA init*/
+
+  hdma_adc1.Instance = DMA2_Stream4;
+  hdma_adc1.Init.Channel = DMA_CHANNEL_0;
+  hdma_adc1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+  hdma_adc1.Init.PeriphInc = DMA_PINC_DISABLE;
+  hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+  hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+  hdma_adc1.Init.Mode = DMA_CIRCULAR;
+  hdma_adc1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+  hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+  if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  __HAL_LINKDMA(&hadc1,DMA_Handle,hdma_adc1);
+
+	/*##-4- Configure the NVIC for DMA #########################################*/
+	/* NVIC configuration for DMA transfer complete interrupt */
+	HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 0x05, 0);
+	HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
     /**Configure the ADC multi-mode
     */
@@ -839,7 +865,7 @@ void MX_ADC1_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_112CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -856,7 +882,7 @@ void MX_ADC2_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = DISABLE;
   hadc2.Init.ContinuousConvMode = DISABLE;
@@ -874,7 +900,7 @@ void MX_ADC2_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_112CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -891,7 +917,7 @@ void MX_ADC3_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc3.Instance = ADC3;
-  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
   hadc3.Init.Resolution = ADC_RESOLUTION_12B;
   hadc3.Init.ScanConvMode = DISABLE;
   hadc3.Init.ContinuousConvMode = DISABLE;
@@ -909,7 +935,7 @@ void MX_ADC3_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_112CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -935,8 +961,5 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 
 }
 
-//Callback chamado quando o ADC finaliza a conversão
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
-}
 /* msy, mli */

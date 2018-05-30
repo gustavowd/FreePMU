@@ -78,6 +78,7 @@
 									<listOptionValue builtIn="false" value="EW_CPU_LOAD_MEASURING=0"/>
 									<listOptionValue builtIn="false" value="EW_USE_QSPI_FLASH=1"/>
 									<listOptionValue builtIn="false" value="ARM_MATH_CM7"/>
+									<listOptionValue builtIn="false" value="__FPU_PRESENT"/>
 								</option>
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.2108804716" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.108936861" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>

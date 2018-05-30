@@ -46,7 +46,8 @@ Memory1 (xrw)   : ORIGIN = 0x20000000, LENGTH = 0xA0
 Memory2 (xrw)   : ORIGIN = 0x200000A0, LENGTH = 0xA0
 Memory3 (xrw)   : ORIGIN = 0x20000140, LENGTH = 0x1dc4
 Memory4 (xrw)   : ORIGIN = 0x20001F04, LENGTH = 0x1dc4
-RAM (xrw)       : ORIGIN = 0x20003CC8, LENGTH = 0x4C330
+Memory5 (xrw)   : ORIGIN = 0x20003CC8, LENGTH = 0x600
+RAM (xrw)       : ORIGIN = 0x200042C8, LENGTH = 0x4C330
 QSPI (rx)       : ORIGIN = 0x90000000, LENGTH = 16M
 }
 
@@ -171,6 +172,7 @@ SECTIONS
   .TxDescripSection (NOLOAD) : { *(.TxDescripSection) } >Memory2
   .RxBUF (NOLOAD) : { *(.RxBUF) } >Memory3
   .TxBUF (NOLOAD) : { *(.TxBUF) } >Memory4
+  .ADCBUF (NOLOAD) : { *(.ADCBUF) } >Memory5
   .ExtQSPIFlashSection : { *(.ExtQSPIFlashSection) } >QSPI
 }
 
