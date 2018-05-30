@@ -72,25 +72,25 @@
 /* Compressed strings for the language 'Default'. */
 static const unsigned int _StringsDefault0[] =
 {
-  0x00000428, /* ratio 47.74 % */
+  0x0000042C, /* ratio 47.57 % */
   0xB8001700, 0x00000452, 0x00C20023, 0x0DE00398, 0xCA003900, 0xC008342C, 0x0782C0C1,
   0x1004461F, 0x001D4007, 0x01B800EA, 0x9A400630, 0x5C1B1484, 0xE504D834, 0x01269119,
   0x8008F1D0, 0x088346CC, 0xC8546656, 0x03C1A250, 0xA422113A, 0xCE83D142, 0xDA211B29,
   0x21D36989, 0x37351044, 0xB2822542, 0x70A844E9, 0x08544250, 0xAA000A15, 0xD0162843,
-  0x50228309, 0x00630682, 0xACA001C0, 0x733A0341, 0x53AB35B4, 0x731B8006, 0x319CEA7F,
-  0xB3802DD7, 0xC8D2ED18, 0x002EB7FB, 0xA7017EB5, 0x2FD76005, 0x6C00B45C, 0x800C5610,
-  0x7BC75F2F, 0x5B54EB27, 0x9D047083, 0x1CBE152D, 0x47E67279, 0x6EA1129B, 0x40056001,
-  0x820C8A17, 0x4009ECA2, 0xAE580035, 0xA16CEAC5, 0x948B321B, 0xFDB33B3A, 0x6D78B65D,
-  0xE8004800, 0x72590E01, 0x8F7DE259, 0x506E5F27, 0x00C67365, 0x3A871BA0, 0x8C63E29D,
-  0x85EA1965, 0xF8B3B83C, 0x86E590C2, 0xB21398A7, 0xD9E6BE5A, 0xF73B5E6F, 0x10D903FC,
-  0x18FC7625, 0x93C96472, 0x1BD0E90A, 0xC651E746, 0x2514729D, 0xC7621F30, 0x829066B5,
-  0x165761EE, 0x00020E54, 0xCDEF4621, 0xF3826145, 0x419D0719, 0x12E68013, 0x84D1A54C,
-  0xA00055DA, 0x29001AC0, 0x5BE02000, 0x1E386D3A, 0xF6E1C778, 0x4D6C7CE0, 0x90871B78,
-  0x8D5CE5F1, 0x19045914, 0xC46D3C42, 0xE22A5410, 0x008BE2D6, 0x5410677C, 0xA1D93636,
-  0x46618677, 0xD1ED611E, 0x9D5D9BF8, 0x73D068CD, 0x40097400, 0x77665F96, 0x29149857,
-  0xA9915B20, 0x9A452001, 0x26D44E6B, 0x39A90652, 0x01526CE4, 0x9F419440, 0x44948641,
-  0x92D71C6D, 0x24312344, 0x528546DA, 0x49641024, 0x4C524890, 0x9064410A, 0xC4153A05,
-  0x590A4CD0, 0x5C4D9505, 0x43961001, 0x07844923, 0xE434E300, 0x06A84522, 0x00000004,
+  0x50228309, 0x00630682, 0xACA001C0, 0x733A0341, 0xB3AB35B4, 0x6EB90005, 0x68C59C01,
+  0x9C5CC6D7, 0x95A80175, 0x4E4017F1, 0xAAEC00B4, 0x6F7851AD, 0xF384005A, 0x37EC45C2,
+  0x00C4E3AF, 0x8C9E1466, 0x9D65B351, 0xD0470B8B, 0xCBE152D9, 0x7E672791, 0xEA1129B4,
+  0x00560016, 0x20C8A174, 0x009ECA28, 0x2580035C, 0x83606C5B, 0x48B31163, 0xDB3193A9,
+  0xE79365E1, 0x80048006, 0xE794E21E, 0x165B9F22, 0x06E7F36A, 0x3C274655, 0xE775B95D,
+  0x2C1B3914, 0x4EA7F0CB, 0x9718001A, 0xEE771BD7, 0xD518C3FA, 0x114F566A, 0xE4B663FE,
+  0x0DB03E29, 0x8FC76251, 0xD2548D21, 0xE0E90A49, 0x5DEB621B, 0x00761DF6, 0x609A0024,
+  0x9B154173, 0x36220E41, 0x51B08458, 0x997C6154, 0x83613861, 0x9D372A0F, 0xE6901341,
+  0xD1A94C12, 0x0055DAC4, 0x0A6190A0, 0x96F81800, 0x85D2124E, 0x69BB7558, 0xCB7E20F8,
+  0x4EA146F1, 0x23D6559A, 0x86211645, 0x311B4F10, 0xBC8B9504, 0x002328C1, 0xA3390DE2,
+  0x14E99B85, 0x15E77859, 0x90749F66, 0x462367A5, 0x18C70D65, 0x30023760, 0x1A5E0DDC,
+  0x486D80A4, 0x148006B6, 0xE469AD14, 0x8001526D, 0x4E6C9A94, 0x065126E4, 0x5218868D,
+  0x5CB1B512, 0xC48D124B, 0x191B6990, 0x8840914A, 0x49228125, 0x91042931, 0x54E81641,
+  0x29334310, 0x36541564, 0x58400571, 0x11248D0E, 0xD38C001E, 0xA5148C50, 0x0000101A,
   0x00000000
 };
 
@@ -143,21 +143,21 @@ static const XStringRes _Const001F = { _StringsDefault0, 0x006F };
 static const XRect _Const0020 = {{ 60, 213 }, { 78, 225 }};
 static const XStringRes _Const0021 = { _StringsDefault0, 0x0076 };
 static const XRect _Const0022 = {{ 19, 171 }, { 37, 183 }};
-static const XStringRes _Const0023 = { _StringsDefault0, 0x007D };
+static const XStringRes _Const0023 = { _StringsDefault0, 0x007E };
 static const XRect _Const0024 = {{ 62, 13 }, { 80, 25 }};
-static const XStringRes _Const0025 = { _StringsDefault0, 0x0084 };
+static const XStringRes _Const0025 = { _StringsDefault0, 0x0086 };
 static const XRect _Const0026 = {{ 192, 13 }, { 204, 25 }};
-static const XStringRes _Const0027 = { _StringsDefault0, 0x008B };
+static const XStringRes _Const0027 = { _StringsDefault0, 0x008D };
 static const XRect _Const0028 = {{ 234, 171 }, { 252, 183 }};
-static const XStringRes _Const0029 = { _StringsDefault0, 0x0091 };
+static const XStringRes _Const0029 = { _StringsDefault0, 0x0093 };
 static const XRect _Const002A = {{ 236, 58 }, { 248, 70 }};
-static const XStringRes _Const002B = { _StringsDefault0, 0x0098 };
+static const XStringRes _Const002B = { _StringsDefault0, 0x009A };
 static const XRect _Const002C = {{ 18, 58 }, { 36, 70 }};
-static const XStringRes _Const002D = { _StringsDefault0, 0x009E };
+static const XStringRes _Const002D = { _StringsDefault0, 0x00A0 };
 static const XRect _Const002E = {{ 282, 16 }, { 386, 32 }};
-static const XStringRes _Const002F = { _StringsDefault0, 0x00A5 };
+static const XStringRes _Const002F = { _StringsDefault0, 0x00A7 };
 static const XRect _Const0030 = {{ 401, 16 }, { 465, 32 }};
-static const XStringRes _Const0031 = { _StringsDefault0, 0x00B6 };
+static const XStringRes _Const0031 = { _StringsDefault0, 0x00B8 };
 static const XRect _Const0032 = {{ 376, 95 }, { 385, 113 }};
 static const XRect _Const0033 = {{ 455, 95 }, { 464, 113 }};
 static const XRect _Const0034 = {{ 376, 70 }, { 385, 88 }};
@@ -179,28 +179,28 @@ static const XPoint _Const0043 = { 135, 123 };
 static const XPoint _Const0044 = { 245, 123 };
 static const XPoint _Const0045 = { 245, 115 };
 static const XPoint _Const0046 = { 135, 115 };
-static const XStringRes _Const0047 = { _StringsDefault0, 0x00C2 };
-static const XStringRes _Const0048 = { _StringsDefault0, 0x00C7 };
+static const XStringRes _Const0047 = { _StringsDefault0, 0x00C4 };
+static const XStringRes _Const0048 = { _StringsDefault0, 0x00C9 };
 static const XRect _Const0049 = {{ 390, 180 }, { 480, 200 }};
-static const XStringRes _Const004A = { _StringsDefault0, 0x00CC };
+static const XStringRes _Const004A = { _StringsDefault0, 0x00CE };
 static const XColor _Const004B = { 0xFF, 0x00, 0x00, 0xFF };
 static const XRect _Const004C = {{ 390, 120 }, { 480, 140 }};
-static const XStringRes _Const004D = { _StringsDefault0, 0x00D9 };
+static const XStringRes _Const004D = { _StringsDefault0, 0x00DB };
 static const XColor _Const004E = { 0x00, 0xFF, 0x00, 0xFF };
 static const XRect _Const004F = {{ 390, 60 }, { 480, 80 }};
-static const XStringRes _Const0050 = { _StringsDefault0, 0x00E6 };
+static const XStringRes _Const0050 = { _StringsDefault0, 0x00E8 };
 static const XRect _Const0051 = {{ 350, 220 }, { 410, 240 }};
-static const XStringRes _Const0052 = { _StringsDefault0, 0x00F3 };
+static const XStringRes _Const0052 = { _StringsDefault0, 0x00F5 };
 static const XRect _Const0053 = {{ 260, 220 }, { 320, 240 }};
-static const XStringRes _Const0054 = { _StringsDefault0, 0x00F9 };
+static const XStringRes _Const0054 = { _StringsDefault0, 0x00FB };
 static const XRect _Const0055 = {{ 170, 220 }, { 230, 240 }};
-static const XStringRes _Const0056 = { _StringsDefault0, 0x0100 };
+static const XStringRes _Const0056 = { _StringsDefault0, 0x0102 };
 static const XRect _Const0057 = {{ 80, 220 }, { 140, 240 }};
-static const XStringRes _Const0058 = { _StringsDefault0, 0x0107 };
+static const XStringRes _Const0058 = { _StringsDefault0, 0x0109 };
 static const XRect _Const0059 = {{ -10, 220 }, { 50, 240 }};
-static const XStringRes _Const005A = { _StringsDefault0, 0x010F };
+static const XStringRes _Const005A = { _StringsDefault0, 0x0111 };
 static const XRect _Const005B = {{ 20, 0 }, { 140, 40 }};
-static const XStringRes _Const005C = { _StringsDefault0, 0x0117 };
+static const XStringRes _Const005C = { _StringsDefault0, 0x0119 };
 static const XRect _Const005D = {{ 140, 0 }, { 270, 40 }};
 static const XPoint _Const005E = { 290, 220 };
 static const XPoint _Const005F = { 290, 40 };
@@ -227,27 +227,27 @@ static const XPoint _Const0073 = { 1, 30 };
 static const XColor _Const0074 = { 0x00, 0x00, 0x00, 0x00 };
 static const XColor _Const0075 = { 0xFF, 0xFB, 0xFA, 0x00 };
 static const XPoint _Const0076 = { 20, 30 };
-static const XStringRes _Const0077 = { _StringsDefault0, 0x0126 };
-static const XStringRes _Const0078 = { _StringsDefault0, 0x012B };
-static const XStringRes _Const0079 = { _StringsDefault0, 0x0132 };
-static const XStringRes _Const007A = { _StringsDefault0, 0x013B };
-static const XStringRes _Const007B = { _StringsDefault0, 0x0144 };
+static const XStringRes _Const0077 = { _StringsDefault0, 0x0128 };
+static const XStringRes _Const0078 = { _StringsDefault0, 0x012D };
+static const XStringRes _Const0079 = { _StringsDefault0, 0x0134 };
+static const XStringRes _Const007A = { _StringsDefault0, 0x013D };
+static const XStringRes _Const007B = { _StringsDefault0, 0x0146 };
 static const XRect _Const007C = {{ 350, 0 }, { 420, 40 }};
-static const XStringRes _Const007D = { _StringsDefault0, 0x014D };
+static const XStringRes _Const007D = { _StringsDefault0, 0x014F };
 static const XRect _Const007E = {{ 270, 0 }, { 340, 40 }};
 static const XRect _Const007F = {{ 190, 0 }, { 260, 40 }};
 static const XRect _Const0080 = {{ 20, 0 }, { 188, 40 }};
-static const XStringRes _Const0081 = { _StringsDefault0, 0x0156 };
+static const XStringRes _Const0081 = { _StringsDefault0, 0x0158 };
 static const XPoint _Const0082 = { 2, 6 };
-static const XStringRes _Const0083 = { _StringsDefault0, 0x0169 };
-static const XStringRes _Const0084 = { _StringsDefault0, 0x016F };
-static const XStringRes _Const0085 = { _StringsDefault0, 0x0176 };
-static const XStringRes _Const0086 = { _StringsDefault0, 0x017F };
+static const XStringRes _Const0083 = { _StringsDefault0, 0x016B };
+static const XStringRes _Const0084 = { _StringsDefault0, 0x0171 };
+static const XStringRes _Const0085 = { _StringsDefault0, 0x0178 };
+static const XStringRes _Const0086 = { _StringsDefault0, 0x0181 };
 static const XRect _Const0087 = {{ 310, 0 }, { 380, 40 }};
 static const XRect _Const0088 = {{ 230, 0 }, { 300, 40 }};
 static const XRect _Const0089 = {{ 150, 0 }, { 220, 40 }};
-static const XStringRes _Const008A = { _StringsDefault0, 0x0188 };
-static const XStringRes _Const008B = { _StringsDefault0, 0x0196 };
+static const XStringRes _Const008A = { _StringsDefault0, 0x018A };
+static const XStringRes _Const008B = { _StringsDefault0, 0x0198 };
 static const XPoint _Const008C = { 80, 220 };
 static const XPoint _Const008D = { 80, 20 };
 static const XPoint _Const008E = { 140, 220 };
@@ -261,36 +261,36 @@ static const XPoint _Const0095 = { 320, 120 };
 static const XPoint _Const0096 = { 20, 120 };
 static const XPoint _Const0097 = { 320, 70 };
 static const XRect _Const0098 = {{ 60, 220 }, { 100, 240 }};
-static const XStringRes _Const0099 = { _StringsDefault0, 0x019C };
+static const XStringRes _Const0099 = { _StringsDefault0, 0x019E };
 static const XRect _Const009A = {{ 120, 220 }, { 160, 240 }};
-static const XStringRes _Const009B = { _StringsDefault0, 0x01A2 };
+static const XStringRes _Const009B = { _StringsDefault0, 0x01A4 };
 static const XRect _Const009C = {{ 180, 220 }, { 220, 240 }};
 static const XRect _Const009D = {{ 240, 220 }, { 280, 240 }};
-static const XStringRes _Const009E = { _StringsDefault0, 0x01A8 };
+static const XStringRes _Const009E = { _StringsDefault0, 0x01AA };
 static const XRect _Const009F = {{ 330, 160 }, { 370, 180 }};
-static const XStringRes _Const00A0 = { _StringsDefault0, 0x01AE };
+static const XStringRes _Const00A0 = { _StringsDefault0, 0x01B0 };
 static const XRect _Const00A1 = {{ 330, 110 }, { 370, 130 }};
-static const XStringRes _Const00A2 = { _StringsDefault0, 0x01B6 };
+static const XStringRes _Const00A2 = { _StringsDefault0, 0x01B8 };
 static const XRect _Const00A3 = {{ 330, 60 }, { 370, 80 }};
-static const XStringRes _Const00A4 = { _StringsDefault0, 0x01BD };
+static const XStringRes _Const00A4 = { _StringsDefault0, 0x01BF };
 static const XRect _Const00A5 = {{ 20, 20 }, { 320, 220 }};
 static const XPoint _Const00A6 = { 0, 200 };
 static const XPoint _Const00A7 = { 6, 200 };
 static const XColor _Const00A8 = { 0x5B, 0x56, 0x27, 0x00 };
 static const XColor _Const00A9 = { 0x0C, 0x0E, 0x6E, 0x00 };
 static const XRect _Const00AA = {{ 370, 40 }, { 470, 85 }};
-static const XStringRes _Const00AB = { _StringsDefault0, 0x01C5 };
+static const XStringRes _Const00AB = { _StringsDefault0, 0x01C7 };
 static const XRect _Const00AC = {{ 370, 100 }, { 470, 145 }};
-static const XStringRes _Const00AD = { _StringsDefault0, 0x01CF };
+static const XStringRes _Const00AD = { _StringsDefault0, 0x01D1 };
 static const XRect _Const00AE = {{ 370, 160 }, { 470, 205 }};
-static const XStringRes _Const00AF = { _StringsDefault0, 0x01D9 };
+static const XStringRes _Const00AF = { _StringsDefault0, 0x01DB };
 static const XRect _Const00B0 = {{ 0, 0 }, { 480, 240 }};
 static const XRect _Const00B1 = {{ 10, 30 }, { 470, 80 }};
-static const XStringRes _Const00B2 = { _StringsDefault0, 0x01E3 };
+static const XStringRes _Const00B2 = { _StringsDefault0, 0x01E5 };
 static const XRect _Const00B3 = {{ 100, 180 }, { 220, 210 }};
-static const XStringRes _Const00B4 = { _StringsDefault0, 0x01F4 };
+static const XStringRes _Const00B4 = { _StringsDefault0, 0x01F6 };
 static const XRect _Const00B5 = {{ 0, 0 }, { 260, 30 }};
-static const XStringRes _Const00B6 = { _StringsDefault0, 0x01FF };
+static const XStringRes _Const00B6 = { _StringsDefault0, 0x0201 };
 static const XRect _Const00B7 = {{ 0, 80 }, { 220, 110 }};
 static const XStringRes _Const00B8 = { _StringsDefault1, 0x0003 };
 static const XRect _Const00B9 = {{ 10, 110 }, { 470, 160 }};
@@ -4661,8 +4661,8 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ChartsGraph_OnSetGridDistance( &_this->graf_R, _Const0076 );
   CoreRectView__OnSetBounds( &_this->borda, _Const006F );
   ViewsBorder_OnSetColor( &_this->borda, _Const0015 );
-  _this->valorMeio = 120.000000f;
-  _this->deltaUnidades = 10;
+  _this->valorMeio = 220.000000f;
+  _this->deltaUnidades = 20;
   CoreGroup__Add( _this, ((CoreView)&_this->val_m_inf ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->val_m_meio ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->val_m_sup ), 0 );
@@ -5262,7 +5262,7 @@ void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
   ChartsGraph_OnSetGridDistance( &_this->graf_R, _Const0076 );
   CoreRectView__OnSetBounds( &_this->borda, _Const006F );
   ViewsBorder_OnSetColor( &_this->borda, _Const0015 );
-  _this->valorMeio = 180.000000f;
+  _this->valorMeio = 0.000000f;
   _this->deltaUnidades = 120;
   CoreGroup__Add( _this, ((CoreView)&_this->labelFaseInf ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->labelFaseMeio ), 0 );
@@ -6579,6 +6579,20 @@ EW_END_OF_CLASS( ApplicationModifiedButton )
 /* User defined inline code: 'Application::Inline' */
 #include "vnc_app.h"
 
+extern float Freq_final;
+
+extern float Mag_R_final;
+extern float Mag_S_final;
+extern float Mag_T_final;
+
+extern float Fase_R_final;
+extern float Fase_S_final;
+extern float Fase_T_final;
+
+extern float FasesAC_mod_R[50];
+extern float FasesAC_mod_S[50];
+extern float FasesAC_mod_T[50];
+
 /* Initializer for the class 'Application::Classe' */
 void ApplicationClasse__Init( ApplicationClasse _this, XObject aLink, XHandle aArg )
 {
@@ -6697,11 +6711,7 @@ XFloat ApplicationClasse_getFreq( ApplicationClasse _this )
   EW_UNUSED_ARG( _this );
 
   frequencia = 0.000000f;
-  {
-    extern float Freq_final;
-
-    frequencia = (XFloat)Freq_final;
-  }
+  frequencia = (XFloat)Freq_final;
   return frequencia;
 }
 
@@ -6714,11 +6724,7 @@ XFloat ApplicationClasse_getMagR( ApplicationClasse _this )
   EW_UNUSED_ARG( _this );
 
   magR = 0.000000f;
-  {
-    extern float Mag_R_final;
-
-    magR = (XFloat)Mag_R_final;
-  }
+  magR = (XFloat)Mag_R_final;
   return magR;
 }
 
@@ -6731,11 +6737,7 @@ XFloat ApplicationClasse_getMagT( ApplicationClasse _this )
   EW_UNUSED_ARG( _this );
 
   magT = 0.000000f;
-  {
-    extern float Mag_T_final;
-
-    magT = (XFloat)Mag_T_final;
-  }
+  magT = (XFloat)Mag_T_final;
   return magT;
 }
 
@@ -6748,11 +6750,7 @@ XFloat ApplicationClasse_getMagS( ApplicationClasse _this )
   EW_UNUSED_ARG( _this );
 
   magS = 0.000000f;
-  {
-    extern float Mag_S_final;
-
-    magS = (XFloat)Mag_S_final;
-  }
+  magS = (XFloat)Mag_S_final;
   return magS;
 }
 
@@ -6765,11 +6763,7 @@ XFloat ApplicationClasse_getFaseR( ApplicationClasse _this )
   EW_UNUSED_ARG( _this );
 
   faseR = 0.000000f;
-  {
-    extern float Fase_R_final;
-
-    faseR = (XFloat)Fase_R_final;
-  }
+  faseR = (XFloat)Fase_R_final;
   return faseR;
 }
 
@@ -6782,11 +6776,7 @@ XFloat ApplicationClasse_getFaseT( ApplicationClasse _this )
   EW_UNUSED_ARG( _this );
 
   faseT = 0.000000f;
-  {
-    extern float Fase_T_final;
-
-    faseT = (XFloat)Fase_T_final;
-  }
+  faseT = (XFloat)Fase_T_final;
   return faseT;
 }
 
@@ -6799,11 +6789,7 @@ XFloat ApplicationClasse_getFaseS( ApplicationClasse _this )
   EW_UNUSED_ARG( _this );
 
   faseS = 0.000000f;
-  {
-    extern float Fase_S_final;
-
-    faseS = (XFloat)Fase_S_final;
-  }
+  faseS = (XFloat)Fase_S_final;
   return faseS;
 }
 
@@ -6823,11 +6809,10 @@ ChartsCoordList ApplicationClasse_getFFT_R( ApplicationClasse _this )
     aFFT[ EwCheckIndex( j, 50 )] = 0.000000f;
 
   {
-    extern float FasesAC_mod_R[50];
     int i;
 
     for (i = 0; i < 50; i++) {
-      aFFT[i] = FasesAC_mod_R[i]/256.0;
+      aFFT[i] = FasesAC_mod_R[i]/422.4; //256*1.65
     }
   }
   ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 50 );
@@ -6858,7 +6843,6 @@ ChartsCoordList ApplicationClasse_getFFT_S( ApplicationClasse _this )
     aFFT[ EwCheckIndex( j, 50 )] = 0.000000f;
 
   {
-    extern float FasesAC_mod_S[50];
     int i;
 
     for (i = 0; i < 50; i++) {
@@ -6893,7 +6877,6 @@ ChartsCoordList ApplicationClasse_getFFT_T( ApplicationClasse _this )
     aFFT[ EwCheckIndex( j, 50 )] = 0.000000f;
 
   {
-    extern float FasesAC_mod_T[50];
     int i;
 
     for (i = 0; i < 50; i++) {
