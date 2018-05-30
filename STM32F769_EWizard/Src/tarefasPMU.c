@@ -93,7 +93,7 @@ float  dif, vetor_freq[10], media_freq, soma_freq, media_freq_2;
 float vetor_rocof[10], media_rocof, soma_rocof;
 unsigned int  f=0, g=0, contador = 0;
 //Transmissao via serial
-float buffer[9];
+float buffer[10];
 
 //Definicoes para correcao das medidas
 float mag, faseR_x_mag, faseS_x_mag, faseT_x_mag, faseR_x_freq, faseS_x_freq, faseT_x_freq;
@@ -132,6 +132,7 @@ extern char isSyncCreated;
 void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
 void MX_ADC3_Init(void);
+void UARTPutString(char *string, uint16_t size);
 
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc2;
@@ -548,7 +549,7 @@ void PMU_Task(void const * argument)
 		 Fase_S_final = 240;
 		 Fase_T_final = 0;
 
-
+*/
 
 		// DADOS DA TRANSMISSAO (via serial pro PC)
 		buffer[0] = SOC;
@@ -559,12 +560,13 @@ void PMU_Task(void const * argument)
 		buffer[5] = Fase_S_final;
 		buffer[6] = Fase_T_final;
 		buffer[7] = Freq_final;
-		buffer[8] = media_rocof;*/
+		buffer[8] = media_rocof;
+		buffer[9] = 0;
 
-/*      // Envia os dados pela serial
+		// Envia os dados pela serial
 		char *dados = (char*)&buffer;
-		UARTPutMultiChar(dados);
-*/
+		UARTPutString(dados,36);
+
 
 		SOC = 1468976006;
 		FracSec = (unsigned long)a*FracSec;

@@ -69,14 +69,10 @@ extern void EwBspSystemTickIncrement( void );
 extern ETH_HandleTypeDef             EthHandle;
 extern HCD_HandleTypeDef             hhcd;
 extern QSPI_HandleTypeDef            QSPIHandle;
-extern UART_HandleTypeDef 			 huart1;
+extern UART_HandleTypeDef 			 UART_Handle;
 extern UART_HandleTypeDef 			 huart6;
 extern DMA_HandleTypeDef 			 hdma_adc1;
-extern TIM_HandleTypeDef 			 htim1;
 
-//extern unsigned char ADC_UART_Flag;
-
-extern osSemaphoreId  pmuSem_id;
 
 
 /******************************************************************************/
@@ -298,8 +294,7 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 0 */
 
   /* USER CODE END USART1_IRQn 0 */
-  //HAL_UART_IRQHandler(&uart_handler[STDOUT]);
-  HAL_UART_IRQHandler(&huart1);
+  HAL_UART_IRQHandler(&UART_Handle);
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */

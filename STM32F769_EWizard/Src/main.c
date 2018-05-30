@@ -420,10 +420,10 @@ int main(void)
 	#if EW_USE_FREE_RTOS == 1
 
 	  /* create thread that drives the Embedded Wizard GUI application... */
-	  EwPrint( "Create UI thread...                          " );
+	  //EwPrint( "Create UI thread...                          " );
 	  osThreadDef( EmWiThreadHandle, EmWiMainLoop, osPriorityBelowNormal, 0, semtstSTACK_SIZE );
 	  osThreadCreate( osThread( EmWiThreadHandle ), (void*)0 );
-	  EwPrint( "[OK]\n" );
+	  //EwPrint( "[OK]\n\r" );
 
 	  /* ...and start scheduler */
 	  osKernelStart();
@@ -533,40 +533,40 @@ static void EmWiMainLoop( const void* arg )
   pendrive();
 
   /* initialize display */
-  EwPrint( "Initialize Display...                        " );
+  //EwPrint( "Initialize Display...                        " );
   EwBspConfigDisplay( FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT, FRAME_BUFFER_ADDR );
-  EwPrint( "[OK]\n" );
+  //EwPrint( "[OK]\n" );
 
   /* initialize touchscreen */
-  EwPrint( "Initialize Touch Driver...                   " );
+  //EwPrint( "Initialize Touch Driver...                   " );
   EwBspConfigTouch( FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT );
-  EwPrint( "[OK]\n" );
+  //EwPrint( "[OK]\n" );
 
   /* initialize tlsf memory manager */
   /* please note, that the first part of SDRAM is reserved for framebuffer */
-  EwPrint( "Initialize Memory Manager...                 " );
+  //EwPrint( "Initialize Memory Manager...                 " );
   MemPool = tlsf_create_with_pool( MEMORY_POOL_ADDR, MEMORY_POOL_SIZE );
-  EwPrint( "[OK]\n" );
-  EwPrint( "MemoryPool at address 0x%08X size 0x%08X\n", MEMORY_POOL_ADDR, MEMORY_POOL_SIZE );
+  //EwPrint( "[OK]\n" );
+  //EwPrint( "MemoryPool at address 0x%08X size 0x%08X\n", MEMORY_POOL_ADDR, MEMORY_POOL_SIZE );
 
   /* initialize the Graphics Engine and Runtime Environment */
-  EwPrint( "Initialize Graphics Engine...                " );
+  //EwPrint( "Initialize Graphics Engine...                " );
   if ( !EwInitGraphicsEngine( 0 ))
     return;
-  EwPrint( "[OK]\n" );
+  //EwPrint( "[OK]\n" );
 
   /* create the applications root object ... */
-  EwPrint( "Create Embedded Wizard Root Object...        " );
+  //EwPrint( "Create Embedded Wizard Root Object...        " );
   rootObject = (CoreRoot)EwNewObjectIndirect( EwApplicationClass, 0 );
   EwLockObject( rootObject );
   CoreRoot__Initialize( rootObject, EwScreenSize );
-  EwPrint( "[OK]\n" );
+  //EwPrint( "[OK]\n" );
 
   /* create Embedded Wizard viewport object to provide uniform access to the framebuffer */
-  EwPrint( "Create Embedded Wizard Viewport...           " );
+  //EwPrint( "Create Embedded Wizard Viewport...           " );
   viewport = EwInitViewport( EwScreenSize, EwNewRect( 0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT ),
     0, 255, FRAME_BUFFER_ADDR, DOUBLE_BUFFER_ADDR, 0, 0 );
-  EwPrint( "[OK]\n" );
+  //EwPrint( "[OK]\n" );
 
  /* Initialize your device driver(s) that provide data for your GUI */
   DeviceDriver_Initialize();
