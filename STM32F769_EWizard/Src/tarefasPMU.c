@@ -13,6 +13,7 @@
 #include "arm_const_structs.h"
 #include "cmsis_os.h"
 #include "stm32f7xx_hal.h"
+#include "stm32f769i_discovery.h"
 
 #define MCLOCK_FREQ 200000000
 #define numero_pontos 256
@@ -99,7 +100,7 @@ float mag, faseR_x_mag, faseS_x_mag, faseT_x_mag, faseR_x_freq, faseS_x_freq, fa
 float MagR_x_mag, MagS_x_mag, MagT_x_mag, MagR_x_freq;
 
 //Fasores finais
-float Mag_R_final,Mag_S_final,Mag_T_final,Fase_R_final,Fase_S_final,Fase_T_final;
+volatile float Mag_R_final,Mag_S_final,Mag_T_final,Fase_R_final,Fase_S_final,Fase_T_final;
 float Freq_final;
 
 //Outros
@@ -146,15 +147,7 @@ void PMU_Task(void const * argument)
 
 	  osSemaphoreDef(SEM2);
 	  pmuSem_id = osSemaphoreCreate(osSemaphore(SEM2), 1);
-	  //osSemaphoreWait(pmuSem_id, osWaitForever);
-
-	  MX_ADC1_Init();
-	  MX_ADC2_Init();
-	  MX_ADC3_Init();
-
-	  HAL_ADC_Start(&hadc3);
-	  HAL_ADC_Start(&hadc2);
-	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
+	  osSemaphoreWait(pmuSem_id, osWaitForever);
 
 
 	// Tabela da DFT
@@ -183,6 +176,14 @@ void PMU_Task(void const * argument)
 		vetor_rocof[i]=0;
 	}
 
+	  MX_ADC1_Init();
+	  MX_ADC2_Init();
+	  MX_ADC3_Init();
+
+	  HAL_ADC_Start(&hadc3);
+	  HAL_ADC_Start(&hadc2);
+	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
+
 
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
 	while(1)
@@ -195,6 +196,7 @@ void PMU_Task(void const * argument)
 
 //#if 1
 		// Calcula o fator de calibração
+		//BSP_LED_Toggle(LED1);
 		FC=1.21/(Get_ADC_Calib());
 
 		// Aplica o fator de calibracao e carrega novo vetor (liberando o buffer)
@@ -257,6 +259,7 @@ void PMU_Task(void const * argument)
 
 		//##############################
 		// Para FFT
+#if 1
 		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_R,0,1);
 		arm_cmplx_mag_f32(FasesAC_ReIm_R,FasesAC_mod_R,256);
 
@@ -265,6 +268,7 @@ void PMU_Task(void const * argument)
 
 		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_T,0,1);
 		arm_cmplx_mag_f32(FasesAC_ReIm_T,FasesAC_mod_T,256);
+#endif
 		//##############################
 
 
@@ -358,7 +362,7 @@ void PMU_Task(void const * argument)
 
 
 		Freq = (freq_R+freq_S+freq_T)/3.0;
-		Freq = 60;
+		//Freq = 60;
 
 
 		if(f0 == 50){
@@ -421,7 +425,7 @@ void PMU_Task(void const * argument)
 
 
 		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TESTES SEM SINAL
-		media_freq = f0;  /////////////////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//media_freq = f0;  /////////////////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /*		if(a<25){
@@ -582,6 +586,7 @@ void PMU_Task(void const * argument)
 			//}
 
 		}
+		BSP_LED_Toggle(LED1);
 
 	}
 }
@@ -1141,6 +1146,16 @@ int frame_header(void)
 	return 19+1;
 }
 
+//Callback chamado quando o ADC finaliza a conversão
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+	  //Interrompe o timer1 e zera sua contagem atribuindo 0 ao Auto Reload Register
+	  //HAL_TIM_Base_Stop(&htim1);
+	  htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
+	  htim1.Instance->CNT = 0;
 
+	  BSP_LED_Toggle(LED1);
 
+	  osSemaphoreRelease(pmuSem_id);
+
+}
 

@@ -283,11 +283,6 @@ void DMA2_Stream4_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
 	  HAL_DMA_IRQHandler(&hdma_adc1);
-	  //Interrompe o timer1 e zera sua contagem atribuindo 0 ao Auto Reload Register
-	  HAL_TIM_Base_Stop(&htim1);
-	  htim1.Instance->CNT = 0;
-
-	  osSemaphoreRelease(pmuSem_id);
 
 	  //ADC_UART_Flag = 1;
   /* USER CODE END DMA2_Stream0_IRQn 1 */

@@ -399,17 +399,18 @@ int main(void)
 		/********* Inicialização dos Periféricos *********/
 	    MX_GPIO_Init();
 		//MX_USART1_UART_Init();
-		MX_DMA_Init();
 		MX_ADCalibration_Init();
+		MX_DMA_Init();
 		MX_TIM1_Init();
 		RNG_Init();
+		BSP_LED_Init(LED1);
 
 		/* Cria tarefa do DHCP */
-		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 1024);
+		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
 		dhcpThread_Id = osThreadCreate (osThread(dhcpTask), NULL);
 
 		/* Cria tarefa do GPS */
-		osThreadDef(gpsTask, GPS_Task, osPriorityHigh, 0, 1024);
+		osThreadDef(gpsTask, GPS_Task, osPriorityHigh, 0, 2048);
 		gpsThread_Id = osThreadCreate (osThread(gpsTask), NULL);
 
 		/* Cria tarefa de estimação fasorial */
@@ -858,7 +859,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 13020;//6509;
+  htim1.Init.Period = 13020;//26040;//6509;//13020;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -885,7 +886,7 @@ static void MX_TIM1_Init(void)
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
   {
 	  //_Error_Handler(__FILE__, __LINE__);
@@ -956,7 +957,7 @@ void MX_ADC1_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
@@ -972,6 +973,33 @@ void MX_ADC1_Init(void)
 	  //_Error_Handler(__FILE__, __LINE__);
   }
 
+	/* Configure the DMA for ADC1*/
+	/* Set the parameters to be configured */
+	hdma_adc1.Instance = DMA2_Stream4;
+
+	hdma_adc1.Init.Channel = DMA_CHANNEL_0;
+	hdma_adc1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+	hdma_adc1.Init.PeriphInc = DMA_PINC_DISABLE;
+	hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
+	hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+	hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+	hdma_adc1.Init.Mode = DMA_CIRCULAR;
+	hdma_adc1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+	hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+	//hdma_adc.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_HALFFULL;
+	//hdma_adc.Init.MemBurst = DMA_MBURST_SINGLE;
+	//hdma_adc.Init.PeriphBurst = DMA_PBURST_SINGLE;
+
+	HAL_DMA_Init(&hdma_adc1);
+
+	/* Associate the initialized DMA handle to the the UART handle */
+	__HAL_LINKDMA(&hadc1, DMA_Handle, hdma_adc1);
+
+	/*##-4- Configure the NVIC for DMA #########################################*/
+	/* NVIC configuration for DMA transfer complete interrupt */
+	HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 0x05, 0);
+	HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
+
     /**Configure the ADC multi-mode
     */
   multimode.Mode = ADC_TRIPLEMODE_REGSIMULT;
@@ -986,7 +1014,7 @@ void MX_ADC1_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_6;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_112CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
 	  //_Error_Handler(__FILE__, __LINE__);
@@ -1003,7 +1031,7 @@ void MX_ADC2_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = DISABLE;
   hadc2.Init.ContinuousConvMode = DISABLE;
@@ -1021,7 +1049,7 @@ void MX_ADC2_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_112CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
 	  //_Error_Handler(__FILE__, __LINE__);
@@ -1038,7 +1066,7 @@ void MX_ADC3_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc3.Instance = ADC3;
-  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
   hadc3.Init.Resolution = ADC_RESOLUTION_12B;
   hadc3.Init.ScanConvMode = DISABLE;
   hadc3.Init.ContinuousConvMode = DISABLE;
@@ -1056,7 +1084,7 @@ void MX_ADC3_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_8;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_112CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
   {
 	  //_Error_Handler(__FILE__, __LINE__);
@@ -1082,10 +1110,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 
 }
 
-//Callback chamado quando o ADC finaliza a conversão
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
-}
 #ifdef USE_FULL_ASSERT
 
 /**

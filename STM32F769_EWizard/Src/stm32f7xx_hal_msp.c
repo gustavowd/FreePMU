@@ -174,34 +174,6 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc){
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-
-	/* Configure the DMA for ADC1*/
-	/* Set the parameters to be configured */
-	hdma_adc1.Instance = DMA2_Stream4;
-
-	hdma_adc1.Init.Channel = DMA_CHANNEL_0;
-	hdma_adc1.Init.Direction = DMA_PERIPH_TO_MEMORY;
-	hdma_adc1.Init.PeriphInc = DMA_PINC_DISABLE;
-	hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
-	hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-	hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-	hdma_adc1.Init.Mode = DMA_CIRCULAR;
-	hdma_adc1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
-	hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-	//hdma_adc.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_HALFFULL;
-	//hdma_adc.Init.MemBurst = DMA_MBURST_SINGLE;
-	//hdma_adc.Init.PeriphBurst = DMA_PBURST_SINGLE;
-
-	HAL_DMA_Init(&hdma_adc1);
-
-	/* Associate the initialized DMA handle to the the UART handle */
-	__HAL_LINKDMA(hadc, DMA_Handle, hdma_adc1);
-
-	/*##-4- Configure the NVIC for DMA #########################################*/
-	/* NVIC configuration for DMA transfer complete interrupt */
-	HAL_NVIC_SetPriority(ADC_DMA_IRQn, 0x05, 0);
-	HAL_NVIC_EnableIRQ(ADC_DMA_IRQn);
 }
 
 /**
@@ -229,10 +201,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc){
 
 	/*##-3- Disable the DMA Streams ############################################*/
 	/* De-Initialize the DMA Stream associated to transmission process */
-	HAL_DMA_DeInit(&hdma_adc1);
+	//HAL_DMA_DeInit(&hdma_adc1);
 
 	/*##-4- Disable the NVIC for DMA ###########################################*/
-	HAL_NVIC_DisableIRQ(ADC_DMA_IRQn);
+	//HAL_NVIC_DisableIRQ(ADC_DMA_IRQn);
 }
 
 /**
