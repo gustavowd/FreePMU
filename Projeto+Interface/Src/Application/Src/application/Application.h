@@ -60,14 +60,14 @@ EW_DECLARE_BITMAP_RES( Applicationflecha )
 /* Bitmap resource : 'Application::grid' */
 EW_DECLARE_BITMAP_RES( Applicationgrid )
 
-/* Font resource : 'Application::Numbers18' */
-EW_DECLARE_FONT_RES( ApplicationNumbers18 )
+/* Font resource : 'Application::NumbersM' */
+EW_DECLARE_FONT_RES( ApplicationNumbersM )
 
-/* Font resource : 'Application::Numbers16' */
-EW_DECLARE_FONT_RES( ApplicationNumbers16 )
+/* Font resource : 'Application::NumbersP' */
+EW_DECLARE_FONT_RES( ApplicationNumbersP )
 
-/* Font resource : 'Application::Numbers22' */
-EW_DECLARE_FONT_RES( ApplicationNumbers22 )
+/* Font resource : 'Application::NumbersG' */
+EW_DECLARE_FONT_RES( ApplicationNumbersG )
 
 /* User defined auto object: 'Application::Autoobjeto' */
 EW_DECLARE_AUTOOBJECT( ApplicationAutoobjeto, ApplicationClasse )
