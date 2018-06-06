@@ -55,7 +55,7 @@
 #include <math.h>
 #include "stm32746g_discovery.h"
 
-#define MCLOCK_FREQ 200000000
+#define MCLOCK_FREQ 100000000
 #define numero_pontos 256
 
 volatile unsigned short adcBuffer[768];
@@ -472,7 +472,7 @@ static void MX_TIM8_Init(void)
   htim8.Instance = TIM8;
   htim8.Init.Prescaler = 0;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 13020;
+  htim8.Init.Period = 6509;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
   htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;

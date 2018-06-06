@@ -12,7 +12,7 @@
 #include "main.h"
 #include "arm_const_structs.h"
 
-#define MCLOCK_FREQ 200000000
+#define MCLOCK_FREQ 100000000
 #define numero_pontos 256
 
 extern osSemaphoreId SerialGPS_semId;
@@ -379,13 +379,13 @@ void PMU_Task(void const * argument)
 		//Calculo da freq para 30 pulsos e 3 fases
 
 		freq_R = f0 + (desvio_faseR*fps)/360.0;
-		freq_S = f0 + (desvio_faseS*fps)/360.0;
+		//freq_S = f0 + (desvio_faseS*fps)/360.0;
+		freq_S = f0; // sem sinal no ADC2
 		freq_T = f0 + (desvio_faseT*fps)/360.0;
 
 
 
 		Freq = (freq_R+freq_S+freq_T)/3.0;
-		Freq = 60;
 
 
 		if(f0 == 50){
@@ -448,7 +448,7 @@ void PMU_Task(void const * argument)
 
 
 		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TESTES SEM SINAL
-		media_freq = f0;  /////////////////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//media_freq = f0;  /////////////////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /*		if(a<25){
