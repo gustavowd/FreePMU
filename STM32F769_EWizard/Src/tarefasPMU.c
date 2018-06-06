@@ -185,6 +185,8 @@ void PMU_Task(void const * argument)
 	  HAL_ADC_Start(&hadc2);
 	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
 
+	  //HAL_TIM_Base_Start(&htim1);
+
 
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
 	while(1)
@@ -1151,7 +1153,6 @@ int frame_header(void)
 //Callback chamado quando o ADC finaliza a conversão
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	  //Interrompe o timer1 e zera sua contagem atribuindo 0 ao Auto Reload Register
-	  //HAL_TIM_Base_Stop(&htim1);
 	  htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
 	  htim1.Instance->CNT = 0;
 
