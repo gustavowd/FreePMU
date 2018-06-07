@@ -29,9 +29,12 @@
 *******************************************************************************/
 
 #include "stm32f7xx_hal.h"
+#include "stm32f7xx_hal_gpio.h"
 #include "stm32746g_discovery.h"
 
 #include "ew_bsp_serial.h"
+#include "FreeRTOS.h"
+#include "semphr.h"
 
 #define UART_PORTID                     USART1
 
@@ -52,7 +55,7 @@
 
 UART_HandleTypeDef                      UART_Handle;
 
-
+#if 0
 void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
   GPIO_InitTypeDef  GPIO_InitStruct;
@@ -95,7 +98,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
   /* Configure UART Rx as alternate function  */
   HAL_GPIO_DeInit(USARTx_RX_GPIO_PORT, USARTx_RX_PIN);
 }
-
+#endif
 
 /*******************************************************************************
 * FUNCTION:
@@ -120,6 +123,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 *   None
 *
 *******************************************************************************/
+xSemaphoreHandle semtx;
 void EwBspConfigSerial( void )
 {
   UART_Handle.Instance            = UART_PORTID;
@@ -132,6 +136,8 @@ void EwBspConfigSerial( void )
   UART_Handle.Init.OverSampling   = UART_OVERSAMPLING_16;
 
   HAL_UART_Init( &UART_Handle );
+
+  semtx = xSemaphoreCreateBinary();
 }
 
 
@@ -176,6 +182,56 @@ unsigned char EwBspGetCharacter( void )
   uint8_t ret;
   HAL_UART_Receive( &UART_Handle, &ret, 1, 10 );
   return ret;
+}
+
+/* Fun��o chamada dentro da interrup��o de UART.
+ * Informa que um pr�ximo caracter pode ser transmitido.
+ */
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+	BaseType_t pxHigherPriorityTaskWokenTX = pdFALSE;
+	if(huart->Instance == USART1){
+		xSemaphoreGiveFromISR(semtx, &pxHigherPriorityTaskWokenTX);
+		if (pxHigherPriorityTaskWokenTX == pdTRUE){
+			portYIELD();
+		}
+	}
+}
+
+
+
+/*
+ * Fun��o para transmitir um caracter pela porta serial.
+ */
+uint8_t ucData = 0;
+void UARTPutChar(char ucData)
+{
+		// Envia um caracter
+		HAL_UART_Transmit_IT(&UART_Handle, (uint8_t *)&ucData,1);
+		// Espera por uma interrup��o da UART
+		xSemaphoreTake(semtx, portMAX_DELAY);
+}
+
+
+/*
+ * Fun��o para transmitir uma string pela porta serial.
+ */
+void UARTPutString(char *string, uint16_t size)
+{
+		// Descobre o tamanho da string, caso n�o informado
+		if (!size){
+			uint8_t *tmp = (uint8_t *)string;
+
+			while(*tmp++){
+				size++;
+			}
+		}
+
+		/* Transmite uma sequencia de dados, com fluxo controlado pela interrup��o */
+		HAL_UART_Transmit_IT(&UART_Handle, (uint8_t *)string, size);
+
+		// Espera pelo fim da transmiss�o
+		xSemaphoreTake(semtx, portMAX_DELAY);
 }
 
 /* msy */

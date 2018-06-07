@@ -73,7 +73,7 @@ extern LTDC_HandleTypeDef            hltdc;
 extern SAI_HandleTypeDef             haudio_out_sai;
 extern SAI_HandleTypeDef             haudio_in_sai;
 extern QSPI_HandleTypeDef            QSPIHandle;
-extern UART_HandleTypeDef 			 huart1;
+extern UART_HandleTypeDef 			 UART_Handle;
 extern UART_HandleTypeDef 			 huart6;
 extern DMA_HandleTypeDef 			 hdma_adc1;
 extern TIM_HandleTypeDef 			 htim1;
@@ -252,13 +252,13 @@ void ETH_IRQHandler(void)
 
 void USART1_IRQHandler(void)
 {
-  /* USER CODE BEGIN USART2_IRQn 0 */
+  /* USER CODE BEGIN USART1_IRQn 0 */
 
-  /* USER CODE END USART2_IRQn 0 */
-  HAL_UART_IRQHandler(&huart1);
-  /* USER CODE BEGIN USART2_IRQn 1 */
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&UART_Handle);
+  /* USER CODE BEGIN USART1_IRQn 1 */
 
-  /* USER CODE END USART2_IRQn 1 */
+  /* USER CODE END USART1_IRQn 1 */
 }
 
 /**

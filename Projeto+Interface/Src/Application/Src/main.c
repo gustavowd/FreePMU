@@ -309,8 +309,8 @@ int main( void )
 	BSP_LED_Init(LED1);
 
 	/* initialize serial interface for debugging and connect xprintf module */
-	//  EwBspConfigSerial();
-	//  xdev_out( EwBspPutCharacter );
+	EwBspConfigSerial();
+	xdev_out( EwBspPutCharacter );
 
 	/********* Definição das tarefas *********/
 
@@ -501,6 +501,7 @@ static void EmWiMainLoop( const void* arg )
 }
 
 /******************* IMPLEMENTAÇÕES DE FUNÇÕES **********************/
+#if 0
 void UARTPutString(char *string, uint16_t size){
 
 	// Descobre o tamanho da string, caso não informado
@@ -519,6 +520,7 @@ void UARTPutString(char *string, uint16_t size){
 	xSemaphoreTake(sUART, portMAX_DELAY);
 
 }
+
 
 static void SerialSend(void const * argument){
 	unsigned long i = 0;
@@ -560,6 +562,7 @@ static void SerialSend(void const * argument){
 	osThreadTerminate(NULL);
 
 }
+#endif
 
 static void RNG_Init(void)
 {

@@ -121,7 +121,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Config"/>
 						<entry excluding="CMSIS/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c|CMSIS/Device/ST/STM32F7xx/Source/Templates/gcc/startup_stm32f746xx.s" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry excluding="ST/STemWin/OS/GUI_X.c|Third_Party/FatFs/src/option/ccsbcs.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="Application/Src/TargetSpecific/ew_bsp_serial.c|Application/Src/TargetSpecific/system_stm32f7xx.c|Application/Src/TargetSpecific/stm32f7xx_it.c|Application/Src/main_old.c|Application/User/Core/Src/main.c|Application/User/Modules/vnc_server/vnc_server_res.c|Application/User/Modules/settings/settings_res.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
+						<entry excluding="Application/Src/TargetSpecific/system_stm32f7xx.c|Application/Src/TargetSpecific/stm32f7xx_it.c|Application/Src/main_old.c|Application/User/Core/Src/main.c|Application/User/Modules/vnc_server/vnc_server_res.c|Application/User/Modules/settings/settings_res.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities/CPU"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup"/>
 					</sourceEntries>
@@ -213,7 +213,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Config"/>
 						<entry excluding="CMSIS/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c|CMSIS/Device/ST/STM32F7xx/Source/Templates/gcc/startup_stm32f746xx.s" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry excluding="ST/STemWin/OS/GUI_X.c|Third_Party/FatFs/src/option/ccsbcs.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="Application/Src/TargetSpecific/ew_bsp_serial.c|Application/Src/TargetSpecific/system_stm32f7xx.c|Application/Src/TargetSpecific/stm32f7xx_it.c|Application/Src/main_old.c|Application/User/Core/Src/main.c|Application/User/Modules/vnc_server/vnc_server_res.c|Application/User/Modules/settings/settings_res.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
+						<entry excluding="Application/Src/TargetSpecific/system_stm32f7xx.c|Application/Src/TargetSpecific/stm32f7xx_it.c|Application/Src/main_old.c|Application/User/Core/Src/main.c|Application/User/Modules/vnc_server/vnc_server_res.c|Application/User/Modules/settings/settings_res.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities/CPU"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup"/>
 					</sourceEntries>

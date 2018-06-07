@@ -234,7 +234,7 @@ void UARTPutString(char *string, uint16_t size)
 
 		// Espera pelo fim da transmiss�o
 		xSemaphoreTake(semtx, portMAX_DELAY);
-	}
+}
 
 
 /* msy */
