@@ -4088,7 +4088,7 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   ViewsText_OnSetAlignment( &_this->val_freq, ViewsTextAlignmentAlignHorzRight | 
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->val_freq, EwLoadString( &_Const0017 ));
-  CoreTimer_OnSetPeriod( &_this->intervalo, 500 );
+  CoreTimer_OnSetPeriod( &_this->intervalo, 100 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->linha_t_1, _Const005E );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->linha_t_1, _Const005F );
@@ -4539,7 +4539,7 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_amarelo, 480 );
   ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_verde, 480 );
   ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_verde, 480 );
-  CoreTimer_OnSetPeriod( &_this->intervalo, 1000 );
+  CoreTimer_OnSetPeriod( &_this->intervalo, 100 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
   CoreRectView__OnSetBounds( &_this->val_m_inf, _Const0049 );
   ViewsText_OnSetAlignment( &_this->val_m_inf, ViewsTextAlignmentAlignHorzLeft | 
@@ -5140,7 +5140,7 @@ void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
   ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_amarelo, 480 );
   ChartsCoordList_OnSetMaxNoOfItems( &_this->dados_verde, 480 );
   ChartsCoordList_OnSetMaxNoOfItems( &_this->dadosmirror_verde, 480 );
-  CoreTimer_OnSetPeriod( &_this->intervalo, 1000 );
+  CoreTimer_OnSetPeriod( &_this->intervalo, 100 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
   CoreRectView__OnSetBounds( &_this->labelFaseInf, _Const0049 );
   ViewsText_OnSetAlignment( &_this->labelFaseInf, ViewsTextAlignmentAlignHorzLeft 

@@ -1028,7 +1028,7 @@ class Freq : Core::Group
   object Core::Timer intervalo
   {
     preset OnTrigger = plotar;
-    preset Period = 500;
+    preset Period = 100;
     preset Enabled = true;
   }
 
@@ -1480,7 +1480,7 @@ class Mag : Core::Group
   object Core::Timer intervalo
   {
     preset OnTrigger = plotar;
-    preset Period = 1000;
+    preset Period = 100;
     preset Enabled = true;
   }
 
@@ -2097,7 +2097,7 @@ class Fase : Core::Group
   object Core::Timer intervalo
   {
     preset OnTrigger = plotar;
-    preset Period = 1000;
+    preset Period = 100;
     preset Enabled = true;
   }
 

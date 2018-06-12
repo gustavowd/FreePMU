@@ -482,7 +482,7 @@ class Fasores : Core::Group
   {
     preset Bounds = <110,225,160,245>;
     preset AutoSize = false;
-    preset String = 270;
+    preset String = -90;
     preset Font = Resources::FontArial12;
     preset Color = #FFFFFFFF;
   }
@@ -492,7 +492,7 @@ class Fasores : Core::Group
   {
     preset Bounds = <192,213,210,225>;
     preset AutoSize = true;
-    preset String = 300;
+    preset String = -60;
     preset Font = Resources::FontArial12;
     preset Color = #FFFFFFFF;
   }
@@ -502,7 +502,7 @@ class Fasores : Core::Group
   {
     preset Bounds = <60,213,78,225>;
     preset AutoSize = true;
-    preset String = 240;
+    preset String = -120;
     preset Font = Resources::FontArial12;
     preset Color = #FFFFFFFF;
   }
@@ -512,7 +512,7 @@ class Fasores : Core::Group
   {
     preset Bounds = <19,171,37,183>;
     preset AutoSize = true;
-    preset String = 210;
+    preset String = -150;
     preset Font = Resources::FontArial12;
     preset Color = #FFFFFFFF;
   }
@@ -542,7 +542,7 @@ class Fasores : Core::Group
   {
     preset Bounds = <234,171,252,183>;
     preset AutoSize = true;
-    preset String = 330;
+    preset String = -30;
     preset Font = Resources::FontArial12;
     preset Color = #FFFFFFFF;
   }
@@ -1028,7 +1028,7 @@ class Freq : Core::Group
   object Core::Timer intervalo
   {
     preset OnTrigger = plotar;
-    preset Period = 500;
+    preset Period = 100;
     preset Enabled = true;
   }
 
@@ -1835,10 +1835,10 @@ class Mag : Core::Group
   }
 
   $rect <720,270,900,310>
-  var float valorMeio = 120.0;
+  var float valorMeio = 220.0;
 
   $rect <900,270,1080,310>
-  var int32 deltaUnidades = 10;
+  var int32 deltaUnidades = 20;
 
   // ATENÇÃO:
   // O método "float2String" existe devido ao casting nativo de float para string \
