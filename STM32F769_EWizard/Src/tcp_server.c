@@ -66,6 +66,7 @@ reboot_server:
 	int status = lwip_setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR, (const char *) &on, sizeof(on));
 	if (sockfd < 0) {
 		//erro
+		SERVER_StatusMessage ("Erro no servidor");
 		while(1){
 			osDelay(1000);
 		}
@@ -84,6 +85,7 @@ reboot_server:
 		//erro
 		lwip_close(sockfd);
 		while(1){
+			SERVER_StatusMessage ("Erro no servidor");
 			osDelay(1000);
 		}
 	}
@@ -94,6 +96,7 @@ reboot_server:
 	if ( lwip_listen(sockfd, 5) != 0 ){
 		lwip_close(sockfd);
 		while(1){
+			SERVER_StatusMessage ("Erro no servidor");
 			osDelay(1000);
 		}
 	}
@@ -111,6 +114,7 @@ reboot_server:
 		if (newsockfd < 0){
 			//erro
 			while(1){
+				SERVER_StatusMessage ("Erro no servidor");
 				osDelay(1000);
 			}
 		}

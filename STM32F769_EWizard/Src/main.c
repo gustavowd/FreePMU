@@ -1110,6 +1110,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 
 }
 
+void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName ){
+  while(1);
+}
+
+
+void vApplicationMallocFailedHook( void ){
+  while(1);
+}
+
 
 #ifdef USE_FULL_ASSERT
 
