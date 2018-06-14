@@ -185,7 +185,7 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
   */
   
   /* Enable the Ethernet global Interrupt */
-  HAL_NVIC_SetPriority(ETH_IRQn, 0x7, 0);
+  HAL_NVIC_SetPriority(ETH_IRQn, 0x5, 0);
   HAL_NVIC_EnableIRQ(ETH_IRQn);
   
   /* Enable ETHERNET clock  */
