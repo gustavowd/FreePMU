@@ -80,8 +80,7 @@ reboot_server:
 	serv_addr.sin_addr.s_addr = INADDR_ANY;
 
 	/* Now bind the host address using bind() call.*/
-	if (lwip_bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
-	{
+	if (lwip_bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0){
 		//erro
 		lwip_close(sockfd);
 		while(1){
@@ -104,8 +103,7 @@ reboot_server:
 	SERVER_StatusMessage ("Escutando porta 4712");
 
 	 // While true
-	while (1)
-	{
+	while (1){
 
 
 		// Accept all requests
@@ -119,8 +117,7 @@ reboot_server:
 
 		connected = 1;
 		newsockfd_out = newsockfd;
-		while(1)
-		{
+		while(1){
 
 
 
@@ -134,10 +131,8 @@ reboot_server:
 				connected = 0;
 				osMutexRelease(ethMut_id);
 				goto reboot_server;
-			}else
-			{
-				if (n == 0)
-				{
+			}else{
+				if (n == 0){
 
 					close(newsockfd);
 					connected = 0;

@@ -205,7 +205,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 /*
  * Fun��o para transmitir um caracter pela porta serial.
  */
-uint8_t ucData = 0;
+//uint8_t ucData = 0;
 void UARTPutChar(char ucData)
 {
 		// Envia um caracter

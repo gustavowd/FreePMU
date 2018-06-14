@@ -96,7 +96,7 @@ void VNC_SERVER_Start (void)
     	    //sys_thread_new("PMU TCP Server", pmu_tcp_server, NULL, 2048, 6);
     	    //sys_thread_new("PMU TCP Server out", pmu_tcp_server_out, NULL, 2048, 5);
     		/* Cria tarefa do DHCP */
-    		osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 2048);
+    		osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 4096);
     		serverThread_Id = osThreadCreate (osThread(PDCServerTask), NULL);
 
     		/* Cria tarefa do GPS */
