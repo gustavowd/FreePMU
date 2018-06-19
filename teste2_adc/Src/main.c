@@ -55,6 +55,9 @@
 #include <math.h>
 #include "stm32746g_discovery.h"
 
+#include "xprintf.h"
+#include <stdarg.h>
+
 #define MCLOCK_FREQ 100000000
 #define numero_pontos 256
 
@@ -143,6 +146,7 @@ ADC_HandleTypeDef hadc2;
 ADC_HandleTypeDef hadc3;
 DMA_HandleTypeDef hdma_adc1;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim8;
 
 UART_HandleTypeDef huart1;
@@ -152,7 +156,7 @@ osThreadId PMU_TaskHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+int trigcount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -165,24 +169,81 @@ static void MX_ADC2_Init(void);
 static void MX_ADC3_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART6_UART_Init(void);
+static void MX_TIM2_Init(void);
 void PMUTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+void printSerial ( const char* aFormat, ... );
+void putChar( unsigned char aCharacter );
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
 //Callback chamado quando o ADC finaliza a conversão
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
-	  //Interrompe o timer1 e zera sua contagem atribuindo 0 ao Auto Reload Register
-	  htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
-	  htim8.Instance->CNT = 0;
+	char msg[280];
 
-	  osSemaphoreRelease(pmuSem_id);
+	//Interrompe o TIM8 e zera sua contagem atribuindo 0 ao Auto Reload Register
+	htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
+	htim8.Instance->CNT = 0;
 
-	  BSP_LED_Toggle(LED1);
+	// Se o TIM2 estiver desligado...
+	if (htim2.Instance->CR1 == 0) {
+		// Configura o TIM8 para ser trigado pelo TIM2 (ITR1)
+		TIM_SlaveConfigTypeDef sSlaveConfig;
+		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
+		HAL_TIM_SlaveConfigSynchronization(&htim8, &sSlaveConfig);
 
+		// E inicia o TIM2
+		htim2.Instance->CR1 |= (TIM_CR1_CEN);
+
+		trigcount++;
+	}
+	// Do contrario, o TIM2 já está iniciado
+	else {
+		//Então conta-se um pulso
+		trigcount++;
+
+		if (trigcount > 29) {
+			// Caso o número de pulsos-1 tenha sido atingido, o TIM2 é interrompido
+			htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
+			htim2.Instance->CNT = 0;
+
+			// O TIM8 é reestabelecido para ser disparado externamente
+			TIM_SlaveConfigTypeDef sSlaveConfig;
+			sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+			sSlaveConfig.InputTrigger = TIM_TS_ETRF;
+			sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+			sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
+			sSlaveConfig.TriggerFilter = 0;
+			HAL_TIM_SlaveConfigSynchronization(&htim8, &sSlaveConfig);
+
+			// E a contagem de pulsos zerada
+			trigcount = 0;
+		}
+	}
+
+	sprintf(msg, "Entrou no callback do ADC. Saindo com TrigCount = %d.\n", trigcount);
+	printSerial(msg);
+
+	BSP_LED_Toggle(LED1);
+	osSemaphoreRelease(pmuSem_id);
+}
+
+void printSerial ( const char* aFormat, ... )
+{
+  char buff[ 256 ];
+  va_list list;
+  va_start( list, aFormat );
+  vsprintf( buff, aFormat, list );
+  va_end( list );
+  xprintf( buff );
+}
+
+void putChar( unsigned char aCharacter )
+{
+  HAL_UART_Transmit( &huart1, (uint8_t*)&aCharacter, 1, 10 );
 }
 /* USER CODE END 0 */
 
@@ -222,8 +283,14 @@ int main(void)
   MX_ADC3_Init();
   MX_USART1_UART_Init();
   MX_USART6_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  xdev_out( putChar );
 
+  /*	TIM1:
+   * 	100MHz(2050*1627) = 30.0003Hz
+   * 	50MHz(1025*1627) = 30.0003Hz
+   */
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -461,6 +528,39 @@ static void MX_ADC3_Init(void)
 
 }
 
+/* TIM2 init function */
+static void MX_TIM2_Init(void)
+{
+
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 1025;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 1626;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
 /* TIM8 init function */
 static void MX_TIM8_Init(void)
 {
@@ -574,13 +674,22 @@ static void MX_DMA_Init(void)
 static void MX_GPIO_Init(void)
 {
 
+  GPIO_InitTypeDef GPIO_InitStruct;
+
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOI_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOK_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
+
+  /*Configure GPIO pin : PK2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOK, &GPIO_InitStruct);
 
 }
 
@@ -921,6 +1030,7 @@ void PMUTask(void const * argument)
 		}
 
 		BSP_LED_Toggle(LED1);
+		printSerial("Terminou estimação da PMU.\n");
   }
   /* USER CODE END 5 */ 
 }

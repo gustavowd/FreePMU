@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>C:\Users\gusta\Documents\git\PMU_EmbeddedWizard\teste2_adc\\teste2_adc</ProjectName>
+<ProjectName>C:\Users\Leonardo\Google Drive\UTFPR\IC\teste2_adc_local\\teste2_adc</ProjectName>
 <ProjectNature>C</ProjectNature> 
 <CMSIS>..\Drivers\CMSIS</CMSIS>
-<HAL_Driver>C:\Users\gusta\STM32Cube\Repository\STM32Cube_FW_F7_V1.11.0\Drivers\CMSIS</HAL_Driver>
+<HAL_Driver>C:\Users\Leonardo\STM32Cube\Repository\STM32Cube_FW_F7_V1.11.0\Drivers\CMSIS</HAL_Driver>
 <Toolchain>SW4STM32</Toolchain>
 <Version>0</Version>
 
