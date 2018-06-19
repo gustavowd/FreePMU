@@ -21,6 +21,8 @@
 extern osMessageQId SerialGPSq;
 
 extern TIM_HandleTypeDef 			 htim1;
+extern TIM_HandleTypeDef			 htim2;
+
 extern UART_HandleTypeDef 			 huart6;
 
 extern volatile unsigned short adcBuffer[numero_pontos*3];
@@ -128,6 +130,8 @@ extern osSemaphoreId syncSem_id;
 extern volatile unsigned char data_flag;
 extern char isSyncCreated;
 //extern char *IP_global[16];
+
+int trigcount = 0;
 
 void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
@@ -1152,13 +1156,47 @@ int frame_header(void)
 
 //Callback chamado quando o ADC finaliza a conversão
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
-	  //Interrompe o timer1 e zera sua contagem atribuindo 0 ao Auto Reload Register
-	  htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
-	  htim1.Instance->CNT = 0;
+	//Interrompe o TIM1 e zera sua contagem atribuindo 0 ao Auto Reload Register
+	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
+	htim1.Instance->CNT = 0;
 
-	  BSP_LED_Toggle(LED1);
+	// Se o TIM2 estiver desligado...
+	if (htim2.Instance->CR1 == 0) {
+		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)
+		TIM_SlaveConfigTypeDef sSlaveConfig;
+		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
+		HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
 
-	  osSemaphoreRelease(pmuSem_id);
+		// E inicia o TIM2
+		htim2.Instance->CR1 |= (TIM_CR1_CEN);
 
+		trigcount++;
+	}
+	// Do contrario, o TIM2 já está iniciado
+	else {
+		//Então conta-se um pulso
+		trigcount++;
+
+		if (trigcount > 29) {
+			// Caso o número de pulsos-1 tenha sido atingido, o TIM2 é interrompido
+			htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
+			htim2.Instance->CNT = 0;
+
+			// O TIM8 é reestabelecido para ser disparado externamente
+			TIM_SlaveConfigTypeDef sSlaveConfig;
+			sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+			sSlaveConfig.InputTrigger = TIM_TS_ETRF;
+			sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+			sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
+			sSlaveConfig.TriggerFilter = 0;
+			HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
+
+			// E a contagem de pulsos zerada
+			trigcount = 0;
+		}
+	}
+
+	BSP_LED_Toggle(LED1);
+	osSemaphoreRelease(pmuSem_id);
 }
-
