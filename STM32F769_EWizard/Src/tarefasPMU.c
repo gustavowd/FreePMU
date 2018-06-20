@@ -1160,16 +1160,13 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
 	htim1.Instance->CNT = 0;
 
-	// Se o TIM2 estiver desligado...
-	if (htim2.Instance->CR1 == 0) {
+	// Se for a primeira aquisição...
+	if (trigcount == 0) {
 		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
 		HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
-
-		// E inicia o TIM2
-		htim2.Instance->CR1 |= (TIM_CR1_CEN);
 
 		trigcount++;
 	}
@@ -1183,7 +1180,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
 			htim2.Instance->CNT = 0;
 
-			// O TIM8 é reestabelecido para ser disparado externamente
+			// O TIM1 é reestabelecido para ser disparado externamente
 			TIM_SlaveConfigTypeDef sSlaveConfig;
 			sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 			sSlaveConfig.InputTrigger = TIM_TS_ETRF;

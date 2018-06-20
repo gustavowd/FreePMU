@@ -143,7 +143,7 @@ void DeviceDriver_Initialize( void )
   EwBspConfigLed();
 
   /* Configure interrupt for hardware button */
-  EwBspConfigButton( HardButtonIsrCallback );
+  //EwBspConfigButton( HardButtonIsrCallback );
 
 #ifdef _ApplicationDeviceClass_
 
