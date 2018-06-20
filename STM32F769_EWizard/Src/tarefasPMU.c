@@ -1160,6 +1160,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
 	htim1.Instance->CNT = 0;
 
+	BSP_LED_Toggle(LED1);
+
 	// Se for a primeira aquisição...
 	if (trigcount == 0) {
 		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)
@@ -1194,6 +1196,5 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 		}
 	}
 
-	BSP_LED_Toggle(LED1);
 	osSemaphoreRelease(pmuSem_id);
 }
