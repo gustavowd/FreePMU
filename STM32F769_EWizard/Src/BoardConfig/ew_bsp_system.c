@@ -120,7 +120,7 @@ static void SystemClock_Config( void )
   /* These reduced LTDC clock frequency is neccessary to avoid display artefacts
      that occur on higher LTDC clock frequencies, if there is heavy memory access
      by application during display update */
-  PeriphClkInitStruct.PLLSAI.PLLSAIN = 364;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 210;//364;
   PeriphClkInitStruct.PLLSAI.PLLSAIR = 7;
 
 #else

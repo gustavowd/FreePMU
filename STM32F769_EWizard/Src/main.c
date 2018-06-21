@@ -410,12 +410,12 @@ int main(void)
 		BSP_LED_Init(LED2);
 
 		/* Cria tarefa do DHCP */
-		//osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
-		//dhcpThread_Id = osThreadCreate (osThread(dhcpTask), NULL);
+		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
+		dhcpThread_Id = osThreadCreate (osThread(dhcpTask), NULL);
 
 		/* Cria tarefa do GPS */
-		//osThreadDef(gpsTask, GPS_Task, osPriorityHigh, 0, 2048);
-		//gpsThread_Id = osThreadCreate (osThread(gpsTask), NULL);
+		osThreadDef(gpsTask, GPS_Task, osPriorityHigh, 0, 2048);
+		gpsThread_Id = osThreadCreate (osThread(gpsTask), NULL);
 
 		/* Cria tarefa de estimação fasorial */
 		osThreadDef(pmuTask, PMU_Task, osPriorityRealtime, 0, 2048);
@@ -425,8 +425,8 @@ int main(void)
 
 	  /* create thread that drives the Embedded Wizard GUI application... */
 	  //EwPrint( "Create UI thread...                          " );
-	  //osThreadDef( EmWiThreadHandle, EmWiMainLoop, osPriorityBelowNormal, 0, semtstSTACK_SIZE );
-	  //osThreadCreate( osThread( EmWiThreadHandle ), (void*)0 );
+	  osThreadDef( EmWiThreadHandle, EmWiMainLoop, osPriorityBelowNormal, 0, semtstSTACK_SIZE );
+	  osThreadCreate( osThread( EmWiThreadHandle ), (void*)0 );
 	  //EwPrint( "[OK]\n\r" );
 
 	  /* ...and start scheduler */
@@ -907,9 +907,9 @@ static void MX_TIM2_Init(void)
 	  TIM_MasterConfigTypeDef sMasterConfig;
 
 	  htim2.Instance = TIM2;
-	  htim2.Init.Prescaler = 35000;//2050;
+	  htim2.Init.Prescaler = 35000-1;//2050;
 	  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-	  htim2.Init.Period = 99;//1625;
+	  htim2.Init.Period = 100-1;//1625;
 	  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -939,6 +939,9 @@ static void MX_TIM2_Init(void)
 	  {
 	    //_Error_Handler(__FILE__, __LINE__);
 	  }
+
+	  /* Enable the TIM Update interrupt */
+	  htim2.Instance->DIER |= 0x01;
 
 }
 
