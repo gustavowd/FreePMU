@@ -15,7 +15,7 @@
 #include "stm32f7xx_hal.h"
 #include "stm32f769i_discovery.h"
 
-#define MCLOCK_FREQ 200000000
+#define MCLOCK_FREQ 210000000
 #define numero_pontos 256
 
 extern osMessageQId SerialGPSq;
@@ -1159,6 +1159,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	// Se for a primeira aquisição...
 	if (trigcount == 0) {
 		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)
+		BSP_LED_Toggle(LED2);
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
@@ -1169,12 +1170,14 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 		trigcount++;
 	}
+#if 0
 	// Do contrario, o TIM2 já está iniciado
 	else {
 		//Então conta-se um pulso
 		trigcount++;
 
 		if (trigcount > 29) {
+			BSP_LED_Toggle(LED2);
 			// Caso o número de pulsos-1 tenha sido atingido, o TIM2 é interrompido
 			htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
 			htim2.Instance->CNT = 0;
@@ -1192,6 +1195,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			trigcount = 0;
 		}
 	}
+#endif
 
 	osSemaphoreRelease(pmuSem_id);
 }

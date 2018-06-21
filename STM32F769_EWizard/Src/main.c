@@ -407,6 +407,7 @@ int main(void)
 		MX_TIM2_Init();
 		RNG_Init();
 		BSP_LED_Init(LED1);
+		BSP_LED_Init(LED2);
 
 		/* Cria tarefa do DHCP */
 		//osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
