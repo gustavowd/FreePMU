@@ -1170,7 +1170,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 		trigcount++;
 	}
-#if 0
 	// Do contrario, o TIM2 já está iniciado
 	else {
 		//Então conta-se um pulso
@@ -1195,7 +1194,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			trigcount = 0;
 		}
 	}
-#endif
 
 	osSemaphoreRelease(pmuSem_id);
 }
