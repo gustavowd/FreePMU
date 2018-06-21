@@ -131,7 +131,7 @@ extern volatile unsigned char data_flag;
 extern char isSyncCreated;
 //extern char *IP_global[16];
 
-int trigcount = 0;
+volatile int trigcount = 0;
 
 void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
@@ -1162,6 +1162,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
+		sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+		sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
+		sSlaveConfig.TriggerFilter = 0;
 		HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
 
 		trigcount++;
