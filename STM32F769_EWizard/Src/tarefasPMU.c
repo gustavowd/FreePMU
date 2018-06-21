@@ -557,21 +557,15 @@ void PMU_Task(void const * argument)
 
 */
 
-		// DADOS DA TRANSMISSAO (via serial pro PC)
-		buffer[0] = SOC;
-		buffer[1] = Mag_R_final;//_final;
-		buffer[2] = Mag_S_final;
-		buffer[3] = Mag_T_final;
-		buffer[4] = Fase_R_final;
-		buffer[5] = Fase_S_final;
-		buffer[6] = Fase_T_final;
-		buffer[7] = Freq_final;
-		buffer[8] = media_rocof;
-		buffer[9] = 0;
+		  // DADOS DA TRANSMISSAO (via serial pro PC)
+		buffer[0] = Mag_R_final;
+		buffer[1] = Fase_R_final;//_final;
+		buffer[2] = Freq_final;
+		buffer[3] = media_rocof;
 
 		// Envia os dados pela serial
 		char *dados = (char*)&buffer;
-		UARTPutString(dados,36);
+		UARTPutString(dados,12);
 
 
 		SOC = 1468976006;
