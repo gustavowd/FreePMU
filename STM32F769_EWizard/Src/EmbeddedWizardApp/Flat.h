@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -51,6 +51,9 @@ EW_DECLARE_FONT_RES( FlatFontL )
    within your project, just create a variant of these bitmap resources and define 
    the attributes of the bitmap resources according your design ideas. */
 EW_DECLARE_BITMAP_RES( FlatFlatFrame )
+
+/* Bitmap resource - used in demo applications as icons for buttons and indicators. */
+EW_DECLARE_BITMAP_RES( FlatFlatDemoIcons )
 
 /* Color constant representing the main theme color of the widget kit. If you want 
    to change this color within your project, just create a variant of this color 

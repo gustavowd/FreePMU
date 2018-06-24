@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -416,22 +416,6 @@ void ChartsGraph_OnSetVertGridColor( ChartsGraph _this, XColor value )
     return;
 
   _this->VertGridColor = value;
-  CoreGroup__InvalidateArea( _this, EwGetRectORect( _this->Super2.Bounds ));
-}
-
-/* 'C' function for method : 'Charts::Graph.OnSetGridDistance()' */
-void ChartsGraph_OnSetGridDistance( ChartsGraph _this, XPoint value )
-{
-  if ( value.X < 10 )
-    value.X = 10;
-
-  if ( value.Y < 10 )
-    value.Y = 10;
-
-  if ( !EwCompPoint( value, _this->GridDistance ))
-    return;
-
-  _this->GridDistance = value;
   CoreGroup__InvalidateArea( _this, EwGetRectORect( _this->Super2.Bounds ));
 }
 

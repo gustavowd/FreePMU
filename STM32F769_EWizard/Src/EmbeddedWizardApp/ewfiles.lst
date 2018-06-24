@@ -7,3 +7,4 @@ module Application              file "Application.c";
 module Charts                   file "Charts.c";
 module Templates                file "Templates.c";
 module Flat                     file "Flat.c";
+module OldResources             file "OldResources.c";

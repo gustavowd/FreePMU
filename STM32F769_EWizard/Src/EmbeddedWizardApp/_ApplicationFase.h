@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,22 +33,21 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ChartsCoordList.h"
-#include "_ChartsGraph.h"
+#include "_ApplicationConfigScreen.h"
+#include "_ApplicationModIconButton.h"
+#include "_ApplicationPlotterTripleGraph.h"
 #include "_CoreGroup.h"
-#include "_CoreOutline.h"
 #include "_CoreTimer.h"
-#include "_ViewsBorder.h"
-#include "_ViewsLine.h"
+#include "_EffectsInt32Effect.h"
 #include "_ViewsText.h"
 
 /* Forward declaration of the class Application::Classe */
@@ -63,6 +62,12 @@
 #define _ApplicationFase_
 #endif
 
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
+#endif
+
 /* Forward declaration of the class Core::KeyPressHandler */
 #ifndef _CoreKeyPressHandler_
   EW_DECLARE_CLASS( CoreKeyPressHandler )
@@ -73,6 +78,12 @@
 #ifndef _CoreLayoutContext_
   EW_DECLARE_CLASS( CoreLayoutContext )
 #define _CoreLayoutContext_
+#endif
+
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
 #endif
 
 /* Forward declaration of the class Core::View */
@@ -91,12 +102,6 @@
 /* Deklaration of class : 'Application::Fase' */
 EW_DEFINE_FIELDS( ApplicationFase, CoreGroup )
   EW_VTHISPTR()
-  EW_OBJECT  ( dados_vermelho,  ChartsCoordList )
-  EW_OBJECT  ( dadosmirror_vermelho, ChartsCoordList )
-  EW_OBJECT  ( dados_amarelo,   ChartsCoordList )
-  EW_OBJECT  ( dadosmirror_amarelo, ChartsCoordList )
-  EW_OBJECT  ( dados_verde,     ChartsCoordList )
-  EW_OBJECT  ( dadosmirror_verde, ChartsCoordList )
   EW_OBJECT  ( intervalo,       CoreTimer )
   EW_OBJECT  ( labelFaseInf,    ViewsText )
   EW_OBJECT  ( labelFaseMeio,   ViewsText )
@@ -105,28 +110,19 @@ EW_DEFINE_FIELDS( ApplicationFase, CoreGroup )
   EW_OBJECT  ( val_t_1,         ViewsText )
   EW_OBJECT  ( val_t_2,         ViewsText )
   EW_OBJECT  ( val_t_3,         ViewsText )
-  EW_OBJECT  ( val_t_fim,       ViewsText )
-  EW_OBJECT  ( linha_t_1,       ViewsLine )
-  EW_OBJECT  ( linha_t_2,       ViewsLine )
-  EW_OBJECT  ( linha_t_3,       ViewsLine )
-  EW_OBJECT  ( linha_f_0,       ViewsLine )
-  EW_OBJECT  ( linha_f_1,       ViewsLine )
-  EW_OBJECT  ( linha_f_2,       ViewsLine )
-  EW_OBJECT  ( linha_f_3,       ViewsLine )
-  EW_OBJECT  ( linha_f_4,       ViewsLine )
+  EW_OBJECT  ( val_t_4,         ViewsText )
   EW_OBJECT  ( val_T,           ViewsText )
   EW_OBJECT  ( val_S,           ViewsText )
   EW_OBJECT  ( val_R,           ViewsText )
   EW_OBJECT  ( labelUni,        ViewsText )
-  EW_OBJECT  ( JanelaG,         CoreOutline )
-  EW_OBJECT  ( graf_T,          ChartsGraph )
-  EW_OBJECT  ( graf_S,          ChartsGraph )
-  EW_OBJECT  ( graf_R,          ChartsGraph )
-  EW_OBJECT  ( borda,           ViewsBorder )
-  EW_VARIABLE( valorMeio,       XFloat )
-  EW_VARIABLE( deltaUnidades,   XInt32 )
   EW_VARIABLE( device,          ApplicationClasse )
-  EW_VARIABLE( troca,           XBool )
+  EW_ARRAY   ( freqV,           XInt32, [6])
+  EW_VARIABLE( freqIdx,         XInt32 )
+  EW_OBJECT  ( fadeIn,          EffectsInt32Effect )
+  EW_OBJECT  ( fadeOut,         EffectsInt32Effect )
+  EW_OBJECT  ( grafico,         ApplicationPlotterTripleGraph )
+  EW_OBJECT  ( config,          ApplicationConfigScreen )
+  EW_OBJECT  ( IconButton,      ApplicationModIconButton )
 EW_END_OF_FIELDS( ApplicationFase )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Fase' */
@@ -162,7 +158,7 @@ EW_END_OF_METHODS( ApplicationFase )
 
 /* Variant Dispatch Method Table for the class : 'Application::Fase' */
 EW_DEFINE_DISPATCHER( ApplicationFase, CoreGroup )
-  EW_METHOD( plotar,            void )( ApplicationFase _this, XObject sender )
+  EW_METHOD( atualizaX,         void )( ApplicationFase _this )
 EW_END_OF_DISPATCHER( ApplicationFase )
 
 /* The method UpdateLayout() is invoked automatically after the size of the component 
@@ -195,18 +191,34 @@ void ApplicationFase_UpdateViewState( ApplicationFase _this, XSet aState );
    statements. */
 void ApplicationFase_Init( ApplicationFase _this, XHandle aArg );
 
-/* 'C' function for method : 'Application::Fase.plotar()'
-   Please note, this function serves as the dispatcher to the methods overriden 
-   in the derived class variants. */
+/* 'C' function for method : 'Application::Fase.plotar()' */
 void ApplicationFase_plotar( ApplicationFase _this, XObject sender );
 
-/* Implementation of the method : 'Application::Fase.plotar()'. The implementation 
-   has been moved here, because the origin function ApplicationFase_plotar() does 
-   serve as the dispatcher to the derived class variants only. */
-void ApplicationFase___plotar( ApplicationFase _this, XObject sender );
-
 /* 'C' function for method : 'Application::Fase.float2String()' */
-XString ApplicationFase_float2String( ApplicationFase _this, XFloat arg1 );
+XString ApplicationFase_float2String( ApplicationFase _this, XFloat numero, XInt32 
+  casas );
+
+/* 'C' function for method : 'Application::Fase.mostraConfig()' */
+void ApplicationFase_mostraConfig( ApplicationFase _this, XObject sender );
+
+/* 'C' function for method : 'Application::Fase.sairConfig()' */
+void ApplicationFase_sairConfig( ApplicationFase _this, XObject sender );
+
+/* 'C' function for method : 'Application::Fase.trocaEscala()' */
+void ApplicationFase_trocaEscala( ApplicationFase _this, XObject sender );
+
+/* 'C' function for method : 'Application::Fase.setConfigScreen()' */
+void ApplicationFase_setConfigScreen( ApplicationFase _this );
+
+/* Atualiza os rótulos do eixo X no gráfico.
+   Please note, this function serves as the dispatcher to the methods overriden 
+   in the derived class variants. */
+void ApplicationFase_atualizaX( ApplicationFase _this );
+
+/* Implementation of the method : 'Application::Fase.atualizaX()'. The implementation 
+   has been moved here, because the origin function ApplicationFase_atualizaX() 
+   does serve as the dispatcher to the derived class variants only. */
+void ApplicationFase___atualizaX( ApplicationFase _this );
 
 #ifdef __cplusplus
   }

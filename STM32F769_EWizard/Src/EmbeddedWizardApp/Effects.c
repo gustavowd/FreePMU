@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -28,6 +28,7 @@
 #include "_CoreTimer.h"
 #include "_EffectsEffect.h"
 #include "_EffectsEffectTimerClass.h"
+#include "_EffectsInt32Effect.h"
 #include "_EffectsPointEffect.h"
 #include "_EffectsTimingList.h"
 #include "Effects.h"
@@ -763,6 +764,18 @@ XBool EffectsEffect_runFwdFwd( EffectsEffect _this )
   return done;
 }
 
+/* 'C' function for method : 'Effects::Effect.OnSetOscillations()' */
+void EffectsEffect_OnSetOscillations( EffectsEffect _this, XInt32 value )
+{
+  if ( value < 1 )
+    value = 1;
+
+  if ( value > 10 )
+    value = 10;
+
+  _this->Oscillations = value;
+}
+
 /* 'C' function for method : 'Effects::Effect.OnSetTiming()' */
 void EffectsEffect_OnSetTiming( EffectsEffect _this, XEnum value )
 {
@@ -889,6 +902,64 @@ EW_END_OF_CLASS_VARIANTS( EffectsEffect )
 EW_DEFINE_CLASS( EffectsEffect, XObject, "Effects::Effect" )
   EffectsEffect_Animate,
 EW_END_OF_CLASS( EffectsEffect )
+
+/* Initializer for the class 'Effects::Int32Effect' */
+void EffectsInt32Effect__Init( EffectsInt32Effect _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  EffectsEffect__Init( &_this->_Super, aLink, aArg );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( EffectsInt32Effect );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  _this->Value2 = 255;
+}
+
+/* Re-Initializer for the class 'Effects::Int32Effect' */
+void EffectsInt32Effect__ReInit( EffectsInt32Effect _this )
+{
+  /* At first re-initialize the super class ... */
+  EffectsEffect__ReInit( &_this->_Super );
+}
+
+/* Finalizer method for the class 'Effects::Int32Effect' */
+void EffectsInt32Effect__Done( EffectsInt32Effect _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( EffectsInt32Effect );
+
+  /* Don't forget to deinitialize the super class ... */
+  EffectsEffect__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Effects::Int32Effect' */
+void EffectsInt32Effect__Mark( EffectsInt32Effect _this )
+{
+  EwMarkRef( _this->Outlet );
+
+  /* Give the super class a chance to mark its objects and references */
+  EffectsEffect__Mark( &_this->_Super );
+}
+
+/* 'C' function for method : 'Effects::Int32Effect.Animate()' */
+void EffectsInt32Effect_Animate( EffectsInt32Effect _this, XFloat aProgress )
+{
+  _this->Value = _this->Value1 + (XInt32)EwMathRound((XFloat)( _this->Value2 - _this->Value1 
+  ) * aProgress );
+
+  if ( _this->Outlet.Object != 0 )
+    EwOnSetInt32( _this->Outlet, _this->Value );
+}
+
+/* Variants derived from the class : 'Effects::Int32Effect' */
+EW_DEFINE_CLASS_VARIANTS( EffectsInt32Effect )
+EW_END_OF_CLASS_VARIANTS( EffectsInt32Effect )
+
+/* Virtual Method Table (VMT) for the class : 'Effects::Int32Effect' */
+EW_DEFINE_CLASS( EffectsInt32Effect, EffectsEffect, "Effects::Int32Effect" )
+  EffectsInt32Effect_Animate,
+EW_END_OF_CLASS( EffectsInt32Effect )
 
 /* Initializer for the class 'Effects::PointEffect' */
 void EffectsPointEffect__Init( EffectsPointEffect _this, XObject aLink, XHandle aArg )

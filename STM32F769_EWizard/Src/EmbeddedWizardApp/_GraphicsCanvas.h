@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -48,6 +48,12 @@
 #ifndef _GraphicsCanvas_
   EW_DECLARE_CLASS( GraphicsCanvas )
 #define _GraphicsCanvas_
+#endif
+
+/* Forward declaration of the class Graphics::Path */
+#ifndef _GraphicsPath_
+  EW_DECLARE_CLASS( GraphicsPath )
+#define _GraphicsPath_
 #endif
 
 /* Forward declaration of the class Resources::Font */
@@ -162,6 +168,37 @@ void GraphicsCanvas_DrawText( GraphicsCanvas _this, XRect aClip, ResourcesFont a
 void GraphicsCanvas_DrawBitmapFrame( GraphicsCanvas _this, XRect aClip, ResourcesBitmap 
   aBitmap, XInt32 aFrameNr, XRect aDstRect, XSet aEdges, XColor aColorTL, XColor 
   aColorTR, XColor aColorBR, XColor aColorBL, XBool aBlend );
+
+/* The method StrokePath() strokes within the rectangular area aDstRect of canvas 
+   a path determined by data stored in the Graphics::Path object aPath. All path 
+   coordinates are assumed as being relative to the top-left corner of the aDstRect 
+   area, or if the parameter aFlipY is 'true', relative to the bottom-left corner. 
+   With the parameter aFlipY equal 'true' the path coordinates are mirrored vertically 
+   causing the positive Y-axis to point upwards. With the parameter aOffset the 
+   origin of the path coordinate system can be moved within aDstRect. Accordingly 
+   modifying this value scrolls the displayed path content.
+   The thickness of the path is determined by the parameter aWidth and is expressed 
+   in pixel. The parameters aStartCapStyle and aEndCapStyle determine how the start/end 
+   position of the path are displayed. The possible values are specified in Graphics::PathCap. 
+   Furthermore the parameter aJoinStyle controls how the line segments of the path 
+   are connected together. Here the possible values are specified in Graphics::PathJoin. 
+   Please note, if aJoinStyle is Graphics::PathJoin.Miter, the additional parameter 
+   aMiterLimit determines the max. ratio between the length of the miter and the 
+   half of the path thickness (aWidth / 2). If this limit is exceeded, the affected 
+   corner is joined with an ordinary bevel (Graphics::PathJoin.Bevel) instead of 
+   miter.
+   The parameters aColorTL, aColorTR, aColorBL, aColorBR determine the colors at 
+   the corresponding corners of the aDstRect area. If the parameter aAntialiased 
+   is 'true', the method applies antialiasing while rasterizing the path pixel.
+   The parameter aClip limits the drawing operation. Pixel lying outside this area 
+   remain unchanged. The aBlend parameter controls the mode how drawn pixel are 
+   combined with the pixel already existing in the destination bitmap. If aBlend 
+   is 'true', the drawn pixel are alpha-blended with the background, otherwise the 
+   drawn pixel will overwrite the old content. */
+void GraphicsCanvas_StrokePath( GraphicsCanvas _this, XRect aClip, GraphicsPath 
+  aPath, XRect aDstRect, XBool aFlipY, XPoint aOffset, XFloat aWidth, XEnum aStartCapStyle, 
+  XEnum aEndCapStyle, XEnum aJoinStyle, XFloat aMiterLimit, XColor aColorTL, XColor 
+  aColorTR, XColor aColorBR, XColor aColorBL, XBool aBlend, XBool aAntialiased );
 
 /* The method WarpBitmap() performs the projection of a rectangular source bitmap 
    area onto a four corner polygon within the destination canvas. The bitmap is 

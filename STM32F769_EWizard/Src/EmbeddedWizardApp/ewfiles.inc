@@ -9,4 +9,5 @@ EMWIFILES := \
 	Application.c \
 	Charts.c \
 	Templates.c \
-	Flat.c
+	Flat.c \
+	OldResources.c

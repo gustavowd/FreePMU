@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -55,6 +55,12 @@
 #ifndef _CoreCursorGrabEvent_
   EW_DECLARE_CLASS( CoreCursorGrabEvent )
 #define _CoreCursorGrabEvent_
+#endif
+
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
 #endif
 
 /* Forward declaration of the class Core::DragEvent */
@@ -93,6 +99,12 @@
 #define _CoreRoot_
 #endif
 
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
+#endif
+
 /* Forward declaration of the class Core::View */
 #ifndef _CoreView_
   EW_DECLARE_CLASS( CoreView )
@@ -119,7 +131,7 @@
    dispatching. For example:
    The property @Keyboard allows the management of virtual keyboard components. 
    A keyboard component is an ordinary GUI component you can design and fill e.g. 
-   with buttons. Its job ist to generate keyboard events in response to other user 
+   with buttons. Its job is to generate keyboard events in response to other user 
    interaction events, like the touch event. For this purpose the application will 
    provide the virtual keyboard component with all necessary touch events before 
    these are passed to the remaining parts of the GUI. Additionally, the application 

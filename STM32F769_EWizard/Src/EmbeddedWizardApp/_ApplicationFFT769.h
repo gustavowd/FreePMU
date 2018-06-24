@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -54,6 +54,12 @@
 #ifndef _ApplicationClasse_
   EW_DECLARE_CLASS( ApplicationClasse )
 #define _ApplicationClasse_
+#endif
+
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
 #endif
 
 /* Forward declaration of the class Core::Group */
@@ -72,6 +78,12 @@
 #ifndef _CoreLayoutContext_
   EW_DECLARE_CLASS( CoreLayoutContext )
 #define _CoreLayoutContext_
+#endif
+
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
 #endif
 
 /* Forward declaration of the class Core::View */

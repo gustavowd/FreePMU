@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -29,6 +29,7 @@
 #include "_CoreTimer.h"
 #include "_EffectsEffectTimerClass.h"
 #include "_GraphicsCanvas.h"
+#include "_GraphicsPath.h"
 #include "_GraphicsWarpMatrix.h"
 #include "_ResourcesBitmap.h"
 #include "_ResourcesFont.h"
@@ -37,6 +38,7 @@
 #include "_ViewsImage.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
+#include "_ViewsStrokePath.h"
 #include "_ViewsText.h"
 #include "_ViewsWarpImage.h"
 #include "_ViewsWarpView.h"
@@ -732,6 +734,9 @@ void ViewsFrame_Draw( ViewsFrame _this, GraphicsCanvas aCanvas, XRect aClip, XPo
   XColor cbr;
   XColor cbl;
   XInt32 opacity;
+  XSet edges;
+  XRect r;
+  XPoint sd;
 
   if ( _this->animFrameNumber >= 0 )
     frameNr = _this->animFrameNumber;
@@ -745,6 +750,9 @@ void ViewsFrame_Draw( ViewsFrame _this, GraphicsCanvas aCanvas, XRect aClip, XPo
   cbr = _this->ColorBR;
   cbl = _this->ColorBL;
   opacity = ((( aOpacity + 1 ) * _this->Opacity ) >> 8 ) + 1;
+  edges = _this->Edges;
+  r = EwMoveRectPos( _this->Super1.Bounds, aOffset );
+  sd = EwMovePointNeg( EwGetRectSize( r ), _this->NoEdgesLimit );
   aBlend = (XBool)( aBlend && (( _this->Super2.viewState & CoreViewStateAlphaBlended 
   ) == CoreViewStateAlphaBlended ));
 
@@ -756,8 +764,96 @@ void ViewsFrame_Draw( ViewsFrame _this, GraphicsCanvas aCanvas, XRect aClip, XPo
     cbl.Alpha = (XUInt8)(( cbl.Alpha * opacity ) >> 8 );
   }
 
-  GraphicsCanvas_DrawBitmapFrame( aCanvas, aClip, _this->Bitmap, frameNr, EwMoveRectPos( 
-  _this->Super1.Bounds, aOffset ), _this->Edges, ctl, ctr, cbr, cbl, aBlend );
+  if ((( _this->NoEdgesLimit.X > 0 ) && ( sd.X > 0 )) && !(( edges & ( GraphicsEdgesLeft 
+      | GraphicsEdgesRight )) == ( GraphicsEdgesLeft | GraphicsEdgesRight )))
+  {
+    XInt32 d = ( _this->Bitmap->FrameSize.X / 3 ) - sd.X;
+
+    if ((( edges & GraphicsEdgesLeft ) == GraphicsEdgesLeft ))
+    {
+      if ( aClip.Point2.X > r.Point2.X )
+        aClip.Point2.X = r.Point2.X;
+
+      if ( d > 0 )
+        r.Point2.X = ( r.Point2.X + d );
+
+      edges = edges | GraphicsEdgesRight;
+    }
+    else
+      if ((( edges & GraphicsEdgesRight ) == GraphicsEdgesRight ))
+      {
+        if ( aClip.Point1.X < r.Point1.X )
+          aClip.Point1.X = r.Point1.X;
+
+        if ( d > 0 )
+          r.Point1.X = ( r.Point1.X - d );
+
+        edges = edges | GraphicsEdgesLeft;
+      }
+      else
+      {
+        if ( aClip.Point1.X < r.Point1.X )
+          aClip.Point1.X = r.Point1.X;
+
+        if ( aClip.Point2.X > r.Point2.X )
+          aClip.Point2.X = r.Point2.X;
+
+        if ( d > 0 )
+        {
+          r.Point1.X = ( r.Point1.X - ( d / 2 ));
+          r.Point2.X = (( r.Point2.X + d ) - ( d / 2 ));
+        }
+
+        edges = edges | ( GraphicsEdgesLeft | GraphicsEdgesRight );
+      }
+  }
+
+  if ((( _this->NoEdgesLimit.Y > 0 ) && ( sd.Y > 0 )) && !(( edges & ( GraphicsEdgesBottom 
+      | GraphicsEdgesTop )) == ( GraphicsEdgesBottom | GraphicsEdgesTop )))
+  {
+    XInt32 d = ( _this->Bitmap->FrameSize.Y / 3 ) - sd.Y;
+
+    if ((( edges & GraphicsEdgesTop ) == GraphicsEdgesTop ))
+    {
+      if ( aClip.Point2.Y > r.Point2.Y )
+        aClip.Point2.Y = r.Point2.Y;
+
+      if ( d > 0 )
+        r.Point2.Y = ( r.Point2.Y + d );
+
+      edges = edges | GraphicsEdgesBottom;
+    }
+    else
+      if ((( edges & GraphicsEdgesBottom ) == GraphicsEdgesBottom ))
+      {
+        if ( aClip.Point1.Y < r.Point1.Y )
+          aClip.Point1.Y = r.Point1.Y;
+
+        if ( d > 0 )
+          r.Point1.Y = ( r.Point1.Y - d );
+
+        edges = edges | GraphicsEdgesTop;
+      }
+      else
+      {
+        if ( aClip.Point1.Y < r.Point1.Y )
+          aClip.Point1.Y = r.Point1.Y;
+
+        if ( aClip.Point2.Y > r.Point2.Y )
+          aClip.Point2.Y = r.Point2.Y;
+
+        if ( d > 0 )
+        {
+          r.Point1.Y = ( r.Point1.Y - ( d / 2 ));
+          r.Point2.Y = (( r.Point2.Y + d ) - ( d / 2 ));
+        }
+
+        edges = edges | ( GraphicsEdgesBottom | GraphicsEdgesTop );
+      }
+  }
+
+  GraphicsCanvas_DrawBitmapFrame( aCanvas, aClip, _this->Bitmap, frameNr, r, edges, 
+  ctl, ctr, cbr, cbl, aBlend );
 }
 
 /* 'C' function for method : 'Views::Frame.observerSlot()' */
@@ -1161,6 +1257,25 @@ void ViewsImage_OnSetAnimated( ViewsImage _this, XBool value )
     CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
 }
 
+/* 'C' function for method : 'Views::Image.OnSetFrameNumber()' */
+void ViewsImage_OnSetFrameNumber( ViewsImage _this, XInt32 value )
+{
+  if ( value < 0 )
+    value = 0;
+
+  if (( value == _this->FrameNumber ) && ( _this->animFrameNumber == -1 ))
+    return;
+
+  _this->FrameNumber = value;
+
+  if ( _this->timer == 0 )
+    _this->animFrameNumber = -1;
+
+  if (( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+}
+
 /* 'C' function for method : 'Views::Image.OnSetBitmap()' */
 void ViewsImage_OnSetBitmap( ViewsImage _this, ResourcesBitmap value )
 {
@@ -1262,8 +1377,8 @@ XRect ViewsImage_GetContentArea( ViewsImage _this )
     else
       if ((( align & ViewsImageAlignmentAlignHorzCenter ) == ViewsImageAlignmentAlignHorzCenter 
           ))
-        rs = EwSetRectOrigin( rs, EwSetPointX( rs.Point1, rd.Point1.X + (( EwGetRectSize( 
-        rd ).X - EwGetRectSize( rs ).X ) / 2 )));
+        rs = EwSetRectOrigin( rs, EwSetPointX( rs.Point1, ( rd.Point1.X + ( EwGetRectSize( 
+        rd ).X / 2 )) - ( EwGetRectSize( rs ).X / 2 )));
   }
 
   if ( EwGetRectSize( rs ).Y != EwGetRectSize( rd ).Y )
@@ -1275,8 +1390,8 @@ XRect ViewsImage_GetContentArea( ViewsImage _this )
     else
       if ((( align & ViewsImageAlignmentAlignVertCenter ) == ViewsImageAlignmentAlignVertCenter 
           ))
-        rs = EwSetRectOrigin( rs, EwSetPointY( rs.Point1, rd.Point1.Y + (( EwGetRectSize( 
-        rd ).Y - EwGetRectSize( rs ).Y ) / 2 )));
+        rs = EwSetRectOrigin( rs, EwSetPointY( rs.Point1, ( rd.Point1.Y + ( EwGetRectSize( 
+        rd ).Y / 2 )) - ( EwGetRectSize( rs ).Y / 2 )));
   }
 
   return EwMoveRectPos( rs, _this->ScrollOffset );
@@ -1511,20 +1626,21 @@ void ViewsText_OnSetBounds( ViewsText _this, XRect value )
     return;
 
   if ((((( EwGetRectW( _this->Super1.Bounds ) != EwGetRectW( value )) && ( _this->WrapWidth 
-      == 0 )) && _this->WrapText ) && ( EwCompString( _this->flowString, 0 ) != 
-      0 )) && !(( _this->Super2.viewState & CoreViewStateUpdatingLayout ) == CoreViewStateUpdatingLayout 
-      ))
+      == 0 )) && _this->WrapText ) && _this->reparsed ) && !(( _this->Super2.viewState 
+      & CoreViewStateUpdatingLayout ) == CoreViewStateUpdatingLayout ))
   {
     EwReleaseString( &_this->flowString );
+    _this->reparsed = 0;
     EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this 
       ));
   }
 
-  if ((( _this->Ellipsis && ( EwCompString( _this->flowString, 0 ) != 0 )) && EwCompPoint( 
-      EwGetRectSize( _this->Super1.Bounds ), EwGetRectSize( value ))) && !(( _this->Super2.viewState 
-      & CoreViewStateUpdatingLayout ) == CoreViewStateUpdatingLayout ))
+  if ((( _this->Ellipsis && _this->reparsed ) && EwCompPoint( EwGetRectSize( _this->Super1.Bounds 
+      ), EwGetRectSize( value ))) && !(( _this->Super2.viewState & CoreViewStateUpdatingLayout 
+      ) == CoreViewStateUpdatingLayout ))
   {
     EwReleaseString( &_this->flowString );
+    _this->reparsed = 0;
     EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this 
       ));
   }
@@ -1559,7 +1675,7 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender )
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  if ( EwCompString( _this->flowString, 0 ) != 0 )
+  if ( _this->reparsed )
     return;
 
   area = _Const0004;
@@ -1584,6 +1700,7 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender )
   else
     EwReleaseString( &_this->flowString );
 
+  _this->reparsed = 1;
   _this->textSize = _Const0002;
 
   if ( _this->AutoSize && ( EwCompString( _this->flowString, 0 ) != 0 ))
@@ -1776,11 +1893,12 @@ void ViewsText_OnSetAutoSize( ViewsText _this, XBool value )
   if ( value && _this->Ellipsis )
   {
     EwReleaseString( &_this->flowString );
+    _this->reparsed = 0;
     EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this 
       ));
   }
 
-  if ( value && ( EwCompString( _this->flowString, 0 ) != 0 ))
+  if ( value && _this->reparsed )
     CoreRectView__OnSetBounds( _this, EwMoveRectNeg( ViewsText_GetContentArea( _this 
     ), _this->ScrollOffset ));
 }
@@ -1800,11 +1918,12 @@ void ViewsText_OnSetAlignment( ViewsText _this, XSet value )
   if ( _this->Ellipsis )
   {
     EwReleaseString( &_this->flowString );
+    _this->reparsed = 0;
     EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this 
       ));
   }
 
-  if ( EwCompString( _this->flowString, 0 ) != 0 )
+  if ( _this->reparsed )
     EwPostSignal( EwNewSlot( _this, ViewsText_preOnUpdateSlot ), ((XObject)_this 
       ));
 }
@@ -1817,6 +1936,7 @@ void ViewsText_OnSetString( ViewsText _this, XString value )
 
   EwRetainString( &_this->String, value );
   EwReleaseString( &_this->flowString );
+  _this->reparsed = 0;
   EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
 }
 
@@ -1828,6 +1948,7 @@ void ViewsText_OnSetFont( ViewsText _this, ResourcesFont value )
 
   _this->Font = value;
   EwReleaseString( &_this->flowString );
+  _this->reparsed = 0;
   EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
 }
 
@@ -1849,6 +1970,15 @@ void ViewsText_OnSetColor( ViewsText _this, XColor value )
     CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
 }
 
+/* 'C' function for method : 'Views::Text.OnSetVisible()' */
+void ViewsText_OnSetVisible( ViewsText _this, XBool value )
+{
+  if ( value )
+    CoreView__ChangeViewState( _this, CoreViewStateVisible, 0 );
+  else
+    CoreView__ChangeViewState( _this, 0, CoreViewStateVisible );
+}
+
 /* The method GetContentArea() returns the position and the size of an area where 
    the view will show the text. This area is expressed in coordinates relative to 
    the top-left corner of the view's @Owner. The method takes in account all properties 
@@ -1863,7 +1993,7 @@ XRect ViewsText_GetContentArea( ViewsText _this )
   if ( !EwCompString( _this->String, 0 ) || ( _this->Font == 0 ))
     return _Const0003;
 
-  if ( !EwCompString( _this->flowString, 0 ))
+  if ( !_this->reparsed )
     EwSignal( EwNewSlot( _this, ViewsText_reparseSlot ), ((XObject)_this ));
 
   if ( !EwCompString( _this->flowString, 0 ))
@@ -1909,8 +2039,8 @@ XRect ViewsText_GetContentArea( ViewsText _this )
       else
         if ((( align & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter 
             ))
-          rs = EwSetRectOrigin( rs, EwSetPointX( rs.Point1, rd.Point1.X + (( EwGetRectW( 
-          rd ) - EwGetRectW( rs )) / 2 )));
+          rs = EwSetRectOrigin( rs, EwSetPointX( rs.Point1, ( rd.Point1.X + ( EwGetRectW( 
+          rd ) / 2 )) - ( EwGetRectW( rs ) / 2 )));
   }
 
   if ( EwGetRectH( rs ) != EwGetRectH( rd ))
@@ -1922,8 +2052,8 @@ XRect ViewsText_GetContentArea( ViewsText _this )
     else
       if ((( align & ViewsTextAlignmentAlignVertCenter ) == ViewsTextAlignmentAlignVertCenter 
           ))
-        rs = EwSetRectOrigin( rs, EwSetPointY( rs.Point1, rd.Point1.Y + (( EwGetRectH( 
-        rd ) - EwGetRectH( rs )) / 2 )));
+        rs = EwSetRectOrigin( rs, EwSetPointY( rs.Point1, ( rd.Point1.Y + ( EwGetRectH( 
+        rd ) / 2 )) - ( EwGetRectH( rs ) / 2 )));
   }
 
   return EwMoveRectPos( rs, _this->ScrollOffset );
@@ -2666,5 +2796,367 @@ EW_DEFINE_CLASS( ViewsWarpImage, ViewsWarpView, "Views::WarpImage" )
   ViewsWarpView_OnSetPoint2,
   ViewsWarpView_OnSetPoint1,
 EW_END_OF_CLASS( ViewsWarpImage )
+
+/* Initializer for the class 'Views::StrokePath' */
+void ViewsStrokePath__Init( ViewsStrokePath _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreRectView__Init( &_this->_Super, aLink, aArg );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( ViewsStrokePath );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  _this->ColorBL = _Const0000;
+  _this->ColorBR = _Const0000;
+  _this->ColorTR = _Const0000;
+  _this->ColorTL = _Const0000;
+  _this->Quality = 1;
+  _this->MiterLimit = 3.000000f;
+  _this->JoinPoints = GraphicsPathJoinBevel;
+  _this->EndCap = GraphicsPathCapFlat;
+  _this->StartCap = GraphicsPathCapFlat;
+  _this->Width = 1.000000f;
+}
+
+/* Re-Initializer for the class 'Views::StrokePath' */
+void ViewsStrokePath__ReInit( ViewsStrokePath _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreRectView__ReInit( &_this->_Super );
+}
+
+/* Finalizer method for the class 'Views::StrokePath' */
+void ViewsStrokePath__Done( ViewsStrokePath _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( ViewsStrokePath );
+
+  /* Call the user defined destructor of the class */
+  ViewsStrokePath_Done( _this );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreRectView__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Views::StrokePath' */
+void ViewsStrokePath__Mark( ViewsStrokePath _this )
+{
+  EwMarkObject( _this->Path );
+
+  /* Give the super class a chance to mark its objects and references */
+  CoreRectView__Mark( &_this->_Super );
+}
+
+/* The method Draw() is invoked automatically if parts of the view should be redrawn 
+   on the screen. This can occur when e.g. the view has been moved or the appearance 
+   of the view has changed before.
+   Draw() is invoked automatically by the framework, you never will need to invoke 
+   this method directly. However you can request an invocation of this method by 
+   calling the method InvalidateArea() of the views @Owner. Usually this is also 
+   unnecessary unless you are developing your own view.
+   The passed parameters determine the drawing destination aCanvas and the area 
+   to redraw aClip in the coordinate space of the canvas. The parameter aOffset 
+   contains the displacement between the origin of the views owner and the origin 
+   of the canvas. You will need it to convert views coordinates into these of the 
+   canvas.
+   The parameter aOpacity contains the opacity descended from this view's @Owner. 
+   It lies in range 0 .. 255. If the view implements its own 'Opacity', 'Color', 
+   etc. properties, the Draw() method should calculate the resulting real opacity 
+   by mixing the values of these properties with the one passed in aOpacity parameter.
+   The parameter aBlend contains the blending mode descended from this view's @Owner. 
+   It determines, whether the view should be drawn with alpha-blending active or 
+   not. If aBlend is false, the outputs of the view should overwrite the corresponding 
+   pixel in the drawing destination aCanvas. If aBlend is true, the outputs should 
+   be mixed with the pixel already stored in aCanvas. For this purpose all Graphics 
+   Engine functions provide a parameter to specify the mode for the respective drawing 
+   operation. If the view implements its own 'Blend' property, the Draw() method 
+   should calculate the resulting real blend mode by using logical AND operation 
+   of the value of the property and the one passed in aBlend parameter. */
+void ViewsStrokePath_Draw( ViewsStrokePath _this, GraphicsCanvas aCanvas, XRect 
+  aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
+{
+  GraphicsCanvas bufferCanvas;
+  XColor ctl;
+  XColor ctr;
+  XColor cbl;
+  XColor cbr;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aBlend );
+
+  if (( _this->Path == 0 ) || ( _this->Buffered && ( _this->buffer == 0 )))
+    return;
+
+  bufferCanvas = 0;
+  ctl = _this->ColorTL;
+  ctr = _this->ColorTR;
+  cbl = _this->ColorBL;
+  cbr = _this->ColorBR;
+
+  if ( _this->Buffered )
+  {
+    bufferCanvas = EwNewObject( GraphicsCanvas, 0 );
+    GraphicsCanvas_AttachBitmap( bufferCanvas, _this->buffer );
+  }
+
+  aOpacity = aOpacity + 1;
+
+  if ( aOpacity < 256 )
+  {
+    ctl.Alpha = (XUInt8)(( aOpacity * ctl.Alpha ) >> 8 );
+    ctr.Alpha = (XUInt8)(( aOpacity * ctr.Alpha ) >> 8 );
+    cbl.Alpha = (XUInt8)(( aOpacity * cbl.Alpha ) >> 8 );
+    cbr.Alpha = (XUInt8)(( aOpacity * cbr.Alpha ) >> 8 );
+  }
+
+  if ( bufferCanvas == 0 )
+    GraphicsCanvas_StrokePath( aCanvas, aClip, _this->Path, EwMoveRectPos( _this->Super1.Bounds, 
+    aOffset ), _this->FlipY, _this->Offset, _this->Width, _this->StartCap, _this->EndCap, 
+    _this->JoinPoints, _this->MiterLimit, ctl, ctr, cbr, cbl, 1, _this->Quality 
+    );
+  else
+  {
+    GraphicsCanvas_CopyBitmap( aCanvas, aClip, ((ResourcesBitmap)bufferCanvas ), 
+    0, EwMoveRectPos( _this->Super1.Bounds, aOffset ), _Const0002, ctl, ctr, cbr, 
+    cbl, 1 );
+    GraphicsCanvas_DetachBitmap( bufferCanvas );
+  }
+}
+
+/* 'C' function for method : 'Views::StrokePath.OnSetBounds()' */
+void ViewsStrokePath_OnSetBounds( ViewsStrokePath _this, XRect value )
+{
+  if ( _this->Buffered && EwCompPoint( EwGetRectSize( _this->Super1.Bounds ), EwGetRectSize( 
+      value )))
+    EwPostSignal( EwNewSlot( _this, ViewsStrokePath_updateBuffer ), ((XObject)_this 
+      ));
+
+  CoreRectView_OnSetBounds((CoreRectView)_this, value );
+}
+
+/* 'C' function for method : 'Views::StrokePath.Done()' */
+void ViewsStrokePath_Done( ViewsStrokePath _this )
+{
+  ViewsStrokePath_destroyBuffer( _this );
+}
+
+/* 'C' function for method : 'Views::StrokePath.destroyBuffer()' */
+void ViewsStrokePath_destroyBuffer( ViewsStrokePath _this )
+{
+  XHandle handle;
+
+  if ( _this->buffer == 0 )
+    return;
+
+  handle = _this->buffer;
+  EwFreeBitmap((XBitmap*)handle );
+  _this->buffer = 0;
+}
+
+/* 'C' function for method : 'Views::StrokePath.updateBuffer()' */
+void ViewsStrokePath_updateBuffer( ViewsStrokePath _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ViewsStrokePath_destroyBuffer( _this );
+
+  if ( _this->Buffered && ( _this->Path != 0 ))
+  {
+    XHandle handle = 0;
+    XHandle path = _this->Path->path;
+    XPoint size = EwGetRectSize( _this->Super1.Bounds );
+    XBool quality = _this->Quality;
+    XBool flipY = _this->FlipY;
+    XPoint offset = _this->Offset;
+    XFloat width = _this->Width;
+    XFloat miterLimit = _this->MiterLimit;
+    XUInt32 style = 0;
+
+    switch ( _this->StartCap )
+    {
+      case GraphicsPathCapSquare :
+        style = style | 1;
+      break;
+
+      case GraphicsPathCapTriangle :
+        style = style | 2;
+      break;
+
+      case GraphicsPathCapRound :
+        style = style | 3;
+      break;
+
+      default : 
+        ;
+    }
+
+    switch ( _this->EndCap )
+    {
+      case GraphicsPathCapSquare :
+        style = style | 256;
+      break;
+
+      case GraphicsPathCapTriangle :
+        style = style | 512;
+      break;
+
+      case GraphicsPathCapRound :
+        style = style | 768;
+      break;
+
+      default : 
+        ;
+    }
+
+    switch ( _this->JoinPoints )
+    {
+      case GraphicsPathJoinMiter :
+        style = style | 65536;
+      break;
+
+      case GraphicsPathJoinRound :
+        style = style | 131072;
+      break;
+
+      default : 
+        ;
+    }
+
+    handle = (XHandle)EwGetBitmapFromStrokePath( size, (XPath*)path, flipY, offset, width, style, miterLimit, quality );
+    _this->buffer = handle;
+  }
+}
+
+/* 'C' function for method : 'Views::StrokePath.updatePath()' */
+void ViewsStrokePath_updatePath( ViewsStrokePath _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if (( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+
+  if ( _this->Buffered )
+    EwPostSignal( EwNewSlot( _this, ViewsStrokePath_updateBuffer ), ((XObject)_this 
+      ));
+}
+
+/* 'C' function for method : 'Views::StrokePath.OnSetColor()' */
+void ViewsStrokePath_OnSetColor( ViewsStrokePath _this, XColor value )
+{
+  if ((( !EwCompColor( value, _this->ColorTL ) && !EwCompColor( value, _this->ColorTR 
+      )) && !EwCompColor( value, _this->ColorBL )) && !EwCompColor( value, _this->ColorBR 
+      ))
+    return;
+
+  _this->ColorTL = value;
+  _this->ColorTR = value;
+  _this->ColorBL = value;
+  _this->ColorBR = value;
+
+  if ((( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible )) && ( _this->Path != 0 ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+}
+
+/* 'C' function for method : 'Views::StrokePath.OnSetOffset()' */
+void ViewsStrokePath_OnSetOffset( ViewsStrokePath _this, XPoint value )
+{
+  if ( !EwCompPoint( value, _this->Offset ))
+    return;
+
+  _this->Offset = value;
+
+  if ((( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible )) && ( _this->Path != 0 ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+
+  if ( _this->Buffered )
+    EwPostSignal( EwNewSlot( _this, ViewsStrokePath_updateBuffer ), ((XObject)_this 
+      ));
+}
+
+/* 'C' function for method : 'Views::StrokePath.OnSetFlipY()' */
+void ViewsStrokePath_OnSetFlipY( ViewsStrokePath _this, XBool value )
+{
+  if ( value == _this->FlipY )
+    return;
+
+  _this->FlipY = value;
+
+  if ((( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible )) && ( _this->Path != 0 ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+
+  if ( _this->Buffered )
+    EwPostSignal( EwNewSlot( _this, ViewsStrokePath_updateBuffer ), ((XObject)_this 
+      ));
+}
+
+/* 'C' function for method : 'Views::StrokePath.OnSetWidth()' */
+void ViewsStrokePath_OnSetWidth( ViewsStrokePath _this, XFloat value )
+{
+  if ( value < 0.000000f )
+    value = 0.000000f;
+
+  if ( value == _this->Width )
+    return;
+
+  _this->Width = value;
+
+  if ((( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible )) && ( _this->Path != 0 ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+
+  if ( _this->Buffered )
+    EwPostSignal( EwNewSlot( _this, ViewsStrokePath_updateBuffer ), ((XObject)_this 
+      ));
+}
+
+/* 'C' function for method : 'Views::StrokePath.OnSetPath()' */
+void ViewsStrokePath_OnSetPath( ViewsStrokePath _this, GraphicsPath value )
+{
+  if ( value == _this->Path )
+    return;
+
+  if ( _this->Path != 0 )
+    EwDetachObjObserver( EwNewSlot( _this, ViewsStrokePath_updatePath ), (XObject)_this->Path, 
+      0 );
+
+  _this->Path = value;
+
+  if ( _this->Path != 0 )
+    EwAttachObjObserver( EwNewSlot( _this, ViewsStrokePath_updatePath ), (XObject)_this->Path, 
+      0 );
+
+  if (( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible 
+      ) == CoreViewStateVisible ))
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+
+  if ( _this->Buffered )
+    EwPostSignal( EwNewSlot( _this, ViewsStrokePath_updateBuffer ), ((XObject)_this 
+      ));
+}
+
+/* Variants derived from the class : 'Views::StrokePath' */
+EW_DEFINE_CLASS_VARIANTS( ViewsStrokePath )
+EW_END_OF_CLASS_VARIANTS( ViewsStrokePath )
+
+/* Virtual Method Table (VMT) for the class : 'Views::StrokePath' */
+EW_DEFINE_CLASS( ViewsStrokePath, CoreRectView, "Views::StrokePath" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  ViewsStrokePath_Draw,
+  CoreView_HandleEvent,
+  CoreView_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreView_ChangeViewState,
+  ViewsStrokePath_OnSetBounds,
+EW_END_OF_CLASS( ViewsStrokePath )
 
 /* Embedded Wizard */

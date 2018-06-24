@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -55,7 +55,7 @@
    font serves as a kind of container to store glyphs together with their metrics 
    and attributes. Fonts are used to print text on the screen. Due to their complexity 
    fonts can be loaded from font resources only. The dynamic creation or modification 
-   of fonts at the runtime is not possible. 
+   of fonts at the runtime is not possible.
    This class implements a set of methods and properties to query font and glyph 
    metrics and attributes. For example, the method @GetGlyphSize() returns the size 
    in pixel of the specified glyph. The method @GetTextExtent() in contrast determines 

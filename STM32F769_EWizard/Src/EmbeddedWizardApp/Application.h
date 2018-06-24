@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,18 +33,20 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
 #include "_ApplicationAplic.h"
 #include "_ApplicationAplic769.h"
 #include "_ApplicationClasse.h"
+#include "_ApplicationConfigScreen.h"
+#include "_ApplicationConfigScreen769.h"
 #include "_ApplicationFFT.h"
 #include "_ApplicationFFT769.h"
 #include "_ApplicationFase.h"
@@ -55,11 +57,17 @@
 #include "_ApplicationFreq769.h"
 #include "_ApplicationMag.h"
 #include "_ApplicationMag769.h"
+#include "_ApplicationModIconButton.h"
 #include "_ApplicationModifiedButton.h"
-#include "_ApplicationVNC.h"
-#include "_ApplicationVNC769.h"
-#include "_ApplicationcontextoMsg.h"
-#include "_ApplicationcontextoStatus.h"
+#include "_ApplicationPDC.h"
+#include "_ApplicationPDC769.h"
+#include "_ApplicationPDCButtonState.h"
+#include "_ApplicationPDCMessage.h"
+#include "_ApplicationPDCStatus.h"
+#include "_ApplicationPlotterGraph.h"
+#include "_ApplicationPlotterGraph769.h"
+#include "_ApplicationPlotterTripleGraph.h"
+#include "_ApplicationPlotterTripleGraph769.h"
 
 /* Bitmap resource : 'Application::flecha' */
 EW_DECLARE_BITMAP_RES( Applicationflecha )

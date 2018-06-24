@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,28 +33,33 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationConfigScreen.h"
 #include "_ApplicationFase.h"
-#include "_ChartsCoordList.h"
-#include "_ChartsGraph.h"
-#include "_CoreOutline.h"
+#include "_ApplicationModIconButton.h"
+#include "_ApplicationPlotterTripleGraph.h"
 #include "_CoreTimer.h"
-#include "_ViewsBorder.h"
-#include "_ViewsLine.h"
+#include "_EffectsInt32Effect.h"
 #include "_ViewsText.h"
 
 /* Forward declaration of the class Application::Classe */
 #ifndef _ApplicationClasse_
   EW_DECLARE_CLASS( ApplicationClasse )
 #define _ApplicationClasse_
+#endif
+
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
 #endif
 
 /* Forward declaration of the class Core::Group */
@@ -73,6 +78,12 @@
 #ifndef _CoreLayoutContext_
   EW_DECLARE_CLASS( CoreLayoutContext )
 #define _CoreLayoutContext_
+#endif
+
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
 #endif
 
 /* Forward declaration of the class Core::View */
@@ -94,7 +105,7 @@ EW_END_OF_VFIELDS( ApplicationFase769 )
 
 /* Virtual Method Table (VMT) for the class variant : 'Application::Fase769' */
 EW_DEFINE_VMETHODS( ApplicationFase769, XObjectVariant, ApplicationFase )
-  EW_METHOD( plotar,            void )( ApplicationFase _this, XObject sender )
+  EW_METHOD( atualizaX,         void )( ApplicationFase _this )
 EW_END_OF_VMETHODS( ApplicationFase769 )
 
 /* The method Init() is invoked automatically after the component has been created. 
@@ -102,8 +113,8 @@ EW_END_OF_VMETHODS( ApplicationFase769 )
    statements. */
 void ApplicationFase769_Init( ApplicationFase _this, XHandle aArg );
 
-/* 'C' function for method : 'Application::Fase769.plotar()' */
-void ApplicationFase769_plotar( ApplicationFase _this, XObject sender );
+/* Atualiza os rótulos do eixo X no gráfico. */
+void ApplicationFase769_atualizaX( ApplicationFase _this );
 
 #ifdef __cplusplus
   }

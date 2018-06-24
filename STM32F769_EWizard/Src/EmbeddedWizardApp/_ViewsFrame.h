@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F769
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -117,6 +117,8 @@
    by the color's alpha value. The original RGB information stored in the bitmap 
    are not affected. This allows one and the same bitmap to be drawn with different 
    transparencies.
+   With the properties @Edges and @NoEdgesLimit you can individually configure which 
+   edges of the frame view are displayed.
    The visibility of the frame is controlled by the properties @Visible, @AlphaBlended, 
    @Opacity and @Embedded. In particular the property @Embedded can determine whether 
    the corresponding view is limited (== embedded) to the boundary of a sibling 
@@ -136,6 +138,7 @@ EW_DEFINE_FIELDS( ViewsFrame, CoreRectView )
   EW_PROPERTY( Bitmap,          ResourcesBitmap )
   EW_PROPERTY( Opacity,         XInt32 )
   EW_VARIABLE( startTime,       XUInt32 )
+  EW_PROPERTY( NoEdgesLimit,    XPoint )
   EW_PROPERTY( Animated,        XBool )
   EW_PROPERTY( Endless,         XBool )
 EW_END_OF_FIELDS( ViewsFrame )
