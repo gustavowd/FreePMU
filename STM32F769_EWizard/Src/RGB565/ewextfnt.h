@@ -13,7 +13,7 @@
 * whole or in part by any means not in accordance with the End-User License
 * Agreement for Embedded Wizard is expressly prohibited. The removal of this
 * preamble is expressly prohibited.
-* 
+*
 ********************************************************************************
 *
 * DESCRIPTION:
@@ -33,13 +33,36 @@
 
 
 #ifdef __cplusplus
-  extern "C" 
+  extern "C"
   {
 #endif
 
 
 /* The following is an identification number for font resources. */
 #define EW_MAGIC_NO_FONT  0x666E7464
+
+
+/* The macro EW_FONT_PIXEL_SECTION_NAME is used to determine the section where
+   the linker should locate the memory areas containing font pixel data. */
+#if defined EW_FONT_PIXEL_SECTION_NAME && !defined EW_FONT_PIXEL_PRAGMA
+  #define EW_STRINGIZE( aArg )      EW_STRINGIZE_ARG( aArg )
+  #define EW_STRINGIZE_ARG( aArg )  #aArg
+
+  #if defined __ICCARM__
+    #define EW_FONT_PIXEL_PRAGMA                                               \
+      _Pragma(EW_STRINGIZE(location=EW_STRINGIZE( EW_BITMAP_PIXEL_SECTION_NAME )))
+  #elif defined __CC_ARM
+    #define EW_FONT_PIXEL_PRAGMA                                               \
+      __attribute__((section ( EW_STRINGIZE( EW_FONT_PIXEL_SECTION_NAME ))))
+  #elif defined __GNUC__
+    #define EW_FONT_PIXEL_PRAGMA                                               \
+      __attribute__((section ( EW_STRINGIZE( EW_FONT_PIXEL_SECTION_NAME ))))
+  #endif
+#endif
+
+#ifndef EW_FONT_PIXEL_PRAGMA
+  #define EW_FONT_PIXEL_PRAGMA
+#endif
 
 
 /*******************************************************************************
@@ -65,7 +88,7 @@
 *
 *******************************************************************************/
 typedef struct
-{ 
+{
   unsigned short    CharCode;
   signed short      OriginX;
   signed short      OriginY;
@@ -94,14 +117,14 @@ typedef struct
 *     2, 4 or 16 are valid.
 *   DefChar     - Code of the character to use instead of missing characters.
 *   NoOfGlyphs  - Number of glyphs within this font resource.
-*   Glyphs      - Table containing the description of all glyphs. The glyphs 
+*   Glyphs      - Table containing the description of all glyphs. The glyphs
 *     are sorted by their character codes.
-*   Pixel       - Pointer to the memory area containing the compressed pixel 
+*   Pixel       - Pointer to the memory area containing the compressed pixel
 *     data of all glyphs.
 *
 *******************************************************************************/
 typedef struct XFntRes
-{ 
+{
   unsigned int        MagicNo;
   int                 Ascent;
   int                 Descent;
@@ -166,7 +189,7 @@ typedef struct XFntRes
 #define EW_FONT_PIXEL( aName, aSize )                                          \
     { 0, 0, 0, 0, 0, 0, aSize }                                                \
   };                                                                           \
-  const unsigned int ____##aName[] =                                           \
+  EW_FONT_PIXEL_PRAGMA const unsigned int ____##aName[] =                      \
   {
 
 #define EW_END_OF_FONT_RES( aName )                                            \
