@@ -34,7 +34,7 @@
 #endif
 
 /* The current version of the Runtime Environment. */
-#define EW_RTE_VERSION 0x0008001E
+#define EW_RTE_VERSION 0x00090000
 
 
 /* Assigning zero (0) to the EW_PRINT_MEMORY_USAGE macro should turn it off
