@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,26 +33,31 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
 #include "_ApplicationAplic.h"
 #include "_ApplicationClasse.h"
+#include "_ApplicationConfigScreen.h"
 #include "_ApplicationFFT.h"
 #include "_ApplicationFase.h"
 #include "_ApplicationFasores.h"
 #include "_ApplicationFreq.h"
 #include "_ApplicationMag.h"
+#include "_ApplicationModIconButton.h"
 #include "_ApplicationModifiedButton.h"
-#include "_ApplicationVNC.h"
-#include "_ApplicationcontextoMsg.h"
-#include "_ApplicationcontextoStatus.h"
+#include "_ApplicationPDC.h"
+#include "_ApplicationPDCButtonState.h"
+#include "_ApplicationPDCMessage.h"
+#include "_ApplicationPDCStatus.h"
+#include "_ApplicationPlotterGraph.h"
+#include "_ApplicationPlotterTripleGraph.h"
 
 /* Bitmap resource : 'Application::flecha' */
 EW_DECLARE_BITMAP_RES( Applicationflecha )

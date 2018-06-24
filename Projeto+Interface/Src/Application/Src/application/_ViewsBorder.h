@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -141,6 +141,9 @@ EW_END_OF_METHODS( ViewsBorder )
    of the value of the property and the one passed in aBlend parameter. */
 void ViewsBorder_Draw( ViewsBorder _this, GraphicsCanvas aCanvas, XRect aClip, XPoint 
   aOffset, XInt32 aOpacity, XBool aBlend );
+
+/* 'C' function for method : 'Views::Border.OnSetWidth()' */
+void ViewsBorder_OnSetWidth( ViewsBorder _this, XInt32 value );
 
 /* 'C' function for method : 'Views::Border.OnSetColor()' */
 void ViewsBorder_OnSetColor( ViewsBorder _this, XColor value );

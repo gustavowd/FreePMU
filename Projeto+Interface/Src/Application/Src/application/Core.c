@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -29,6 +29,7 @@
 #include "_CoreCursorEvent.h"
 #include "_CoreCursorGrabEvent.h"
 #include "_CoreCursorHit.h"
+#include "_CoreDialogContext.h"
 #include "_CoreDragEvent.h"
 #include "_CoreEvent.h"
 #include "_CoreGroup.h"
@@ -612,8 +613,6 @@ XPoint CoreLineView_ArrangeView( CoreLineView _this, XRect aBounds, XEnum aForma
     XPoint srcSize = EwGetRectSize( context->Super1.bounds );
     x1 = x1 - context->Super1.bounds.Point1.X;
     y1 = y1 - context->Super1.bounds.Point1.Y;
-    x2 = x2 - context->Super1.bounds.Point2.X;
-    y2 = y2 - context->Super1.bounds.Point2.Y;
 
     if ( srcSize.X != dstSize.X )
     {
@@ -628,7 +627,13 @@ XPoint CoreLineView_ArrangeView( CoreLineView _this, XRect aBounds, XEnum aForma
         x1 = ( x1 * dstSize.X ) / srcSize.X;
 
       if ( !alignToRight && ( resizeHorz || !alignToLeft ))
+      {
+        x2 = x2 - context->Super1.bounds.Point1.X;
         x2 = ( x2 * dstSize.X ) / srcSize.X;
+        x2 = x2 - dstSize.X;
+      }
+      else
+        x2 = x2 - context->Super1.bounds.Point2.X;
 
       x1 = x1 + aBounds.Point1.X;
       x2 = x2 + aBounds.Point2.X;
@@ -649,6 +654,7 @@ XPoint CoreLineView_ArrangeView( CoreLineView _this, XRect aBounds, XEnum aForma
     }
     else
     {
+      x2 = x2 - context->Super1.bounds.Point2.X;
       x1 = x1 + aBounds.Point1.X;
       x2 = x2 + aBounds.Point2.X;
     }
@@ -666,7 +672,13 @@ XPoint CoreLineView_ArrangeView( CoreLineView _this, XRect aBounds, XEnum aForma
         y1 = ( y1 * dstSize.Y ) / srcSize.Y;
 
       if ( !alignToBottom && ( resizeVert || !alignToTop ))
+      {
+        y2 = y2 - context->Super1.bounds.Point1.Y;
         y2 = ( y2 * dstSize.Y ) / srcSize.Y;
+        y2 = y2 - dstSize.Y;
+      }
+      else
+        y2 = y2 - context->Super1.bounds.Point2.Y;
 
       y1 = y1 + aBounds.Point1.Y;
       y2 = y2 + aBounds.Point2.Y;
@@ -687,6 +699,7 @@ XPoint CoreLineView_ArrangeView( CoreLineView _this, XRect aBounds, XEnum aForma
     }
     else
     {
+      y2 = y2 - context->Super1.bounds.Point2.Y;
       y1 = y1 + aBounds.Point1.Y;
       y2 = y2 + aBounds.Point2.Y;
     }
@@ -1096,8 +1109,6 @@ XPoint CoreQuadView_ArrangeView( CoreQuadView _this, XRect aBounds, XEnum aForma
     XPoint srcSize = EwGetRectSize( context->Super1.bounds );
     x1 = x1 - context->Super1.bounds.Point1.X;
     y1 = y1 - context->Super1.bounds.Point1.Y;
-    x2 = x2 - context->Super1.bounds.Point2.X;
-    y2 = y2 - context->Super1.bounds.Point2.Y;
 
     if ( srcSize.X != dstSize.X )
     {
@@ -1112,7 +1123,13 @@ XPoint CoreQuadView_ArrangeView( CoreQuadView _this, XRect aBounds, XEnum aForma
         x1 = ( x1 * dstSize.X ) / srcSize.X;
 
       if ( !alignToRight && ( resizeHorz || !alignToLeft ))
+      {
+        x2 = x2 - context->Super1.bounds.Point1.X;
         x2 = ( x2 * dstSize.X ) / srcSize.X;
+        x2 = x2 - dstSize.X;
+      }
+      else
+        x2 = x2 - context->Super1.bounds.Point2.X;
 
       x1 = x1 + aBounds.Point1.X;
       x2 = x2 + aBounds.Point2.X;
@@ -1133,6 +1150,7 @@ XPoint CoreQuadView_ArrangeView( CoreQuadView _this, XRect aBounds, XEnum aForma
     }
     else
     {
+      x2 = x2 - context->Super1.bounds.Point2.X;
       x1 = x1 + aBounds.Point1.X;
       x2 = x2 + aBounds.Point2.X;
     }
@@ -1150,7 +1168,13 @@ XPoint CoreQuadView_ArrangeView( CoreQuadView _this, XRect aBounds, XEnum aForma
         y1 = ( y1 * dstSize.Y ) / srcSize.Y;
 
       if ( !alignToBottom && ( resizeVert || !alignToTop ))
+      {
+        y2 = y2 - context->Super1.bounds.Point1.Y;
         y2 = ( y2 * dstSize.Y ) / srcSize.Y;
+        y2 = y2 - dstSize.Y;
+      }
+      else
+        y2 = y2 - context->Super1.bounds.Point2.Y;
 
       y1 = y1 + aBounds.Point1.Y;
       y2 = y2 + aBounds.Point2.Y;
@@ -1171,6 +1195,7 @@ XPoint CoreQuadView_ArrangeView( CoreQuadView _this, XRect aBounds, XEnum aForma
     }
     else
     {
+      y2 = y2 - context->Super1.bounds.Point2.Y;
       y1 = y1 + aBounds.Point1.Y;
       y2 = y2 + aBounds.Point2.Y;
     }
@@ -1570,6 +1595,49 @@ void CoreQuadView__OnSetPoint1( void* _this, XPoint value )
   ((CoreQuadView)_this)->_VMT->OnSetPoint1((CoreQuadView)_this, value );
 }
 
+/* The method IsPointInside() verifies whether the specified position aPoint lies 
+   within the quad and returns 'true' if this is the case. If aPoint lies outside 
+   the quad, the method returns 'false'. */
+XBool CoreQuadView_IsPointInside( CoreQuadView _this, XPoint aPoint )
+{
+  XPoint points[ 4 ];
+  XInt32 i = 0;
+  XInt32 j = 3;
+  XBool inside1 = 0;
+  XBool inside2 = 0;
+
+  points[ 0 ] = _this->Point1;
+  points[ 1 ] = _this->Point2;
+  points[ 2 ] = _this->Point3;
+  points[ 3 ] = _this->Point4;
+
+  while ( i < 4 )
+  {
+    XInt32 vert1X = points[ EwCheckIndex( i, 4 )].X;
+    XInt32 vert1Y = points[ EwCheckIndex( i, 4 )].Y;
+    XInt32 vert2X = points[ EwCheckIndex( j, 4 )].X;
+    XInt32 vert2Y = points[ EwCheckIndex( j, 4 )].Y;
+
+    if ((( vert1Y > aPoint.Y ) != ( vert2Y > aPoint.Y )) || (( vert1Y < aPoint.Y 
+        ) != ( vert2Y < aPoint.Y )))
+    {
+      XInt32 x = ((( vert2X - vert1X ) * ( aPoint.Y - vert1Y )) / ( vert2Y - vert1Y 
+        )) + vert1X;
+
+      if ( aPoint.X > x )
+        inside1 = (XBool)!inside1;
+
+      if ( aPoint.X < x )
+        inside2 = (XBool)!inside2;
+    }
+
+    j = i;
+    i = i + 1;
+  }
+
+  return (XBool)( inside1 || inside2 );
+}
+
 /* The method HasRectShape() evaluates the shape of the quad and returns 'true' 
    if the quad has the shape of a rectangle. Otherwise 'false' is returned. */
 XBool CoreQuadView_HasRectShape( CoreQuadView _this )
@@ -1683,8 +1751,6 @@ XPoint CoreRectView_ArrangeView( CoreRectView _this, XRect aBounds, XEnum aForma
     XPoint srcSize = EwGetRectSize( context->bounds );
     x1 = x1 - context->bounds.Point1.X;
     y1 = y1 - context->bounds.Point1.Y;
-    x2 = x2 - context->bounds.Point2.X;
-    y2 = y2 - context->bounds.Point2.Y;
 
     if ( srcSize.X != dstSize.X )
     {
@@ -1699,7 +1765,13 @@ XPoint CoreRectView_ArrangeView( CoreRectView _this, XRect aBounds, XEnum aForma
         x1 = ( x1 * dstSize.X ) / srcSize.X;
 
       if ( !alignToRight && ( resizeHorz || !alignToLeft ))
+      {
+        x2 = x2 - context->bounds.Point1.X;
         x2 = ( x2 * dstSize.X ) / srcSize.X;
+        x2 = x2 - dstSize.X;
+      }
+      else
+        x2 = x2 - context->bounds.Point2.X;
 
       x1 = x1 + aBounds.Point1.X;
       x2 = x2 + aBounds.Point2.X;
@@ -1720,6 +1792,7 @@ XPoint CoreRectView_ArrangeView( CoreRectView _this, XRect aBounds, XEnum aForma
     }
     else
     {
+      x2 = x2 - context->bounds.Point2.X;
       x1 = x1 + aBounds.Point1.X;
       x2 = x2 + aBounds.Point2.X;
     }
@@ -1737,7 +1810,13 @@ XPoint CoreRectView_ArrangeView( CoreRectView _this, XRect aBounds, XEnum aForma
         y1 = ( y1 * dstSize.Y ) / srcSize.Y;
 
       if ( !alignToBottom && ( resizeVert || !alignToTop ))
+      {
+        y2 = y2 - context->bounds.Point1.Y;
         y2 = ( y2 * dstSize.Y ) / srcSize.Y;
+        y2 = y2 - dstSize.Y;
+      }
+      else
+        y2 = y2 - context->bounds.Point2.Y;
 
       y1 = y1 + aBounds.Point1.Y;
       y2 = y2 + aBounds.Point2.Y;
@@ -1758,6 +1837,7 @@ XPoint CoreRectView_ArrangeView( CoreRectView _this, XRect aBounds, XEnum aForma
     }
     else
     {
+      y2 = y2 - context->bounds.Point2.Y;
       y1 = y1 + aBounds.Point1.Y;
       y2 = y2 + aBounds.Point2.Y;
     }
@@ -2005,6 +2085,8 @@ void CoreGroup__Mark( CoreGroup _this )
   EwMarkObject( _this->last );
   EwMarkObject( _this->keyHandlers );
   EwMarkObject( _this->buffer );
+  EwMarkObject( _this->dialogStack );
+  EwMarkObject( _this->fadersQueue );
   EwMarkObject( _this->Focus );
 
   /* Give the super class a chance to mark its objects and references */
@@ -2094,6 +2176,8 @@ CoreCursorHit CoreGroup_CursorHitTest( CoreGroup _this, XRect aArea, XInt32 aFin
   CoreCursorHit found = 0;
   XRect area = _Const0001;
   CoreView form = 0;
+  XBool lock = (XBool)(( _this->fadersQueue != 0 ) && (( _this->fadersQueue->current 
+    != 0 ) || ( _this->fadersQueue->first != 0 )));
 
   if ( EwIsRectEmpty( EwIntersectRect( aArea, _this->Super1.Bounds )))
     return 0;
@@ -2123,9 +2207,12 @@ CoreCursorHit CoreGroup_CursorHitTest( CoreGroup _this, XRect aArea, XInt32 aFin
       area = _Const0001;
     }
 
-    if ((( view->viewState & CoreViewStateTouchable ) == CoreViewStateTouchable 
+    if (((((( view->viewState & CoreViewStateTouchable ) == CoreViewStateTouchable 
         ) && (( view->viewState & CoreViewStateEnabled ) == CoreViewStateEnabled 
-        ))
+        )) && !(( view->viewState & CoreViewStateRunningFader ) == CoreViewStateRunningFader 
+        )) && !(( view->viewState & CoreViewStatePendingFader ) == CoreViewStatePendingFader 
+        )) && ( !(( view->viewState & CoreViewStateDialog ) == CoreViewStateDialog 
+        ) || (((CoreView)_this->dialogStack->group == view ) && !lock )))
     {
       XRect extent = CoreView__GetExtent( view );
       CoreView dedicatedView = aDedicatedView;
@@ -2196,6 +2283,20 @@ void CoreGroup_ChangeViewState( CoreGroup _this, XSet aSetState, XSet aClearStat
       CoreView__ChangeViewState( _this->Focus, CoreViewStateFocused, 0 );
     else
       CoreView__ChangeViewState( _this->Focus, 0, CoreViewStateFocused );
+  }
+
+  if (( _this->dialogStack != 0 ) && (( deltaState & CoreViewStateFocused ) == CoreViewStateFocused 
+      ))
+  {
+    if ((( _this->Super2.viewState & CoreViewStateFocused ) == CoreViewStateFocused 
+        ) && (( _this->dialogStack->group->Super2.viewState & ( CoreViewStateEnabled 
+        | CoreViewStateFocusable )) == ( CoreViewStateEnabled | CoreViewStateFocusable 
+        )))
+      CoreView__ChangeViewState( _this->dialogStack->group, CoreViewStateFocused, 
+      0 );
+    else
+      CoreView__ChangeViewState( _this->dialogStack->group, 0, CoreViewStateFocused 
+      );
   }
 
   if ( !!deltaState )
@@ -2491,6 +2592,10 @@ void CoreGroup_OnSetFocus( CoreGroup _this, CoreView value )
       )) == ( CoreViewStateEnabled | CoreViewStateFocusable )))
     value = 0;
 
+  if (( value != 0 ) && (( value->viewState & CoreViewStateDialog ) == CoreViewStateDialog 
+      ))
+    value = 0;
+
   if ( value == _this->Focus )
     return;
 
@@ -2560,6 +2665,15 @@ void CoreGroup_OnSetEmbedded( CoreGroup _this, XBool value )
     CoreView__ChangeViewState( _this, 0, CoreViewStateEmbedded );
 }
 
+/* 'C' function for method : 'Core::Group.OnSetVisible()' */
+void CoreGroup_OnSetVisible( CoreGroup _this, XBool value )
+{
+  if ( value )
+    CoreView__ChangeViewState( _this, CoreViewStateVisible, 0 );
+  else
+    CoreView__ChangeViewState( _this, 0, CoreViewStateVisible );
+}
+
 /* The method LocalPosition() converts the given position aPoint from the screen 
    coordinate space to the coordinate space of this component and returns the calculated 
    position. In the case the component isn't visible within the application, the 
@@ -2593,11 +2707,25 @@ XObject CoreGroup_DispatchEvent( CoreGroup _this, CoreEvent aEvent )
   CoreView view = _this->Focus;
   CoreGroup grp = EwCastObject( view, CoreGroup );
   XObject handled = 0;
+  XBool lock = (XBool)(( _this->fadersQueue != 0 ) && (( _this->fadersQueue->current 
+    != 0 ) || ( _this->fadersQueue->first != 0 )));
 
-  if ( grp != 0 )
+  if (( view != 0 ) && (((( view->viewState & CoreViewStateDialog ) == CoreViewStateDialog 
+      ) || (( view->viewState & CoreViewStateRunningFader ) == CoreViewStateRunningFader 
+      )) || (( view->viewState & CoreViewStatePendingFader ) == CoreViewStatePendingFader 
+      )))
+  {
+    view = 0;
+    grp = 0;
+  }
+
+  if (( _this->dialogStack != 0 ) && !lock )
+    handled = CoreGroup__DispatchEvent( _this->dialogStack->group, aEvent );
+
+  if (( handled == 0 ) && ( grp != 0 ))
     handled = CoreGroup__DispatchEvent( grp, aEvent );
   else
-    if ( view != 0 )
+    if (( handled == 0 ) && ( view != 0 ))
       handled = CoreView__HandleEvent( view, aEvent );
 
   if ( handled == 0 )
@@ -2845,20 +2973,27 @@ CoreView CoreGroup_FindSiblingView( CoreGroup _this, CoreView aView, XSet aFilte
 {
   CoreView nextView;
   CoreView prevView;
+  XSet notFilter;
 
   if (( aView == 0 ) || ( aView->Owner != _this ))
     return 0;
 
   nextView = aView->next;
   prevView = aView->prev;
+  notFilter = CoreViewStateDialog;
+
+  if ((( aFilter & CoreViewStateDialog ) == CoreViewStateDialog ))
+    notFilter = 0;
 
   while (( nextView != 0 ) || ( prevView != 0 ))
   {
-    if (( nextView != 0 ) && ( !aFilter || EwSetContains( nextView->viewState, aFilter 
+    if ((( nextView != 0 ) && ( !aFilter || EwSetContains( nextView->viewState, 
+        aFilter ))) && ( !notFilter || !EwSetContains( nextView->viewState, notFilter 
         )))
       return nextView;
 
-    if (( prevView != 0 ) && ( !aFilter || EwSetContains( prevView->viewState, aFilter 
+    if ((( prevView != 0 ) && ( !aFilter || EwSetContains( prevView->viewState, 
+        aFilter ))) && ( !notFilter || !EwSetContains( prevView->viewState, notFilter 
         )))
       return prevView;
 
@@ -3027,9 +3162,10 @@ void CoreGroup_Add( CoreGroup _this, CoreView aView, XInt32 aOrder )
   if ((( aView->viewState & CoreViewStateVisible ) == CoreViewStateVisible ))
     CoreGroup__InvalidateArea( _this, CoreView__GetExtent( aView ));
 
-  if ((( _this->Focus == 0 ) && (( aView->viewState & CoreViewStateFocusable ) == 
-      CoreViewStateFocusable )) && (( aView->viewState & CoreViewStateEnabled ) 
-      == CoreViewStateEnabled ))
+  if (((( _this->Focus == 0 ) && (( aView->viewState & CoreViewStateFocusable ) 
+      == CoreViewStateFocusable )) && (( aView->viewState & CoreViewStateEnabled 
+      ) == CoreViewStateEnabled )) && !(( aView->viewState & CoreViewStateDialog 
+      ) == CoreViewStateDialog ))
     CoreGroup__OnSetFocus( _this, aView );
 
   if ((( aView->viewState & ( CoreViewStateEmbedded | CoreViewStateVisible )) == 
@@ -3054,6 +3190,12 @@ void CoreGroup_Add( CoreGroup _this, CoreView aView, XInt32 aOrder )
 void CoreGroup__Add( void* _this, CoreView aView, XInt32 aOrder )
 {
   ((CoreGroup)_this)->_VMT->Add((CoreGroup)_this, aView, aOrder );
+}
+
+/* Default onget method for the property 'Opacity' */
+XInt32 CoreGroup_OnGetOpacity( CoreGroup _this )
+{
+  return _this->Opacity;
 }
 
 /* Variants derived from the class : 'Core::Group' */
@@ -5486,7 +5628,8 @@ XObject CoreSimpleTouchHandler_HandleEvent( CoreSimpleTouchHandler _this, CoreEv
   {
     _this->active = event1->Down;
     _this->Down = event1->Down;
-    _this->Inside = CoreSimpleTouchHandler_isInside( _this, event1->CurrentPos );
+    _this->Inside = CoreQuadView_IsPointInside((CoreQuadView)_this, event1->CurrentPos 
+    );
     _this->HittingPos = event1->HittingPos;
     _this->CurrentPos = event1->CurrentPos;
     _this->Offset = _Const0000;
@@ -5504,7 +5647,8 @@ XObject CoreSimpleTouchHandler_HandleEvent( CoreSimpleTouchHandler _this, CoreEv
   if ( event2 != 0 )
   {
     _this->Down = 1;
-    _this->Inside = CoreSimpleTouchHandler_isInside( _this, event2->CurrentPos );
+    _this->Inside = CoreQuadView_IsPointInside((CoreQuadView)_this, event2->CurrentPos 
+    );
     _this->HittingPos = event2->HittingPos;
     _this->CurrentPos = event2->CurrentPos;
     _this->Offset = event2->Offset;
@@ -5665,53 +5809,13 @@ CoreCursorHit CoreSimpleTouchHandler_CursorHitTest( CoreSimpleTouchHandler _this
     points[ 8 ] = aArea.Point2;
 
     for ( i = 0; i < 9; i = i + 1 )
-      if ( CoreSimpleTouchHandler_isInside( _this, points[ EwCheckIndex( i, 9 )]))
+      if ( CoreQuadView_IsPointInside((CoreQuadView)_this, points[ EwCheckIndex( 
+          i, 9 )]))
         return CoreCursorHit_Initialize( EwNewObject( CoreCursorHit, 0 ), ((CoreView)_this 
           ), EwMovePointNeg( points[ EwCheckIndex( i, 9 )], points[ 0 ]));
   }
 
   return 0;
-}
-
-/* 'C' function for method : 'Core::SimpleTouchHandler.isInside()' */
-XBool CoreSimpleTouchHandler_isInside( CoreSimpleTouchHandler _this, XPoint aPoint )
-{
-  XPoint points[ 4 ];
-  XInt32 i = 0;
-  XInt32 j = 3;
-  XBool inside1 = 0;
-  XBool inside2 = 0;
-
-  points[ 0 ] = _this->Super1.Point1;
-  points[ 1 ] = _this->Super1.Point2;
-  points[ 2 ] = _this->Super1.Point3;
-  points[ 3 ] = _this->Super1.Point4;
-
-  while ( i < 4 )
-  {
-    XInt32 vert1X = points[ EwCheckIndex( i, 4 )].X;
-    XInt32 vert1Y = points[ EwCheckIndex( i, 4 )].Y;
-    XInt32 vert2X = points[ EwCheckIndex( j, 4 )].X;
-    XInt32 vert2Y = points[ EwCheckIndex( j, 4 )].Y;
-
-    if ((( vert1Y > aPoint.Y ) != ( vert2Y > aPoint.Y )) || (( vert1Y < aPoint.Y 
-        ) != ( vert2Y < aPoint.Y )))
-    {
-      XInt32 x = ((( vert2X - vert1X ) * ( aPoint.Y - vert1Y )) / ( vert2Y - vert1Y 
-        )) + vert1X;
-
-      if ( aPoint.X > x )
-        inside1 = (XBool)!inside1;
-
-      if ( aPoint.X < x )
-        inside2 = (XBool)!inside2;
-    }
-
-    j = i;
-    i = i + 1;
-  }
-
-  return (XBool)( inside1 || inside2 );
 }
 
 /* Variants derived from the class : 'Core::SimpleTouchHandler' */
@@ -5863,6 +5967,7 @@ XObject CoreWipeTouchHandler_HandleEvent( CoreWipeTouchHandler _this, CoreEvent
     _this->Inside = (XBool)EwIsPointInRect( _this->Super1.Bounds, event1->CurrentPos 
     );
     _this->AutoDeflected = event1->AutoDeflected;
+    _this->HittingPos = event1->HittingPos;
     _this->activeFinger = event1->Finger;
   }
 
@@ -6447,6 +6552,50 @@ EW_END_OF_CLASS_VARIANTS( CoreLayoutQuadContext )
 EW_DEFINE_CLASS( CoreLayoutQuadContext, CoreLayoutContext, "Core::LayoutQuadContext" )
 EW_END_OF_CLASS( CoreLayoutQuadContext )
 
+/* Initializer for the class 'Core::DialogContext' */
+void CoreDialogContext__Init( CoreDialogContext _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  XObject__Init( &_this->_Super, aLink, aArg );
+
+  /* Setup the VMT pointer */
+  _this->_VMT = EW_CLASS( CoreDialogContext );
+}
+
+/* Re-Initializer for the class 'Core::DialogContext' */
+void CoreDialogContext__ReInit( CoreDialogContext _this )
+{
+  /* At first re-initialize the super class ... */
+  XObject__ReInit( &_this->_Super );
+}
+
+/* Finalizer method for the class 'Core::DialogContext' */
+void CoreDialogContext__Done( CoreDialogContext _this )
+{
+  /* Finalize this class */
+  _this->_VMT = EW_CLASS( CoreDialogContext );
+
+  /* Don't forget to deinitialize the super class ... */
+  XObject__Done( &_this->_Super );
+}
+
+/* Garbage Collector method for the class 'Core::DialogContext' */
+void CoreDialogContext__Mark( CoreDialogContext _this )
+{
+  EwMarkObject( _this->group );
+
+  /* Give the super class a chance to mark its objects and references */
+  XObject__Mark( &_this->_Super );
+}
+
+/* Variants derived from the class : 'Core::DialogContext' */
+EW_DEFINE_CLASS_VARIANTS( CoreDialogContext )
+EW_END_OF_CLASS_VARIANTS( CoreDialogContext )
+
+/* Virtual Method Table (VMT) for the class : 'Core::DialogContext' */
+EW_DEFINE_CLASS( CoreDialogContext, XObject, "Core::DialogContext" )
+EW_END_OF_CLASS( CoreDialogContext )
+
 /* Initializer for the class 'Core::TaskQueue' */
 void CoreTaskQueue__Init( CoreTaskQueue _this, XObject aLink, XHandle aArg )
 {
@@ -6481,6 +6630,7 @@ void CoreTaskQueue__Mark( CoreTaskQueue _this )
   EwMarkObject( _this->current );
   EwMarkObject( _this->last );
   EwMarkObject( _this->first );
+  EwMarkSlot( _this->OnDone );
 
   /* Give the super class a chance to mark its objects and references */
   XObject__Mark( &_this->_Super );
@@ -6519,7 +6669,10 @@ void CoreTaskQueue_onDispatchNext( CoreTaskQueue _this, XObject sender )
     return;
 
   if ( _this->first == 0 )
+  {
+    EwPostSignal( _this->OnDone, ((XObject)_this ));
     return;
+  }
 
   _this->current = _this->first;
   _this->first = _this->first->next;

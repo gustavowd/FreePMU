@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -58,7 +58,7 @@
 
 
 /* The class Core::CursorGrabEvent provides a specialized event object able to deliver 
-   touch screen events associated with the begining and the end of a cursor grab 
+   touch screen events associated with the beginning and the end of a cursor grab 
    cycle.
    Each time the user clicks with the mouse cursor on the screen, hits it with a 
    pen or touches it with his finger, the Mosaic searches for the view, which is 

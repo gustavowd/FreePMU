@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,16 +33,17 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
 #include "_GraphicsCanvas.h"
+#include "_GraphicsPath.h"
 #include "_GraphicsWarpMatrix.h"
 
 /* The definition Graphics::Edges enumerates the parts of a free scalable frame. 
@@ -55,6 +56,27 @@ typedef enum
   GraphicsEdgesBottom                   = 0x00000008,
   GraphicsEdgesInterior                 = 0x00000010
 } GraphicsEdges;
+
+/* The definition Graphics::PathJoin enumerates the possible modes how the edges 
+   of a path are connected when stroking the path with path thickness greater than 
+   1 pixel. It is used to determine how Views::StrokePath should raster the path. */
+typedef enum
+{
+  GraphicsPathJoinBevel                 = 0,
+  GraphicsPathJoinMiter                 = 1,
+  GraphicsPathJoinRound                 = 2
+} GraphicsPathJoin;
+
+/* The definition Graphics::PathCap enumerates the possible modes how the path caps 
+   are displayed when stroking the path with path thickness greater than 1 pixel. 
+   It is used to determine how Views::StrokePath should raster the path. */
+typedef enum
+{
+  GraphicsPathCapFlat                   = 0,
+  GraphicsPathCapSquare                 = 1,
+  GraphicsPathCapRound                  = 2,
+  GraphicsPathCapTriangle               = 3
+} GraphicsPathCap;
 
 #ifdef __cplusplus
   }

@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,22 +33,21 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ChartsCoordList.h"
-#include "_ChartsGraph.h"
+#include "_ApplicationConfigScreen.h"
+#include "_ApplicationModIconButton.h"
+#include "_ApplicationPlotterGraph.h"
 #include "_CoreGroup.h"
-#include "_CoreOutline.h"
 #include "_CoreTimer.h"
-#include "_ViewsBorder.h"
-#include "_ViewsLine.h"
+#include "_EffectsInt32Effect.h"
 #include "_ViewsText.h"
 
 /* Forward declaration of the class Application::Classe */
@@ -63,6 +62,12 @@
 #define _ApplicationFreq_
 #endif
 
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
+#endif
+
 /* Forward declaration of the class Core::KeyPressHandler */
 #ifndef _CoreKeyPressHandler_
   EW_DECLARE_CLASS( CoreKeyPressHandler )
@@ -73,6 +78,12 @@
 #ifndef _CoreLayoutContext_
   EW_DECLARE_CLASS( CoreLayoutContext )
 #define _CoreLayoutContext_
+#endif
+
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
 #endif
 
 /* Forward declaration of the class Core::View */
@@ -90,8 +101,6 @@
 
 /* Deklaration of class : 'Application::Freq' */
 EW_DEFINE_FIELDS( ApplicationFreq, CoreGroup )
-  EW_OBJECT  ( dados,           ChartsCoordList )
-  EW_OBJECT  ( dadosmirror,     ChartsCoordList )
   EW_OBJECT  ( val_fr_0,        ViewsText )
   EW_OBJECT  ( val_fr_1,        ViewsText )
   EW_OBJECT  ( val_fr_2,        ViewsText )
@@ -103,21 +112,17 @@ EW_DEFINE_FIELDS( ApplicationFreq, CoreGroup )
   EW_OBJECT  ( labelFreq,       ViewsText )
   EW_OBJECT  ( val_freq,        ViewsText )
   EW_OBJECT  ( intervalo,       CoreTimer )
-  EW_OBJECT  ( linha_t_1,       ViewsLine )
-  EW_OBJECT  ( linha_t_2,       ViewsLine )
-  EW_OBJECT  ( linha_t_3,       ViewsLine )
-  EW_OBJECT  ( linha_fr_0,      ViewsLine )
-  EW_OBJECT  ( linha_fr_1,      ViewsLine )
-  EW_OBJECT  ( linha_fr_2,      ViewsLine )
-  EW_OBJECT  ( linha_fr_3,      ViewsLine )
-  EW_OBJECT  ( linha_fr_4,      ViewsLine )
-  EW_OBJECT  ( JanelaG,         CoreOutline )
-  EW_OBJECT  ( grafico,         ChartsGraph )
-  EW_OBJECT  ( borda,           ViewsBorder )
   EW_VARIABLE( valorMeio,       XFloat )
-  EW_VARIABLE( deltaUnidades,   XInt32 )
   EW_VARIABLE( device,          ApplicationClasse )
-  EW_VARIABLE( troca,           XBool )
+  EW_OBJECT  ( IconButton,      ApplicationModIconButton )
+  EW_ARRAY   ( freqV,           XInt32, [6])
+  EW_VARIABLE( freqIdx,         XInt32 )
+  EW_ARRAY   ( unitsV,          XFloat, [6])
+  EW_VARIABLE( unitsIdx,        XInt32 )
+  EW_OBJECT  ( fadeIn,          EffectsInt32Effect )
+  EW_OBJECT  ( fadeOut,         EffectsInt32Effect )
+  EW_OBJECT  ( grafico,         ApplicationPlotterGraph )
+  EW_OBJECT  ( config,          ApplicationConfigScreen )
 EW_END_OF_FIELDS( ApplicationFreq )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Freq' */
@@ -185,7 +190,23 @@ void ApplicationFreq_Init( ApplicationFreq _this, XHandle aArg );
 void ApplicationFreq_plotar( ApplicationFreq _this, XObject sender );
 
 /* 'C' function for method : 'Application::Freq.float2String()' */
-XString ApplicationFreq_float2String( ApplicationFreq _this, XFloat arg1 );
+XString ApplicationFreq_float2String( ApplicationFreq _this, XFloat numero, XInt32 
+  casas );
+
+/* 'C' function for method : 'Application::Freq.mostraConfig()' */
+void ApplicationFreq_mostraConfig( ApplicationFreq _this, XObject sender );
+
+/* 'C' function for method : 'Application::Freq.sairConfig()' */
+void ApplicationFreq_sairConfig( ApplicationFreq _this, XObject sender );
+
+/* 'C' function for method : 'Application::Freq.trocaEscala()' */
+void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender );
+
+/* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem. */
+void ApplicationFreq_atualizaY( ApplicationFreq _this );
+
+/* Atualiza os rótulos do eixo X no gráfico. */
+void ApplicationFreq_atualizaX( ApplicationFreq _this );
 
 #ifdef __cplusplus
   }

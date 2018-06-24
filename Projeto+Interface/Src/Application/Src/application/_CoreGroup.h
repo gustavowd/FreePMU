@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -48,6 +48,12 @@
 #ifndef _CoreCursorHit_
   EW_DECLARE_CLASS( CoreCursorHit )
 #define _CoreCursorHit_
+#endif
+
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
 #endif
 
 /* Forward declaration of the class Core::Event */
@@ -72,6 +78,12 @@
 #ifndef _CoreLayoutContext_
   EW_DECLARE_CLASS( CoreLayoutContext )
 #define _CoreLayoutContext_
+#endif
+
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
 #endif
 
 /* Forward declaration of the class Core::View */
@@ -113,6 +125,9 @@
    existing views from the group or to change the so-called Z-order of views - the 
    order determining which view lies in the front and which in the background of 
    the group.
+   - More sophisticated: with the method @FadeGroup() animated transitions to add 
+   and fade-in or to fade-out and remove a GUI component within 'this' component 
+   can be scheduled.
    - To find and enumerate the enclosed views, the methods like @FindNextView(), 
    @FindPrevView(), @FindViewAtPosition, @FindViewInDirection() or @GetViewAtIndex() 
    are available. 
@@ -148,12 +163,40 @@
    to reflect the current state in the appearance of the GUI component. In this 
    manner the entire state update is located in a single method. This method will 
    be invoked automatically by the framework. Optionally you can request its invocation 
-   by using the method @InvalidateViewState(). */
+   by using the method @InvalidateViewState().
+   - The class Core::Group implements a powerful infrastructure permitting simple 
+   presentation and dismissing of GUI components in context of 'this' component 
+   similarly to the concepts of 'alert panels', 'message boxes' or 'dialogs' known 
+   from other GUI frameworks. Internally, every instance of Core::Group manages 
+   a stack with all dialog components belonging actually to it. The dialog component 
+   on top of the stack is considered as the active dialog - the dialog, the user 
+   may interact with. Other dialogs lying in the background are automatically deactivated 
+   and they are suppressed from being able to receive and process user inputs. New 
+   dialogs are presented by using the method @PresentDialog(). With the method @SwitchToDialog() 
+   you can replace the actually active dialog by another one. Finally, with the 
+   method @DismissDialog() one of the actually presented dialogs can be dismissed 
+   again. Every of these operations can be performed with animation transitions, 
+   you specify in the parameters when invoking the respective method.
+   - If using the above described infrastructure to manage dialogs, you can use 
+   the methods @IsDialog(), @IsActiveDialog() and @IsCurrentDialog() to verify whether 
+   the affected GUI component is actually, just in this moment a dialog presented 
+   within another GUI component, whether it is an active dialog or even the current 
+   dialog. Knowing this is essential to estimate the actual state of the GUI application, 
+   even if the dialogs appear or disappear with animations. With the methods @CountDialogs(), 
+   @GetDialogAtIndex(), @GetIndexOfDialog() you can simply evaluate and traverse 
+   the stack of dialog components existing actually in context of 'this' GUI component. 
+   With the method @FindCurrentDialog() you can search in 'this' component and all 
+   subordinated dialog components for the dialog which is the current one. The both 
+   methods @FindDialogByClass() and @FindActiveDialogByClass() are convenient to 
+   search in 'this' component and all subordinated dialog components for the dialog, 
+   which is an instance of a specified component class. */
 EW_DEFINE_FIELDS( CoreGroup, CoreRectView )
   EW_VARIABLE( first,           CoreView )
   EW_VARIABLE( last,            CoreView )
   EW_VARIABLE( keyHandlers,     CoreKeyPressHandler )
   EW_VARIABLE( buffer,          GraphicsCanvas )
+  EW_VARIABLE( dialogStack,     CoreDialogContext )
+  EW_VARIABLE( fadersQueue,     CoreTaskQueue )
   EW_PROPERTY( Focus,           CoreView )
   EW_PROPERTY( Opacity,         XInt32 )
 EW_END_OF_FIELDS( CoreGroup )
@@ -298,6 +341,9 @@ void CoreGroup__OnSetOpacity( void* _this, XInt32 value );
 
 /* 'C' function for method : 'Core::Group.OnSetEmbedded()' */
 void CoreGroup_OnSetEmbedded( CoreGroup _this, XBool value );
+
+/* 'C' function for method : 'Core::Group.OnSetVisible()' */
+void CoreGroup_OnSetVisible( CoreGroup _this, XBool value );
 
 /* The method LocalPosition() converts the given position aPoint from the screen 
    coordinate space to the coordinate space of this component and returns the calculated 
@@ -455,6 +501,9 @@ void CoreGroup_Add( CoreGroup _this, CoreView aView, XInt32 aOrder );
 
 /* Wrapper function for the virtual method : 'Core::Group.Add()' */
 void CoreGroup__Add( void* _this, CoreView aView, XInt32 aOrder );
+
+/* Default onget method for the property 'Opacity' */
+XInt32 CoreGroup_OnGetOpacity( CoreGroup _this );
 
 #ifdef __cplusplus
   }

@@ -18,14 +18,14 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
 *******************************************************************************/
 
-#ifndef _ApplicationcontextoMsg_H
-#define _ApplicationcontextoMsg_H
+#ifndef _ApplicationPDCMessage_H
+#define _ApplicationPDCMessage_H
 
 #ifdef __cplusplus
   extern "C"
@@ -33,39 +33,38 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-/* Forward declaration of the class Application::contextoMsg */
-#ifndef _ApplicationcontextoMsg_
-  EW_DECLARE_CLASS( ApplicationcontextoMsg )
-#define _ApplicationcontextoMsg_
+/* Forward declaration of the class Application::PDCMessage */
+#ifndef _ApplicationPDCMessage_
+  EW_DECLARE_CLASS( ApplicationPDCMessage )
+#define _ApplicationPDCMessage_
 #endif
 
 
-/* Deklaration of class : 'Application::contextoMsg' */
-EW_DEFINE_FIELDS( ApplicationcontextoMsg, XObject )
+/* Deklaration of class : 'Application::PDCMessage' */
+EW_DEFINE_FIELDS( ApplicationPDCMessage, XObject )
   EW_PROPERTY( message,         XString )
-EW_END_OF_FIELDS( ApplicationcontextoMsg )
+EW_END_OF_FIELDS( ApplicationPDCMessage )
 
-/* Virtual Method Table (VMT) for the class : 'Application::contextoMsg' */
-EW_DEFINE_METHODS( ApplicationcontextoMsg, XObject )
-EW_END_OF_METHODS( ApplicationcontextoMsg )
+/* Virtual Method Table (VMT) for the class : 'Application::PDCMessage' */
+EW_DEFINE_METHODS( ApplicationPDCMessage, XObject )
+EW_END_OF_METHODS( ApplicationPDCMessage )
 
-/* 'C' function for method : 'Application::contextoMsg.OnSetmessage()' */
-void ApplicationcontextoMsg_OnSetmessage( ApplicationcontextoMsg _this, XString 
-  value );
+/* 'C' function for method : 'Application::PDCMessage.OnSetmessage()' */
+void ApplicationPDCMessage_OnSetmessage( ApplicationPDCMessage _this, XString value );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationcontextoMsg_H */
+#endif /* _ApplicationPDCMessage_H */
 
 /* Embedded Wizard */
