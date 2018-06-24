@@ -163,3 +163,9 @@ unit Templates
 {
   attr Directory = $Mosaic;
 }
+
+$rect <40,270,240,310>
+unit OldResources
+{
+  attr Directory = $Mosaic\;
+}
