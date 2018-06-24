@@ -407,6 +407,7 @@ int main(void)
 		MX_TIM2_Init();
 		RNG_Init();
 		BSP_LED_Init(LED1);
+		BSP_LED_Init(LED2);
 
 		/* Cria tarefa do DHCP */
 		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
@@ -862,7 +863,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 13020;//26040;//6509;//13020;
+  htim1.Init.Period = 13671;//13020;//26040;//6509;//13020;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -889,7 +890,7 @@ static void MX_TIM1_Init(void)
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
   {
 	  //_Error_Handler(__FILE__, __LINE__);
@@ -901,32 +902,46 @@ static void MX_TIM1_Init(void)
 static void MX_TIM2_Init(void)
 {
 
-  TIM_ClockConfigTypeDef sClockSourceConfig;
-  TIM_MasterConfigTypeDef sMasterConfig;
+	  TIM_ClockConfigTypeDef sClockSourceConfig;
+	  TIM_SlaveConfigTypeDef sSlaveConfig;
+	  TIM_MasterConfigTypeDef sMasterConfig;
 
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 2050; //Considerando clock do TIM2 de 100MHz
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 1626;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-  {
-    //Error_Handler();
-  }
+	  htim2.Instance = TIM2;
+	  htim2.Init.Prescaler = 35000-1;//2050;
+	  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+	  htim2.Init.Period = 100-1;//1625;
+	  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+	  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+	  {
+	    //_Error_Handler(__FILE__, __LINE__);
+	  }
 
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-  {
-    //Error_Handler();
-  }
+	  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+	  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+	  {
+	    //_Error_Handler(__FILE__, __LINE__);
+	  }
 
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    //Error_Handler();
-  }
+	  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+	  sSlaveConfig.InputTrigger = TIM_TS_ETRF;
+	  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+	  sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
+	  sSlaveConfig.TriggerFilter = 0;
+	  if (HAL_TIM_SlaveConfigSynchronization(&htim2, &sSlaveConfig) != HAL_OK)
+	  {
+	    //_Error_Handler(__FILE__, __LINE__);
+	  }
+
+	  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+	  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
+	  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+	  {
+	    //_Error_Handler(__FILE__, __LINE__);
+	  }
+
+	  /* Enable the TIM Update interrupt */
+	  htim2.Instance->DIER |= 0x01;
 
 }
 

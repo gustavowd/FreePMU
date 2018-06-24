@@ -15,7 +15,7 @@
 #include "stm32f7xx_hal.h"
 #include "stm32f769i_discovery.h"
 
-#define MCLOCK_FREQ 200000000
+#define MCLOCK_FREQ 210000000
 #define numero_pontos 256
 
 extern osMessageQId SerialGPSq;
@@ -131,7 +131,7 @@ extern volatile unsigned char data_flag;
 extern char isSyncCreated;
 //extern char *IP_global[16];
 
-int trigcount = 0;
+volatile int trigcount = 0;
 
 void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
@@ -557,21 +557,15 @@ void PMU_Task(void const * argument)
 
 */
 
-		// DADOS DA TRANSMISSAO (via serial pro PC)
-		buffer[0] = SOC;
-		buffer[1] = Mag_R_final;//_final;
-		buffer[2] = Mag_S_final;
-		buffer[3] = Mag_T_final;
-		buffer[4] = Fase_R_final;
-		buffer[5] = Fase_S_final;
-		buffer[6] = Fase_T_final;
-		buffer[7] = Freq_final;
-		buffer[8] = media_rocof;
-		buffer[9] = 0;
+		  // DADOS DA TRANSMISSAO (via serial pro PC)
+		buffer[0] = Mag_R_final;
+		buffer[1] = Fase_R_final;//_final;
+		buffer[2] = Freq_final;
+		buffer[3] = media_rocof;
 
 		// Envia os dados pela serial
 		char *dados = (char*)&buffer;
-		UARTPutString(dados,36);
+		UARTPutString(dados,12);
 
 
 		SOC = 1468976006;
@@ -1160,16 +1154,18 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
 	htim1.Instance->CNT = 0;
 
-	// Se o TIM2 estiver desligado...
-	if (htim2.Instance->CR1 == 0) {
+	BSP_LED_Toggle(LED1);
+
+	// Se for a primeira aquisição...
+	if (trigcount == 0) {
 		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
+		sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+		sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
+		sSlaveConfig.TriggerFilter = 0;
 		HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
-
-		// E inicia o TIM2
-		htim2.Instance->CR1 |= (TIM_CR1_CEN);
 
 		trigcount++;
 	}
@@ -1183,7 +1179,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
 			htim2.Instance->CNT = 0;
 
-			// O TIM8 é reestabelecido para ser disparado externamente
+			// O TIM1 é reestabelecido para ser disparado externamente
 			TIM_SlaveConfigTypeDef sSlaveConfig;
 			sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 			sSlaveConfig.InputTrigger = TIM_TS_ETRF;
@@ -1197,6 +1193,5 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 		}
 	}
 
-	BSP_LED_Toggle(LED1);
 	osSemaphoreRelease(pmuSem_id);
 }

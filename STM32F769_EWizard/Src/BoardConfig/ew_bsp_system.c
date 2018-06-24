@@ -86,8 +86,8 @@ static void SystemClock_Config( void )
   RCC_OscInitStruct.HSEState       = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM       = 25;
-  RCC_OscInitStruct.PLL.PLLN       = 400; //432 p/ 216MHz
+  RCC_OscInitStruct.PLL.PLLM       = 15;//25;
+  RCC_OscInitStruct.PLL.PLLN       = 252;//400; //432 p/ 216MHz
   RCC_OscInitStruct.PLL.PLLP       = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ       = 9;
   RCC_OscInitStruct.PLL.PLLR       = 7;
@@ -120,7 +120,7 @@ static void SystemClock_Config( void )
   /* These reduced LTDC clock frequency is neccessary to avoid display artefacts
      that occur on higher LTDC clock frequencies, if there is heavy memory access
      by application during display update */
-  PeriphClkInitStruct.PLLSAI.PLLSAIN = 364;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 210;//364;
   PeriphClkInitStruct.PLLSAI.PLLSAIR = 7;
 
 #else
