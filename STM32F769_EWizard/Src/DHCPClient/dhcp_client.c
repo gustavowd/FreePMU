@@ -30,6 +30,14 @@ void SERVER_LogMessage (const char *message) {
 	ApplicationClasse__LogMessageTrigger(disp, m);
 }
 
+/*	Função para controlar o estado dos botões Iniciar e Parar na interface
+ *  StartButton define o estado do botão Iniciar, com valores 0 e 1, desativando e ativando o botão, respectivamente
+ 	Idem para StopButton. */
+void SERVER_ButtonStatus (uint8_t StartButton, uint8_t StopButton) {
+	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
+	ApplicationClasse__ChangeBtnState(disp, (XInt32)StartButton, (XInt32)StopButton);
+}
+
 
 /**
   * @brief  Initializes the lwIP stack
