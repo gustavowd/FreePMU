@@ -18,14 +18,14 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
 *******************************************************************************/
 
-#ifndef _ApplicationVNC_H
-#define _ApplicationVNC_H
+#ifndef _ApplicationPlotterGraph_H
+#define _ApplicationPlotterGraph_H
 
 #ifdef __cplusplus
   extern "C"
@@ -33,30 +33,31 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationModifiedButton.h"
 #include "_CoreGroup.h"
-#include "_CoreSystemEventHandler.h"
-#include "_ViewsText.h"
+#include "_GraphicsPath.h"
+#include "_ViewsBorder.h"
+#include "_ViewsLine.h"
+#include "_ViewsStrokePath.h"
 
-/* Forward declaration of the class Application::Classe */
-#ifndef _ApplicationClasse_
-  EW_DECLARE_CLASS( ApplicationClasse )
-#define _ApplicationClasse_
+/* Forward declaration of the class Application::PlotterGraph */
+#ifndef _ApplicationPlotterGraph_
+  EW_DECLARE_CLASS( ApplicationPlotterGraph )
+#define _ApplicationPlotterGraph_
 #endif
 
-/* Forward declaration of the class Application::VNC */
-#ifndef _ApplicationVNC_
-  EW_DECLARE_CLASS( ApplicationVNC )
-#define _ApplicationVNC_
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
 #endif
 
 /* Forward declaration of the class Core::KeyPressHandler */
@@ -69,6 +70,12 @@
 #ifndef _CoreLayoutContext_
   EW_DECLARE_CLASS( CoreLayoutContext )
 #define _CoreLayoutContext_
+#endif
+
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
 #endif
 
 /* Forward declaration of the class Core::View */
@@ -84,21 +91,25 @@
 #endif
 
 
-/* Deklaration of class : 'Application::VNC' */
-EW_DEFINE_FIELDS( ApplicationVNC, CoreGroup )
-  EW_OBJECT  ( Message,         ViewsText )
-  EW_OBJECT  ( LogMessageHandler, CoreSystemEventHandler )
-  EW_OBJECT  ( BStart,          ApplicationModifiedButton )
-  EW_VARIABLE( device,          ApplicationClasse )
-  EW_OBJECT  ( labelMsg,        ViewsText )
-  EW_OBJECT  ( labelState,      ViewsText )
-  EW_OBJECT  ( Status,          ViewsText )
-  EW_OBJECT  ( StatusChangedHandler, CoreSystemEventHandler )
-  EW_OBJECT  ( BStop,           ApplicationModifiedButton )
-EW_END_OF_FIELDS( ApplicationVNC )
+/* Deklaration of class : 'Application::PlotterGraph' */
+EW_DEFINE_FIELDS( ApplicationPlotterGraph, CoreGroup )
+  EW_OBJECT  ( VLine3,          ViewsLine )
+  EW_OBJECT  ( VLine2,          ViewsLine )
+  EW_OBJECT  ( VLine1,          ViewsLine )
+  EW_OBJECT  ( HLine1,          ViewsLine )
+  EW_OBJECT  ( HLine2,          ViewsLine )
+  EW_OBJECT  ( HLine3,          ViewsLine )
+  EW_OBJECT  ( HLine4,          ViewsLine )
+  EW_OBJECT  ( HLine5,          ViewsLine )
+  EW_OBJECT  ( PlotterPath,     ViewsStrokePath )
+  EW_OBJECT  ( PathData,        GraphicsPath )
+  EW_OBJECT  ( Border,          ViewsBorder )
+  EW_PROPERTY( VerticalRatio,   XFloat )
+  EW_PROPERTY( StrokeColor,     XColor )
+EW_END_OF_FIELDS( ApplicationPlotterGraph )
 
-/* Virtual Method Table (VMT) for the class : 'Application::VNC' */
-EW_DEFINE_METHODS( ApplicationVNC, CoreGroup )
+/* Virtual Method Table (VMT) for the class : 'Application::PlotterGraph' */
+EW_DEFINE_METHODS( ApplicationPlotterGraph, CoreGroup )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -119,14 +130,14 @@ EW_DEFINE_METHODS( ApplicationVNC, CoreGroup )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
-  EW_METHOD( UpdateLayout,      void )( ApplicationVNC _this, XPoint aSize )
-  EW_METHOD( UpdateViewState,   void )( ApplicationVNC _this, XSet aState )
+  EW_METHOD( UpdateLayout,      void )( ApplicationPlotterGraph _this, XPoint aSize )
+  EW_METHOD( UpdateViewState,   void )( ApplicationPlotterGraph _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-EW_END_OF_METHODS( ApplicationVNC )
+EW_END_OF_METHODS( ApplicationPlotterGraph )
 
 /* The method UpdateLayout() is invoked automatically after the size of the component 
    has been changed. This method can be overridden and filled with logic to perform 
@@ -135,7 +146,8 @@ EW_END_OF_METHODS( ApplicationVNC )
    Usually, all enclosed views are arranged automatically accordingly to their @Layout 
    property. UpdateLayout() gives the derived components a chance to extend this 
    automatism by a user defined algorithm. */
-void ApplicationVNC_UpdateLayout( ApplicationVNC _this, XPoint aSize );
+void ApplicationPlotterGraph_UpdateLayout( ApplicationPlotterGraph _this, XPoint 
+  aSize );
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 
@@ -151,26 +163,32 @@ void ApplicationVNC_UpdateLayout( ApplicationVNC _this, XPoint aSize );
    state 'on' or 'off' and change accordingly the location of the slider, etc.
    Usually, this method will be invoked automatically by the framework. Optionally 
    you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationVNC_UpdateViewState( ApplicationVNC _this, XSet aState );
+void ApplicationPlotterGraph_UpdateViewState( ApplicationPlotterGraph _this, XSet 
+  aState );
 
-/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
-   receives an event. */
-void ApplicationVNC_LogMessage( ApplicationVNC _this, XObject sender );
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationPlotterGraph_Init( ApplicationPlotterGraph _this, XHandle aArg );
 
-/* 'C' function for method : 'Application::VNC.startVNC()' */
-void ApplicationVNC_startVNC( ApplicationVNC _this, XObject sender );
+/* 'C' function for method : 'Application::PlotterGraph.AddData()' */
+void ApplicationPlotterGraph_AddData( ApplicationPlotterGraph _this, XFloat dataPoint );
 
-/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
-   receives an event. */
-void ApplicationVNC_StatusChange( ApplicationVNC _this, XObject sender );
+/* 'C' function for method : 'Application::PlotterGraph.OnSetVerticalRatio()' */
+void ApplicationPlotterGraph_OnSetVerticalRatio( ApplicationPlotterGraph _this, 
+  XFloat value );
 
-/* 'C' function for method : 'Application::VNC.stopVNC()' */
-void ApplicationVNC_stopVNC( ApplicationVNC _this, XObject sender );
+/* 'C' function for method : 'Application::PlotterGraph.OnSetStrokeColor()' */
+void ApplicationPlotterGraph_OnSetStrokeColor( ApplicationPlotterGraph _this, XColor 
+  value );
+
+/* 'C' function for method : 'Application::PlotterGraph.ClearPath()' */
+void ApplicationPlotterGraph_ClearPath( ApplicationPlotterGraph _this );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationVNC_H */
+#endif /* _ApplicationPlotterGraph_H */
 
 /* Embedded Wizard */

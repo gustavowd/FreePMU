@@ -76,6 +76,7 @@ osThreadId  VNC_ThreadId = 0;
 void VNC_Thread(void const * argument);
 void VNC_SERVER_LogMessage (const char *message);
 void VNC_SERVER_StatusChanged (uint8_t status);
+void VNC_Server_ButtonStatus (uint8_t StartButton, uint8_t StopButton);
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -223,7 +224,7 @@ static void Netif_Config(void)
   */
 void VNC_SERVER_Start (void)
 {
- 
+
   if(is_initialized == 0)
   {
     is_initialized = 1;
@@ -466,6 +467,11 @@ void VNC_SERVER_LogMessage (const char *message) {
 	ApplicationClasse__LogMessageTrigger(disp, m);
 }
 
+void VNC_Server_ButtonStatus (uint8_t StartButton, uint8_t StopButton) {
+	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
+	ApplicationClasse__ChangeBtnState(disp, (XInt32)StartButton, (XInt32)StopButton);
+}
+
 void VNC_SERVER_StatusChanged (uint8_t status) {
 	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
 	XString s;
@@ -473,34 +479,34 @@ void VNC_SERVER_StatusChanged (uint8_t status) {
 	switch (status)
 	  {
 	  case VNC_IDLE:
-		  s = EwNewStringAnsi("VNC_IDLE");
+		  s = EwNewStringAnsi("IDLE");
 		  break;
 	  case VNC_INIT:
-		  s = EwNewStringAnsi("VNC_INIT");
+		  s = EwNewStringAnsi("INIT");
 		  break;
 	  case VNC_LINK_UP:
-		  s = EwNewStringAnsi("VNC_LINK_UP");
+		  s = EwNewStringAnsi("LINK_UP");
 		  break;
 	  case VNC_WAIT_FOR_ADDRESS:
-		  s = EwNewStringAnsi("VNC_WAIT_FOR_ADDRESS");
+		  s = EwNewStringAnsi("WAIT_FOR_ADDRESS");
 		  break;
 	  case VNC_ADDRESS_ASSIGNED:
-		  s = EwNewStringAnsi("VNC_ADDRESS_ASSIGNED");
+		  s = EwNewStringAnsi("ADDRESS_ASSIGNED");
 		  break;
 	  case VNC_ERROR:
-		  s = EwNewStringAnsi("VNC_ERROR");
+		  s = EwNewStringAnsi("ERROR");
 		  break;
 	  case VNC_LINK_DOWN:
-		  s = EwNewStringAnsi("VNC_LINK_DOWN");
+		  s = EwNewStringAnsi("LINK_DOWN");
 		  break;
 	  case VNC_PROCESS:
-		  s = EwNewStringAnsi("VNC_PROCESS");
+		  s = EwNewStringAnsi("PROCESS");
 		  break;
 	  case VNC_START:
-		  s = EwNewStringAnsi("VNC_START");
+		  s = EwNewStringAnsi("START");
 		  break;
 	  case VNC_CONN_ESTABLISHED:
-		  s = EwNewStringAnsi("VNC_CONN_ESTABLISHED");
+		  s = EwNewStringAnsi("CONN_ESTABLISHED");
 		  break;
 	  default:
 		  s = EwNewStringAnsi("DESCONHECIDO");

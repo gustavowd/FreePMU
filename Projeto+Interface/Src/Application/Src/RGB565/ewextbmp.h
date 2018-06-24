@@ -13,7 +13,7 @@
 * whole or in part by any means not in accordance with the End-User License
 * Agreement for Embedded Wizard is expressly prohibited. The removal of this
 * preamble is expressly prohibited.
-* 
+*
 ********************************************************************************
 *
 * DESCRIPTION:
@@ -33,7 +33,7 @@
 
 
 #ifdef __cplusplus
-  extern "C" 
+  extern "C"
   {
 #endif
 
@@ -45,8 +45,32 @@
 #define EW_MAGIC_NO_BITMAP_R270 0x626D7067
 
 
+/* The macro EW_BITMAP_PIXEL_SECTION_NAME is used to determine the section where
+   the linker should locate the memory areas containing bitmap pixel data. */
+#if defined EW_BITMAP_PIXEL_SECTION_NAME && !defined EW_BITMAP_PIXEL_PRAGMA
+  #define EW_STRINGIZE( aArg )      EW_STRINGIZE_ARG( aArg )
+  #define EW_STRINGIZE_ARG( aArg )  #aArg
+
+  #if defined __ICCARM__
+    #define EW_BITMAP_PIXEL_PRAGMA                                             \
+      _Pragma(EW_STRINGIZE(location=EW_STRINGIZE( EW_BITMAP_PIXEL_SECTION_NAME )))
+  #elif defined __CC_ARM
+    #define EW_BITMAP_PIXEL_PRAGMA                                             \
+      __attribute__((section ( EW_STRINGIZE( EW_BITMAP_PIXEL_SECTION_NAME ))))
+  #elif defined __GNUC__
+    #define EW_BITMAP_PIXEL_PRAGMA                                             \
+      __attribute__((section ( EW_STRINGIZE( EW_BITMAP_PIXEL_SECTION_NAME ))))
+  #endif
+#endif
+
+#ifndef EW_BITMAP_PIXEL_PRAGMA
+  #define EW_BITMAP_PIXEL_PRAGMA
+#endif
+
+
+
 /*******************************************************************************
-* TYPE: 
+* TYPE:
 *   XBmpFrameRes
 *
 * DESCRIPTION:
@@ -63,7 +87,7 @@
 *
 *******************************************************************************/
 typedef struct
-{ 
+{
   int               OpqX;
   int               OpqY;
   int               OpqWidth;
@@ -74,7 +98,7 @@ typedef struct
 
 
 /*******************************************************************************
-* TYPE: 
+* TYPE:
 *   XBmpRes
 *
 * DESCRIPTION:
@@ -106,7 +130,7 @@ typedef struct
 *
 *******************************************************************************/
 typedef struct XBmpRes
-{ 
+{
   unsigned int        MagicNo;
   int                 Format;
   int                 FrameWidth;
@@ -179,7 +203,7 @@ typedef struct XBmpRes
 *     the storage. This is essential for target systems supporting bitmaps from
 *     the constant ROM code area.
 *
-*   - The digit 1 or 2 following the PIXEL word determines the memory plane of 
+*   - The digit 1 or 2 following the PIXEL word determines the memory plane of
 *     the pixel data. If the digit is omitted, the entire pixel information is
 *     stored within a single plane.
 *
@@ -224,7 +248,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _cp_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _cp_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL_R90( aName, aLangId )                                  \
@@ -245,7 +269,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _cp_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _cp_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL_R180( aName, aLangId )                                 \
@@ -266,7 +290,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _cp_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _cp_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL_R270( aName, aLangId )                                 \
@@ -287,7 +311,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _cp_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _cp_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL_U8( aName, aLangId )                                   \
@@ -308,7 +332,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL_U8_R90( aName, aLangId )                               \
@@ -329,7 +353,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL_U8_R180( aName, aLangId )                              \
@@ -350,7 +374,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL_U8_R270( aName, aLangId )                              \
@@ -371,7 +395,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL_U16( aName, aLangId )                                  \
@@ -392,7 +416,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL_U16_R90( aName, aLangId )                              \
@@ -413,7 +437,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL_U16_R180( aName, aLangId )                             \
@@ -434,7 +458,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL_U16_R270( aName, aLangId )                             \
@@ -455,7 +479,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL_U32( aName, aLangId )                                  \
@@ -476,7 +500,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL_U32_R90( aName, aLangId )                              \
@@ -497,7 +521,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL_U32_R180( aName, aLangId )                             \
@@ -518,7 +542,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL_U32_R270( aName, aLangId )                             \
@@ -539,7 +563,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL1_U8( aName, aLangId )                                  \
@@ -561,7 +585,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL1_U8_R90( aName, aLangId )                              \
@@ -583,7 +607,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL1_U8_R180( aName, aLangId )                             \
@@ -605,7 +629,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL1_U8_R270( aName, aLangId )                             \
@@ -627,7 +651,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned char _p1_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p1_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL1_U16( aName, aLangId )                                 \
@@ -649,7 +673,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL1_U16_R90( aName, aLangId )                             \
@@ -671,7 +695,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL1_U16_R180( aName, aLangId )                            \
@@ -693,7 +717,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL1_U16_R270( aName, aLangId )                            \
@@ -715,7 +739,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned short _p1_##aName##aLangId[] =                                \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned short _p1_##aName##aLangId[] =         \
   {
 
 #define EW_BITMAP_PIXEL1_U32( aName, aLangId )                                 \
@@ -737,7 +761,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL1_U32_R90( aName, aLangId )                             \
@@ -759,7 +783,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL1_U32_R180( aName, aLangId )                            \
@@ -781,7 +805,7 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL1_U32_R270( aName, aLangId )                            \
@@ -803,27 +827,27 @@ typedef struct XBmpRes
     #aName                                                                     \
   };                                                                           \
                                                                                \
-  const unsigned int _p1_##aName##aLangId[] =                                  \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned int _p1_##aName##aLangId[] =           \
   {
 
 #define EW_BITMAP_PIXEL2_U8( aName, aLangId )                                  \
   };                                                                           \
-  const unsigned char _p2_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p2_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL2_U8_R90( aName, aLangId )                              \
   };                                                                           \
-  const unsigned char _p2_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p2_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL2_U8_R180( aName, aLangId )                             \
   };                                                                           \
-  const unsigned char _p2_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p2_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAP_PIXEL2_U8_R270( aName, aLangId )                             \
   };                                                                           \
-  const unsigned char _p2_##aName##aLangId[] =                                 \
+  EW_BITMAP_PIXEL_PRAGMA const unsigned char _p2_##aName##aLangId[] =          \
   {
 
 #define EW_BITMAPS_TABLE( aName )                                              \

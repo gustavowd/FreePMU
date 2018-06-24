@@ -144,7 +144,7 @@
 #endif
 
 /* The current version of the Graphics Engine. */
-#define EW_GFX_VERSION 0x0008001E
+#define EW_GFX_VERSION 0x00090000
 
 
 /******************************************************************************

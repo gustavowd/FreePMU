@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -138,6 +138,7 @@ EW_DEFINE_FIELDS( ViewsText, CoreRectView )
   EW_PROPERTY( WrapText,        XBool )
   EW_PROPERTY( AutoSize,        XBool )
   EW_PROPERTY( Ellipsis,        XBool )
+  EW_VARIABLE( reparsed,        XBool )
 EW_END_OF_FIELDS( ViewsText )
 
 /* Virtual Method Table (VMT) for the class : 'Views::Text' */
@@ -213,6 +214,9 @@ void ViewsText_OnSetFont( ViewsText _this, ResourcesFont value );
 
 /* 'C' function for method : 'Views::Text.OnSetColor()' */
 void ViewsText_OnSetColor( ViewsText _this, XColor value );
+
+/* 'C' function for method : 'Views::Text.OnSetVisible()' */
+void ViewsText_OnSetVisible( ViewsText _this, XBool value );
 
 /* The method GetContentArea() returns the position and the size of an area where 
    the view will show the text. This area is expressed in coordinates relative to 

@@ -18,7 +18,7 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
@@ -33,22 +33,21 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ChartsCoordList.h"
-#include "_ChartsGraph.h"
+#include "_ApplicationConfigScreen.h"
+#include "_ApplicationModIconButton.h"
+#include "_ApplicationPlotterTripleGraph.h"
 #include "_CoreGroup.h"
-#include "_CoreOutline.h"
 #include "_CoreTimer.h"
-#include "_ViewsBorder.h"
-#include "_ViewsLine.h"
+#include "_EffectsInt32Effect.h"
 #include "_ViewsText.h"
 
 /* Forward declaration of the class Application::Classe */
@@ -63,6 +62,12 @@
 #define _ApplicationMag_
 #endif
 
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
+#endif
+
 /* Forward declaration of the class Core::KeyPressHandler */
 #ifndef _CoreKeyPressHandler_
   EW_DECLARE_CLASS( CoreKeyPressHandler )
@@ -73,6 +78,12 @@
 #ifndef _CoreLayoutContext_
   EW_DECLARE_CLASS( CoreLayoutContext )
 #define _CoreLayoutContext_
+#endif
+
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
 #endif
 
 /* Forward declaration of the class Core::View */
@@ -90,12 +101,6 @@
 
 /* Deklaration of class : 'Application::Mag' */
 EW_DEFINE_FIELDS( ApplicationMag, CoreGroup )
-  EW_OBJECT  ( dados_vermelho,  ChartsCoordList )
-  EW_OBJECT  ( dadosmirror_vermelho, ChartsCoordList )
-  EW_OBJECT  ( dados_amarelo,   ChartsCoordList )
-  EW_OBJECT  ( dadosmirror_amarelo, ChartsCoordList )
-  EW_OBJECT  ( dados_verde,     ChartsCoordList )
-  EW_OBJECT  ( dadosmirror_verde, ChartsCoordList )
   EW_OBJECT  ( intervalo,       CoreTimer )
   EW_OBJECT  ( val_m_inf,       ViewsText )
   EW_OBJECT  ( val_m_meio,      ViewsText )
@@ -104,28 +109,22 @@ EW_DEFINE_FIELDS( ApplicationMag, CoreGroup )
   EW_OBJECT  ( val_t_1,         ViewsText )
   EW_OBJECT  ( val_t_2,         ViewsText )
   EW_OBJECT  ( val_t_3,         ViewsText )
-  EW_OBJECT  ( val_t_fim,       ViewsText )
+  EW_OBJECT  ( val_t_4,         ViewsText )
   EW_OBJECT  ( val_T,           ViewsText )
   EW_OBJECT  ( val_S,           ViewsText )
   EW_OBJECT  ( val_R,           ViewsText )
   EW_OBJECT  ( labelUnidades,   ViewsText )
-  EW_OBJECT  ( linha_t_1,       ViewsLine )
-  EW_OBJECT  ( linha_t_2,       ViewsLine )
-  EW_OBJECT  ( linha_t_3,       ViewsLine )
-  EW_OBJECT  ( linha_m_0,       ViewsLine )
-  EW_OBJECT  ( linha_m_1,       ViewsLine )
-  EW_OBJECT  ( linha_m_2,       ViewsLine )
-  EW_OBJECT  ( linha_m_3,       ViewsLine )
-  EW_OBJECT  ( linha_m_4,       ViewsLine )
-  EW_OBJECT  ( JanelaG,         CoreOutline )
-  EW_OBJECT  ( graf_T,          ChartsGraph )
-  EW_OBJECT  ( graf_S,          ChartsGraph )
-  EW_OBJECT  ( graf_R,          ChartsGraph )
-  EW_OBJECT  ( borda,           ViewsBorder )
   EW_VARIABLE( valorMeio,       XFloat )
-  EW_VARIABLE( deltaUnidades,   XInt32 )
   EW_VARIABLE( device,          ApplicationClasse )
-  EW_VARIABLE( troca,           XBool )
+  EW_ARRAY   ( freqV,           XInt32, [6])
+  EW_VARIABLE( freqIdx,         XInt32 )
+  EW_ARRAY   ( unitsV,          XFloat, [6])
+  EW_VARIABLE( unitsIdx,        XInt32 )
+  EW_OBJECT  ( fadeIn,          EffectsInt32Effect )
+  EW_OBJECT  ( fadeOut,         EffectsInt32Effect )
+  EW_OBJECT  ( IconButton,      ApplicationModIconButton )
+  EW_OBJECT  ( grafico,         ApplicationPlotterTripleGraph )
+  EW_OBJECT  ( config,          ApplicationConfigScreen )
 EW_END_OF_FIELDS( ApplicationMag )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Mag' */
@@ -193,7 +192,23 @@ void ApplicationMag_Init( ApplicationMag _this, XHandle aArg );
 void ApplicationMag_plotar( ApplicationMag _this, XObject sender );
 
 /* 'C' function for method : 'Application::Mag.float2String()' */
-XString ApplicationMag_float2String( ApplicationMag _this, XFloat arg1 );
+XString ApplicationMag_float2String( ApplicationMag _this, XFloat numero, XInt32 
+  casas );
+
+/* 'C' function for method : 'Application::Mag.mostraConfig()' */
+void ApplicationMag_mostraConfig( ApplicationMag _this, XObject sender );
+
+/* 'C' function for method : 'Application::Mag.sairConfig()' */
+void ApplicationMag_sairConfig( ApplicationMag _this, XObject sender );
+
+/* 'C' function for method : 'Application::Mag.trocaEscala()' */
+void ApplicationMag_trocaEscala( ApplicationMag _this, XObject sender );
+
+/* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem. */
+void ApplicationMag_atualizaY( ApplicationMag _this );
+
+/* Atualiza os rótulos do eixo X no gráfico. */
+void ApplicationMag_atualizaX( ApplicationMag _this );
 
 #ifdef __cplusplus
   }

@@ -18,14 +18,14 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 8.30
+* Version  : 9.00
 * Profile  : STM32F746
 * Platform : STM.STM32.RGB565
 *
 *******************************************************************************/
 
-#ifndef _ApplicationcontextoStatus_H
-#define _ApplicationcontextoStatus_H
+#ifndef _ApplicationPDCStatus_H
+#define _ApplicationPDCStatus_H
 
 #ifdef __cplusplus
   extern "C"
@@ -33,39 +33,38 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x0008001E
+#if EW_RTE_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x0008001E
+#if EW_GFX_VERSION != 0x00090000
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-/* Forward declaration of the class Application::contextoStatus */
-#ifndef _ApplicationcontextoStatus_
-  EW_DECLARE_CLASS( ApplicationcontextoStatus )
-#define _ApplicationcontextoStatus_
+/* Forward declaration of the class Application::PDCStatus */
+#ifndef _ApplicationPDCStatus_
+  EW_DECLARE_CLASS( ApplicationPDCStatus )
+#define _ApplicationPDCStatus_
 #endif
 
 
-/* Deklaration of class : 'Application::contextoStatus' */
-EW_DEFINE_FIELDS( ApplicationcontextoStatus, XObject )
+/* Deklaration of class : 'Application::PDCStatus' */
+EW_DEFINE_FIELDS( ApplicationPDCStatus, XObject )
   EW_PROPERTY( Status,          XString )
-EW_END_OF_FIELDS( ApplicationcontextoStatus )
+EW_END_OF_FIELDS( ApplicationPDCStatus )
 
-/* Virtual Method Table (VMT) for the class : 'Application::contextoStatus' */
-EW_DEFINE_METHODS( ApplicationcontextoStatus, XObject )
-EW_END_OF_METHODS( ApplicationcontextoStatus )
+/* Virtual Method Table (VMT) for the class : 'Application::PDCStatus' */
+EW_DEFINE_METHODS( ApplicationPDCStatus, XObject )
+EW_END_OF_METHODS( ApplicationPDCStatus )
 
-/* 'C' function for method : 'Application::contextoStatus.OnSetStatus()' */
-void ApplicationcontextoStatus_OnSetStatus( ApplicationcontextoStatus _this, XString 
-  value );
+/* 'C' function for method : 'Application::PDCStatus.OnSetStatus()' */
+void ApplicationPDCStatus_OnSetStatus( ApplicationPDCStatus _this, XString value );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationcontextoStatus_H */
+#endif /* _ApplicationPDCStatus_H */
 
 /* Embedded Wizard */
