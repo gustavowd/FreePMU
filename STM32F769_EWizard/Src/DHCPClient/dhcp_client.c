@@ -100,9 +100,6 @@ void DHCP_Thread(void const * argument) {
 	static int first_connection = 1;
 	if(VNC_DHCP_Semaphore == NULL) VNC_DHCP_Semaphore= xSemaphoreCreateBinary();
 
-	// Deixa somente o botão de start ligado
-	//SERVER_ButtonStatus (1, 0);
-
     while(1) {
     	switch(DHCP_State) {
     	case DHCP_IFDOWN:
