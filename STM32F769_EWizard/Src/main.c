@@ -410,7 +410,7 @@ int main(void)
 		BSP_LED_Init(LED2);
 
 		/* Cria tarefa do DHCP */
-		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
+		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 3072);
 		dhcpThread_Id = osThreadCreate (osThread(dhcpTask), NULL);
 
 		/* Cria tarefa do GPS */

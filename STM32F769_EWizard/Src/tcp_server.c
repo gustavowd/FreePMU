@@ -41,6 +41,8 @@ osMutexId ethMut_id;
 volatile int newsockfd_out;
 volatile unsigned char data_flag=0;
 
+extern int escutando;
+
 void SERVER_StatusMessage (const char *message);
 
 osMutexDef(ethMut);
@@ -103,6 +105,7 @@ reboot_server:
 
 	clilen = sizeof(cli_addr);
 
+	escutando = 1;
 	SERVER_StatusMessage ("Escutando porta 4712");
 
 	 // While true

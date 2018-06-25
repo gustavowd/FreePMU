@@ -444,9 +444,19 @@ void PMU_Task(void const * argument)
 
 #if 1
 		//AJUSTE DA TAXA DE AMOSTRAGEM
+		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
+		volatile float residual = tmpARR - (float)tmpARRfix;
 
-
-		htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		// O valor correto é o calculado - 1
+		/* No entanto, se o valor depois da virgula for maior que 0.5
+		   considera-se que o valor não precisa ser diminuido de 1 */
+		if (residual > 0.5){
+			htim1.Instance->ARR = tmpARRfix;
+		}else{
+			htim1.Instance->ARR = tmpARRfix - 1;
+		}
+		//htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
@@ -593,64 +603,7 @@ void PMU_Task(void const * argument)
 	}
 }
 
-////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-//			Pilha de protocolos
-//
-#if 0
- #include "lwiplib.h"
 
-extern void SocketTCPClient( void *pvParameters );
-extern void pmu_tcp_server(void *pvParameters);
-extern void pmu_tcp_server_out(void *pvParameters);
-#endif
-void UpLwIP(void *param)
-{
-#if 0
-	(void)param;
-
-	//UARTPutString(USART1, "Ethernet lwIP example\n\r");
-    //
-    // Tell the user what we are doing just now.
-    //
-    // UARTPutString(USART1, "Aguardando IP.\n\r");
-
-    //
-    // Initialize the lwIP library, using DHCP.
-    //
-    lwIPInit(IPADDR_USE_DHCP);
-
-    // Espera pela comunicação estar ativa
-    while(lwip_link_up != TRUE)
-    {
-    	DelayTask(10);
-    	/* Loop forever. LW_Periodic_Tasks() must be called in order to check
-    	 * if there is a packet to be read. There is no interrupt handler for
-    	 * the ENC28J60 in such driver implementation. Need for DHCP to work. */
-    	LW_Periodic_Tasks();
-    }
-
-	//sys_thread_new("LwIP TCP client", SocketTCPClient, NULL, 1280, 5);
-    sys_thread_new("PMU TCP Server", pmu_tcp_server, NULL, 2048, 6);
-    sys_thread_new("PMU TCP Server out", pmu_tcp_server_out, NULL, 2048, 5);
-
-    while(1)
-    {
-    	DelayTask(10);
-    	/* Loop forever. LW_Periodic_Tasks() must be called in order to check
-    	 * if there is a packet to be read. There is no interrupt handler for
-    	 * the ENC28J60 in such driver implementation */
-    	LW_Periodic_Tasks();
-    }
-#endif
-}
-
-
-
-////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
 
 
 extern xSemaphoreHandle sUART;

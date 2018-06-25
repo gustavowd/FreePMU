@@ -74,6 +74,7 @@ osThreadId  VNC_ThreadId = 0;
 int escutando = 0;
 /* Private function prototypes -----------------------------------------------*/
 void SERVER_StatusMessage (const char *message);
+void SERVER_ButtonStatus (uint8_t StartButton, uint8_t StopButton);
 extern void pmu_tcp_server(void *pvParameters);
 extern void pmu_tcp_server_out(void *pvParameters);
 /* Private functions ---------------------------------------------------------*/
@@ -84,24 +85,33 @@ extern void pmu_tcp_server_out(void *pvParameters);
   * @param  None.
   * @retval Audio state.
   */
-osThreadId serverThread_Id;
-osThreadId serveroutThread_Id;
+osThreadId serverThread_Id = NULL;
+osThreadId serveroutThread_Id = NULL;
 void VNC_SERVER_Start (void)
 {
     if (gnetif.ip_addr.addr == 0){
     	SERVER_StatusMessage ("Sem conexão com a internet!");
     }else{
     	if (!escutando){
-    		escutando = 1;
-    	    //sys_thread_new("PMU TCP Server", pmu_tcp_server, NULL, 2048, 6);
-    	    //sys_thread_new("PMU TCP Server out", pmu_tcp_server_out, NULL, 2048, 5);
-    		/* Cria tarefa do DHCP */
-    		osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 3072);
-    		serverThread_Id = osThreadCreate (osThread(PDCServerTask), NULL);
+    		//escutando = 1;
 
-    		/* Cria tarefa do GPS */
-    		osThreadDef(ServerOutTask, pmu_tcp_server_out, osPriorityNormal, 0, 2048);
-    		serveroutThread_Id = osThreadCreate (osThread(ServerOutTask), NULL);
+    		// Desliga o botão de start
+    		SERVER_ButtonStatus (0, 1);
+
+    		// Verifica se a tarefa já não foi criada
+    		if (serverThread_Id == NULL){
+				/* Cria tarefa do DHCP */
+				osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 3072);
+				serverThread_Id = osThreadCreate (osThread(PDCServerTask), NULL);
+
+				/* Cria tarefa do GPS */
+				osThreadDef(ServerOutTask, pmu_tcp_server_out, osPriorityNormal, 0, 2048);
+				serveroutThread_Id = osThreadCreate (osThread(ServerOutTask), NULL);
+    		}else{
+    			// REsume as tarefas do PDC
+    			vTaskResume(serverThread_Id);
+    			vTaskResume(serveroutThread_Id);
+    		}
     	}
     }
 
@@ -114,6 +124,17 @@ void VNC_SERVER_Start (void)
   */
 void VNC_SERVER_Stop (void)
 {
+	escutando = 0;
+
+	// Desliga o botão de stop e liga o botão start
+	SERVER_ButtonStatus (1, 0);
+
+	if (serverThread_Id != NULL){
+		// Suspende as tarefas do PDC
+		vTaskSuspend(serveroutThread_Id);
+		vTaskSuspend(serverThread_Id);
+	}
+
 }
 
 /**
