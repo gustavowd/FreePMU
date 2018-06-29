@@ -162,7 +162,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADCalibration_Init(void);
 static void MX_TIM1_Init(void);
-static void MX_TIM2_Init(void);
+void MX_TIM2_Init(void);
 void MX_USART6_UART_Init(void);
 void DHCP_Thread(void const * argument);
 
@@ -899,7 +899,7 @@ static void MX_TIM1_Init(void)
 }
 
 /* TIM2 init function */
-static void MX_TIM2_Init(void)
+void MX_TIM2_Init(void)
 {
 
 	  TIM_ClockConfigTypeDef sClockSourceConfig;
