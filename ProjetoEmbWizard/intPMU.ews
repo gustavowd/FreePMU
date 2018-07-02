@@ -1,6 +1,6 @@
 $version 1.0
 
-attr active = Application::Aplic;
+attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
@@ -38,14 +38,6 @@ view Project
 }
 
 view unit Application
-{
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,153>;
-  attr zoom = 1.0;
-}
-
-view class Application::Aplic
 {
   attr enableGrid = true;
   attr grid = 10;

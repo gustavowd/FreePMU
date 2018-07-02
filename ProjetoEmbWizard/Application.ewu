@@ -1092,9 +1092,10 @@ class Freq : Core::Group
   $rect <20,20,160,60>
   object Application::ModIconButton IconButton
   {
-    preset Bounds = <440,10,470,40>;
+    preset Bounds = <430,10,470,50>;
     preset OnAction = mostraConfig;
-    preset IconIndex = 1;
+    preset Icon = Resources::SymbolIconsMedium;
+    preset IconIndex = 7;
   }
 
   $rect <0,380,200,420>
@@ -1794,9 +1795,10 @@ class Mag : Core::Group
   $rect <20,20,160,60>
   object Application::ModIconButton IconButton
   {
-    preset Bounds = <440,10,470,40>;
+    preset Bounds = <430,10,470,50>;
     preset OnAction = mostraConfig;
-    preset IconIndex = 1;
+    preset Icon = Resources::SymbolIconsMedium;
+    preset IconIndex = 7;
   }
 
   $rect <20,20,160,60>
@@ -2293,9 +2295,10 @@ class Fase : Core::Group
   $rect <20,20,160,60>
   object Application::ModIconButton IconButton
   {
-    preset Bounds = <440,10,470,40>;
+    preset Bounds = <430,10,470,50>;
     preset OnAction = mostraConfig;
-    preset IconIndex = 1;
+    preset Icon = Resources::SymbolIconsMedium;
+    preset IconIndex = 7;
   }
 
   // Atualiza os rótulos do eixo X no gráfico.
@@ -3970,7 +3973,9 @@ vclass Freq769 : Application::Freq
   $rect <20,20,160,60>
   inherited object IconButton
   {
-    preset Bounds = <750,10,790,50>;
+    preset Bounds = <720,350,790,420>;
+    preset Icon = Resources::SymbolIconsLarge;
+    preset IconIndex = 7;
   }
 
   $rect <310,490,450,530>
@@ -4014,8 +4019,6 @@ vclass Freq769 : Application::Freq
   {
     preset Bounds = <40,50,640,380>;
   }
-
-  $reorder c 2
 }
 
 $rect <230,180,430,220>
@@ -4045,7 +4048,7 @@ vclass Mag769 : Application::Mag
   $rect <20,20,160,60>
   inherited object val_m_inf
   {
-    preset Bounds = <660,320,770,350>;
+    preset Bounds = <660,310,770,340>;
   }
 
   $rect <20,20,160,60>
@@ -4057,7 +4060,7 @@ vclass Mag769 : Application::Mag
   $rect <20,20,160,60>
   inherited object val_m_sup
   {
-    preset Bounds = <660,80,770,110>;
+    preset Bounds = <660,90,770,120>;
   }
 
   $rect <20,20,160,60>
@@ -4145,7 +4148,9 @@ vclass Mag769 : Application::Mag
   $rect <20,20,160,60>
   inherited object IconButton
   {
-    preset Bounds = <750,10,790,50>;
+    preset Bounds = <720,350,790,420>;
+    preset Icon = Resources::SymbolIconsLarge;
+    preset IconIndex = 7;
   }
 
   $rect <20,20,160,60>
@@ -4189,7 +4194,7 @@ vclass Fase769 : Application::Fase
   $rect <20,20,160,60>
   inherited object labelFaseInf
   {
-    preset Bounds = <660,320,770,350>;
+    preset Bounds = <660,310,770,340>;
   }
 
   $rect <20,20,160,60>
@@ -4201,7 +4206,7 @@ vclass Fase769 : Application::Fase
   $rect <20,20,160,60>
   inherited object labelFaseSup
   {
-    preset Bounds = <660,80,770,110>;
+    preset Bounds = <660,90,770,120>;
   }
 
   $rect <20,20,160,60>
@@ -4274,7 +4279,9 @@ vclass Fase769 : Application::Fase
   $rect <20,20,160,60>
   inherited object IconButton
   {
-    preset Bounds = <750,10,790,50>;
+    preset Bounds = <720,350,790,420>;
+    preset Icon = Resources::SymbolIconsLarge;
+    preset IconIndex = 7;
   }
 
   $rect <140,480,280,520>
@@ -4859,7 +4866,7 @@ class ConfigScreen : Core::Group
   $rect <20,20,160,60>
   object Views::Text labelSup
   {
-    preset Bounds = <10,15,350,55>;
+    preset Bounds = <10,10,350,50>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "Intervalo da Escala Vertical";
     preset Font = Application::NumbersM;
@@ -4868,7 +4875,7 @@ class ConfigScreen : Core::Group
   $rect <20,20,160,60>
   object Views::Text labelInf
   {
-    preset Bounds = <10,100,370,140>;
+    preset Bounds = <10,90,370,130>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "Frequência de Atualização";
     preset Font = Application::NumbersM;
@@ -4877,35 +4884,39 @@ class ConfigScreen : Core::Group
   $rect <20,20,160,60>
   object Application::ModIconButton SupMenos
   {
-    preset Bounds = <60,50,90,80>;
-    preset IconIndex = 10;
+    preset Bounds = <60,45,100,85>;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset IconIndex = 2;
   }
 
   $rect <20,20,160,60>
   object Application::ModIconButton SupMais
   {
-    preset Bounds = <290,50,320,80>;
-    preset IconIndex = 11;
+    preset Bounds = <280,45,320,85>;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset IconIndex = 3;
   }
 
   $rect <20,20,160,60>
   object Application::ModIconButton InfMenos
   {
-    preset Bounds = <60,135,90,165>;
-    preset IconIndex = 10;
+    preset Bounds = <60,125,100,165>;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset IconIndex = 2;
   }
 
   $rect <20,20,160,60>
   object Application::ModIconButton InfMais
   {
-    preset Bounds = <290,135,320,165>;
-    preset IconIndex = 11;
+    preset Bounds = <280,125,320,165>;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset IconIndex = 3;
   }
 
   $rect <20,20,160,60>
   object Views::Text SupVal
   {
-    preset Bounds = <90,50,290,80>;
+    preset Bounds = <90,45,290,85>;
     preset String = "59 - 61 Hz";
     preset Font = Application::NumbersM;
   }
@@ -4913,7 +4924,7 @@ class ConfigScreen : Core::Group
   $rect <20,20,160,60>
   object Views::Text InfVal
   {
-    preset Bounds = <90,135,290,165>;
+    preset Bounds = <90,125,290,165>;
     preset String = "1 Hz (1000 ms)";
     preset Font = Application::NumbersM;
   }
@@ -4921,9 +4932,9 @@ class ConfigScreen : Core::Group
   $rect <20,20,160,60>
   object Application::ModIconButton Sair
   {
-    preset Bounds = <350,0,380,30>;
-    preset Icon = OldResources::KeyClose;
-    preset IconIndex = 1;
+    preset Bounds = <340,0,380,40>;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset IconIndex = 9;
   }
 }
 
@@ -4962,43 +4973,53 @@ vclass ConfigScreen769 : Application::ConfigScreen
   $rect <20,20,160,60>
   inherited object SupMenos
   {
-    preset Bounds = <100,80,150,130>;
+    preset Bounds = <100,70,160,130>;
+    preset Icon = Resources::NavigationIconsLarge;
+    preset IconIndex = 2;
   }
 
   $rect <20,20,160,60>
   inherited object SupMais
   {
-    preset Bounds = <450,80,500,130>;
+    preset Bounds = <440,70,500,130>;
+    preset Icon = Resources::NavigationIconsLarge;
+    preset IconIndex = 3;
   }
 
   $rect <20,20,160,60>
   inherited object InfMenos
   {
-    preset Bounds = <100,230,150,280>;
+    preset Bounds = <100,230,160,290>;
+    preset Icon = Resources::NavigationIconsLarge;
+    preset IconIndex = 2;
   }
 
   $rect <20,20,160,60>
   inherited object InfMais
   {
-    preset Bounds = <450,230,500,280>;
+    preset Bounds = <440,230,500,290>;
+    preset Icon = Resources::NavigationIconsLarge;
+    preset IconIndex = 3;
   }
 
   $rect <20,20,160,60>
   inherited object SupVal
   {
-    preset Bounds = <150,80,450,130>;
+    preset Bounds = <150,70,450,130>;
   }
 
   $rect <20,20,160,60>
   inherited object InfVal
   {
-    preset Bounds = <150,230,450,280>;
+    preset Bounds = <150,230,450,290>;
   }
 
   $rect <20,20,160,60>
   inherited object Sair
   {
-    preset Bounds = <550,0,600,50>;
+    preset Bounds = <540,0,600,60>;
+    preset Icon = Resources::KeyIconsLarge;
+    preset IconIndex = 12;
   }
 }
 
