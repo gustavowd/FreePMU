@@ -42,9 +42,6 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-/* Bitmap resource : 'OldResources::KeyClose' */
-EW_DECLARE_BITMAP_RES( OldResourcesKeyClose )
-
 /* Font resource : 'OldResources::FontArial12' */
 EW_DECLARE_FONT_RES( OldResourcesFontArial12 )
 

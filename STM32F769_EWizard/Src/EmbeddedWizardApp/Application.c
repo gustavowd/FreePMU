@@ -78,6 +78,7 @@
 #include "Effects.h"
 #include "Flat.h"
 #include "OldResources.h"
+#include "Resources.h"
 #include "Views.h"
 
 /* Compressed strings for the language 'Default'. */
@@ -214,7 +215,7 @@ static const XStringRes _Const005A = { _StringsDefault0, 0x010B };
 static const XRect _Const005B = {{ 20, 0 }, { 140, 40 }};
 static const XStringRes _Const005C = { _StringsDefault0, 0x0113 };
 static const XRect _Const005D = {{ 140, 0 }, { 270, 40 }};
-static const XRect _Const005E = {{ 440, 10 }, { 470, 40 }};
+static const XRect _Const005E = {{ 430, 10 }, { 470, 50 }};
 static const XRect _Const005F = {{ 20, 40 }, { 400, 220 }};
 static const XStringRes _Const0060 = { _StringsDefault0, 0x0122 };
 static const XStringRes _Const0061 = { _StringsDefault0, 0x0129 };
@@ -347,11 +348,11 @@ static const XRect _Const00DF = {{ 140, 390 }, { 230, 420 }};
 static const XRect _Const00E0 = {{ 10, 390 }, { 100, 420 }};
 static const XRect _Const00E1 = {{ 40, 0 }, { 280, 50 }};
 static const XRect _Const00E2 = {{ 280, 0 }, { 530, 50 }};
-static const XRect _Const00E3 = {{ 750, 10 }, { 790, 50 }};
+static const XRect _Const00E3 = {{ 720, 350 }, { 790, 420 }};
 static const XRect _Const00E4 = {{ 40, 50 }, { 640, 380 }};
-static const XRect _Const00E5 = {{ 660, 320 }, { 770, 350 }};
+static const XRect _Const00E5 = {{ 660, 310 }, { 770, 340 }};
 static const XRect _Const00E6 = {{ 660, 200 }, { 770, 230 }};
-static const XRect _Const00E7 = {{ 660, 80 }, { 770, 110 }};
+static const XRect _Const00E7 = {{ 660, 90 }, { 770, 120 }};
 static const XRect _Const00E8 = {{ 300, 390 }, { 380, 420 }};
 static const XRect _Const00E9 = {{ 150, 390 }, { 230, 420 }};
 static const XRect _Const00EA = {{ 10, 390 }, { 90, 420 }};
@@ -401,29 +402,29 @@ static const XPoint _Const0115 = { 30, 30 };
 static const XPoint _Const0116 = { 30, 0 };
 static const XRect _Const0117 = {{ 0, 0 }, { 380, 180 }};
 static const XColor _Const0118 = { 0x00, 0x00, 0x00, 0x80 };
-static const XRect _Const0119 = {{ 10, 15 }, { 350, 55 }};
+static const XRect _Const0119 = {{ 10, 10 }, { 350, 50 }};
 static const XStringRes _Const011A = { _StringsDefault1, 0x0079 };
-static const XRect _Const011B = {{ 10, 100 }, { 370, 140 }};
+static const XRect _Const011B = {{ 10, 90 }, { 370, 130 }};
 static const XStringRes _Const011C = { _StringsDefault1, 0x0099 };
-static const XRect _Const011D = {{ 60, 50 }, { 90, 80 }};
-static const XRect _Const011E = {{ 290, 50 }, { 320, 80 }};
-static const XRect _Const011F = {{ 60, 135 }, { 90, 165 }};
-static const XRect _Const0120 = {{ 290, 135 }, { 320, 165 }};
-static const XRect _Const0121 = {{ 90, 50 }, { 290, 80 }};
+static const XRect _Const011D = {{ 60, 45 }, { 100, 85 }};
+static const XRect _Const011E = {{ 280, 45 }, { 320, 85 }};
+static const XRect _Const011F = {{ 60, 125 }, { 100, 165 }};
+static const XRect _Const0120 = {{ 280, 125 }, { 320, 165 }};
+static const XRect _Const0121 = {{ 90, 45 }, { 290, 85 }};
 static const XStringRes _Const0122 = { _StringsDefault1, 0x00B6 };
-static const XRect _Const0123 = {{ 90, 135 }, { 290, 165 }};
+static const XRect _Const0123 = {{ 90, 125 }, { 290, 165 }};
 static const XStringRes _Const0124 = { _StringsDefault1, 0x00C4 };
-static const XRect _Const0125 = {{ 350, 0 }, { 380, 30 }};
+static const XRect _Const0125 = {{ 340, 0 }, { 380, 40 }};
 static const XRect _Const0126 = {{ 0, 0 }, { 600, 330 }};
 static const XRect _Const0127 = {{ 20, 20 }, { 550, 70 }};
 static const XRect _Const0128 = {{ 20, 170 }, { 580, 220 }};
-static const XRect _Const0129 = {{ 100, 80 }, { 150, 130 }};
-static const XRect _Const012A = {{ 450, 80 }, { 500, 130 }};
-static const XRect _Const012B = {{ 100, 230 }, { 150, 280 }};
-static const XRect _Const012C = {{ 450, 230 }, { 500, 280 }};
-static const XRect _Const012D = {{ 150, 80 }, { 450, 130 }};
-static const XRect _Const012E = {{ 150, 230 }, { 450, 280 }};
-static const XRect _Const012F = {{ 550, 0 }, { 600, 50 }};
+static const XRect _Const0129 = {{ 100, 70 }, { 160, 130 }};
+static const XRect _Const012A = {{ 440, 70 }, { 500, 130 }};
+static const XRect _Const012B = {{ 100, 230 }, { 160, 290 }};
+static const XRect _Const012C = {{ 440, 230 }, { 500, 290 }};
+static const XRect _Const012D = {{ 150, 70 }, { 450, 130 }};
+static const XRect _Const012E = {{ 150, 230 }, { 450, 290 }};
+static const XRect _Const012F = {{ 540, 0 }, { 600, 60 }};
 static const XPoint _Const0130 = { 285, 180 };
 static const XPoint _Const0131 = { 285, 0 };
 static const XColor _Const0132 = { 0xFF, 0xFF, 0xFF, 0x40 };
@@ -4095,7 +4096,7 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
   _this->valorMeio = 60.000000f;
   CoreRectView__OnSetBounds( &_this->IconButton, _Const005E );
-  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 1 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
   _this->freqV[ 0 ] = 1;
   _this->freqV[ 1 ] = 2;
   _this->freqV[ 2 ] = 5;
@@ -4160,6 +4161,8 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   _this->intervalo.OnTrigger = EwNewSlot( _this, ApplicationFreq_plotar );
   _this->device = EwGetAutoObject( &ApplicationAutoobjeto, ApplicationClasse );
   _this->IconButton.OnAction = EwNewSlot( _this, ApplicationFreq_mostraConfig );
+  ApplicationModIconButton_OnSetIcon( &_this->IconButton, EwLoadResource( &ResourcesSymbolIconsMedium, 
+  ResourcesBitmap ));
   _this->fadeIn.Super1.OnFinished = EwNewSlot( _this, ApplicationFreq_mostraConfig 
   );
   _this->fadeIn.Outlet = EwNewRef( &_this->config, CoreGroup_OnGetOpacity, CoreGroup__OnSetOpacity 
@@ -4691,7 +4694,7 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   _this->fadeOut.Value2 = 0;
   _this->fadeOut.Value1 = 255;
   CoreRectView__OnSetBounds( &_this->IconButton, _Const005E );
-  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 1 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
   CoreRectView__OnSetBounds( &_this->grafico, _Const005F );
   ApplicationPlotterTripleGraph_OnSetStrokeColorR( &_this->grafico, Applicationcor_R 
   );
@@ -4751,6 +4754,8 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   _this->fadeOut.Outlet = EwNewRef( &_this->config, CoreGroup_OnGetOpacity, CoreGroup__OnSetOpacity 
   );
   _this->IconButton.OnAction = EwNewSlot( _this, ApplicationMag_mostraConfig );
+  ApplicationModIconButton_OnSetIcon( &_this->IconButton, EwLoadResource( &ResourcesSymbolIconsMedium, 
+  ResourcesBitmap ));
 
   /* Call the user defined constructor */
   ApplicationMag_Init( _this, aArg );
@@ -5291,7 +5296,7 @@ void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
   CoreRectView__OnSetBounds( &_this->config, _Const005F );
   CoreGroup__OnSetOpacity( &_this->config, 0 );
   CoreRectView__OnSetBounds( &_this->IconButton, _Const005E );
-  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 1 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
   CoreGroup__Add( _this, ((CoreView)&_this->labelFaseInf ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->labelFaseMeio ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->labelFaseSup ), 0 );
@@ -5342,6 +5347,8 @@ void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
   _this->fadeOut.Outlet = EwNewRef( &_this->config, CoreGroup_OnGetOpacity, CoreGroup__OnSetOpacity 
   );
   _this->IconButton.OnAction = EwNewSlot( _this, ApplicationFase_mostraConfig );
+  ApplicationModIconButton_OnSetIcon( &_this->IconButton, EwLoadResource( &ResourcesSymbolIconsMedium, 
+  ResourcesBitmap ));
 
   /* Call the user defined constructor */
   ApplicationFase_Init( _this, aArg );
@@ -7275,10 +7282,13 @@ void ApplicationFreq769__Init( ApplicationFreq _this, XObject aLink, XHandle aAr
   CoreRectView__OnSetBounds( &_this->labelFreq, _Const00E1 );
   CoreRectView__OnSetBounds( &_this->val_freq, _Const00E2 );
   CoreRectView__OnSetBounds( &_this->IconButton, _Const00E3 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
   CoreRectView__OnSetBounds( &_this->grafico, _Const00E4 );
   ApplicationPlotterGraph_OnSetVerticalRatio( &_this->grafico, 1.100000f );
   ApplicationPlotterGraph_OnSetStrokeWidth( &_this->grafico, 4.000000f );
   CoreRectView__OnSetBounds( &_this->config, _Const00E4 );
+  ApplicationModIconButton_OnSetIcon( &_this->IconButton, EwLoadResource( &ResourcesSymbolIconsLarge, 
+  ResourcesBitmap ));
 
   /* Call the user defined constructor */
   ApplicationFreq769_Init( _this, aArg );
@@ -7401,9 +7411,12 @@ void ApplicationMag769__Init( ApplicationMag _this, XObject aLink, XHandle aArg 
   CoreRectView__OnSetBounds( &_this->val_R, _Const00ED );
   CoreRectView__OnSetBounds( &_this->labelUnidades, _Const00EE );
   CoreRectView__OnSetBounds( &_this->IconButton, _Const00E3 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
   CoreRectView__OnSetBounds( &_this->grafico, _Const00E4 );
   ApplicationPlotterTripleGraph_OnSetStrokeWidth( &_this->grafico, 4.000000f );
   CoreRectView__OnSetBounds( &_this->config, _Const00E4 );
+  ApplicationModIconButton_OnSetIcon( &_this->IconButton, EwLoadResource( &ResourcesSymbolIconsLarge, 
+  ResourcesBitmap ));
 
   /* Call the user defined constructor */
   ApplicationMag769_Init( _this, aArg );
@@ -7531,6 +7544,9 @@ void ApplicationFase769__Init( ApplicationFase _this, XObject aLink, XHandle aAr
   ApplicationPlotterTripleGraph_OnSetStrokeWidth( &_this->grafico, 4.000000f );
   CoreRectView__OnSetBounds( &_this->config, _Const00E4 );
   CoreRectView__OnSetBounds( &_this->IconButton, _Const00E3 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
+  ApplicationModIconButton_OnSetIcon( &_this->IconButton, EwLoadResource( &ResourcesSymbolIconsLarge, 
+  ResourcesBitmap ));
 
   /* Call the user defined constructor */
   ApplicationFase769_Init( _this, aArg );
@@ -8448,19 +8464,19 @@ void ApplicationConfigScreen__Init( ApplicationConfigScreen _this, XObject aLink
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->labelInf, EwLoadString( &_Const011C ));
   CoreRectView__OnSetBounds( &_this->SupMenos, _Const011D );
-  ApplicationModIconButton_OnSetIconIndex( &_this->SupMenos, 10 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->SupMenos, 2 );
   CoreRectView__OnSetBounds( &_this->SupMais, _Const011E );
-  ApplicationModIconButton_OnSetIconIndex( &_this->SupMais, 11 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->SupMais, 3 );
   CoreRectView__OnSetBounds( &_this->InfMenos, _Const011F );
-  ApplicationModIconButton_OnSetIconIndex( &_this->InfMenos, 10 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->InfMenos, 2 );
   CoreRectView__OnSetBounds( &_this->InfMais, _Const0120 );
-  ApplicationModIconButton_OnSetIconIndex( &_this->InfMais, 11 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->InfMais, 3 );
   CoreRectView__OnSetBounds( &_this->SupVal, _Const0121 );
   ViewsText_OnSetString( &_this->SupVal, EwLoadString( &_Const0122 ));
   CoreRectView__OnSetBounds( &_this->InfVal, _Const0123 );
   ViewsText_OnSetString( &_this->InfVal, EwLoadString( &_Const0124 ));
   CoreRectView__OnSetBounds( &_this->Sair, _Const0125 );
-  ApplicationModIconButton_OnSetIconIndex( &_this->Sair, 1 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->Sair, 9 );
   CoreGroup__Add( _this, ((CoreView)&_this->bg ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Border ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->labelSup ), 0 );
@@ -8476,11 +8492,19 @@ void ApplicationConfigScreen__Init( ApplicationConfigScreen _this, XObject aLink
   ));
   ViewsText_OnSetFont( &_this->labelInf, EwLoadResource( &ApplicationNumbersM, ResourcesFont 
   ));
+  ApplicationModIconButton_OnSetIcon( &_this->SupMenos, EwLoadResource( &ResourcesNavigationIconsMedium, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->SupMais, EwLoadResource( &ResourcesNavigationIconsMedium, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->InfMenos, EwLoadResource( &ResourcesNavigationIconsMedium, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->InfMais, EwLoadResource( &ResourcesNavigationIconsMedium, 
+  ResourcesBitmap ));
   ViewsText_OnSetFont( &_this->SupVal, EwLoadResource( &ApplicationNumbersM, ResourcesFont 
   ));
   ViewsText_OnSetFont( &_this->InfVal, EwLoadResource( &ApplicationNumbersM, ResourcesFont 
   ));
-  ApplicationModIconButton_OnSetIcon( &_this->Sair, EwLoadResource( &OldResourcesKeyClose, 
+  ApplicationModIconButton_OnSetIcon( &_this->Sair, EwLoadResource( &ResourcesNavigationIconsMedium, 
   ResourcesBitmap ));
 
   /* Create and initialize the suitable class variant */
@@ -8641,12 +8665,27 @@ void ApplicationConfigScreen769__Init( ApplicationConfigScreen _this, XObject aL
   CoreRectView__OnSetBounds( &_this->labelSup, _Const0127 );
   CoreRectView__OnSetBounds( &_this->labelInf, _Const0128 );
   CoreRectView__OnSetBounds( &_this->SupMenos, _Const0129 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->SupMenos, 2 );
   CoreRectView__OnSetBounds( &_this->SupMais, _Const012A );
+  ApplicationModIconButton_OnSetIconIndex( &_this->SupMais, 3 );
   CoreRectView__OnSetBounds( &_this->InfMenos, _Const012B );
+  ApplicationModIconButton_OnSetIconIndex( &_this->InfMenos, 2 );
   CoreRectView__OnSetBounds( &_this->InfMais, _Const012C );
+  ApplicationModIconButton_OnSetIconIndex( &_this->InfMais, 3 );
   CoreRectView__OnSetBounds( &_this->SupVal, _Const012D );
   CoreRectView__OnSetBounds( &_this->InfVal, _Const012E );
   CoreRectView__OnSetBounds( &_this->Sair, _Const012F );
+  ApplicationModIconButton_OnSetIconIndex( &_this->Sair, 12 );
+  ApplicationModIconButton_OnSetIcon( &_this->SupMenos, EwLoadResource( &ResourcesNavigationIconsLarge, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->SupMais, EwLoadResource( &ResourcesNavigationIconsLarge, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->InfMenos, EwLoadResource( &ResourcesNavigationIconsLarge, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->InfMais, EwLoadResource( &ResourcesNavigationIconsLarge, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->Sair, EwLoadResource( &ResourcesKeyIconsLarge, 
+  ResourcesBitmap ));
 }
 
 /* Re-Initializer for the class variant 'Application::ConfigScreen769' */

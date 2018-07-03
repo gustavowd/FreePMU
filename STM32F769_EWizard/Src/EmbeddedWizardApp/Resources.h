@@ -48,6 +48,29 @@
 /* Bitmap resource : 'Resources::WhiteBitmap' */
 EW_DECLARE_BITMAP_RES( ResourcesWhiteBitmap )
 
+/* Bitmap resource containing diverse icons you can use in your project. Usually 
+   the icons are used to represent keys within a virtual keyboard. The icons have 
+   the size 54x54 pixel. */
+EW_DECLARE_BITMAP_RES( ResourcesKeyIconsLarge )
+
+/* Bitmap resource containing diverse icons you can use in your project. The icons 
+   have the size 36x36 pixel. */
+EW_DECLARE_BITMAP_RES( ResourcesSymbolIconsMedium )
+
+/* Bitmap resource containing diverse icons you can use in your project. The icons 
+   have the size 54x54 pixel. */
+EW_DECLARE_BITMAP_RES( ResourcesSymbolIconsLarge )
+
+/* Bitmap resource containing diverse icons you can use in your project. Usually 
+   the icons are used to represent navigation buttons, etc.. The icons have the 
+   size 36x36 pixel. */
+EW_DECLARE_BITMAP_RES( ResourcesNavigationIconsMedium )
+
+/* Bitmap resource containing diverse icons you can use in your project. Usually 
+   the icons are used to represent navigation buttons, etc.. The icons have the 
+   size 54x54 pixel. */
+EW_DECLARE_BITMAP_RES( ResourcesNavigationIconsLarge )
+
 #ifdef __cplusplus
   }
 #endif
