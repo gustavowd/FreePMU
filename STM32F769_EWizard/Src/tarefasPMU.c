@@ -1130,12 +1130,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 		if (trigcount > 29) {
 			// Caso o número de pulsos-1 tenha sido atingido, o TIM2 é interrompido
-			//htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
-			//htim2.Instance->CNT = 0;
-
-			HAL_TIM_Base_DeInit(&htim2);
-
-			MX_TIM2_Init();
+			htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
+			htim2.Instance->CNT = 0;
 
 			// O TIM1 é reestabelecido para ser disparado externamente
 			TIM_SlaveConfigTypeDef sSlaveConfig;
