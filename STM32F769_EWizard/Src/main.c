@@ -153,7 +153,7 @@ osMessageQId SerialGPSq;
 unsigned int DR1 = 0;
 
 unsigned char TIM2_UART_Flag = 0, ADC_UART_Flag = 0;
-volatile unsigned short adcBuffer[768];
+unsigned short adcBuffer[768];
 
 /********************** DEFINIÇÕES DE FUNÇÕES *******************/
 static void RNG_Init(void);
@@ -863,7 +863,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 13671;//13020;//26040;//6509;//13020;
+  htim1.Init.Period = 3417;//13671;//13020;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -966,33 +966,6 @@ void MX_USART6_UART_Init(void)
 
 }
 
-void CalculaMediaADC(unsigned short *avgArray){
-	unsigned long avg1 = 0, avg2 = 0, avg3 = 0;
-	unsigned short adcIx1 = 0, adcIx2 = 1, adcIx3 = 2;
-
-	for(short i = 0; i < 768; i++){
-		if(i == adcIx1){
-			avg1 = adcBuffer[i];
-			adcIx1 += 3;
-		}
-		else if(i == adcIx2){
-			avg2 = adcBuffer[i];
-			adcIx2 += 3;
-		}
-		else if(i == adcIx3){
-			avg3 = adcBuffer[i];
-			adcIx3 += 3;
-		}
-	}
-
-	avg1 /= 256;
-	avg2 /= 256;
-	avg3 /= 256;
-
-	avgArray[0] = (unsigned short)avg1;
-	avgArray[1] = (unsigned short)avg2;
-	avgArray[2] = (unsigned short)avg3;
-}
 
 unsigned int Get_ADC_Calib (void){
 	return DR1;
