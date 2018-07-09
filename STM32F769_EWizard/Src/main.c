@@ -120,7 +120,7 @@ osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-#define MEDIA_CALIB_POWER2 5
+#define MEDIA_CALIB_POWER2 7
 // Numero de Amostras sera 2^MEDIA_CALIB_POWER2
 #define MEDIA_CALIB_SIZE (1<<MEDIA_CALIB_POWER2)
 
@@ -153,7 +153,6 @@ osMessageQId SerialGPSq;
 unsigned int DR1 = 0;
 
 unsigned char TIM2_UART_Flag = 0, ADC_UART_Flag = 0;
-unsigned short adcBuffer[768];
 
 /********************** DEFINIÇÕES DE FUNÇÕES *******************/
 static void RNG_Init(void);
@@ -751,6 +750,16 @@ static void MX_GPIO_Init(void)
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
 
+
+    GPIO_InitTypeDef  gpio_init_structure;
+
+    /* Configure the GPIO_LED pin */
+    gpio_init_structure.Pin   = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_9;
+    gpio_init_structure.Mode  = GPIO_MODE_OUTPUT_PP;
+    gpio_init_structure.Pull  = GPIO_NOPULL;
+    gpio_init_structure.Speed = GPIO_SPEED_HIGH;
+
+    HAL_GPIO_Init(GPIOF, &gpio_init_structure);
 }
 
 #if 0
@@ -863,10 +872,10 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 3417;//13671;//13020;
+  htim1.Init.Period = 13671;//13020;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
-  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
   {
 	  //_Error_Handler(__FILE__, __LINE__);
@@ -911,7 +920,7 @@ void MX_TIM2_Init(void)
 	  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
 	  htim2.Init.Period = 50000-1;//1625;
 	  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-	  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+	  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
 	  {
 	    //_Error_Handler(__FILE__, __LINE__);
@@ -981,7 +990,7 @@ void MX_ADC1_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
@@ -1010,9 +1019,9 @@ void MX_ADC1_Init(void)
 	hdma_adc1.Init.Mode = DMA_CIRCULAR;
 	hdma_adc1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
 	hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-	//hdma_adc.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_HALFFULL;
-	//hdma_adc.Init.MemBurst = DMA_MBURST_SINGLE;
-	//hdma_adc.Init.PeriphBurst = DMA_PBURST_SINGLE;
+	//hdma_adc1.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+	//hdma_adc1.Init.MemBurst = DMA_MBURST_SINGLE;
+	//hdma_adc1.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
 	HAL_DMA_Init(&hdma_adc1);
 
@@ -1055,7 +1064,7 @@ void MX_ADC2_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = DISABLE;
   hadc2.Init.ContinuousConvMode = DISABLE;
@@ -1090,7 +1099,7 @@ void MX_ADC3_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc3.Instance = ADC3;
-  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc3.Init.Resolution = ADC_RESOLUTION_12B;
   hadc3.Init.ScanConvMode = DISABLE;
   hadc3.Init.ContinuousConvMode = DISABLE;

@@ -4104,12 +4104,14 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   _this->freqV[ 4 ] = 20;
   _this->freqV[ 5 ] = 30;
   _this->freqIdx = 3;
-  _this->unitsV[ 0 ] = 0.100000f;
-  _this->unitsV[ 1 ] = 0.200000f;
-  _this->unitsV[ 2 ] = 0.500000f;
-  _this->unitsV[ 3 ] = 1.000000f;
-  _this->unitsV[ 4 ] = 2.000000f;
-  _this->unitsV[ 5 ] = 5.000000f;
+  _this->unitsV[ 0 ] = 0.005000f;
+  _this->unitsV[ 1 ] = 0.010000f;
+  _this->unitsV[ 2 ] = 0.100000f;
+  _this->unitsV[ 3 ] = 0.200000f;
+  _this->unitsV[ 4 ] = 0.500000f;
+  _this->unitsV[ 5 ] = 1.000000f;
+  _this->unitsV[ 6 ] = 2.000000f;
+  _this->unitsV[ 7 ] = 5.000000f;
   _this->unitsIdx = 3;
   EffectsEffect_OnSetOscillations((EffectsEffect)&_this->fadeIn, 0 );
   EffectsEffect_OnSetTiming((EffectsEffect)&_this->fadeIn, EffectsTimingLinear );
@@ -4416,7 +4418,7 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
   else
     if ( sender == ((XObject)&_this->config.SupMais ))
     {
-      if ( _this->unitsIdx < 5 )
+      if ( _this->unitsIdx < 7 )
       {
         _this->unitsIdx = _this->unitsIdx + 1;
         ApplicationFreq_atualizaY( _this );
@@ -4453,7 +4455,7 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
     CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupMais, 1 );
   }
   else
-    if ( _this->unitsIdx == 5 )
+    if ( _this->unitsIdx == 7 )
     {
       CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupMenos, 1 );
       CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupMais, 0 );
@@ -4483,9 +4485,9 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
 
   ViewsText_OnSetString( &_this->config.SupVal, EwConcatString( EwConcatString( 
   EwConcatString( ApplicationFreq_float2String( _this, _this->valorMeio - _this->unitsV[ 
-  EwCheckIndex( _this->unitsIdx, 6 )], 1 ), EwLoadString( &_Const0061 )), ApplicationFreq_float2String( 
-  _this, _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 
-  1 )), EwLoadString( &_Const0060 )));
+  EwCheckIndex( _this->unitsIdx, 8 )], 3 ), EwLoadString( &_Const0061 )), ApplicationFreq_float2String( 
+  _this, _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 8 )], 
+  3 )), EwLoadString( &_Const0060 )));
   ViewsText_OnSetString( &_this->config.InfVal, EwConcatString( EwConcatString( 
   EwConcatString( EwNewStringInt( _this->freqV[ EwCheckIndex( _this->freqIdx, 6 
   )], 0, 10 ), EwLoadString( &_Const0062 )), EwNewStringInt( 1000 / _this->freqV[ 
@@ -4512,15 +4514,15 @@ void ApplicationFreq___atualizaY( ApplicationFreq _this )
 {
   ApplicationPlotterGraph_OnSetVerticalRatio( &_this->grafico, (XFloat)( EwGetRectH( 
   _this->grafico.Super2.Bounds ) / 3 ) / _this->unitsV[ EwCheckIndex( _this->unitsIdx, 
-  6 )]);
+  8 )]);
   ViewsText_OnSetString( &_this->val_fr_1, EwConcatString( ApplicationFreq_float2String( 
   _this, _this->valorMeio, 1 ), EwLoadString( &_Const0060 )));
   ViewsText_OnSetString( &_this->val_fr_0, EwConcatString( ApplicationFreq_float2String( 
-  _this, _this->valorMeio - _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 
-  1 ), EwLoadString( &_Const0060 )));
+  _this, _this->valorMeio - _this->unitsV[ EwCheckIndex( _this->unitsIdx, 8 )], 
+  3 ), EwLoadString( &_Const0060 )));
   ViewsText_OnSetString( &_this->val_fr_2, EwConcatString( ApplicationFreq_float2String( 
-  _this, _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 
-  1 ), EwLoadString( &_Const0060 )));
+  _this, _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 8 )], 
+  3 ), EwLoadString( &_Const0060 )));
 }
 
 /* Atualiza os rótulos do eixo X no gráfico.
@@ -7347,14 +7349,14 @@ void ApplicationFreq769_atualizaY( ApplicationFreq _this )
   GraphicsPath_InitMatrix( &_this->grafico.PathData );
   ApplicationPlotterGraph_OnSetVerticalRatio( &_this->grafico, (XFloat)( EwGetRectH( 
   _this->grafico.Super2.Bounds ) / 3 ) / _this->unitsV[ EwCheckIndex( _this->unitsIdx, 
-  6 )]);
+  8 )]);
   ViewsText_OnSetString( &_this->val_fr_1, EwConcatString( ApplicationFreq_float2String((ApplicationFreq)_this, 
-  _this->valorMeio, 1 ), EwLoadString( &_Const0060 )));
+  _this->valorMeio, 3 ), EwLoadString( &_Const0060 )));
   ViewsText_OnSetString( &_this->val_fr_0, EwConcatString( ApplicationFreq_float2String((ApplicationFreq)_this, 
-  _this->valorMeio - _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 1 ), EwLoadString( 
+  _this->valorMeio - _this->unitsV[ EwCheckIndex( _this->unitsIdx, 8 )], 3 ), EwLoadString( 
   &_Const0060 )));
   ViewsText_OnSetString( &_this->val_fr_2, EwConcatString( ApplicationFreq_float2String((ApplicationFreq)_this, 
-  _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 1 ), EwLoadString( 
+  _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 8 )], 3 ), EwLoadString( 
   &_Const0060 )));
 }
 
@@ -8684,6 +8686,8 @@ void ApplicationConfigScreen769__Init( ApplicationConfigScreen _this, XObject aL
   ResourcesBitmap ));
   ApplicationModIconButton_OnSetIcon( &_this->InfMais, EwLoadResource( &ResourcesNavigationIconsLarge, 
   ResourcesBitmap ));
+  ViewsText_OnSetFont( &_this->SupVal, EwLoadResource( &ApplicationNumbersP, ResourcesFont 
+  ));
   ApplicationModIconButton_OnSetIcon( &_this->Sair, EwLoadResource( &ResourcesKeyIconsLarge, 
   ResourcesBitmap ));
 }

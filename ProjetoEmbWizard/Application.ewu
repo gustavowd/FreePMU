@@ -1175,7 +1175,7 @@ class Freq : Core::Group
       config.InfMais.Enabled = true;
     }
 
-    config.SupVal.String = string(float2String(valorMeio-unitsV[unitsIdx],1)) + " - " + string(float2String(valorMeio+unitsV[unitsIdx],1)) + " Hz";
+    config.SupVal.String = string(float2String(valorMeio-unitsV[unitsIdx],3)) + " - " + string(float2String(valorMeio+unitsV[unitsIdx],3)) + " Hz";
     config.InfVal.String = string(freqV[freqIdx]) + " Hz (" + string(int32(1000/freqV[freqIdx])) + " ms)";
   }
 
@@ -1190,8 +1190,8 @@ class Freq : Core::Group
     /* Cálculo dos rótulos dos valores de frequência, com base na proporção de pixels por unidade de medida  do
        eixo y (PixelPerUnit.y) do objeto Charts::Graph "grafico". */
     val_fr_1.String = float2String(valorMeio, 1) + " Hz";                        
-    val_fr_0.String = float2String(valorMeio - unitsV[unitsIdx], 1) + " Hz";
-    val_fr_2.String = float2String(valorMeio + unitsV[unitsIdx], 1) + " Hz";
+    val_fr_0.String = float2String(valorMeio - unitsV[unitsIdx], 3) + " Hz";
+    val_fr_2.String = float2String(valorMeio + unitsV[unitsIdx], 3) + " Hz";
   }
 
   // Atualiza os rótulos do eixo X no gráfico.
@@ -1223,14 +1223,16 @@ class Freq : Core::Group
   var int32 freqIdx = 3;
 
   $rect <410,350,610,390>
-  array float unitsV[ 6 ] =
+  array float unitsV[ 8 ] =
   (
-    Default[0] = 0.1;
-    Default[1] = 0.2;
-    Default[2] = 0.5;
-    Default[3] = 1.0;
-    Default[4] = 2.0;
-    Default[5] = 5.0;
+    Default[0] = 0.005;
+    Default[1] = 0.01;
+    Default[2] = 0.1;
+    Default[3] = 0.2;
+    Default[4] = 0.5;
+    Default[5] = 1.0;
+    Default[6] = 2.0;
+    Default[7] = 5.0;
   );
 
   $rect <410,390,610,430>
@@ -3988,9 +3990,9 @@ vclass Freq769 : Application::Freq
 
     /* Cálculo dos rótulos dos valores de frequência, com base na proporção de pixels por unidade de medida  do
        eixo y (PixelPerUnit.y) do objeto Charts::Graph "grafico". */
-    val_fr_1.String = float2String(valorMeio, 1) + " Hz";                        
-    val_fr_0.String = float2String(valorMeio - unitsV[unitsIdx], 1) + " Hz";
-    val_fr_2.String = float2String(valorMeio + unitsV[unitsIdx], 1) + " Hz";
+    val_fr_1.String = float2String(valorMeio, 3) + " Hz";                        
+    val_fr_0.String = float2String(valorMeio - unitsV[unitsIdx], 3) + " Hz";
+    val_fr_2.String = float2String(valorMeio + unitsV[unitsIdx], 3) + " Hz";
   }
 
   $rect <160,490,300,530>
@@ -5006,6 +5008,7 @@ vclass ConfigScreen769 : Application::ConfigScreen
   inherited object SupVal
   {
     preset Bounds = <150,70,450,130>;
+    preset Font = Application::NumbersP;
   }
 
   $rect <20,20,160,60>
