@@ -12,7 +12,7 @@
 #include "main.h"
 #include "arm_const_structs.h"
 
-#define MCLOCK_FREQ 100000000
+#define MCLOCK_FREQ 105000000
 #define numero_pontos 256
 
 extern osSemaphoreId SerialGPS_semId;
@@ -22,7 +22,7 @@ extern TIM_HandleTypeDef			 htim2;
 extern TIM_HandleTypeDef 			 htim8;
 extern UART_HandleTypeDef 			 huart6;
 
-extern volatile unsigned short adcBuffer[numero_pontos*3];
+unsigned short adcBuffer[768] __attribute__((section(".ADCBUF")));
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 void UARTPutString(char *string, uint16_t size);
@@ -158,7 +158,7 @@ extern volatile unsigned char data_flag;
 extern char isSyncCreated;
 //extern char *IP_global[16];
 
-int trigcount = 0;
+volatile int trigcount = 0;
 
 void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
@@ -228,6 +228,17 @@ void PMU_Task(void const * argument)
 //#if 1
 		// Calcula o fator de calibração
 		FC=1.21/(Get_ADC_Calib());
+#if 0
+		int idx = 0;
+		for(j=0;j<(n_amostras*3);j++){
+			adcBuffer[j] = adcBufferMedia[idx++];
+			adcBuffer[j] += adcBufferMedia[idx++];
+			adcBuffer[j] += adcBufferMedia[idx++];
+			adcBuffer[j] += adcBufferMedia[idx++];
+			adcBuffer[j] = adcBuffer[j] >> 2;
+			j++;
+		}
+#endif
 
 		// Aplica o fator de calibracao e carrega novo vetor (liberando o buffer)
 		for(j=0;j<(n_amostras*3);j++){
@@ -465,9 +476,20 @@ void PMU_Task(void const * argument)
 
 #if 1
 		//AJUSTE DA TAXA DE AMOSTRAGEM
+		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
+		volatile float residual = tmpARR - (float)tmpARRfix;
 
+		// O valor correto é o calculado - 1
+		/* No entanto, se o valor depois da virgula for maior que 0.5
+		   considera-se que o valor não precisa ser diminuido de 1 */
+		if (residual > 0.5){
+			htim8.Instance->ARR = tmpARRfix;
+		}else{
+			htim8.Instance->ARR = tmpARRfix - 1;
+		}
 
-		htim8.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		//htim8.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
@@ -1177,6 +1199,7 @@ int frame_header(void)
 	return 19+1;
 }
 
+extern void MX_TIM2_Init(void);
 
 //Callback chamado quando o ADC finaliza a conversão
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
@@ -1190,6 +1213,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
+		sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+		sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
+		sSlaveConfig.TriggerFilter = 0;
 		HAL_TIM_SlaveConfigSynchronization(&htim8, &sSlaveConfig);
 
 		// E inicia o TIM2

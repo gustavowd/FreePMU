@@ -79,7 +79,7 @@ static void EmWiMainLoop( const void* arg );
 #undef USE_TERMINAL_INPUT
 
 /********************* DEFINES **********************/
-#define MEDIA_CALIB_POWER2 5
+#define MEDIA_CALIB_POWER2 7
 // Numero de Amostras sera 2^MEDIA_CALIB_POWER2
 #define MEDIA_CALIB_SIZE (1<<MEDIA_CALIB_POWER2)
 
@@ -121,7 +121,6 @@ osMessageQId SerialGPSq;
 unsigned int DR1 = 0;
 
 unsigned char TIM2_UART_Flag = 0, ADC_UART_Flag = 0;
-volatile unsigned short adcBuffer[768] __attribute__((section(".ADCBUF")));;
 
 /********************** DEFINIÇÕES DE FUNÇÕES *******************/
 void UARTPutString(char *string, uint16_t size);
@@ -133,7 +132,7 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADCalibration_Init(void);
-static void MX_TIM2_Init(void);
+void MX_TIM2_Init(void);
 static void MX_TIM8_Init(void);
 void MX_USART6_UART_Init(void);
 void SSL_Client(void const *argument);
@@ -696,18 +695,18 @@ static void MX_ADCalibration_Init(void)
 }
 
 /* TIM2 init function */
-static void MX_TIM2_Init(void)
+void MX_TIM2_Init(void)
 {
 
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 1025;
+  htim2.Init.Prescaler = 35-1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 1626;
+  htim2.Init.Period = 50000-1;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
   {
     Error_Handler();
@@ -720,7 +719,7 @@ static void MX_TIM2_Init(void)
   }
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
@@ -739,10 +738,10 @@ static void MX_TIM8_Init(void)
   htim8.Instance = TIM8;
   htim8.Init.Prescaler = 0;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 6509;
+  htim8.Init.Period = 6836-1; //6509 para 200MHz
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
-  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim8) != HAL_OK)
   {
     Error_Handler();
@@ -766,7 +765,7 @@ static void MX_TIM8_Init(void)
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
@@ -798,34 +797,6 @@ void MX_USART6_UART_Init(void)
 
 }
 
-void CalculaMediaADC(unsigned short *avgArray){
-	unsigned long avg1 = 0, avg2 = 0, avg3 = 0;
-	unsigned short adcIx1 = 0, adcIx2 = 1, adcIx3 = 2;
-
-	for(short i = 0; i < 768; i++){
-		if(i == adcIx1){
-			avg1 = adcBuffer[i];
-			adcIx1 += 3;
-		}
-		else if(i == adcIx2){
-			avg2 = adcBuffer[i];
-			adcIx2 += 3;
-		}
-		else if(i == adcIx3){
-			avg3 = adcBuffer[i];
-			adcIx3 += 3;
-		}
-	}
-
-	avg1 /= 256;
-	avg2 /= 256;
-	avg3 /= 256;
-
-	avgArray[0] = (unsigned short)avg1;
-	avgArray[1] = (unsigned short)avg2;
-	avgArray[2] = (unsigned short)avg3;
-}
-
 unsigned int Get_ADC_Calib (void){
 	return DR1;
 }
@@ -850,7 +821,7 @@ void MX_ADC1_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
@@ -921,7 +892,7 @@ void MX_ADC2_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = DISABLE;
   hadc2.Init.ContinuousConvMode = DISABLE;
@@ -956,7 +927,7 @@ void MX_ADC3_Init(void)
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
     */
   hadc3.Instance = ADC3;
-  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc3.Init.Resolution = ADC_RESOLUTION_12B;
   hadc3.Init.ScanConvMode = DISABLE;
   hadc3.Init.ContinuousConvMode = DISABLE;
