@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::Freq;
+attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,41>;
-attr codeInspector = Application::Freq.trocaEscala;
-attr codeSelEnd = <71,48>;
-attr codeSelStart = <71,48>;
+attr codeFirstPos = <0,0>;
+attr codeInspector = Application::Freq.atualizaY;
+attr codeSelEnd = <43,6>;
+attr codeSelStart = <43,6>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -19,7 +19,7 @@ attr extractDoc_Variants = false;
 attr generateClut_ReservedColors = 0;
 attr heapMonitor_Show = false;
 attr language = Default;
-attr profile = STM32F769;
+attr profile = STM32F746;
 attr profilerMonitor_Show = false;
 attr search_CaseSensitive = false;
 attr search_History = Servidor VNC;
@@ -38,40 +38,6 @@ view Project
 }
 
 view unit Application
-{
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::Freq
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = atualizaY;
-  attr codeSelEnd = <62,8>;
-  attr codeSelStart = <62,8>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view vclass Application::Freq769
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,1>;
-  attr codeInspector = atualizaY;
-  attr codeSelEnd = <82,8>;
-  attr codeSelStart = <82,8>;
-  attr enableGrid = true;
-  attr grid = 10;
-  attr scrollTo = <-7,10>;
-  attr zoom = 1.0;
-}
-
-view vclass Application::ConfigScreen769
 {
   attr enableGrid = true;
   attr grid = 10;
