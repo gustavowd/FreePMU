@@ -83,8 +83,10 @@ static void SystemClock_Config( void )
   RCC_OscInitStruct.HSEState       = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM       = 25;
-  RCC_OscInitStruct.PLL.PLLN       = 400; //432 p/ 216MHz
+  /* PLLM = 25 e PLLN = 400 para 200 Mhz
+   * PLLM = 15 e PLLN = 252 para 210 Mhz */
+  RCC_OscInitStruct.PLL.PLLM       = 15;
+  RCC_OscInitStruct.PLL.PLLN       = 252; //432 p/ 216MHz
   RCC_OscInitStruct.PLL.PLLP       = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ       = 9;
 
@@ -109,9 +111,14 @@ static void SystemClock_Config( void )
   /* PLLLCDCLK = PLLSAI_VCO Output/PLLSAIR = 192/4 = 48 MHz */
   /* LTDC clock frequency = PLLLCDCLK / RCC_PLLSAIDIVR_8 = 48/8 = 6 MHz */
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
-  PeriphClkInitStruct.PLLSAI.PLLSAIN = 192;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 144;
   PeriphClkInitStruct.PLLSAI.PLLSAIR = 5;
-  PeriphClkInitStruct.PLLSAIDivR     = RCC_PLLSAIDIVR_4;
+  PeriphClkInitStruct.PLLSAIDivR     = RCC_PLLSAIDIVR_8;
+  /* Para MCU em 210MHz:
+   * PLL_M = 15, entao PLLSAI_VCO_In = 25/15 = 1.6667MHz
+   * PLLSAI_VCO_Out = 1.6667MHz * 144 = 240MHz
+   * PLLLCDCLK = 240MHz / 5 = 48 MHz
+   * LTDC Clock = 48 / 8 = 6 MHz */
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
 }
 

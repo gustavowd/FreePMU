@@ -48,6 +48,15 @@
 /* Bitmap resource : 'Resources::WhiteBitmap' */
 EW_DECLARE_BITMAP_RES( ResourcesWhiteBitmap )
 
+/* Bitmap resource containing diverse icons you can use in your project. The icons 
+   have the size 36x36 pixel. */
+EW_DECLARE_BITMAP_RES( ResourcesSymbolIconsMedium )
+
+/* Bitmap resource containing diverse icons you can use in your project. Usually 
+   the icons are used to represent navigation buttons, etc.. The icons have the 
+   size 36x36 pixel. */
+EW_DECLARE_BITMAP_RES( ResourcesNavigationIconsMedium )
+
 #ifdef __cplusplus
   }
 #endif
