@@ -26,7 +26,7 @@ extern TIM_HandleTypeDef			 htim2;
 extern UART_HandleTypeDef 			 huart6;
 
 unsigned short adcBuffer[768] __attribute__((section(".ADCBUF")));
-//unsigned short adcBufferMedia[numero_pontos*3*4];
+unsigned short adcBufferMedia[numero_pontos*3*4] __attribute__((section(".ADCBUFMED")));
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 
@@ -188,7 +188,7 @@ void PMU_Task(void const * argument)
 
 	  HAL_ADC_Start(&hadc3);
 	  HAL_ADC_Start(&hadc2);
-	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
+	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBufferMedia, 768*4);
 
 	  //HAL_TIM_Base_Start(&htim1);
 
@@ -208,7 +208,7 @@ void PMU_Task(void const * argument)
 		FC=1.21/(Get_ADC_Calib());
 
 		// Calcula a média a cada 4 pontos para gerar os 256 de cada fase
-#if 0
+#if 1
 		int idx = 0;
 		for(j=0;j<(n_amostras*3);j++){
 			adcBuffer[j] = adcBufferMedia[idx++];
@@ -216,7 +216,6 @@ void PMU_Task(void const * argument)
 			adcBuffer[j] += adcBufferMedia[idx++];
 			adcBuffer[j] += adcBufferMedia[idx++];
 			adcBuffer[j] = adcBuffer[j] >> 2;
-			j++;
 		}
 #endif
 
@@ -458,7 +457,7 @@ void PMU_Task(void const * argument)
 
 #if 1
 		//AJUSTE DA TAXA DE AMOSTRAGEM
-		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras*4);
 		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
 		volatile float residual = tmpARR - (float)tmpARRfix;
 
@@ -1125,7 +1124,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 	BSP_LED_Toggle(LED1);
 
-#if 0
+#if 1
 	// Se for a primeira aquisição...
 	if (trigcount == 0) {
 		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)

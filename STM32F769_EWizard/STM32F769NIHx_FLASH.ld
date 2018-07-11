@@ -115,7 +115,8 @@ SECTIONS
   .TxDescripSection     0x200000A0 (NOLOAD) : { *(.TxDescripSection)     } >RAM
   .RxBUF                0x20000140 (NOLOAD) : { *(.RxBUF)                } >RAM
   .TxBUF                0x20001F04 (NOLOAD) : { *(.TxBUF)                } >RAM
-  .ADCBUF               0x20003CC8 (NOLOAD) : { *(.ADCBUF)               } >RAM  
+  .ADCBUF               0x20003CC8 (NOLOAD) : { *(.ADCBUF)               } >RAM
+  .ADCBUFMED            0x200042C8 (NOLOAD) : { *(.ADCBUFMED)            } >RAM  
 
   /* used by the startup to initialize data */
   _sidata = LOADADDR(.data);
