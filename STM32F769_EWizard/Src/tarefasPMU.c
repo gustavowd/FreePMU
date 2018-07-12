@@ -26,7 +26,7 @@ extern TIM_HandleTypeDef			 htim2;
 extern UART_HandleTypeDef 			 huart6;
 
 unsigned short adcBuffer[768] __attribute__((section(".ADCBUF")));
-unsigned short adcBufferMedia[numero_pontos*3*4] __attribute__((section(".ADCBUFMED")));
+unsigned short adcBufferMedia[numero_pontos*3*4*2] __attribute__((section(".ADCBUFMED")));
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 
@@ -188,7 +188,7 @@ void PMU_Task(void const * argument)
 
 	  HAL_ADC_Start(&hadc3);
 	  HAL_ADC_Start(&hadc2);
-	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBufferMedia, 768*4);
+	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBufferMedia, 768*4*2);
 
 	  //HAL_TIM_Base_Start(&htim1);
 
@@ -209,13 +209,26 @@ void PMU_Task(void const * argument)
 
 		// Calcula a média a cada 4 pontos para gerar os 256 de cada fase
 #if 1
+		r=0;
+		s=1;
+		t=2;
 		int idx = 0;
-		for(j=0;j<(n_amostras*3);j++){
-			adcBuffer[j] = adcBufferMedia[idx++];
-			adcBuffer[j] += adcBufferMedia[idx++];
-			adcBuffer[j] += adcBufferMedia[idx++];
-			adcBuffer[j] += adcBufferMedia[idx++];
-			adcBuffer[j] = adcBuffer[j] >> 2;
+		int k = 0;
+		for(j=0;j<(n_amostras);j++){
+			adcBuffer[r] = adcBufferMedia[idx++];
+			adcBuffer[s] = adcBufferMedia[idx++];
+			adcBuffer[t] = adcBufferMedia[idx++];
+			for(k=0;k<7;k++){
+				adcBuffer[r] += adcBufferMedia[idx++];
+				adcBuffer[s] += adcBufferMedia[idx++];
+				adcBuffer[t] += adcBufferMedia[idx++];
+			}
+			adcBuffer[r] = adcBuffer[r] >> 3;
+			adcBuffer[s] = adcBuffer[s] >> 3;
+			adcBuffer[t] = adcBuffer[t] >> 3;
+			r +=3;
+			s +=3;
+			t +=3;
 		}
 #endif
 
@@ -457,7 +470,7 @@ void PMU_Task(void const * argument)
 
 #if 1
 		//AJUSTE DA TAXA DE AMOSTRAGEM
-		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras*4);
+		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras*4*2);
 		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
 		volatile float residual = tmpARR - (float)tmpARRfix;
 
@@ -1116,7 +1129,7 @@ int frame_header(void)
 }
 
 //Callback chamado quando o ADC finaliza a conversão
-extern void MX_TIM2_Init(void);
+//extern void MX_TIM2_Init(void);
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	//Interrompe o TIM1 e zera sua contagem atribuindo 0 ao Auto Reload Register
 	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
