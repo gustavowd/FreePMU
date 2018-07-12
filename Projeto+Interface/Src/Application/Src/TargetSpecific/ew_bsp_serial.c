@@ -203,11 +203,11 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 /*
  * Fun��o para transmitir um caracter pela porta serial.
  */
-uint8_t ucData = 0;
+uint8_t ucData2 = 0;
 void UARTPutChar(char ucData)
 {
 		// Envia um caracter
-		HAL_UART_Transmit_IT(&UART_Handle, (uint8_t *)&ucData,1);
+		HAL_UART_Transmit_IT(&UART_Handle, (uint8_t *)&ucData2,1);
 		// Espera por uma interrup��o da UART
 		xSemaphoreTake(semtx, portMAX_DELAY);
 }

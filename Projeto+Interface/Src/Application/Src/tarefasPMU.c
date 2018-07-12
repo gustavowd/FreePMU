@@ -23,6 +23,7 @@ extern TIM_HandleTypeDef 			 htim8;
 extern UART_HandleTypeDef 			 huart6;
 
 unsigned short adcBuffer[768] __attribute__((section(".ADCBUF")));
+unsigned short adcBufferMedia[numero_pontos*3*4] __attribute__((section(".ADCBUFMED")));
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 void UARTPutString(char *string, uint16_t size);
@@ -213,7 +214,8 @@ void PMU_Task(void const * argument)
 
 	  HAL_ADC_Start(&hadc3);
 	  HAL_ADC_Start(&hadc2);
-	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
+//	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
+	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBufferMedia, 768*4);
 
 
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
@@ -228,17 +230,27 @@ void PMU_Task(void const * argument)
 //#if 1
 		// Calcula o fator de calibração
 		FC=1.21/(Get_ADC_Calib());
-#if 0
+		r=0;
+		s=1;
+		t=2;
 		int idx = 0;
-		for(j=0;j<(n_amostras*3);j++){
-			adcBuffer[j] = adcBufferMedia[idx++];
-			adcBuffer[j] += adcBufferMedia[idx++];
-			adcBuffer[j] += adcBufferMedia[idx++];
-			adcBuffer[j] += adcBufferMedia[idx++];
-			adcBuffer[j] = adcBuffer[j] >> 2;
-			j++;
+		int k = 0;
+		for(j=0;j<(n_amostras);j++){
+			adcBuffer[r] = adcBufferMedia[idx++];
+			adcBuffer[s] = adcBufferMedia[idx++];
+			adcBuffer[t] = adcBufferMedia[idx++];
+			for(k=0;k<3;k++){
+				adcBuffer[r] += adcBufferMedia[idx++];
+				adcBuffer[s] += adcBufferMedia[idx++];
+				adcBuffer[t] += adcBufferMedia[idx++];
+			}
+			adcBuffer[r] = adcBuffer[r] >> 2;
+			adcBuffer[s] = adcBuffer[s] >> 2;
+			adcBuffer[t] = adcBuffer[t] >> 2;
+			r +=3;
+			s +=3;
+			t +=3;
 		}
-#endif
 
 		// Aplica o fator de calibracao e carrega novo vetor (liberando o buffer)
 		for(j=0;j<(n_amostras*3);j++){
@@ -476,7 +488,7 @@ void PMU_Task(void const * argument)
 
 #if 1
 		//AJUSTE DA TAXA DE AMOSTRAGEM
-		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras*4);
 		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
 		volatile float residual = tmpARR - (float)tmpARRfix;
 
@@ -1206,9 +1218,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	//Interrompe o TIM8 e zera sua contagem atribuindo 0 ao Auto Reload Register
 	htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
 	htim8.Instance->CNT = 0;
-
+#if 1
 	// Se o TIM2 estiver desligado...
-	if (htim2.Instance->CR1 == 0) {
+	if (trigcount == 0) {
 		// Configura o TIM8 para ser trigado pelo TIM2 (ITR1)
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
@@ -1246,7 +1258,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			trigcount = 0;
 		}
 	}
-
+#endif
 	BSP_LED_Toggle(LED1);
 	osSemaphoreRelease(pmuSem_id);
 }
