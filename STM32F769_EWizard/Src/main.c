@@ -929,13 +929,14 @@ void MX_TIM2_Init(void)
 	  TIM_MasterConfigTypeDef sMasterConfig;
 
 	  htim2.Instance = TIM2;
-	  htim2.Init.Prescaler = 100-1;//70-1;
 	  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
       #if (NOMINAL_FREQ == 60)
+	  htim2.Init.Prescaler = 70-1;
 	  htim2.Init.Period = 50000-1;
       #endif
 	  #if (NOMINAL_FREQ == 50)
-	  htim2.Init.Period = 20000-1;//30000-1;
+	  htim2.Init.Prescaler = 100-1;
+	  htim2.Init.Period = 20000-1;
 	  #endif
 	  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
