@@ -194,13 +194,13 @@ static const XPoint _Const0045 = { 245, 115 };
 static const XPoint _Const0046 = { 135, 115 };
 static const XStringRes _Const0047 = { _StringsDefault0, 0x00C4 };
 static const XStringRes _Const0048 = { _StringsDefault0, 0x00C9 };
-static const XRect _Const0049 = {{ 410, 180 }, { 480, 200 }};
+static const XRect _Const0049 = {{ 400, 180 }, { 480, 200 }};
 static const XStringRes _Const004A = { _StringsDefault0, 0x00CE };
 static const XColor _Const004B = { 0xFF, 0x00, 0x00, 0xFF };
-static const XRect _Const004C = {{ 410, 120 }, { 480, 140 }};
+static const XRect _Const004C = {{ 400, 120 }, { 480, 140 }};
 static const XStringRes _Const004D = { _StringsDefault0, 0x00D9 };
 static const XColor _Const004E = { 0x00, 0xFF, 0x00, 0xFF };
-static const XRect _Const004F = {{ 410, 60 }, { 480, 80 }};
+static const XRect _Const004F = {{ 400, 60 }, { 480, 80 }};
 static const XStringRes _Const0050 = { _StringsDefault0, 0x00E4 };
 static const XRect _Const0051 = {{ 370, 220 }, { 430, 240 }};
 static const XStringRes _Const0052 = { _StringsDefault0, 0x00EF };
@@ -222,22 +222,22 @@ static const XStringRes _Const0061 = { _StringsDefault0, 0x0129 };
 static const XStringRes _Const0062 = { _StringsDefault0, 0x0130 };
 static const XStringRes _Const0063 = { _StringsDefault0, 0x0139 };
 static const XStringRes _Const0064 = { _StringsDefault0, 0x0141 };
-static const XStringRes _Const0065 = { _StringsDefault0, 0x0146 };
-static const XStringRes _Const0066 = { _StringsDefault0, 0x014F };
-static const XStringRes _Const0067 = { _StringsDefault0, 0x0158 };
-static const XRect _Const0068 = {{ 4, 220 }, { 64, 240 }};
-static const XRect _Const0069 = {{ 350, 0 }, { 420, 40 }};
-static const XStringRes _Const006A = { _StringsDefault0, 0x0161 };
-static const XRect _Const006B = {{ 270, 0 }, { 340, 40 }};
-static const XRect _Const006C = {{ 190, 0 }, { 260, 40 }};
-static const XRect _Const006D = {{ 20, 0 }, { 188, 40 }};
-static const XStringRes _Const006E = { _StringsDefault0, 0x016A };
-static const XStringRes _Const006F = { _StringsDefault0, 0x017D };
-static const XRect _Const0070 = {{ 400, 180 }, { 480, 200 }};
-static const XStringRes _Const0071 = { _StringsDefault0, 0x0183 };
-static const XRect _Const0072 = {{ 400, 120 }, { 480, 140 }};
-static const XStringRes _Const0073 = { _StringsDefault0, 0x018D };
-static const XRect _Const0074 = {{ 400, 60 }, { 480, 80 }};
+static const XRect _Const0065 = {{ 410, 180 }, { 480, 200 }};
+static const XStringRes _Const0066 = { _StringsDefault0, 0x0146 };
+static const XRect _Const0067 = {{ 410, 120 }, { 480, 140 }};
+static const XStringRes _Const0068 = { _StringsDefault0, 0x014F };
+static const XRect _Const0069 = {{ 410, 60 }, { 480, 80 }};
+static const XStringRes _Const006A = { _StringsDefault0, 0x0158 };
+static const XRect _Const006B = {{ 4, 220 }, { 64, 240 }};
+static const XRect _Const006C = {{ 350, 0 }, { 420, 40 }};
+static const XStringRes _Const006D = { _StringsDefault0, 0x0161 };
+static const XRect _Const006E = {{ 270, 0 }, { 340, 40 }};
+static const XRect _Const006F = {{ 190, 0 }, { 260, 40 }};
+static const XRect _Const0070 = {{ 20, 0 }, { 188, 40 }};
+static const XStringRes _Const0071 = { _StringsDefault0, 0x016A };
+static const XStringRes _Const0072 = { _StringsDefault0, 0x017D };
+static const XStringRes _Const0073 = { _StringsDefault0, 0x0183 };
+static const XStringRes _Const0074 = { _StringsDefault0, 0x018D };
 static const XStringRes _Const0075 = { _StringsDefault0, 0x0194 };
 static const XRect _Const0076 = {{ 0, 220 }, { 60, 240 }};
 static const XStringRes _Const0077 = { _StringsDefault0, 0x019D };
@@ -4055,18 +4055,18 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0008 );
   CoreRectView__OnSetBounds( &_this->val_fr_0, _Const0049 );
-  ViewsText_OnSetAlignment( &_this->val_fr_0, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetAlignment( &_this->val_fr_0, ViewsTextAlignmentAlignHorzCenter 
+  | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->val_fr_0, EwLoadString( &_Const004A ));
   ViewsText_OnSetColor( &_this->val_fr_0, _Const004B );
   CoreRectView__OnSetBounds( &_this->val_fr_1, _Const004C );
-  ViewsText_OnSetAlignment( &_this->val_fr_1, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetAlignment( &_this->val_fr_1, ViewsTextAlignmentAlignHorzCenter 
+  | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->val_fr_1, EwLoadString( &_Const004D ));
   ViewsText_OnSetColor( &_this->val_fr_1, _Const004E );
   CoreRectView__OnSetBounds( &_this->val_fr_2, _Const004F );
-  ViewsText_OnSetAlignment( &_this->val_fr_2, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetAlignment( &_this->val_fr_2, ViewsTextAlignmentAlignHorzCenter 
+  | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->val_fr_2, EwLoadString( &_Const0050 ));
   ViewsText_OnSetColor( &_this->val_fr_2, _Const004B );
   CoreRectView__OnSetBounds( &_this->val_t_0, _Const0051 );
@@ -4094,7 +4094,7 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   ViewsText_OnSetString( &_this->val_freq, EwLoadString( &_Const0017 ));
   CoreTimer_OnSetPeriod( &_this->intervalo, 500 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
-  _this->valorMeio = 60.000000f;
+  _this->valorMeio = 50.000000f;
   CoreRectView__OnSetBounds( &_this->IconButton, _Const005E );
   ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
   _this->freqV[ 0 ] = 1;
@@ -4516,7 +4516,7 @@ void ApplicationFreq___atualizaY( ApplicationFreq _this )
   _this->grafico.Super2.Bounds ) / 3 ) / _this->unitsV[ EwCheckIndex( _this->unitsIdx, 
   8 )]);
   ViewsText_OnSetString( &_this->val_fr_1, EwConcatString( ApplicationFreq_float2String( 
-  _this, _this->valorMeio, 1 ), EwLoadString( &_Const0060 )));
+  _this, _this->valorMeio, 3 ), EwLoadString( &_Const0060 )));
   ViewsText_OnSetString( &_this->val_fr_0, EwConcatString( ApplicationFreq_float2String( 
   _this, _this->valorMeio - _this->unitsV[ EwCheckIndex( _this->unitsIdx, 8 )], 
   3 ), EwLoadString( &_Const0060 )));
@@ -4618,20 +4618,20 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   CoreRectView__OnSetBounds( _this, _Const0008 );
   CoreTimer_OnSetPeriod( &_this->intervalo, 1000 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
-  CoreRectView__OnSetBounds( &_this->val_m_inf, _Const0049 );
+  CoreRectView__OnSetBounds( &_this->val_m_inf, _Const0065 );
   ViewsText_OnSetAlignment( &_this->val_m_inf, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_m_inf, EwLoadString( &_Const0065 ));
+  ViewsText_OnSetString( &_this->val_m_inf, EwLoadString( &_Const0066 ));
   ViewsText_OnSetColor( &_this->val_m_inf, _Const0015 );
-  CoreRectView__OnSetBounds( &_this->val_m_meio, _Const004C );
+  CoreRectView__OnSetBounds( &_this->val_m_meio, _Const0067 );
   ViewsText_OnSetAlignment( &_this->val_m_meio, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_m_meio, EwLoadString( &_Const0066 ));
+  ViewsText_OnSetString( &_this->val_m_meio, EwLoadString( &_Const0068 ));
   ViewsText_OnSetColor( &_this->val_m_meio, _Const0015 );
-  CoreRectView__OnSetBounds( &_this->val_m_sup, _Const004F );
+  CoreRectView__OnSetBounds( &_this->val_m_sup, _Const0069 );
   ViewsText_OnSetAlignment( &_this->val_m_sup, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->val_m_sup, EwLoadString( &_Const0067 ));
+  ViewsText_OnSetString( &_this->val_m_sup, EwLoadString( &_Const006A ));
   ViewsText_OnSetColor( &_this->val_m_sup, _Const0015 );
   CoreRectView__OnSetBounds( &_this->val_t_ini, _Const0051 );
   ViewsText_OnSetString( &_this->val_t_ini, EwLoadString( &_Const0052 ));
@@ -4641,36 +4641,36 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ViewsText_OnSetString( &_this->val_t_2, EwLoadString( &_Const0056 ));
   CoreRectView__OnSetBounds( &_this->val_t_3, _Const0057 );
   ViewsText_OnSetString( &_this->val_t_3, EwLoadString( &_Const0058 ));
-  CoreRectView__OnSetBounds( &_this->val_t_4, _Const0068 );
+  CoreRectView__OnSetBounds( &_this->val_t_4, _Const006B );
   ViewsText_OnSetAlignment( &_this->val_t_4, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter 
   );
   ViewsText_OnSetString( &_this->val_t_4, EwLoadString( &_Const005A ));
   CoreView_OnSetLayout((CoreView)&_this->val_T, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
   );
-  CoreRectView__OnSetBounds( &_this->val_T, _Const0069 );
+  CoreRectView__OnSetBounds( &_this->val_T, _Const006C );
   ViewsText_OnSetAlignment( &_this->val_T, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
   );
-  ViewsText_OnSetString( &_this->val_T, EwLoadString( &_Const006A ));
+  ViewsText_OnSetString( &_this->val_T, EwLoadString( &_Const006D ));
   ViewsText_OnSetColor( &_this->val_T, Applicationcor_T );
   CoreView_OnSetLayout((CoreView)&_this->val_S, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
   );
-  CoreRectView__OnSetBounds( &_this->val_S, _Const006B );
+  CoreRectView__OnSetBounds( &_this->val_S, _Const006E );
   ViewsText_OnSetAlignment( &_this->val_S, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
   );
-  ViewsText_OnSetString( &_this->val_S, EwLoadString( &_Const006A ));
+  ViewsText_OnSetString( &_this->val_S, EwLoadString( &_Const006D ));
   ViewsText_OnSetColor( &_this->val_S, Applicationcor_S );
   CoreView_OnSetLayout((CoreView)&_this->val_R, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
   );
-  CoreRectView__OnSetBounds( &_this->val_R, _Const006C );
+  CoreRectView__OnSetBounds( &_this->val_R, _Const006F );
   ViewsText_OnSetAlignment( &_this->val_R, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
   );
-  ViewsText_OnSetString( &_this->val_R, EwLoadString( &_Const006A ));
+  ViewsText_OnSetString( &_this->val_R, EwLoadString( &_Const006D ));
   ViewsText_OnSetColor( &_this->val_R, Applicationcor_R );
-  CoreRectView__OnSetBounds( &_this->labelUnidades, _Const006D );
+  CoreRectView__OnSetBounds( &_this->labelUnidades, _Const0070 );
   ViewsText_OnSetAutoSize( &_this->labelUnidades, 0 );
   ViewsText_OnSetAlignment( &_this->labelUnidades, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelUnidades, EwLoadString( &_Const006E ));
+  ViewsText_OnSetString( &_this->labelUnidades, EwLoadString( &_Const0071 ));
   _this->valorMeio = 120.000000f;
   _this->freqV[ 0 ] = 1;
   _this->freqV[ 1 ] = 2;
@@ -5089,7 +5089,7 @@ void ApplicationMag_trocaEscala( ApplicationMag _this, XObject sender )
   EwConcatString( ApplicationMag_float2String( _this, _this->valorMeio - _this->unitsV[ 
   EwCheckIndex( _this->unitsIdx, 6 )], 1 ), EwLoadString( &_Const0061 )), ApplicationMag_float2String( 
   _this, _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 
-  1 )), EwLoadString( &_Const006F )));
+  1 )), EwLoadString( &_Const0072 )));
   ViewsText_OnSetString( &_this->config.InfVal, EwConcatString( EwConcatString( 
   EwConcatString( EwNewStringInt( _this->freqV[ EwCheckIndex( _this->freqIdx, 6 
   )], 0, 10 ), EwLoadString( &_Const0062 )), EwNewStringInt( 1000 / _this->freqV[ 
@@ -5117,13 +5117,13 @@ void ApplicationMag___atualizaY( ApplicationMag _this )
   ApplicationPlotterTripleGraph_OnSetVerticalRatio( &_this->grafico, 60.000000f 
   / _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )]);
   ViewsText_OnSetString( &_this->val_m_meio, EwConcatString( ApplicationMag_float2String( 
-  _this, _this->valorMeio, 1 ), EwLoadString( &_Const006F )));
+  _this, _this->valorMeio, 1 ), EwLoadString( &_Const0072 )));
   ViewsText_OnSetString( &_this->val_m_inf, EwConcatString( ApplicationMag_float2String( 
   _this, _this->valorMeio - _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 
-  1 ), EwLoadString( &_Const006F )));
+  1 ), EwLoadString( &_Const0072 )));
   ViewsText_OnSetString( &_this->val_m_sup, EwConcatString( ApplicationMag_float2String( 
   _this, _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 
-  1 ), EwLoadString( &_Const006F )));
+  1 ), EwLoadString( &_Const0072 )));
 }
 
 /* Atualiza os rótulos do eixo X no gráfico.
@@ -5219,17 +5219,17 @@ void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
   CoreRectView__OnSetBounds( _this, _Const0008 );
   CoreTimer_OnSetPeriod( &_this->intervalo, 1000 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
-  CoreRectView__OnSetBounds( &_this->labelFaseInf, _Const0070 );
+  CoreRectView__OnSetBounds( &_this->labelFaseInf, _Const0049 );
   ViewsText_OnSetAlignment( &_this->labelFaseInf, ViewsTextAlignmentAlignHorzCenter 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelFaseInf, EwLoadString( &_Const0071 ));
+  ViewsText_OnSetString( &_this->labelFaseInf, EwLoadString( &_Const0073 ));
   ViewsText_OnSetColor( &_this->labelFaseInf, _Const0015 );
-  CoreRectView__OnSetBounds( &_this->labelFaseMeio, _Const0072 );
+  CoreRectView__OnSetBounds( &_this->labelFaseMeio, _Const004C );
   ViewsText_OnSetAlignment( &_this->labelFaseMeio, ViewsTextAlignmentAlignHorzCenter 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->labelFaseMeio, EwLoadString( &_Const0073 ));
+  ViewsText_OnSetString( &_this->labelFaseMeio, EwLoadString( &_Const0074 ));
   ViewsText_OnSetColor( &_this->labelFaseMeio, _Const0015 );
-  CoreRectView__OnSetBounds( &_this->labelFaseSup, _Const0074 );
+  CoreRectView__OnSetBounds( &_this->labelFaseSup, _Const004F );
   ViewsText_OnSetAlignment( &_this->labelFaseSup, ViewsTextAlignmentAlignHorzCenter 
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->labelFaseSup, EwLoadString( &_Const0075 ));
@@ -5246,26 +5246,26 @@ void ApplicationFase__Init( ApplicationFase _this, XObject aLink, XHandle aArg )
   ViewsText_OnSetString( &_this->val_t_4, EwLoadString( &_Const005A ));
   CoreView_OnSetLayout((CoreView)&_this->val_T, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
   );
-  CoreRectView__OnSetBounds( &_this->val_T, _Const0069 );
+  CoreRectView__OnSetBounds( &_this->val_T, _Const006C );
   ViewsText_OnSetAlignment( &_this->val_T, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
   );
-  ViewsText_OnSetString( &_this->val_T, EwLoadString( &_Const006A ));
+  ViewsText_OnSetString( &_this->val_T, EwLoadString( &_Const006D ));
   ViewsText_OnSetColor( &_this->val_T, Applicationcor_T );
   CoreView_OnSetLayout((CoreView)&_this->val_S, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
   );
-  CoreRectView__OnSetBounds( &_this->val_S, _Const006B );
+  CoreRectView__OnSetBounds( &_this->val_S, _Const006E );
   ViewsText_OnSetAlignment( &_this->val_S, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
   );
-  ViewsText_OnSetString( &_this->val_S, EwLoadString( &_Const006A ));
+  ViewsText_OnSetString( &_this->val_S, EwLoadString( &_Const006D ));
   ViewsText_OnSetColor( &_this->val_S, Applicationcor_S );
   CoreView_OnSetLayout((CoreView)&_this->val_R, CoreLayoutAlignToLeft | CoreLayoutAlignToTop 
   );
-  CoreRectView__OnSetBounds( &_this->val_R, _Const006C );
+  CoreRectView__OnSetBounds( &_this->val_R, _Const006F );
   ViewsText_OnSetAlignment( &_this->val_R, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter 
   );
-  ViewsText_OnSetString( &_this->val_R, EwLoadString( &_Const006A ));
+  ViewsText_OnSetString( &_this->val_R, EwLoadString( &_Const006D ));
   ViewsText_OnSetColor( &_this->val_R, Applicationcor_R );
-  CoreRectView__OnSetBounds( &_this->labelUni, _Const006D );
+  CoreRectView__OnSetBounds( &_this->labelUni, _Const0070 );
   ViewsText_OnSetAutoSize( &_this->labelUni, 0 );
   ViewsText_OnSetAlignment( &_this->labelUni, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
@@ -7481,13 +7481,13 @@ void ApplicationMag769_atualizaY( ApplicationMag _this )
   _this->grafico.Super2.Bounds ) / 3 ) / _this->unitsV[ EwCheckIndex( _this->unitsIdx, 
   6 )]);
   ViewsText_OnSetString( &_this->val_m_meio, EwConcatString( ApplicationMag_float2String((ApplicationMag)_this, 
-  _this->valorMeio, 1 ), EwLoadString( &_Const006F )));
+  _this->valorMeio, 1 ), EwLoadString( &_Const0072 )));
   ViewsText_OnSetString( &_this->val_m_inf, EwConcatString( ApplicationMag_float2String((ApplicationMag)_this, 
   _this->valorMeio - _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 1 ), EwLoadString( 
-  &_Const006F )));
+  &_Const0072 )));
   ViewsText_OnSetString( &_this->val_m_sup, EwConcatString( ApplicationMag_float2String((ApplicationMag)_this, 
   _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 6 )], 1 ), EwLoadString( 
-  &_Const006F )));
+  &_Const0072 )));
 }
 
 /* Atualiza os rótulos do eixo X no gráfico. */

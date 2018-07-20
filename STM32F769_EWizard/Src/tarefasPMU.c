@@ -15,7 +15,13 @@
 #include "stm32f7xx_hal.h"
 #include "stm32f769i_discovery.h"
 
+#if (NOMINAL_FREQ == 50)
+#define MCLOCK_FREQ 200000000
+#endif
+#if (NOMINAL_FREQ == 60)
 #define MCLOCK_FREQ 210000000
+#endif
+
 #define numero_pontos 256
 
 extern osMessageQId SerialGPSq;
@@ -25,8 +31,10 @@ extern TIM_HandleTypeDef			 htim2;
 
 extern UART_HandleTypeDef 			 huart6;
 
-unsigned short adcBuffer[768] __attribute__((section(".ADCBUF")));
+unsigned short adcBuffer[numero_pontos*3] __attribute__((section(".ADCBUF")));
+#if (OVERSAMPLING  == 1)
 unsigned short adcBufferMedia[numero_pontos*3*4*2] __attribute__((section(".ADCBUFMED")));
+#endif
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 
@@ -81,8 +89,14 @@ float Mr,Ms,Mt,Fr,Fs,Ft;
 //Fasor em coordenadas polares
 float Mag_R,Mag_S,Mag_T,Fase_R,Fase_S,Fase_T;
 //Frequencia e rocof
+#if (NOMINAL_FREQ == 60)
 float f0=60; // Freq nominal
 int fps=30; //Fasor por segundo - metade da freq. nominal neste trabalho
+#endif
+#if (NOMINAL_FREQ == 50)
+float f0=50; // Freq nominal
+int fps=25; //Fasor por segundo - metade da freq. nominal neste trabalho
+#endif
 float desvio_faseR, desvio_faseS, desvio_faseT, freq_R, freq_S, freq_T, Freq, ROCOF;
 float Fase_R_ant, Fase_S_ant, Fase_T_ant, Freq_ant;
 float desvio_ang_esp;
@@ -188,10 +202,11 @@ void PMU_Task(void const * argument)
 
 	  HAL_ADC_Start(&hadc3);
 	  HAL_ADC_Start(&hadc2);
+	  #if (OVERSAMPLING  == 1)
 	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBufferMedia, 768*4*2);
-
-	  //HAL_TIM_Base_Start(&htim1);
-
+      #else
+	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
+	  #endif
 
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
 	while(1)
@@ -200,15 +215,13 @@ void PMU_Task(void const * argument)
 
 		// Espera completar as 768 amostras
 		osSemaphoreWait(pmuSem_id, osWaitForever);
-		//osDelay(33);
 
-//#if 1
 		// Calcula o fator de calibração
 		//BSP_LED_Toggle(LED1);
 		FC=1.21/(Get_ADC_Calib());
 
-		// Calcula a média a cada 4 pontos para gerar os 256 de cada fase
-#if 1
+		// Calcula a média a cada 8 pontos para gerar os 256 de cada fase
+#if (OVERSAMPLING  == 1)
 		r=0;
 		s=1;
 		t=2;
@@ -470,18 +483,26 @@ void PMU_Task(void const * argument)
 
 #if 1
 		//AJUSTE DA TAXA DE AMOSTRAGEM
+	#if (OVERSAMPLING  == 1)
 		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras*4*2);
+		#else
+		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
+	#endif
 		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
 		volatile float residual = tmpARR - (float)tmpARRfix;
 
 		// O valor correto é o calculado - 1
 		/* No entanto, se o valor depois da virgula for maior que 0.5
 		   considera-se que o valor não precisa ser diminuido de 1 */
+#if 1
 		if (residual > 0.5){
 			htim1.Instance->ARR = tmpARRfix;
 		}else{
 			htim1.Instance->ARR = tmpARRfix - 1;
 		}
+#else
+		htim1.Instance->ARR = tmpARRfix - 1;
+#endif
 
 		//htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 
@@ -1137,7 +1158,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 	BSP_LED_Toggle(LED1);
 
-#if 1
+#if 0
 	// Se for a primeira aquisição...
 	if (trigcount == 0) {
 		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)

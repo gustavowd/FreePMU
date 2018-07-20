@@ -918,8 +918,8 @@ class Freq : Core::Group
   $rect <20,20,160,60>
   object Views::Text val_fr_0
   {
-    preset Bounds = <410,180,480,200>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset Bounds = <400,180,480,200>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "58,0 Hz";
     preset Font = Application::NumbersP;
     preset Color = #FF0000FF;
@@ -928,8 +928,8 @@ class Freq : Core::Group
   $rect <20,20,160,60>
   object Views::Text val_fr_1
   {
-    preset Bounds = <410,120,480,140>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset Bounds = <400,120,480,140>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "60,0 Hz";
     preset Font = Application::NumbersP;
     preset Color = #00FF00FF;
@@ -938,8 +938,8 @@ class Freq : Core::Group
   $rect <20,20,160,60>
   object Views::Text val_fr_2
   {
-    preset Bounds = <410,60,480,80>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset Bounds = <400,60,480,80>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "62,0 Hz";
     preset Font = Application::NumbersP;
     preset Color = #FF0000FF;

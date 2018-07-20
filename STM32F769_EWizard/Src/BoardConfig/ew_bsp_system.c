@@ -67,6 +67,7 @@
 *   None
 *
 *******************************************************************************/
+#include "main.h"
 static void SystemClock_Config( void )
 {
   RCC_ClkInitTypeDef        RCC_ClkInitStruct;
@@ -86,8 +87,14 @@ static void SystemClock_Config( void )
   RCC_OscInitStruct.HSEState       = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSE;
+#if (NOMINAL_FREQ == 50)
+  RCC_OscInitStruct.PLL.PLLM       = 25;//15;//25;
+  RCC_OscInitStruct.PLL.PLLN       = 400;//252;//400; //432 p/ 216MHz
+#endif
+#if (NOMINAL_FREQ == 60)
   RCC_OscInitStruct.PLL.PLLM       = 15;//25;
   RCC_OscInitStruct.PLL.PLLN       = 252;//400; //432 p/ 216MHz
+#endif
   RCC_OscInitStruct.PLL.PLLP       = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ       = 9;
   RCC_OscInitStruct.PLL.PLLR       = 7;

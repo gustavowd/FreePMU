@@ -67,7 +67,8 @@
 /* Private define ------------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
-
+#define NOMINAL_FREQ 50
+#define OVERSAMPLING 1
 /* USER CODE END Private defines */
 
 void _Error_Handler(char *, int);

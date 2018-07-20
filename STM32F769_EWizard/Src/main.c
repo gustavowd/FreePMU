@@ -872,7 +872,20 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 1708;//3417;//13671;//13020;
+  #if (NOMINAL_FREQ == 60)
+  #if (OVERSAMPLING  == 1)
+  htim1.Init.Period = 1708; //60 Hz - //1708 - 8x; //3417 - 4x;//13671 - 1x;
+  #else
+  htim1.Init.Period = 13671; //60 Hz - //1708 - 8x; //3417 - 4x;//13671 - 1x;
+  #endif
+  #endif
+  #if (NOMINAL_FREQ == 50)
+  #if (OVERSAMPLING  == 1)
+  htim1.Init.Period = 1953; //50 Hz - //1953 - 8x; //3906 - 4x;//15625 - 1x;
+  #else
+  htim1.Init.Period = 15625-1;//50 Hz - //1953 - 8x; //3906 - 4x;//15625 - 1x;
+  #endif
+  #endif
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -916,9 +929,14 @@ void MX_TIM2_Init(void)
 	  TIM_MasterConfigTypeDef sMasterConfig;
 
 	  htim2.Instance = TIM2;
-	  htim2.Init.Prescaler = 70-1;//2050;
+	  htim2.Init.Prescaler = 100-1;//70-1;
 	  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-	  htim2.Init.Period = 50000-1;//1625;
+      #if (NOMINAL_FREQ == 60)
+	  htim2.Init.Period = 50000-1;
+      #endif
+	  #if (NOMINAL_FREQ == 50)
+	  htim2.Init.Period = 20000-1;//30000-1;
+	  #endif
 	  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
