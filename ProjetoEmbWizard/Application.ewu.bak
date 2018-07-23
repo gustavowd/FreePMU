@@ -911,6 +911,8 @@ class Freq : Core::Group
     config.SupMais.OnAction = trocaEscala;
     config.InfMenos.OnAction = trocaEscala;
     config.InfMais.OnAction = trocaEscala;
+    config.SupSignMais.OnAction = trocaEscala;
+    config.SupSignMenos.OnAction = trocaEscala;
 
     signal trocaEscala;
   }
@@ -1151,6 +1153,18 @@ class Freq : Core::Group
         atualizaX();
         grafico.ClearPath();
       }
+    } else if (sender == config.SupSignMais) {
+      if (valorMeio < 60.0) {
+        valorMeio = valorMeio + 5.0;
+        atualizaY();
+        grafico.ClearPath();
+      }
+    } else if (sender == config.SupSignMenos) {
+      if (valorMeio > 50.0) {
+        valorMeio = valorMeio - 5.0;
+        atualizaY();
+        grafico.ClearPath();
+      }
     }
 
     if (unitsIdx == 0) {
@@ -1173,6 +1187,17 @@ class Freq : Core::Group
     } else {
       config.InfMenos.Enabled = true;
       config.InfMais.Enabled = true;
+    }
+
+    if (valorMeio >= 60.0) {
+      config.SupSignMais.Enabled = false;
+      config.SupSignMenos.Enabled = true;
+    } else if (valorMeio <= 50.0) {
+      config.SupSignMais.Enabled = true;
+      config.SupSignMenos.Enabled = false;
+    } else {
+      config.SupSignMais.Enabled = true;
+      config.SupSignMenos.Enabled = true;
     }
 
     config.SupVal.String = string(float2String(valorMeio-unitsV[unitsIdx],3)) + " - " + string(float2String(valorMeio+unitsV[unitsIdx],3)) + " Hz";
@@ -1209,14 +1234,15 @@ class Freq : Core::Group
   }
 
   $rect <410,270,610,310>
-  array int32 freqV[ 6 ] =
+  array int32 freqV[ 7 ] =
   (
     Default[0] = 1;
     Default[1] = 2;
     Default[2] = 5;
     Default[3] = 10;
     Default[4] = 20;
-    Default[5] = 30;
+    Default[5] = 25;
+    Default[6] = 30;
   );
 
   $rect <410,310,610,350>
@@ -1423,6 +1449,9 @@ class Mag : Core::Group
     config.SupMais.OnAction = trocaEscala;
     config.InfMenos.OnAction = trocaEscala;
     config.InfMais.OnAction = trocaEscala;
+
+    config.SupSignMais.Visible = false;
+    config.SupSignMenos.Visible = false;
 
     signal trocaEscala;
   }
@@ -2275,6 +2304,8 @@ class Fase : Core::Group
     config.SupVal.Visible = false;
     config.SupMais.Visible = false;
     config.SupMenos.Visible = false;
+    config.SupSignMais.Visible = false;
+    config.SupSignMenos.Visible = false;
   }
 
   $rect <20,20,160,60>
@@ -3908,6 +3939,8 @@ vclass Freq769 : Application::Freq
     config.SupMais.OnAction = trocaEscala;
     config.InfMenos.OnAction = trocaEscala;
     config.InfMais.OnAction = trocaEscala;
+    config.SupSignMais.OnAction = trocaEscala;
+    config.SupSignMenos.OnAction = trocaEscala;
 
     signal trocaEscala;
   }
@@ -3915,19 +3948,19 @@ vclass Freq769 : Application::Freq
   $rect <20,20,160,60>
   inherited object val_fr_0
   {
-    preset Bounds = <650,310,790,340>;
+    preset Bounds = <640,310,800,340>;
   }
 
   $rect <20,20,160,60>
   inherited object val_fr_1
   {
-    preset Bounds = <650,200,800,230>;
+    preset Bounds = <640,200,800,230>;
   }
 
   $rect <20,20,160,60>
   inherited object val_fr_2
   {
-    preset Bounds = <650,90,780,120>;
+    preset Bounds = <640,90,800,120>;
   }
 
   $rect <20,20,160,60>
@@ -3985,7 +4018,7 @@ vclass Freq769 : Application::Freq
   {
     /* Define a razão de pixels por unidade dos gráfico para ser condizente com a propriedade de deltaUnidades.
        ATENÇÃO: Essa propriedade é um int e tem que ser maior que 1. Caso a divisão dê um número menor, ele será 1.  */
-    grafico.PathData.InitMatrix();
+    //grafico.PathData.InitMatrix();
     grafico.VerticalRatio = float(grafico.Bounds.h/3) / unitsV[unitsIdx];
 
     /* Cálculo dos rótulos dos valores de frequência, com base na proporção de pixels por unidade de medida  do
@@ -4938,6 +4971,22 @@ class ConfigScreen : Core::Group
     preset Icon = Resources::NavigationIconsMedium;
     preset IconIndex = 9;
   }
+
+  $rect <20,20,160,60>
+  object Application::ModIconButton SupSignMais
+  {
+    preset Bounds = <329,45,369,85>;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset IconIndex = 18;
+  }
+
+  $rect <20,20,160,60>
+  object Application::ModIconButton SupSignMenos
+  {
+    preset Bounds = <11,45,51,85>;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset IconIndex = 19;
+  }
 }
 
 $rect <240,140,410,180>
@@ -5023,6 +5072,18 @@ vclass ConfigScreen769 : Application::ConfigScreen
     preset Bounds = <540,0,600,60>;
     preset Icon = Resources::KeyIconsLarge;
     preset IconIndex = 12;
+  }
+
+  $rect <20,20,160,60>
+  inherited object SupSignMais
+  {
+    preset Bounds = <518,70,578,130>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object SupSignMenos
+  {
+    preset Bounds = <22,70,82,130>;
   }
 }
 
