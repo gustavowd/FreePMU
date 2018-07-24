@@ -218,7 +218,7 @@ void UARTPutChar(char ucData)
 /*
  * Fun��o para transmitir uma string pela porta serial.
  */
-void UARTPutString(char *string, uint16_t size)
+void UARTPutString(uint8_t *string, uint16_t size)
 {
 		// Descobre o tamanho da string, caso n�o informado
 		if (!size){

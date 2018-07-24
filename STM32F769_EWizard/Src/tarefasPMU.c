@@ -151,7 +151,7 @@ volatile int trigcount = 0;
 void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
 void MX_ADC3_Init(void);
-void UARTPutString(char *string, uint16_t size);
+void UARTPutString(uint8_t *string, uint16_t size);
 
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc2;
@@ -622,8 +622,8 @@ void PMU_Task(void const * argument)
 		buffer[3] = media_rocof;
 
 		// Envia os dados pela serial
-		char *dados = (char*)&buffer;
-		UARTPutString(dados,12);
+		uint8_t *dados = (uint8_t*)&buffer;
+		UARTPutString(dados,16);
 
 
 		SOC = 1468976006;
