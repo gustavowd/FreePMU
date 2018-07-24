@@ -1054,7 +1054,7 @@ class Freq : Core::Group
   }
 
   $rect <210,270,410,310>
-  var float valorMeio = 60.0;
+  var float valorMeio = 50.0;
 
   // ATENÇÃO:
   // O método "float2String" existe devido ao casting nativo de float para string \
@@ -1246,7 +1246,7 @@ class Freq : Core::Group
   );
 
   $rect <410,310,610,350>
-  var int32 freqIdx = 3;
+  var int32 freqIdx = 5;
 
   $rect <410,350,610,390>
   array float unitsV[ 8 ] =

@@ -338,9 +338,9 @@ static const XPoint _Const00D5 = { 420, 227 };
 static const XPoint _Const00D6 = { 420, 211 };
 static const XPoint _Const00D7 = { 225, 211 };
 static const XPoint _Const00D8 = { 2, 7 };
-static const XRect _Const00D9 = {{ 650, 310 }, { 790, 340 }};
-static const XRect _Const00DA = {{ 650, 200 }, { 800, 230 }};
-static const XRect _Const00DB = {{ 650, 90 }, { 780, 120 }};
+static const XRect _Const00D9 = {{ 640, 310 }, { 800, 340 }};
+static const XRect _Const00DA = {{ 640, 200 }, { 800, 230 }};
+static const XRect _Const00DB = {{ 640, 90 }, { 800, 120 }};
 static const XRect _Const00DC = {{ 600, 390 }, { 680, 420 }};
 static const XRect _Const00DD = {{ 450, 390 }, { 530, 420 }};
 static const XRect _Const00DE = {{ 290, 390 }, { 380, 420 }};
@@ -415,49 +415,53 @@ static const XStringRes _Const0122 = { _StringsDefault1, 0x00B6 };
 static const XRect _Const0123 = {{ 90, 125 }, { 290, 165 }};
 static const XStringRes _Const0124 = { _StringsDefault1, 0x00C4 };
 static const XRect _Const0125 = {{ 340, 0 }, { 380, 40 }};
-static const XRect _Const0126 = {{ 0, 0 }, { 600, 330 }};
-static const XRect _Const0127 = {{ 20, 20 }, { 550, 70 }};
-static const XRect _Const0128 = {{ 20, 170 }, { 580, 220 }};
-static const XRect _Const0129 = {{ 100, 70 }, { 160, 130 }};
-static const XRect _Const012A = {{ 440, 70 }, { 500, 130 }};
-static const XRect _Const012B = {{ 100, 230 }, { 160, 290 }};
-static const XRect _Const012C = {{ 440, 230 }, { 500, 290 }};
-static const XRect _Const012D = {{ 150, 70 }, { 450, 130 }};
-static const XRect _Const012E = {{ 150, 230 }, { 450, 290 }};
-static const XRect _Const012F = {{ 540, 0 }, { 600, 60 }};
-static const XPoint _Const0130 = { 285, 180 };
-static const XPoint _Const0131 = { 285, 0 };
-static const XColor _Const0132 = { 0xFF, 0xFF, 0xFF, 0x40 };
-static const XPoint _Const0133 = { 190, 180 };
-static const XPoint _Const0134 = { 190, 0 };
-static const XPoint _Const0135 = { 95, 180 };
-static const XPoint _Const0136 = { 95, 0 };
-static const XPoint _Const0137 = { 380, 30 };
-static const XPoint _Const0138 = { 380, 60 };
-static const XPoint _Const0139 = { 0, 60 };
-static const XPoint _Const013A = { 380, 90 };
-static const XPoint _Const013B = { 0, 90 };
-static const XPoint _Const013C = { 380, 120 };
-static const XPoint _Const013D = { 0, 120 };
-static const XPoint _Const013E = { 380, 150 };
-static const XPoint _Const013F = { 0, 150 };
-static const XPoint _Const0140 = { 449, 328 };
-static const XPoint _Const0141 = { 449, 0 };
-static const XPoint _Const0142 = { 299, 328 };
-static const XPoint _Const0143 = { 299, 0 };
-static const XPoint _Const0144 = { 150, 328 };
-static const XPoint _Const0145 = { 150, 0 };
-static const XPoint _Const0146 = { 598, 55 };
-static const XPoint _Const0147 = { 0, 55 };
-static const XPoint _Const0148 = { 598, 109 };
-static const XPoint _Const0149 = { 0, 109 };
-static const XPoint _Const014A = { 598, 164 };
-static const XPoint _Const014B = { 0, 164 };
-static const XPoint _Const014C = { 598, 219 };
-static const XPoint _Const014D = { 0, 219 };
-static const XPoint _Const014E = { 598, 273 };
-static const XPoint _Const014F = { 0, 273 };
-static const XRect _Const0150 = {{ 0, 0 }, { 598, 328 }};
+static const XRect _Const0126 = {{ 329, 45 }, { 369, 85 }};
+static const XRect _Const0127 = {{ 11, 45 }, { 51, 85 }};
+static const XRect _Const0128 = {{ 0, 0 }, { 600, 330 }};
+static const XRect _Const0129 = {{ 20, 20 }, { 550, 70 }};
+static const XRect _Const012A = {{ 20, 170 }, { 580, 220 }};
+static const XRect _Const012B = {{ 100, 70 }, { 160, 130 }};
+static const XRect _Const012C = {{ 440, 70 }, { 500, 130 }};
+static const XRect _Const012D = {{ 100, 230 }, { 160, 290 }};
+static const XRect _Const012E = {{ 440, 230 }, { 500, 290 }};
+static const XRect _Const012F = {{ 150, 70 }, { 450, 130 }};
+static const XRect _Const0130 = {{ 150, 230 }, { 450, 290 }};
+static const XRect _Const0131 = {{ 540, 0 }, { 600, 60 }};
+static const XRect _Const0132 = {{ 518, 70 }, { 578, 130 }};
+static const XRect _Const0133 = {{ 22, 70 }, { 82, 130 }};
+static const XPoint _Const0134 = { 285, 180 };
+static const XPoint _Const0135 = { 285, 0 };
+static const XColor _Const0136 = { 0xFF, 0xFF, 0xFF, 0x40 };
+static const XPoint _Const0137 = { 190, 180 };
+static const XPoint _Const0138 = { 190, 0 };
+static const XPoint _Const0139 = { 95, 180 };
+static const XPoint _Const013A = { 95, 0 };
+static const XPoint _Const013B = { 380, 30 };
+static const XPoint _Const013C = { 380, 60 };
+static const XPoint _Const013D = { 0, 60 };
+static const XPoint _Const013E = { 380, 90 };
+static const XPoint _Const013F = { 0, 90 };
+static const XPoint _Const0140 = { 380, 120 };
+static const XPoint _Const0141 = { 0, 120 };
+static const XPoint _Const0142 = { 380, 150 };
+static const XPoint _Const0143 = { 0, 150 };
+static const XPoint _Const0144 = { 449, 328 };
+static const XPoint _Const0145 = { 449, 0 };
+static const XPoint _Const0146 = { 299, 328 };
+static const XPoint _Const0147 = { 299, 0 };
+static const XPoint _Const0148 = { 150, 328 };
+static const XPoint _Const0149 = { 150, 0 };
+static const XPoint _Const014A = { 598, 55 };
+static const XPoint _Const014B = { 0, 55 };
+static const XPoint _Const014C = { 598, 109 };
+static const XPoint _Const014D = { 0, 109 };
+static const XPoint _Const014E = { 598, 164 };
+static const XPoint _Const014F = { 0, 164 };
+static const XPoint _Const0150 = { 598, 219 };
+static const XPoint _Const0151 = { 0, 219 };
+static const XPoint _Const0152 = { 598, 273 };
+static const XPoint _Const0153 = { 0, 273 };
+static const XRect _Const0154 = {{ 0, 0 }, { 598, 328 }};
 
 #ifndef EW_DONT_CHECK_INDEX
   /* This function is used to check the indices when accessing an array.
@@ -4102,8 +4106,9 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   _this->freqV[ 2 ] = 5;
   _this->freqV[ 3 ] = 10;
   _this->freqV[ 4 ] = 20;
-  _this->freqV[ 5 ] = 30;
-  _this->freqIdx = 3;
+  _this->freqV[ 5 ] = 25;
+  _this->freqV[ 6 ] = 30;
+  _this->freqIdx = 5;
   _this->unitsV[ 0 ] = 0.005000f;
   _this->unitsV[ 1 ] = 0.010000f;
   _this->unitsV[ 2 ] = 0.100000f;
@@ -4310,7 +4315,7 @@ void ApplicationFreq_Init( ApplicationFreq _this, XHandle aArg )
   EW_UNUSED_ARG( aArg );
 
   CoreTimer_OnSetPeriod( &_this->intervalo, 1000 / _this->freqV[ EwCheckIndex( _this->freqIdx, 
-  6 )]);
+  7 )]);
   ApplicationFreq_atualizaX( _this );
   ApplicationFreq_atualizaY( _this );
   _this->config.Sair.OnAction = EwNewSlot( _this, ApplicationFreq_sairConfig );
@@ -4321,6 +4326,10 @@ void ApplicationFreq_Init( ApplicationFreq _this, XHandle aArg )
   _this->config.InfMenos.OnAction = EwNewSlot( _this, ApplicationFreq_trocaEscala 
   );
   _this->config.InfMais.OnAction = EwNewSlot( _this, ApplicationFreq_trocaEscala 
+  );
+  _this->config.SupSignMais.OnAction = EwNewSlot( _this, ApplicationFreq_trocaEscala 
+  );
+  _this->config.SupSignMenos.OnAction = EwNewSlot( _this, ApplicationFreq_trocaEscala 
   );
   EwSignal( EwNewSlot( _this, ApplicationFreq_trocaEscala ), ((XObject)_this ));
 }
@@ -4431,7 +4440,7 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
         {
           _this->freqIdx = _this->freqIdx - 1;
           CoreTimer_OnSetPeriod( &_this->intervalo, 1000 / _this->freqV[ EwCheckIndex( 
-          _this->freqIdx, 6 )]);
+          _this->freqIdx, 7 )]);
           ApplicationFreq_atualizaX( _this );
           ApplicationPlotterGraph_ClearPath( &_this->grafico );
         }
@@ -4439,15 +4448,35 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
       else
         if ( sender == ((XObject)&_this->config.InfMais ))
         {
-          if ( _this->freqIdx < 5 )
+          if ( _this->freqIdx < 6 )
           {
             _this->freqIdx = _this->freqIdx + 1;
             CoreTimer_OnSetPeriod( &_this->intervalo, 1000 / _this->freqV[ EwCheckIndex( 
-            _this->freqIdx, 6 )]);
+            _this->freqIdx, 7 )]);
             ApplicationFreq_atualizaX( _this );
             ApplicationPlotterGraph_ClearPath( &_this->grafico );
           }
         }
+        else
+          if ( sender == ((XObject)&_this->config.SupSignMais ))
+          {
+            if ( _this->valorMeio < 60.000000f )
+            {
+              _this->valorMeio = _this->valorMeio + 5.000000f;
+              ApplicationFreq_atualizaY( _this );
+              ApplicationPlotterGraph_ClearPath( &_this->grafico );
+            }
+          }
+          else
+            if ( sender == ((XObject)&_this->config.SupSignMenos ))
+            {
+              if ( _this->valorMeio > 50.000000f )
+              {
+                _this->valorMeio = _this->valorMeio - 5.000000f;
+                ApplicationFreq_atualizaY( _this );
+                ApplicationPlotterGraph_ClearPath( &_this->grafico );
+              }
+            }
 
   if ( _this->unitsIdx == 0 )
   {
@@ -4472,7 +4501,7 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
     CoreGroup_OnSetEnabled((CoreGroup)&_this->config.InfMais, 1 );
   }
   else
-    if ( _this->freqIdx == 5 )
+    if ( _this->freqIdx == 6 )
     {
       CoreGroup_OnSetEnabled((CoreGroup)&_this->config.InfMenos, 1 );
       CoreGroup_OnSetEnabled((CoreGroup)&_this->config.InfMais, 0 );
@@ -4483,15 +4512,32 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
       CoreGroup_OnSetEnabled((CoreGroup)&_this->config.InfMais, 1 );
     }
 
+  if ( _this->valorMeio >= 60.000000f )
+  {
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupSignMais, 0 );
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupSignMenos, 1 );
+  }
+  else
+    if ( _this->valorMeio <= 50.000000f )
+    {
+      CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupSignMais, 1 );
+      CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupSignMenos, 0 );
+    }
+    else
+    {
+      CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupSignMais, 1 );
+      CoreGroup_OnSetEnabled((CoreGroup)&_this->config.SupSignMenos, 1 );
+    }
+
   ViewsText_OnSetString( &_this->config.SupVal, EwConcatString( EwConcatString( 
   EwConcatString( ApplicationFreq_float2String( _this, _this->valorMeio - _this->unitsV[ 
   EwCheckIndex( _this->unitsIdx, 8 )], 3 ), EwLoadString( &_Const0061 )), ApplicationFreq_float2String( 
   _this, _this->valorMeio + _this->unitsV[ EwCheckIndex( _this->unitsIdx, 8 )], 
   3 )), EwLoadString( &_Const0060 )));
   ViewsText_OnSetString( &_this->config.InfVal, EwConcatString( EwConcatString( 
-  EwConcatString( EwNewStringInt( _this->freqV[ EwCheckIndex( _this->freqIdx, 6 
+  EwConcatString( EwNewStringInt( _this->freqV[ EwCheckIndex( _this->freqIdx, 7 
   )], 0, 10 ), EwLoadString( &_Const0062 )), EwNewStringInt( 1000 / _this->freqV[ 
-  EwCheckIndex( _this->freqIdx, 6 )], 0, 10 )), EwLoadString( &_Const0063 )));
+  EwCheckIndex( _this->freqIdx, 7 )], 0, 10 )), EwLoadString( &_Const0063 )));
 }
 
 /* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem.
@@ -4913,6 +4959,8 @@ void ApplicationMag_Init( ApplicationMag _this, XHandle aArg )
   );
   _this->config.InfMais.OnAction = EwNewSlot( _this, ApplicationMag_trocaEscala 
   );
+  CoreGroup_OnSetVisible((CoreGroup)&_this->config.SupSignMais, 0 );
+  CoreGroup_OnSetVisible((CoreGroup)&_this->config.SupSignMenos, 0 );
   EwSignal( EwNewSlot( _this, ApplicationMag_trocaEscala ), ((XObject)_this ));
 }
 
@@ -5653,6 +5701,8 @@ void ApplicationFase_setConfigScreen( ApplicationFase _this )
   ViewsText_OnSetVisible( &_this->config.SupVal, 0 );
   CoreGroup_OnSetVisible((CoreGroup)&_this->config.SupMais, 0 );
   CoreGroup_OnSetVisible((CoreGroup)&_this->config.SupMenos, 0 );
+  CoreGroup_OnSetVisible((CoreGroup)&_this->config.SupSignMais, 0 );
+  CoreGroup_OnSetVisible((CoreGroup)&_this->config.SupSignMenos, 0 );
 }
 
 /* Atualiza os rótulos do eixo X no gráfico.
@@ -7328,7 +7378,7 @@ void ApplicationFreq769_Init( ApplicationFreq _this, XHandle aArg )
   EW_UNUSED_ARG( aArg );
 
   CoreTimer_OnSetPeriod( &_this->intervalo, 1000 / _this->freqV[ EwCheckIndex( _this->freqIdx, 
-  6 )]);
+  7 )]);
   ApplicationFreq_atualizaX((ApplicationFreq)_this );
   ApplicationFreq_atualizaY((ApplicationFreq)_this );
   _this->config.Sair.OnAction = EwNewSlot( _this, ApplicationFreq_sairConfig );
@@ -7340,13 +7390,16 @@ void ApplicationFreq769_Init( ApplicationFreq _this, XHandle aArg )
   );
   _this->config.InfMais.OnAction = EwNewSlot( _this, ApplicationFreq_trocaEscala 
   );
+  _this->config.SupSignMais.OnAction = EwNewSlot( _this, ApplicationFreq_trocaEscala 
+  );
+  _this->config.SupSignMenos.OnAction = EwNewSlot( _this, ApplicationFreq_trocaEscala 
+  );
   EwSignal( EwNewSlot( _this, ApplicationFreq_trocaEscala ), ((XObject)_this ));
 }
 
 /* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem. */
 void ApplicationFreq769_atualizaY( ApplicationFreq _this )
 {
-  GraphicsPath_InitMatrix( &_this->grafico.PathData );
   ApplicationPlotterGraph_OnSetVerticalRatio( &_this->grafico, (XFloat)( EwGetRectH( 
   _this->grafico.Super2.Bounds ) / 3 ) / _this->unitsV[ EwCheckIndex( _this->unitsIdx, 
   8 )]);
@@ -8447,6 +8500,8 @@ void ApplicationConfigScreen__Init( ApplicationConfigScreen _this, XObject aLink
   ViewsText__Init( &_this->SupVal, &_this->_XObject, 0 );
   ViewsText__Init( &_this->InfVal, &_this->_XObject, 0 );
   ApplicationModIconButton__Init( &_this->Sair, &_this->_XObject, 0 );
+  ApplicationModIconButton__Init( &_this->SupSignMais, &_this->_XObject, 0 );
+  ApplicationModIconButton__Init( &_this->SupSignMenos, &_this->_XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_VMT = EW_CLASS( ApplicationConfigScreen );
@@ -8479,6 +8534,10 @@ void ApplicationConfigScreen__Init( ApplicationConfigScreen _this, XObject aLink
   ViewsText_OnSetString( &_this->InfVal, EwLoadString( &_Const0124 ));
   CoreRectView__OnSetBounds( &_this->Sair, _Const0125 );
   ApplicationModIconButton_OnSetIconIndex( &_this->Sair, 9 );
+  CoreRectView__OnSetBounds( &_this->SupSignMais, _Const0126 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->SupSignMais, 0 );
+  CoreRectView__OnSetBounds( &_this->SupSignMenos, _Const0127 );
+  ApplicationModIconButton_OnSetIconIndex( &_this->SupSignMenos, 1 );
   CoreGroup__Add( _this, ((CoreView)&_this->bg ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Border ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->labelSup ), 0 );
@@ -8490,6 +8549,8 @@ void ApplicationConfigScreen__Init( ApplicationConfigScreen _this, XObject aLink
   CoreGroup__Add( _this, ((CoreView)&_this->SupVal ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->InfVal ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Sair ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->SupSignMais ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->SupSignMenos ), 0 );
   ViewsText_OnSetFont( &_this->labelSup, EwLoadResource( &ApplicationNumbersM, ResourcesFont 
   ));
   ViewsText_OnSetFont( &_this->labelInf, EwLoadResource( &ApplicationNumbersM, ResourcesFont 
@@ -8507,6 +8568,10 @@ void ApplicationConfigScreen__Init( ApplicationConfigScreen _this, XObject aLink
   ViewsText_OnSetFont( &_this->InfVal, EwLoadResource( &ApplicationNumbersM, ResourcesFont 
   ));
   ApplicationModIconButton_OnSetIcon( &_this->Sair, EwLoadResource( &ResourcesNavigationIconsMedium, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->SupSignMais, EwLoadResource( &ResourcesNavigationIconsMedium, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->SupSignMenos, EwLoadResource( &ResourcesNavigationIconsMedium, 
   ResourcesBitmap ));
 
   /* Create and initialize the suitable class variant */
@@ -8531,6 +8596,8 @@ void ApplicationConfigScreen__ReInit( ApplicationConfigScreen _this )
   ViewsText__ReInit( &_this->SupVal );
   ViewsText__ReInit( &_this->InfVal );
   ApplicationModIconButton__ReInit( &_this->Sair );
+  ApplicationModIconButton__ReInit( &_this->SupSignMais );
+  ApplicationModIconButton__ReInit( &_this->SupSignMenos );
 
   /* Reinitialize the variant */
   if ( _this->_vthis )
@@ -8558,6 +8625,8 @@ void ApplicationConfigScreen__Done( ApplicationConfigScreen _this )
   ViewsText__Done( &_this->SupVal );
   ViewsText__Done( &_this->InfVal );
   ApplicationModIconButton__Done( &_this->Sair );
+  ApplicationModIconButton__Done( &_this->SupSignMais );
+  ApplicationModIconButton__Done( &_this->SupSignMenos );
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_Super );
@@ -8577,6 +8646,8 @@ void ApplicationConfigScreen__Mark( ApplicationConfigScreen _this )
   EwMarkObject( &_this->SupVal );
   EwMarkObject( &_this->InfVal );
   EwMarkObject( &_this->Sair );
+  EwMarkObject( &_this->SupSignMais );
+  EwMarkObject( &_this->SupSignMenos );
 
   /* Give the super class a chance to mark its objects and references */
   CoreGroup__Mark( &_this->_Super );
@@ -8660,24 +8731,26 @@ void ApplicationConfigScreen769__Init( ApplicationConfigScreen _this, XObject aL
   _vthis->_VMT = EW_VCLASS( ApplicationConfigScreen769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->bg, _Const0126 );
-  CoreRectView__OnSetBounds( &_this->Border, _Const0126 );
+  CoreRectView__OnSetBounds( _this, _Const0128 );
+  CoreRectView__OnSetBounds( &_this->bg, _Const0128 );
+  CoreRectView__OnSetBounds( &_this->Border, _Const0128 );
   ViewsBorder_OnSetWidth( &_this->Border, 6 );
-  CoreRectView__OnSetBounds( &_this->labelSup, _Const0127 );
-  CoreRectView__OnSetBounds( &_this->labelInf, _Const0128 );
-  CoreRectView__OnSetBounds( &_this->SupMenos, _Const0129 );
+  CoreRectView__OnSetBounds( &_this->labelSup, _Const0129 );
+  CoreRectView__OnSetBounds( &_this->labelInf, _Const012A );
+  CoreRectView__OnSetBounds( &_this->SupMenos, _Const012B );
   ApplicationModIconButton_OnSetIconIndex( &_this->SupMenos, 2 );
-  CoreRectView__OnSetBounds( &_this->SupMais, _Const012A );
+  CoreRectView__OnSetBounds( &_this->SupMais, _Const012C );
   ApplicationModIconButton_OnSetIconIndex( &_this->SupMais, 3 );
-  CoreRectView__OnSetBounds( &_this->InfMenos, _Const012B );
+  CoreRectView__OnSetBounds( &_this->InfMenos, _Const012D );
   ApplicationModIconButton_OnSetIconIndex( &_this->InfMenos, 2 );
-  CoreRectView__OnSetBounds( &_this->InfMais, _Const012C );
+  CoreRectView__OnSetBounds( &_this->InfMais, _Const012E );
   ApplicationModIconButton_OnSetIconIndex( &_this->InfMais, 3 );
-  CoreRectView__OnSetBounds( &_this->SupVal, _Const012D );
-  CoreRectView__OnSetBounds( &_this->InfVal, _Const012E );
-  CoreRectView__OnSetBounds( &_this->Sair, _Const012F );
+  CoreRectView__OnSetBounds( &_this->SupVal, _Const012F );
+  CoreRectView__OnSetBounds( &_this->InfVal, _Const0130 );
+  CoreRectView__OnSetBounds( &_this->Sair, _Const0131 );
   ApplicationModIconButton_OnSetIconIndex( &_this->Sair, 12 );
+  CoreRectView__OnSetBounds( &_this->SupSignMais, _Const0132 );
+  CoreRectView__OnSetBounds( &_this->SupSignMenos, _Const0133 );
   ApplicationModIconButton_OnSetIcon( &_this->SupMenos, EwLoadResource( &ResourcesNavigationIconsLarge, 
   ResourcesBitmap ));
   ApplicationModIconButton_OnSetIcon( &_this->SupMais, EwLoadResource( &ResourcesNavigationIconsLarge, 
@@ -8689,6 +8762,10 @@ void ApplicationConfigScreen769__Init( ApplicationConfigScreen _this, XObject aL
   ViewsText_OnSetFont( &_this->SupVal, EwLoadResource( &ApplicationNumbersP, ResourcesFont 
   ));
   ApplicationModIconButton_OnSetIcon( &_this->Sair, EwLoadResource( &ResourcesKeyIconsLarge, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->SupSignMais, EwLoadResource( &ResourcesNavigationIconsLarge, 
+  ResourcesBitmap ));
+  ApplicationModIconButton_OnSetIcon( &_this->SupSignMenos, EwLoadResource( &ResourcesNavigationIconsLarge, 
   ResourcesBitmap ));
 }
 
@@ -8747,29 +8824,29 @@ void ApplicationPlotterGraph__Init( ApplicationPlotterGraph _this, XObject aLink
 
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0117 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0130 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0131 );
-  ViewsLine_OnSetColor( &_this->VLine3, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0133 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0134 );
-  ViewsLine_OnSetColor( &_this->VLine2, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0135 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const0136 );
-  ViewsLine_OnSetColor( &_this->VLine1, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const0137 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0134 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0135 );
+  ViewsLine_OnSetColor( &_this->VLine3, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0137 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0138 );
+  ViewsLine_OnSetColor( &_this->VLine2, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0139 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const013A );
+  ViewsLine_OnSetColor( &_this->VLine1, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const013B );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine1, _Const00AD );
   ViewsLine_OnSetColor( &_this->HLine1, _Const004B );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const0138 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const0139 );
-  ViewsLine_OnSetColor( &_this->HLine2, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const013A );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const013B );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const013C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const013D );
+  ViewsLine_OnSetColor( &_this->HLine2, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const013E );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const013F );
   ViewsLine_OnSetColor( &_this->HLine3, _Const004E );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const013C );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const013D );
-  ViewsLine_OnSetColor( &_this->HLine4, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const013E );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const013F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const0140 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const0141 );
+  ViewsLine_OnSetColor( &_this->HLine4, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const0142 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const0143 );
   ViewsLine_OnSetColor( &_this->HLine5, _Const004B );
   CoreRectView__OnSetBounds( &_this->PlotterPath, _Const0117 );
   ViewsStrokePath_OnSetFlipY( &_this->PlotterPath, 0 );
@@ -9106,30 +9183,30 @@ void ApplicationPlotterTripleGraph__Init( ApplicationPlotterTripleGraph _this, X
 
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0117 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0130 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0131 );
-  ViewsLine_OnSetColor( &_this->VLine3, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0133 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0134 );
-  ViewsLine_OnSetColor( &_this->VLine2, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0135 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const0136 );
-  ViewsLine_OnSetColor( &_this->VLine1, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const0137 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0134 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0135 );
+  ViewsLine_OnSetColor( &_this->VLine3, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0137 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0138 );
+  ViewsLine_OnSetColor( &_this->VLine2, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0139 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const013A );
+  ViewsLine_OnSetColor( &_this->VLine1, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const013B );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine1, _Const00AD );
-  ViewsLine_OnSetColor( &_this->HLine1, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const0138 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const0139 );
-  ViewsLine_OnSetColor( &_this->HLine2, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const013A );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const013B );
+  ViewsLine_OnSetColor( &_this->HLine1, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const013C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const013D );
+  ViewsLine_OnSetColor( &_this->HLine2, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const013E );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const013F );
   ViewsLine_OnSetColor( &_this->HLine3, _Const0015 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const013C );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const013D );
-  ViewsLine_OnSetColor( &_this->HLine4, _Const0132 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const013E );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const013F );
-  ViewsLine_OnSetColor( &_this->HLine5, _Const0132 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const0140 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const0141 );
+  ViewsLine_OnSetColor( &_this->HLine4, _Const0136 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const0142 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const0143 );
+  ViewsLine_OnSetColor( &_this->HLine5, _Const0136 );
   CoreRectView__OnSetBounds( &_this->Border, _Const0117 );
   _this->VerticalRatio = 1.000000f;
   _this->StrokeColorR = _Const0015;
@@ -9604,33 +9681,33 @@ void ApplicationPlotterGraph769__Init( ApplicationPlotterGraph _this, XObject aL
   _vthis->_VMT = EW_VCLASS( ApplicationPlotterGraph769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0126 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0140 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0141 );
+  CoreRectView__OnSetBounds( _this, _Const0128 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0144 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0145 );
   ViewsLine_OnSetWidth( &_this->VLine3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0142 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0143 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0146 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0147 );
   ViewsLine_OnSetWidth( &_this->VLine2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0144 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const0145 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0148 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const0149 );
   ViewsLine_OnSetWidth( &_this->VLine1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const0146 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine1, _Const0147 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const014A );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine1, _Const014B );
   ViewsLine_OnSetWidth( &_this->HLine1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const0148 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const0149 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const014C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const014D );
   ViewsLine_OnSetWidth( &_this->HLine2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const014A );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const014B );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const014E );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const014F );
   ViewsLine_OnSetWidth( &_this->HLine3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const014C );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const014D );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const0150 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const0151 );
   ViewsLine_OnSetWidth( &_this->HLine4, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const014E );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const014F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const0152 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const0153 );
   ViewsLine_OnSetWidth( &_this->HLine5, 2 );
-  CoreRectView__OnSetBounds( &_this->PlotterPath, _Const0150 );
-  CoreRectView__OnSetBounds( &_this->Border, _Const0126 );
+  CoreRectView__OnSetBounds( &_this->PlotterPath, _Const0154 );
+  CoreRectView__OnSetBounds( &_this->Border, _Const0128 );
   ViewsBorder_OnSetWidth( &_this->Border, 2 );
 
   /* Call the user defined constructor */
@@ -9762,36 +9839,36 @@ void ApplicationPlotterTripleGraph769__Init( ApplicationPlotterTripleGraph _this
   _vthis->_VMT = EW_VCLASS( ApplicationPlotterTripleGraph769 );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0126 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0140 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0141 );
+  CoreRectView__OnSetBounds( _this, _Const0128 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine3, _Const0144 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine3, _Const0145 );
   ViewsLine_OnSetWidth( &_this->VLine3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0142 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0143 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine2, _Const0146 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine2, _Const0147 );
   ViewsLine_OnSetWidth( &_this->VLine2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0144 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const0145 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->VLine1, _Const0148 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->VLine1, _Const0149 );
   ViewsLine_OnSetWidth( &_this->VLine1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const0146 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine1, _Const0147 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine1, _Const014A );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine1, _Const014B );
   ViewsLine_OnSetWidth( &_this->HLine1, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const0148 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const0149 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine2, _Const014C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine2, _Const014D );
   ViewsLine_OnSetWidth( &_this->HLine2, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const014A );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const014B );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine3, _Const014E );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine3, _Const014F );
   ViewsLine_OnSetWidth( &_this->HLine3, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const014C );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const014D );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine4, _Const0150 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine4, _Const0151 );
   ViewsLine_OnSetWidth( &_this->HLine4, 2 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const014E );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const014F );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->HLine5, _Const0152 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->HLine5, _Const0153 );
   ViewsLine_OnSetWidth( &_this->HLine5, 2 );
-  CoreRectView__OnSetBounds( &_this->Border, _Const0150 );
+  CoreRectView__OnSetBounds( &_this->Border, _Const0154 );
   ViewsBorder_OnSetWidth( &_this->Border, 2 );
-  CoreRectView__OnSetBounds( &_this->PlotterPathR, _Const0150 );
-  CoreRectView__OnSetBounds( &_this->PlotterPathS, _Const0150 );
-  CoreRectView__OnSetBounds( &_this->PlotterPathT, _Const0150 );
+  CoreRectView__OnSetBounds( &_this->PlotterPathR, _Const0154 );
+  CoreRectView__OnSetBounds( &_this->PlotterPathS, _Const0154 );
+  CoreRectView__OnSetBounds( &_this->PlotterPathT, _Const0154 );
 
   /* Call the user defined constructor */
   ApplicationPlotterTripleGraph769_Init( _this, aArg );

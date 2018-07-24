@@ -105,6 +105,8 @@ EW_DEFINE_FIELDS( ApplicationConfigScreen, CoreGroup )
   EW_OBJECT  ( SupVal,          ViewsText )
   EW_OBJECT  ( InfVal,          ViewsText )
   EW_OBJECT  ( Sair,            ApplicationModIconButton )
+  EW_OBJECT  ( SupSignMais,     ApplicationModIconButton )
+  EW_OBJECT  ( SupSignMenos,    ApplicationModIconButton )
 EW_END_OF_FIELDS( ApplicationConfigScreen )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ConfigScreen' */

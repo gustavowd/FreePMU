@@ -1246,7 +1246,7 @@ class Freq : Core::Group
   );
 
   $rect <410,310,610,350>
-  var int32 freqIdx = 3;
+  var int32 freqIdx = 5;
 
   $rect <410,350,610,390>
   array float unitsV[ 8 ] =
@@ -4977,7 +4977,7 @@ class ConfigScreen : Core::Group
   {
     preset Bounds = <329,45,369,85>;
     preset Icon = Resources::NavigationIconsMedium;
-    preset IconIndex = 18;
+    preset IconIndex = 0;
   }
 
   $rect <20,20,160,60>
@@ -4985,7 +4985,7 @@ class ConfigScreen : Core::Group
   {
     preset Bounds = <11,45,51,85>;
     preset Icon = Resources::NavigationIconsMedium;
-    preset IconIndex = 19;
+    preset IconIndex = 1;
   }
 }
 
@@ -5078,12 +5078,14 @@ vclass ConfigScreen769 : Application::ConfigScreen
   inherited object SupSignMais
   {
     preset Bounds = <518,70,578,130>;
+    preset Icon = Resources::NavigationIconsLarge;
   }
 
   $rect <20,20,160,60>
   inherited object SupSignMenos
   {
     preset Bounds = <22,70,82,130>;
+    preset Icon = Resources::NavigationIconsLarge;
   }
 }
 
