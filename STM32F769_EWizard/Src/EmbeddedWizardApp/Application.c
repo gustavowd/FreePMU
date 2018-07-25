@@ -7379,6 +7379,7 @@ void ApplicationFreq769_Init( ApplicationFreq _this, XHandle aArg )
 
   CoreTimer_OnSetPeriod( &_this->intervalo, 1000 / _this->freqV[ EwCheckIndex( _this->freqIdx, 
   7 )]);
+  GraphicsPath_InitMatrix( &_this->grafico.PathData );
   ApplicationFreq_atualizaX((ApplicationFreq)_this );
   ApplicationFreq_atualizaY((ApplicationFreq)_this );
   _this->config.Sair.OnAction = EwNewSlot( _this, ApplicationFreq_sairConfig );
