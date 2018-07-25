@@ -3930,7 +3930,7 @@ vclass Freq769 : Application::Freq
   inherited method Init()
   {
     intervalo.Period = 1000 / freqV[freqIdx];
-
+    grafico.PathData.InitMatrix();
     atualizaX();
     atualizaY();
 

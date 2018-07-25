@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::Freq;
+attr active = Application::Freq769;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::Freq.trocaEscala;
-attr codeSelEnd = <56,3>;
-attr codeSelStart = <56,3>;
+attr codeInspector = Application::Freq769.Init;
+attr codeSelEnd = <30,1>;
+attr codeSelStart = <30,1>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -55,8 +55,21 @@ view class Application::ConfigScreen
 
 view class Application::Freq
 {
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = trocaEscala;
+  attr codeSelEnd = <56,3>;
+  attr codeSelStart = <56,3>;
   attr enableGrid = true;
   attr grid = 10;
   attr scrollTo = <-7,61>;
+  attr zoom = 1.0;
+}
+
+view vclass Application::Freq769
+{
+  attr enableGrid = true;
+  attr grid = 10;
+  attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
