@@ -3333,7 +3333,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return faseR;
+    return 60.0+math_rand(-0.1,0.1);
   }
 
   $rect <210,410,410,450>
@@ -3930,7 +3930,7 @@ vclass Freq769 : Application::Freq
   inherited method Init()
   {
     intervalo.Period = 1000 / freqV[freqIdx];
-
+    grafico.PathData.InitMatrix();
     atualizaX();
     atualizaY();
 

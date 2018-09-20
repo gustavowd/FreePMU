@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::Freq769;
+attr active = Application::Classe;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,0>;
-attr codeInspector = Application::Freq769.Init;
-attr codeSelEnd = <30,1>;
-attr codeSelStart = <30,1>;
+attr codeFirstPos = <0,13>;
+attr codeInspector = Application::Classe.getFFT_R;
+attr codeSelEnd = <31,23>;
+attr codeSelStart = <31,23>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -41,7 +41,7 @@ view unit Application
 {
   attr enableGrid = true;
   attr grid = 10;
-  attr scrollTo = <-7,61>;
+  attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
@@ -66,8 +66,34 @@ view class Application::Freq
   attr zoom = 1.0;
 }
 
+view class Application::Fasores
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = roda;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+  attr enableGrid = true;
+  attr grid = 10;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::Classe
+{
+  attr enableGrid = true;
+  attr grid = 10;
+  attr scrollTo = <-7,105>;
+  attr zoom = 1.0;
+}
+
 view vclass Application::Freq769
 {
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = Init;
+  attr codeSelEnd = <30,1>;
+  attr codeSelStart = <30,1>;
   attr enableGrid = true;
   attr grid = 10;
   attr scrollTo = <-7,-7>;

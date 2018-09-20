@@ -20,6 +20,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "vnc_app.h"
+#include "frameDataQ.h"
 /* ------------------------ IEEE C37118 includes --------------------------- */
 #define TCP_PORT 4712
 
@@ -194,6 +195,10 @@ reboot_server:
 osSemaphoreId syncSem_id;
 osSemaphoreDef(syncSem);
 char isSyncCreated = 0;
+
+extern struct frameDataQueue* qUcData;
+int i;
+
 void pmu_tcp_server_out(void const * argument)
 {
 	int nbytes;
@@ -202,13 +207,29 @@ void pmu_tcp_server_out(void const * argument)
     //LWIP_UNUSED_ARG(pvParameters);
 
     syncSem_id = osSemaphoreCreate(osSemaphore(syncSem), 1);
-    isSyncCreated = 1;
+    isSyncCreated = 1;;
 	while(1){
 		osSemaphoreWait(syncSem_id, osWaitForever);
 		if(connected){
 			osMutexWait(ethMut_id,0);
 			nbytes = frame_data();
-			lwip_send(newsockfd_out, ucData, nbytes, 0);
+
+			// Caso seja 1, só há um ucData para mandar, pois a fila está vazia
+			if (nbytes == 1) {
+				// Os data frames aparentam ter sempre 50 bytes de tamanho
+				lwip_send(newsockfd_out, ucData, 50, 0);
+			// Caso contrário, envia-se a fila toda
+			} else if (nbytes > 1) {
+				struct frameDataElement* temp = (struct frameDataElement*)removeQueueElement(qUcData);
+
+				while (temp != NULL) {
+					lwip_send(newsockfd_out, temp->ucData, 50, 0);
+
+					// E transcorre-se para o próximo elemento da fila
+					temp = temp->next;
+				}
+			}
+
 			osMutexRelease(ethMut_id);
 		}
 	}

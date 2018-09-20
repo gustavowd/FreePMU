@@ -3277,7 +3277,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return frequencia;
+    return math_rand(59.995,60.005);
   }
 
   $rect <10,330,210,370>
@@ -3291,7 +3291,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return magR;
+    return 123.0+math_rand(-0.1,0.1);
   }
 
   $rect <10,410,210,450>
@@ -3305,7 +3305,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return magT;
+    return 119.0+math_rand(-0.1,0.1);
   }
 
   $rect <10,370,210,410>
@@ -3319,7 +3319,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return magS;
+    return 121.0+math_rand(-0.1,0.1);
   }
 
   $rect <210,330,410,370>
@@ -3333,7 +3333,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return faseR;
+    return 30.0+math_rand(-0.1,0.1);
   }
 
   $rect <210,410,410,450>
@@ -3347,7 +3347,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return faseT;
+    return 30.0+math_rand(-0.1,0.1)-120.0;
   }
 
   $rect <210,370,410,410>
@@ -3361,7 +3361,7 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return faseS;
+    return 30.0+math_rand(-0.1,0.1)+120.0;
   }
 
   $rect <10,480,210,520>
@@ -3386,6 +3386,11 @@ class Classe : Templates::DeviceClass
       }
     }
     $endif
+
+    aFFT[0] = 0.9+math_rand(-0.1,0.1);
+    aFFT[1] = 0.2+math_rand(-0.05,0.05);
+    for (j = 2; j < aFFT.size; j = j + 1)
+      aFFT[j] = math_rand(0.05,0.15);
 
     //Define o número máximo de itens no CoordList, limpa e adiciona os valores
     cordFFT.MaxNoOfItems = 50;

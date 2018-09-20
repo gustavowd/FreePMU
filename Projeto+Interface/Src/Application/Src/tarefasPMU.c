@@ -151,6 +151,8 @@ union {
 	unsigned char byte[4];
 }convert_float_to_char;
 
+volatile unsigned short newSOC;
+
 
 // Referencia uma estrutura para o semáforo que sincroniza a transmissão pela porta serial
 osSemaphoreId  pmuSem_id;
@@ -628,7 +630,7 @@ void PMU_Task(void const * argument)
 		char *dados = (char*)&buffer;
 		UARTPutString(dados,36);
 
-		SOC = 1468976006;
+		//SOC = 1468976006;
 		FracSec = (unsigned long)a*FracSec;
 		a=a+1;
 		if(a==fps){
@@ -775,9 +777,16 @@ void GPS_Task(void const * argument)
 		//segundo secular UNIX time (1 jan 1970)
 		SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
 
+		//Novo SOC calculado!
+		newSOC = 1;
+
+		char m[80];
+		sprintf(m, "SOC %d\n", (int)SOC);
+		EwPrint(m);
+
 		//SOC = 1468976006;
 		a=0; //Pra zerar o contador do FracSec
-		}
+	}
 
 }
 
@@ -896,17 +905,19 @@ uint16_t ComputeCRC(unsigned char *Message, unsigned char MessLen)
 
 
 unsigned char ucData[128];
-
-
 unsigned int PmuID = 0x0001;			// Identificacao da PMU
 
-
-
-
+/* Declaracao da fila. */
+struct frameDataQueue* qUcData = NULL;
+int qtdFasores = 0;
 
 /////////////// FRAME DE DADOS
 int frame_data(void)
 {
+	// Se a fila nao existir, cria-la
+	if (qUcData == NULL) {
+		qUcData = createFDQueue();
+	}
 
 	// 1. SYNC = Data Message Sync Byte and Frame Type
 	ucData[0] = A_SYNC_AA;
@@ -949,58 +960,58 @@ int frame_data(void)
 
 
 	convert_float_to_char.pf = Mag_R_final;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//16
+	ucData[i++] = convert_float_to_char.byte[2];	//17
+	ucData[i++] = convert_float_to_char.byte[1];	//18
+	ucData[i++] = convert_float_to_char.byte[0];	//19
 
 	convert_float_to_char.pf = Fase_R_rad;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//20
+	ucData[i++] = convert_float_to_char.byte[2];	//21
+	ucData[i++] = convert_float_to_char.byte[1];	//22
+	ucData[i++] = convert_float_to_char.byte[0];	//23
 
 	convert_float_to_char.pf = Mag_S_final;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//24
+	ucData[i++] = convert_float_to_char.byte[2];	//25
+	ucData[i++] = convert_float_to_char.byte[1];	//26
+	ucData[i++] = convert_float_to_char.byte[0];	//27
 
 	convert_float_to_char.pf = Fase_S_rad;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//28
+	ucData[i++] = convert_float_to_char.byte[2];	//29
+	ucData[i++] = convert_float_to_char.byte[1];	//30
+	ucData[i++] = convert_float_to_char.byte[0];	//31
 
 	convert_float_to_char.pf = Mag_T_final;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//32
+	ucData[i++] = convert_float_to_char.byte[2];	//33
+	ucData[i++] = convert_float_to_char.byte[1];	//34
+	ucData[i++] = convert_float_to_char.byte[0];	//35
 
 	convert_float_to_char.pf = Fase_T_rad;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//36
+	ucData[i++] = convert_float_to_char.byte[2];	//37
+	ucData[i++] = convert_float_to_char.byte[1];	//38
+	ucData[i++] = convert_float_to_char.byte[0];	//39
 
 	// 8. FREQ = Desvio de frequencia do nominal, em mHz
 	//Freq_final = (Freq_final - f0)*1000;
 
 	convert_float_to_char.pf = (Freq_final);
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//40
+	ucData[i++] = convert_float_to_char.byte[2];	//41
+	ucData[i++] = convert_float_to_char.byte[1];	//42
+	ucData[i++] = convert_float_to_char.byte[0];	//43
 
 	// 9. DFREQ = ROCOF in Hz/s "times 100"
 	//ROCOF = ROCOF*100;
 
 	convert_float_to_char.pf = (media_rocof*100);
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//44
+	ucData[i++] = convert_float_to_char.byte[2];	//45
+	ucData[i++] = convert_float_to_char.byte[1];	//46
+	ucData[i++] = convert_float_to_char.byte[0];	//47
 
 	// 10. ANALOG = Analog word
 	//ucData[48] = 0x00;
@@ -1015,11 +1026,36 @@ int frame_data(void)
 	// 12. CRC-CCITT = Cyclic Redundancy Codes (CRC)
 	CRC_CCITT = ComputeCRC(ucData, i);
 
-	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
-	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);
+	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);	//48
+	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);			//49
 
+	// Se o SOC for atual, envia o pacote atual e os pacotes da fila
+	if (newSOC) {
+		//Se a fila estiver vazia ...
+		if (isQueueEmpty(qUcData)) {
+			/*	... Retorna 1, informando o pmu_tcp_server_out
+			 *  pra apenas enviar o ucData atual, visto que nao tem
+			 	mais dados que este para enviar. */
+			return 1;
+		}
+		//Caso contrario ...
+		else {
+			/*	... coloca o newSOC em todos os elementos da fila
+			 *  para serem enviados pelo tcp_server.
+			 *
+			 *  Lembrando que a funcao changeSOC retorna o numero de elementos
+			 *  da fila, por isso se encontra em um return. */
+			insertQueueElement(qUcData, ucData);
+			return changeSOC(qUcData, newSOC);
+		}
+	}
+	// Caso contrario, guarda na fila e retorna 0, pois nao havera nada para mandar
+	else {
+		insertQueueElement(qUcData, ucData);
+		return 0;
+	}
 
-	return i;
+	//return i;
 }
 
 /////////////// FRAME DE CONFIGURAÇÃO
@@ -1213,6 +1249,9 @@ int frame_header(void)
 
 extern void MX_TIM2_Init(void);
 
+/*	TIM8_ETRF = PI3 = D7
+ *  TIM2_ETRF = PA15 = D9 */
+
 //Callback chamado quando o ADC finaliza a conversão
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	//Interrompe o TIM8 e zera sua contagem atribuindo 0 ao Auto Reload Register
@@ -1232,6 +1271,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 		// E inicia o TIM2
 		htim2.Instance->CR1 |= (TIM_CR1_CEN);
+
+		newSOC = 0;
 
 		trigcount++;
 	}
