@@ -57,7 +57,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-#define MAX_DHCP_TRIES  4
+#define MAX_DHCP_TRIES  200
 __IO uint8_t VNC_State = VNC_IDLE;
 __IO uint8_t VNC_LockState = 0;
 struct netif gnetif; /* network interface structure */
@@ -378,6 +378,8 @@ void  VNC_SetLockState(uint8_t LockState)
   * @param  argument: network interface
   * @retval None
   */
+void pmu_tcp_server(void const * argument);
+void pmu_tcp_server_out(void const * argument);
 void VNC_Thread(void const * argument)
 {
   struct dhcp *dhcp;
@@ -431,6 +433,9 @@ void VNC_Thread(void const * argument)
       
       VNC_SERVER_LogMessage ((char *)iptxt);
       
+      sys_thread_new("PMU TCP Server", pmu_tcp_server, NULL, 2048, 6);
+      sys_thread_new("PMU TCP Server out", pmu_tcp_server_out, NULL, 2048, 5);
+
       /* Init VNC context and attach to layer (so context is updated if the display-layer-contents change */
 //      GUI_VNC_AttachToLayer(&_Context, 0);
 //      _Context.ServerIndex = 0;
