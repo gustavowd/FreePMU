@@ -42,19 +42,16 @@
 
 #include "main.h"
 #include "tarefasPMU.h"
+#include "cmsis_os.h"
 
-
-#if EW_USE_FREE_RTOS == 1
-  #include "cmsis_os.h"
-#endif
 
 tlsf_t MemPool;
 
 static void EmWiMainLoop( const void* arg );
 
-#if EW_USE_FREE_RTOS == 1
-  #define semtstSTACK_SIZE    configMINIMAL_STACK_SIZE * 10
-#endif
+
+#define semtstSTACK_SIZE    configMINIMAL_STACK_SIZE * 10
+
 
 /* define pyhiscal dimension of the LCD framebuffer */
 #define FRAME_BUFFER_WIDTH    480
@@ -110,7 +107,6 @@ RNG_HandleTypeDef RngHandle;
 xSemaphoreHandle sUART;
 
 osSemaphoreId uartSem_id;
-//osMutexId uartMutex_id;
 osSemaphoreId SerialGPS_semId;
 
 osThreadId pmuThread_Id;
@@ -123,22 +119,16 @@ unsigned int DR1 = 0;
 unsigned char TIM2_UART_Flag = 0, ADC_UART_Flag = 0;
 
 /********************** DEFINIÇÕES DE FUNÇÕES *******************/
-void UARTPutString(char *string, uint16_t size);
-
-static void SerialSend(void const * argument);
 
 static void RNG_Init(void);
 static void MX_GPIO_Init(void);
-static void MX_USART1_UART_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADCalibration_Init(void);
 void MX_TIM2_Init(void);
 static void MX_TIM8_Init(void);
 void MX_USART6_UART_Init(void);
-void SSL_Client(void const *argument);
 void PMU_Task(void const * argument);
 void GPS_Task(void const * argument);
-void CalculaMediaADC(unsigned short *avgArray);
 unsigned int Get_ADC_Calib (void);
 
 void Error_Handler(void);
@@ -286,11 +276,7 @@ static void Update( XViewport* aViewport, CoreRoot aApplication )
 *******************************************************************************/
 int main( void )
 {
-	/*	Aqui entra:
-	 * 	- MPU_Config
-	 * 	- CPU_CACHE_Enable
-	 * 	- SystemClock_Config
-	 * 	- HAL_Init	 */
+	/*Configura os componentes do sistema*/
 	EwBspConfigSystem();
 
 	/* configure system tick counter */
@@ -301,7 +287,6 @@ int main( void )
 
 	/********* Inicialização dos Periféricos *********/
 	MX_GPIO_Init();
-	//MX_USART1_UART_Init();
 	MX_ADCalibration_Init();
 	MX_DMA_Init();
 	MX_TIM8_Init();
@@ -331,25 +316,16 @@ int main( void )
 	osThreadDef(pmuTask, PMU_Task, osPriorityRealtime, 0, 2048);
 	pmuThread_Id = osThreadCreate (osThread(pmuTask), NULL);
 
-	#if EW_USE_FREE_RTOS == 1
+	/*Cria a tarefa do Embedded Wizard GUI application (interface da tela)*/
+	osThreadDef( EmWiThreadHandle, EmWiMainLoop, osPriorityNormal, 0, semtstSTACK_SIZE );
+	osThreadCreate( osThread( EmWiThreadHandle ), (void*)0 );
 
-	  /* create thread that drives the Embedded Wizard GUI application... */
-	//  EwPrint( "Create UI thread...                          " );
-	  osThreadDef( EmWiThreadHandle, EmWiMainLoop, osPriorityNormal, 0, semtstSTACK_SIZE );
-	  osThreadCreate( osThread( EmWiThreadHandle ), (void*)0 );
-	//  EwPrint( "[OK]\n" );
+	/*Inicia o escalonador (scheduler)*/
+	osKernelStart();
 
-	  /* ...and start scheduler */
-	  osKernelStart();
 
-	#else
-
-  /* enter the Embedded Wizard main loop */
-  EmWiMainLoop( 0 );
-
-#endif
-
-  return 0;
+	/*Nunca deve chegar aqui, pois o escalonador tem o controle da CPU*/
+	return 0;
 }
 
 
@@ -502,69 +478,8 @@ static void EmWiMainLoop( const void* arg )
 }
 
 /******************* IMPLEMENTAÇÕES DE FUNÇÕES **********************/
-#if 0
-void UARTPutString(char *string, uint16_t size){
 
-	// Descobre o tamanho da string, caso não informado
-	if (!size){
-		uint8_t *tmp = (uint8_t *)string;
-
-		while(*tmp++){
-			size++;
-		}
-	}
-
-	/* Transmite uma sequencia de dados, com fluxo controlado pela interrupção */
-	HAL_UART_Transmit_IT(&huart6,(uint8_t *)string,size);
-
-	// Wait indefinitely for a UART interrupt
-	xSemaphoreTake(sUART, portMAX_DELAY);
-
-}
-
-
-static void SerialSend(void const * argument){
-	unsigned long i = 0;
-	char msg[64];
-
-	osSemaphoreWait(uartSem_id, osWaitForever);
-	HAL_UART_Transmit_IT(&huart1, (uint8_t*)"\033[0;0H", strlen("\033[0;0H"));
-
-	osSemaphoreWait(uartSem_id, osWaitForever);
-	HAL_UART_Transmit_IT(&huart1, (uint8_t*)"\033[2J", strlen("\033[2J"));
-
-	while(1){
-/*
-		if(ADC_UART_Flag == 1){
-			unsigned short valores[3];
-			valores[0] = adcBuffer[0];
-			valores[1] = adcBuffer[1];
-			valores[2] = adcBuffer[2];
-
-			osSemaphoreWait(uartSem_id, osWaitForever);
-			sprintf(msg,"Valor de tensão do ADC1: %f \r\n", (float)(valores[0]*3.3/4096));
-
-			osSemaphoreWait(uartSem_id, osWaitForever);
-			sprintf(msg,"Valor de tensão do ADC2: %f \r\n", (float)(valores[1]*3.3/4096));
-
-			osSemaphoreWait(uartSem_id, osWaitForever);
-			sprintf(msg,"Valor de tensão do ADC3: %f \r\n", (float)(valores[2]*3.3/4096));
-
-			ADC_UART_Flag = 0;
-		}
-*/
-
-		sprintf(msg, "Mensagem numero %lu\r\n", i);
-		osSemaphoreWait(uartSem_id, osWaitForever);
-		HAL_UART_Transmit_IT(&huart1, (uint8_t*)msg, strlen(msg));
-		i++;
-		osDelay(1000);
-	}
-	osThreadTerminate(NULL);
-
-}
-#endif
-
+//todo: O que é isso?
 static void RNG_Init(void)
 {
   RngHandle.Instance = RNG;
@@ -584,6 +499,11 @@ static void RNG_Init(void)
   }
 }
 
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Habilita o clock de todas as GPIO's para poderem ser utilizadas
+  * pelos periféricos posteriormente.
+  * @retval None
+  */
 static void MX_GPIO_Init(void)
 {
 
@@ -596,29 +516,10 @@ static void MX_GPIO_Init(void)
     __HAL_RCC_GPIOI_CLK_ENABLE();
 }
 
-static void MX_USART1_UART_Init(void)
-{
-
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  //HAL_NVIC_SetPriority(USART2_IRQn, 0x2, 0);
- // HAL_NVIC_EnableIRQ(USART2_IRQn);
-
-}
-
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Configuração/Inicialização do DMA2
+  * @retval None
+  */
 static void MX_DMA_Init(void)
 {
   /* DMA controller clock enable */
@@ -626,11 +527,17 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA2_Stream0_IRQn interrupt configuration */
+  //todo: Pra que é configurada a interrupção do DMA, se ela não é usada pelo usuário?
   HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 0x5, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
 }
 
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Calibração do ADC1
+  * @retval None
+  */
+//todo: Porque apenas o ADC1 tem DMA configurado? Ele é configurado duas vezes. Por que ele tem de ser calibrado?
 static void MX_ADCalibration_Init(void)
 {
 
@@ -694,7 +601,7 @@ static void MX_ADCalibration_Init(void)
 
 }
 
-/* TIM2 init function */
+//todo: Pra que servem os dois timers?
 void MX_TIM2_Init(void)
 {
 
@@ -784,6 +691,12 @@ static void MX_TIM8_Init(void)
 
 }
 
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Configuração/Inicialização da UART6, utilizada para receber os
+  * dados trasnmitidos pelo GPS.
+  * @note: RX = D0 (PC7) | TX = D1 (PC6)
+  * @retval None
+  */
 void MX_USART6_UART_Init(void)
 {
 
@@ -812,6 +725,11 @@ unsigned int Get_ADC_Calib (void){
 	return DR1;
 }
 
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Tarefa erro, cai aqui quando alguma falha crítica ocorreu e o
+  * sistema não pode continuar.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler */
@@ -822,7 +740,12 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler */
 }
 
-/* ADC1 init function */
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Configuração/Inicialização do ADC1, responsável pela medição
+  * da primeira fase da rede elétrica.
+  * @note: Esta função também configura um canal do DMA para o ADC.
+  * @retval None
+  */
 void MX_ADC1_Init(void)
 {
 
@@ -894,7 +817,11 @@ void MX_ADC1_Init(void)
 
 }
 
-/* ADC2 init function */
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Configuração/Inicialização do ADC2, responsável pela medição
+  * da segunda fase da rede elétrica.
+  * @retval None
+  */
 void MX_ADC2_Init(void)
 {
 
@@ -929,7 +856,11 @@ void MX_ADC2_Init(void)
 
 }
 
-/* ADC3 init function */
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Configuração/Inicialização do ADC3, responsável pela medição
+  * da terceira fase da rede elétrica.
+  * @retval None
+  */
 void MX_ADC3_Init(void)
 {
 
@@ -965,7 +896,12 @@ void MX_ADC3_Init(void)
 }
 
 /********************** CALLBACKS ******************/
-//Callback chamado quando a UART finaliza a recepção do fluxo de bytes
+/**-----------------------------------------------------------------------------------------------------------------------
+  * @brief  Callback chamado quando a UART finaliza a recepção de um fluxo
+  * de bytes.
+  * @param huart: Identificador da UART que invocou o callback.
+  * @retval None
+  */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if(huart->Instance == USART6){
 

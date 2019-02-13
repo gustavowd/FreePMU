@@ -22,7 +22,7 @@
 #include "vnc_app.h"
 #include "frameDataQ.h"
 /* ------------------------ IEEE C37118 includes --------------------------- */
-#define TCP_PORT 4712
+#define TCP_PORT 8081//4712
 
 #define A_SYNC_AA 0xAA
 #define A_SYNC_DATA 0x01

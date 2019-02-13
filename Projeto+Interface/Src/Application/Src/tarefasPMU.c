@@ -210,6 +210,7 @@ void PMU_Task(void const * argument)
 	}
 
 	  BSP_LED_Init(LED1);
+	  /*Inicia os ADC's*/
 	  MX_ADC1_Init();
 	  MX_ADC2_Init();
 	  MX_ADC3_Init();
@@ -725,12 +726,9 @@ void GPS_Task(void const * argument)
 	osMessageQDef(SerialGPSq, 128, unsigned char);
 	SerialGPSq = osMessageCreate(osMessageQ(SerialGPSq), NULL);
 
-
 	sUART = xSemaphoreCreateBinary();
 	MX_USART6_UART_Init();
 	HAL_UART_Receive_IT(&huart6, &teste, 1);
-
-	//UARTPutString("olaMundo", 0);
 
 	while(1){
 	    volatile unsigned char *p;
