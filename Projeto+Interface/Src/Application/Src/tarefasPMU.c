@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
+#include <time.h>
 #include <string.h>
 #include "main.h"
 #include "arm_const_structs.h"
@@ -747,43 +748,36 @@ void GPS_Task(void const * argument)
 		}while(*p != '\n');
 
 
+		/*Verifica se chegou informações de Data e Hora*/
+		if (dado_gps[0] == 'G' && dado_gps[1] == 'P' && dado_gps[2] == 'R' &&
+				dado_gps[3] == 'M' && dado_gps[4] == 'C'){
 
+			struct tm t;
 
-		//Extrai a informaçao: segundos na semana
-		for(i=0;i<6;i++){
+			t.tm_hour = 10*(dado_gps[6]-48) + (dado_gps[7]-48);
+			t.tm_min = 10*(dado_gps[8]-48) + (dado_gps[9]-48);
+			t.tm_sec = 10*(dado_gps[10]-48) + (dado_gps[11]-48);
+			t.tm_mday = 10*(dado_gps[52]-48) + (dado_gps[53]-48);
+			t.tm_mon = 10*(dado_gps[54]-48) + (dado_gps[55]-48)-1;
+			t.tm_year = 2000+10*(dado_gps[56]-48) + (dado_gps[57]-48) - 1900;
+			t.tm_isdst = -1;
 
-		  UTC_TOW[i]=dado_gps[25+i];
+			char m[80];
+			sprintf(m, "%d:%d:%d - %d/%d/%d\n", t.tm_hour, t.tm_min, t.tm_sec,
+					                            t.tm_mday, t.tm_mon+1, t.tm_year+1900 );
+			EwPrint(m);
 
+			//segundo secular UNIX time (1 jan 1970)
+			SOC = (unsigned long) mktime(&t);
+			//Novo SOC calculado!
+			newSOC = 1;
+
+			sprintf(m, "SOC %d\n", (int)SOC);
+			EwPrint(m);
+
+			a=0; //Pra zerar o contador do FracSec
 		}
 
-		//Extrai a informaçao: numero da semana
-		for(i=0;i<4;i++){
-
-			UTC_WNO[i]=dado_gps[35+i];
-
-		}
-
-		//Envia pro LabVIEW
-		//char *dados = (char *)&dado_gps;
-		//UARTPutMultiChar(dados);
-
-		//Datasheet mentiroso, não é fonte UTC, é GPS! 10 anos de diferença
-		week_num = atoi(UTC_WNO);
-
-		sec_of_week = atoi(UTC_TOW);
-
-		//segundo secular UNIX time (1 jan 1970)
-		SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
-
-		//Novo SOC calculado!
-		newSOC = 1;
-
-		char m[80];
-		sprintf(m, "SOC %d\n", (int)SOC);
-		EwPrint(m);
-
-		//SOC = 1468976006;
-		a=0; //Pra zerar o contador do FracSec
 	}
 
 }
