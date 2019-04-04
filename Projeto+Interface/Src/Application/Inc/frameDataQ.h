@@ -22,6 +22,7 @@ struct frameDataElement {
  * end: ponteiro fim da fila */
 struct frameDataQueue {
 	struct frameDataElement *ini, *end;
+	uint16_t number_elements;
 };
 
 /* Cria um novo elemento. */
@@ -40,6 +41,6 @@ struct frameDataElement* removeQueueElement (struct frameDataQueue* q);
 int isQueueEmpty (struct frameDataQueue* q);
 
 /* Funcao para trocar o SOC do ucData. Retorna int para dizer qtos elementos ha na fila. */
-int changeSOC (struct frameDataQueue* q, int nSOC);
+int changeSOC (struct frameDataQueue* q, unsigned long nSOC);
 
 #endif /* APPLICATION_INC_FRAMEDATAQ_H_ */

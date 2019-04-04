@@ -12,6 +12,8 @@
 #include <string.h>
 #include "main.h"
 #include "arm_const_structs.h"
+#include "frameDataQ.h"
+#include "FreeRTOS.h"
 
 #define MCLOCK_FREQ 105000000
 #define numero_pontos 256
@@ -198,11 +200,13 @@ void PMU_Task(void const * argument)
 	Freq_ant = f0;
 
 	//Calcula a fração de segundo (para etiqueta de tempo)
+#if 0
 	if(f0 == 60){
 		FracSec = 0x00008235;  //Fração de segundo 0,03333
 	}else if(f0 == 50){
 		FracSec = 0x00009C40;  // Fração de segundo = 0,04
 	}
+#endif
 
 	// carrega vetores de media móvel
 	for(i=0;i<10;i++){
@@ -633,12 +637,15 @@ void PMU_Task(void const * argument)
 		UARTPutString(dados,36);
 
 		//SOC = 1468976006;
+		/*Não é mais utilizado. Este trecho só é util quando não há um GPS conectado*/
+#if 0
 		FracSec = (unsigned long)a*FracSec;
 		a=a+1;
 		if(a==fps){
 			SOC = SOC+1;
 			a=0;
 		}
+#endif
 		#endif
 
 
@@ -762,18 +769,18 @@ void GPS_Task(void const * argument)
 			t.tm_year = 2000+10*(dado_gps[56]-48) + (dado_gps[57]-48) - 1900;
 			t.tm_isdst = -1;
 
-			char m[80];
-			sprintf(m, "%d:%d:%d - %d/%d/%d\n", t.tm_hour, t.tm_min, t.tm_sec,
-					                            t.tm_mday, t.tm_mon+1, t.tm_year+1900 );
-			EwPrint(m);
+			//char m[80];
+			//sprintf(m, "%d:%d:%d - %d/%d/%d\n", t.tm_hour, t.tm_min, t.tm_sec,
+			//		                            t.tm_mday, t.tm_mon+1, t.tm_year+1900 );
+			//EwPrint(m);
 
-			//segundo secular UNIX time (1 jan 1970)
+			/*segundo secular UNIX time (1 jan 1970)*/
 			SOC = (unsigned long) mktime(&t);
 			//Novo SOC calculado!
 			newSOC = 1;
 
-			sprintf(m, "SOC %d\n", (int)SOC);
-			EwPrint(m);
+		//	sprintf(m, "SOC %d\n", (int)SOC);
+		//	EwPrint(m);
 
 			a=0; //Pra zerar o contador do FracSec
 		}
@@ -873,7 +880,6 @@ void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout)
 // Baseado na norma
 
 uint16_t CRC_CCITT;
-
 uint16_t ComputeCRC(unsigned char *Message, unsigned char MessLen)
 {
 	uint16_t crc=0xFFFF;
@@ -906,40 +912,49 @@ int qtdFasores = 0;
 /////////////// FRAME DE DADOS
 int frame_data(void)
 {
+	static int frame_cnt = 0;
 	// Se a fila nao existir, cria-la
 	if (qUcData == NULL) {
 		qUcData = createFDQueue();
 	}
 
+	uint8_t i=0;
+
+	memset((void*)ucData, 0, 128);
+
 	// 1. SYNC = Data Message Sync Byte and Frame Type
-	ucData[0] = A_SYNC_AA;
-	ucData[1] = A_SYNC_DATA;
+	ucData[i++] = A_SYNC_AA;   //0
+	ucData[i++] = A_SYNC_DATA; //1
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
-	ucData[2] = (unsigned char)0x00;
-	ucData[3] = (unsigned char)0x32;
+	ucData[i++] = (unsigned char)0x00;   //2
+	ucData[i++] = (unsigned char)0x32;   //3
 
 	// 3. IDCODE = ID da fonte de transmissao
-	ucData[4] = (unsigned char)((PmuID & 0xFF00) >> 8);
-	ucData[5] = (unsigned char)(PmuID & 0x00FF);
+	ucData[i++] = (unsigned char)((PmuID & 0xFF00) >> 8);   //4
+	ucData[i++] = (unsigned char)(PmuID & 0x00FF);   //5
 
 	// 4. SOC = Second Of Century = Estampa de tempo, segundo secular
-	ucData[6] = (unsigned char)((SOC & 0xFF000000) >> 24);
-	ucData[7] = (unsigned char)((SOC & 0x00FF0000) >> 16);
-	ucData[8] = (unsigned char)((SOC & 0x0000FF00) >> 8);
-	ucData[9] = (unsigned char)(SOC & 0x000000FF);
+	ucData[i++] = (unsigned char)((SOC & 0xFF000000) >> 24);   //6
+	ucData[i++] = (unsigned char)((SOC & 0x00FF0000) >> 16);   //7
+	ucData[i++] = (unsigned char)((SOC & 0x0000FF00) >> 8);   //8
+	ucData[i++] = (unsigned char)(SOC & 0x000000FF);   //9
 
 	// 5. FRACSEC = Fração do segundo e qualidade do tempo
-	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seção 6.2.2)
-	ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
-	ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
-	ucData[13] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
+	ucData[i++] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seção 6.2.2)
+	ucData[i++] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
+	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
+	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
+	FracSec += 0x00008235;
+	frame_cnt++;
+	if (frame_cnt >= 30){
+		frame_cnt = 0;
+		FracSec = 0;
+	}
 
 	// 6. STAT = Flags, a criterio do usuario
-	ucData[14] = 0x00;
-	ucData[15] = 0x00;
-
-	int i = 16;
+	ucData[i++] = 0x00;   //14
+	ucData[i++] = 0x00;   //15
 
 	// 7. PHASORS
 	// Magnitude primeiro - unidades de engenharia
@@ -1005,23 +1020,13 @@ int frame_data(void)
 	ucData[i++] = convert_float_to_char.byte[1];	//46
 	ucData[i++] = convert_float_to_char.byte[0];	//47
 
-	// 10. ANALOG = Analog word
-	//ucData[48] = 0x00;
-	//ucData[49] = 0x00;
-	//ucData[50] = 0x00;
-	//ucData[51] = 0x00;
-
-	// 11. DIGITAL = Digital status word
-	//ucData[52] = 0x00;
-	//ucData[53] = 0x00;
-
 	// 12. CRC-CCITT = Cyclic Redundancy Codes (CRC)
 	CRC_CCITT = ComputeCRC(ucData, i);
 
 	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);	//48
 	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);			//49
 
-	// Se o SOC for atual, envia o pacote atual e os pacotes da fila
+	/*Novo SOC foi calculado*/
 	if (newSOC) {
 		//Se a fila estiver vazia ...
 		if (isQueueEmpty(qUcData)) {
@@ -1030,7 +1035,6 @@ int frame_data(void)
 			 	mais dados que este para enviar. */
 			return 1;
 		}
-		//Caso contrario ...
 		else {
 			/*	... coloca o newSOC em todos os elementos da fila
 			 *  para serem enviados pelo tcp_server.
@@ -1038,11 +1042,10 @@ int frame_data(void)
 			 *  Lembrando que a funcao changeSOC retorna o numero de elementos
 			 *  da fila, por isso se encontra em um return. */
 			insertQueueElement(qUcData, ucData);
-			return changeSOC(qUcData, newSOC);
+			return changeSOC(qUcData, SOC);
 		}
 	}
-	// Caso contrario, guarda na fila e retorna 0, pois nao havera nada para mandar
-	else {
+	else {   /* Não há SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
 		insertQueueElement(qUcData, ucData);
 		return 0;
 	}
@@ -1058,7 +1061,7 @@ int frame_config(void)
 	//unsigned char ucData[98];
 	char CHName[16]; //vetor nome dos canais, frame config
 
-	memset(ucData, 0x00, sizeof(ucData));
+	memset((void*)ucData, 0, 128);
 
 	// 1. SYNC = Data Message Sync Byte andFrame Type
 	ucData[0] = A_SYNC_AA;
@@ -1197,46 +1200,47 @@ int frame_config(void)
 int frame_header(void)
 {
 
-	//unsigned char ucData[20];
+	uint16_t i=0;
+	memset((void*)ucData, 0, 128);
 
 	// 1. SYNC = Data Message Sync Byte andFrame Type
-	ucData[0] = A_SYNC_AA;
-	ucData[1] = A_SYNC_HDR;
+	ucData[i++] = A_SYNC_AA;
+	ucData[i++] = A_SYNC_HDR;
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
-	ucData[2] = (unsigned char)0x00;
-	ucData[3] = (unsigned char)0x15; // 21 em decimal
+	ucData[i++] = (unsigned char)0x00;
+	ucData[i++] = (unsigned char)0x15; // 21 em decimal
 
 	// 3. IDCODE = ID da fonte de transmissao
-	ucData[4] = (unsigned char)((PmuID & 0xFF00) >> 8);
-	ucData[5] = (unsigned char)(PmuID & 0x00FF);
+	ucData[i++] = (unsigned char)((PmuID & 0xFF00) >> 8);
+	ucData[i++] = (unsigned char)(PmuID & 0x00FF);
 
 	// 4. SOC = Second Of Century = Estampa de tempo, segundo secular
-	ucData[6] = (unsigned char)((SOC & 0xFF000000) >> 24);
-	ucData[7] = (unsigned char)((SOC & 0x00FF0000) >> 16);
-	ucData[8] = (unsigned char)((SOC & 0x0000FF00) >> 8);
-	ucData[9] = (unsigned char)(SOC & 0x000000FF);
+	ucData[i++] = (unsigned char)((SOC & 0xFF000000) >> 24);
+	ucData[i++] = (unsigned char)((SOC & 0x00FF0000) >> 16);
+	ucData[i++] = (unsigned char)((SOC & 0x0000FF00) >> 8);
+	ucData[i++] = (unsigned char)(SOC & 0x000000FF);
 
 	// 5. FRACSEC = Fração do segundo e qualidade do tempo
-	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seção 6.2.2)
-	ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
-	ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
-	ucData[13] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
+	ucData[i++] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seção 6.2.2)
+	ucData[i++] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
+	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
+	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
 
 	// 6. DATA = qualquer coisa
-	ucData[14] = (unsigned char)(1);
-	ucData[15] = (unsigned char)(2);
-	ucData[16] = (unsigned char)(3);
-	ucData[17] = (unsigned char)(4);
+	ucData[i++] = (unsigned char)(1);
+	ucData[i++] = (unsigned char)(2);
+	ucData[i++] = (unsigned char)(3);
+	ucData[i++] = (unsigned char)(4);
 
 	//21. CRC-CCITT = Calcula o CRC
 
-	CRC_CCITT = ComputeCRC(ucData, 19);
+	CRC_CCITT = ComputeCRC(ucData, i);
 
-	ucData[18] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
-	ucData[19] = (unsigned char)(CRC_CCITT & 0x00FF);
+	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
+	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);
 
-	return 19+1;
+	return i++;
 }
 
 extern void MX_TIM2_Init(void);

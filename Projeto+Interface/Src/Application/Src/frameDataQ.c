@@ -9,8 +9,8 @@
 
 /* Cria um novo elemento. */
 struct frameDataElement* newElement (unsigned char* newUcData) {
-	struct frameDataElement *temp = (struct frameDataElement*)malloc(sizeof(struct frameDataElement));
-	strcpy(temp->ucData, newUcData);
+	struct frameDataElement *temp = (struct frameDataElement*)pvPortMalloc(sizeof(struct frameDataElement));
+	memcpy(temp->ucData, newUcData, 50);
 	//temp->ucData = newUcData;
 	temp->next = NULL;
 	return temp;
@@ -18,8 +18,9 @@ struct frameDataElement* newElement (unsigned char* newUcData) {
 
 /* Cria uma fila vazia. */
 struct frameDataQueue* createFDQueue () {
-	struct frameDataQueue* q = (struct frameDataQueue*)malloc(sizeof(struct frameDataQueue));
+	struct frameDataQueue* q = (struct frameDataQueue*)pvPortMalloc(sizeof(struct frameDataQueue));
 	q->ini = q->end = NULL;
+	q->number_elements = 0;
 	return q;
 }
 
@@ -36,12 +37,13 @@ void insertQueueElement (struct frameDataQueue* q, unsigned char* newUcData) {
 		q->end->next = temp;
 		q->end = temp;
 	}
+	q->number_elements++;
 }
 
 /* Desenfila o elemento e retorna a struct. */
 struct frameDataElement* removeQueueElement (struct frameDataQueue* q) {
-	// Se a fila estiver vazia, retorna nulo
-	if (q->ini == NULL) {
+	/*Caso a fila esteja vazia, retorna nulo*/
+	if (q->number_elements == 0) {
 		return NULL;
 	}
 
@@ -53,13 +55,14 @@ struct frameDataElement* removeQueueElement (struct frameDataQueue* q) {
 	if (q->ini == NULL) {
 		q->end = NULL;
 	}
+	q->number_elements--;
 
 	return temp;
 }
 
 /* Verifica se a fila esta vazia. 1 caso sim, 0 caso contrario. */
 int isQueueEmpty (struct frameDataQueue* q) {
-	if (q->ini == NULL) {
+	if (q->number_elements == 0) {
 		return 1;
 	} else {
 		return 0;
@@ -67,14 +70,14 @@ int isQueueEmpty (struct frameDataQueue* q) {
 }
 
 /* Funcao para trocar o SOC do ucData. Retorna int para dizer qtos elementos ha na fila. */
-int changeSOC (struct frameDataQueue* q, int nSOC) {
+int changeSOC (struct frameDataQueue* q, unsigned long nSOC) {
 	uint16_t CRC_CCITT;
 	int qtdE = 0;
 
-	// O ponteiro de temp é colocado no início da fila para iterar sobre os elementos
+	/* O ponteiro de temp é colocado no início da fila para iterar sobre os elementos*/
 	struct frameDataElement* temp = q->ini;
 
-	// O final da fila ocorre quando este pointeiro chegar a NULL, então para cada item...
+	/*O final da fila ocorre quando este pointeiro chegar a NULL, então para cada item...*/
 	while (temp != NULL) {
 		// ... altera-se o SOC com o novo SOC
 		temp->ucData[6] = (unsigned char)((nSOC & 0xFF000000) >> 24);
@@ -82,13 +85,13 @@ int changeSOC (struct frameDataQueue* q, int nSOC) {
 		temp->ucData[8] = (unsigned char)((nSOC & 0x0000FF00) >> 8);
 		temp->ucData[9] = (unsigned char)(nSOC & 0x000000FF);
 
-		// Recalcula-se o CRC
+		/*Recalcula-se o CRC*/
 		CRC_CCITT = ComputeCRC(temp->ucData, 48);
 
 		temp->ucData[48] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
 		temp->ucData[49] = (unsigned char)(CRC_CCITT & 0x00FF);
 
-		// E transcorre-se para o próximo elemento da fila
+		/*E transcorre-se para o próximo elemento da fila*/
 		temp = temp->next;
 
 		++qtdE;

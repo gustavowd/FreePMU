@@ -188,7 +188,9 @@ Src/Application/Src/tarefasPMU.o: ../Src/Application/Src/tarefasPMU.c \
  C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/arm_const_structs.h \
  C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/arm_math.h \
  C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/core_cm7.h \
- C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/arm_common_tables.h
+ C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/arm_common_tables.h \
+ C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Src/Application/Inc/frameDataQ.h \
+ C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Src/Application/Inc/main.h
 
 C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Src/Application/Inc/main.h:
 
@@ -569,3 +571,7 @@ C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/arm_math.
 C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/core_cm7.h:
 
 C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Drivers/CMSIS/Include/arm_common_tables.h:
+
+C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Src/Application/Inc/frameDataQ.h:
+
+C:/Users/cpastro/eclipse-workspace/PMU_STM32F746/Src/Application/Inc/main.h:
