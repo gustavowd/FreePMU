@@ -910,6 +910,7 @@ struct frameDataQueue* qUcData = NULL;
 int qtdFasores = 0;
 
 /////////////// FRAME DE DADOS
+unsigned long SOC_anterior = 0;
 int frame_data(void)
 {
 	static int frame_cnt = 0;
@@ -946,11 +947,7 @@ int frame_data(void)
 	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
 	FracSec += 0x00008235;
-	frame_cnt++;
-	if (frame_cnt >= 30){
-		frame_cnt = 0;
-		FracSec = 0;
-	}
+	//frame_cnt++;
 
 	// 6. STAT = Flags, a criterio do usuario
 	ucData[i++] = 0x00;   //14
@@ -1046,6 +1043,15 @@ int frame_data(void)
 		}
 	}
 	else {   /* Não há SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
+		if (isQueueEmpty(qUcData)){
+			FracSec = 0x00;
+			frame_cnt = 0;
+			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seção 6.2.2)
+			ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
+			ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
+			ucData[13] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
+			FracSec += 0x00008235;
+		}
 		insertQueueElement(qUcData, ucData);
 		return 0;
 	}
