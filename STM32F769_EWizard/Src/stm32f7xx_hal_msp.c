@@ -83,16 +83,16 @@
 #define ADC_DMA_IRQHandler             		DMA2_Stream4_IRQHandler
 
 /* Definition for TIMx clock resources */
-#define TIMx                              	TIM2
-#define TIMx_CLK_ENABLE()                 	__HAL_RCC_TIM2_CLK_ENABLE()
+#define TIMx                              	TIM8
+#define TIMx_CLK_ENABLE()                 	__HAL_RCC_TIM8_CLK_ENABLE()
 
-#define TIMx_FORCE_RESET()                	__HAL_RCC_TIM2_FORCE_RESET()
-#define TIMx_RELEASE_RESET()             	__HAL_RCC_TIM2_RELEASE_RESET()
+#define TIMx_FORCE_RESET()                	__HAL_RCC_TIM8_FORCE_RESET()
+#define TIMx_RELEASE_RESET()             	__HAL_RCC_TIM8_RELEASE_RESET()
 
 
 extern DMA_HandleTypeDef hdma_adc1;
 
-extern void _Error_Handler(char *, int);
+//extern void _Error_Handler(char *, int);
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -244,31 +244,30 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 
 	  /* USER CODE END TIM1_MspInit 1 */
 	  }
-	  else if(htim_base->Instance==TIM2)
-	  {
-		  /* USER CODE BEGIN TIM2_MspInit 0 */
+	  else if(htim_base->Instance==TIM8){
+		  /* USER CODE BEGIN TIM8_MspInit 0 */
 
-		  /* USER CODE END TIM2_MspInit 0 */
+		  /* USER CODE END TIM8_MspInit 0 */
 		    /* Peripheral clock enable */
-		    __HAL_RCC_TIM2_CLK_ENABLE();
+		    __HAL_RCC_TIM8_CLK_ENABLE();
 
-		    /**TIM2 GPIO Configuration
-		    PA0/WKUP     ------> TIM2_ETR
+		    /**TIM8 GPIO Configuration
+		    PI3     ------> TIM8_ETR
 		    */
-		    GPIO_InitStruct.Pin = GPIO_PIN_0;
+		    GPIO_InitStruct.Pin = GPIO_PIN_3;
 		    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 		    GPIO_InitStruct.Pull = GPIO_NOPULL;
 		    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-		    GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
-		    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+		    GPIO_InitStruct.Alternate = GPIO_AF3_TIM8;
+		    HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
-		    /* TIM2 interrupt Init */
-		    //HAL_NVIC_SetPriority(TIM2_IRQn, 5, 0);
-		    //HAL_NVIC_EnableIRQ(TIM2_IRQn);
+		    /* TIM8 interrupt Init */
+		    //HAL_NVIC_SetPriority(TIM8_IRQn, 5, 0);
+		    //HAL_NVIC_EnableIRQ(TIM8_IRQn);
 
-		  /* USER CODE BEGIN TIM2_MspInit 1 */
+		  /* USER CODE BEGIN TIM8_MspInit 1 */
 
-		  /* USER CODE END TIM2_MspInit 1 */
+		  /* USER CODE END TIM8_MspInit 1 */
 	  }
 
 
@@ -276,24 +275,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 
 void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
-	if(htim_base->Instance==TIM2)
-	  {
-		  /* USER CODE BEGIN TIM2_MspDeInit 0 */
-
-		  /* USER CODE END TIM2_MspDeInit 0 */
-		    /* Peripheral clock disable */
-		    __HAL_RCC_TIM2_CLK_DISABLE();
-
-		    /**TIM2 GPIO Configuration
-		    PA0/WKUP     ------> TIM2_ETR
-		    */
-		    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
-
-		  /* USER CODE BEGIN TIM2_MspDeInit 1 */
-
-		  /* USER CODE END TIM2_MspDeInit 1 */
-	  }
-	else if(htim_base->Instance==TIM8)
+	if(htim_base->Instance==TIM8)
 	  {
 	  /* USER CODE BEGIN TIM8_MspDeInit 0 */
 
@@ -302,9 +284,9 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 	    __HAL_RCC_TIM8_CLK_DISABLE();
 
 	    /**TIM8 GPIO Configuration
-	    PC7     ------> TIM8_CH2
+	    PI3     ------> TIM8_ETR
 	    */
-	    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_7);
+	    //HAL_GPIO_DeInit(GPIOI, GPIO_PIN_3);
 
 	  /* USER CODE BEGIN TIM8_MspDeInit 1 */
 

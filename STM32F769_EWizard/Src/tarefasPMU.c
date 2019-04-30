@@ -8,12 +8,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
+#include <time.h>
 #include <string.h>
 #include "main.h"
 #include "arm_const_structs.h"
 #include "cmsis_os.h"
 #include "stm32f7xx_hal.h"
 #include "stm32f769i_discovery.h"
+
+#include "frameDataQ.h"
 
 #if (NOMINAL_FREQ == 50)
 #define MCLOCK_FREQ 200000000
@@ -27,9 +30,11 @@
 extern osMessageQId SerialGPSq;
 
 extern TIM_HandleTypeDef 			 htim1;
-extern TIM_HandleTypeDef			 htim2;
+extern TIM_HandleTypeDef			 htim8;
 
 extern UART_HandleTypeDef 			 huart6;
+
+volatile uint8_t newSOC = 0;
 
 unsigned short adcBuffer[numero_pontos*3] __attribute__((section(".ADCBUF")));
 #if (OVERSAMPLING  == 1)
@@ -566,12 +571,7 @@ void PMU_Task(void const * argument)
 
 		// Calcula magnitude final
 		// Ajustes da magnitude:
-/*
-		// Sensor AZUL:
-		Mag_R_final = MagR_x_mag * 60.665;
-		Mag_S_final = MagS_x_mag * 61.065;
-		Mag_T_final = MagT_x_mag * 61.095;
-*/
+
 		// Sensor PRETO:
 		Mag_R_final = MagR_x_mag * 64.727;
 		Mag_S_final = MagS_x_mag * 65.105;
@@ -604,17 +604,6 @@ void PMU_Task(void const * argument)
 			Fase_T_final = (Fase_T_final+360);
 		}
 
-
-/*
-		 Mag_R_final = 125;
-		 Mag_S_final = 125;
-		 Mag_T_final = 125;
-		 Fase_R_final = 120;
-		 Fase_S_final = 240;
-		 Fase_T_final = 0;
-
-*/
-
 		  // DADOS DA TRANSMISSAO (via serial pro PC)
 		buffer[0] = Mag_R_final;
 		buffer[1] = Fase_R_final;//_final;
@@ -623,27 +612,14 @@ void PMU_Task(void const * argument)
 
 		// Envia os dados pela serial
 		uint8_t *dados = (uint8_t*)&buffer;
-		UARTPutString(dados,16);
+		UARTPutString(dados,36);
 
-
-		SOC = 1468976006;
-		FracSec = (unsigned long)a*FracSec;
-		a=a+1;
-		if(a==fps){
-			SOC = SOC+1;
-			a=0;
-		}
 		#endif
 
 
 		if((isSyncCreated == 1) && (data_flag)){
-			//cnt++;
-			//if(cnt > 50){
 				cnt = 0;
-
 				osSemaphoreRelease(syncSem_id);
-
-			//}
 
 		}
 		BSP_LED_Toggle(LED1);
@@ -684,39 +660,37 @@ void GPS_Task(void const * argument)
 		   UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		}while(*p != '\n');
 
+		/*Verifica se chegou informações de Data e Hora*/
+		if (dado_gps[0] == 'G' && dado_gps[1] == 'P' && dado_gps[2] == 'R' &&
+				dado_gps[3] == 'M' && dado_gps[4] == 'C'){
 
+			struct tm t;
 
+			t.tm_hour = 10*(dado_gps[6]-48) + (dado_gps[7]-48);
+			t.tm_min = 10*(dado_gps[8]-48) + (dado_gps[9]-48);
+			t.tm_sec = 10*(dado_gps[10]-48) + (dado_gps[11]-48);
+			t.tm_mday = 10*(dado_gps[52]-48) + (dado_gps[53]-48);
+			t.tm_mon = 10*(dado_gps[54]-48) + (dado_gps[55]-48)-1;
+			t.tm_year = 2000+10*(dado_gps[56]-48) + (dado_gps[57]-48) - 1900;
+			t.tm_isdst = -1;
 
-		//Extrai a informaçao: segundos na semana
-		for(i=0;i<6;i++){
+			//char m[80];
+			//sprintf(m, "%d:%d:%d - %d/%d/%d\n", t.tm_hour, t.tm_min, t.tm_sec,
+			//		                            t.tm_mday, t.tm_mon+1, t.tm_year+1900 );
+			//EwPrint(m);
 
-		  UTC_TOW[i]=dado_gps[25+i];
+			/*segundo secular UNIX time (1 jan 1970)*/
+			SOC = (unsigned long) mktime(&t);
 
+			/*Novo SOC foi calculado*/
+			newSOC = 1;
+
+		//	sprintf(m, "SOC %d\n", (int)SOC);
+		//	EwPrint(m);
+
+			a=0; //Pra zerar o contador do FracSec
 		}
-
-		//Extrai a informaçao: numero da semana
-		for(i=0;i<4;i++){
-
-			UTC_WNO[i]=dado_gps[35+i];
-
-		}
-
-		//Envia pro LabVIEW
-		//char *dados = (char *)&dado_gps;
-		//UARTPutMultiChar(dados);
-
-		//Datasheet mentiroso, não é fonte UTC, é GPS! 10 anos de diferença
-		week_num = atoi(UTC_WNO);
-
-		sec_of_week = atoi(UTC_TOW);
-
-		//segundo secular UNIX time (1 jan 1970)
-		SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
-
-		//SOC = 1468976006;
-		a=0; //Pra zerar o contador do FracSec
-		}
-
+	}
 }
 
 void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout)
@@ -732,58 +706,6 @@ void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout)
 	}
 
 }
-
-
-/*
-	    		size = sizeof(dado_gps);
-
-	    		//Identificação dos separadores (virgulas)
-	    		cnt = 0;
-
-	    		for(j=0;j<size;j++){
-
-	    			if(dado_gps[j] == ','){
-	    				cnt++;
-	    			}
-
-	    			switch (cnt){
-	    			case 4:
-	    				date_limit = j;
-	    				break;
-	    			case 5:
-	    				tow_limit = j;
-	    				break;
-	    			case 6:
-	    				wno_limit = j;
-	    				break;
-	    			default:
-	    				break;
-	    			}
-	    		}
-
-	    		//Extrai a informaçao: segundos na semana
-	    		size = tow_limit - date_limit - 4; //Ex: ...,113851.00,...
-
-	    		for(j=0;j<size;j++){
-	    			UTC_TOW[j]=dado_gps[date_limit+1+j];
-	    		}
-
-	    		//Extrai a informaçao: numero da semana
-	    		size = wno_limit - tow_limit-1;	//Ex: ,1196,
-	    		for(j=0;j<size;j++){
-	    			UTC_WNO[i]=dado_gps[tow_limit+1+j];
-	    		}
-
-	    		x = dado_gps[0];
-	    		y = dado_gps[70];
-
-	    		week_num = atoi(UTC_WNO);  //string para inteiro - numero da semana
-	    		sec_of_week = atoi(UTC_TOW); //string para inteiro - segundos na semana
-*/
-
-
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -843,38 +765,47 @@ unsigned int PmuID = 0x0001;			// Identificacao da PMU
 
 
 /////////////// FRAME DE DADOS
+struct frameDataQueue* qUcData = NULL;
 int frame_data(void)
 {
+	// Se a fila nao existir, cria-la
+	if (qUcData == NULL) {
+		qUcData = createFDQueue();
+	}
+
+	uint8_t i=0;
+
+	memset((void*)ucData, 0, 128);
 
 	// 1. SYNC = Data Message Sync Byte and Frame Type
-	ucData[0] = A_SYNC_AA;
-	ucData[1] = A_SYNC_DATA;
+	ucData[i++] = A_SYNC_AA;   //0
+	ucData[i++] = A_SYNC_DATA; //1
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
-	ucData[2] = (unsigned char)0x00;
-	ucData[3] = (unsigned char)0x32;
+	ucData[i++] = (unsigned char)0x00;   //2
+	ucData[i++] = (unsigned char)0x32;   //3
 
 	// 3. IDCODE = ID da fonte de transmissao
-	ucData[4] = (unsigned char)((PmuID & 0xFF00) >> 8);
-	ucData[5] = (unsigned char)(PmuID & 0x00FF);
+	ucData[i++] = (unsigned char)((PmuID & 0xFF00) >> 8);   //4
+	ucData[i++] = (unsigned char)(PmuID & 0x00FF);   //5
 
 	// 4. SOC = Second Of Century = Estampa de tempo, segundo secular
-	ucData[6] = (unsigned char)((SOC & 0xFF000000) >> 24);
-	ucData[7] = (unsigned char)((SOC & 0x00FF0000) >> 16);
-	ucData[8] = (unsigned char)((SOC & 0x0000FF00) >> 8);
-	ucData[9] = (unsigned char)(SOC & 0x000000FF);
+	ucData[i++] = (unsigned char)((SOC & 0xFF000000) >> 24);   //6
+	ucData[i++] = (unsigned char)((SOC & 0x00FF0000) >> 16);   //7
+	ucData[i++] = (unsigned char)((SOC & 0x0000FF00) >> 8);   //8
+	ucData[i++] = (unsigned char)(SOC & 0x000000FF);   //9
 
 	// 5. FRACSEC = Fração do segundo e qualidade do tempo
-	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seção 6.2.2)
-	ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
-	ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
-	ucData[13] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
+	ucData[i++] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seção 6.2.2)
+	ucData[i++] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
+	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
+	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
+	FracSec += 0x00008235;
+	//frame_cnt++;
 
 	// 6. STAT = Flags, a criterio do usuario
-	ucData[14] = 0x00;
-	ucData[15] = 0x00;
-
-	int i = 16;
+	ucData[i++] = 0x00;   //14
+	ucData[i++] = 0x00;   //15
 
 	// 7. PHASORS
 	// Magnitude primeiro - unidades de engenharia
@@ -887,77 +818,98 @@ int frame_data(void)
 
 
 	convert_float_to_char.pf = Mag_R_final;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//16
+	ucData[i++] = convert_float_to_char.byte[2];	//17
+	ucData[i++] = convert_float_to_char.byte[1];	//18
+	ucData[i++] = convert_float_to_char.byte[0];	//19
 
 	convert_float_to_char.pf = Fase_R_rad;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//20
+	ucData[i++] = convert_float_to_char.byte[2];	//21
+	ucData[i++] = convert_float_to_char.byte[1];	//22
+	ucData[i++] = convert_float_to_char.byte[0];	//23
 
 	convert_float_to_char.pf = Mag_S_final;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//24
+	ucData[i++] = convert_float_to_char.byte[2];	//25
+	ucData[i++] = convert_float_to_char.byte[1];	//26
+	ucData[i++] = convert_float_to_char.byte[0];	//27
 
 	convert_float_to_char.pf = Fase_S_rad;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//28
+	ucData[i++] = convert_float_to_char.byte[2];	//29
+	ucData[i++] = convert_float_to_char.byte[1];	//30
+	ucData[i++] = convert_float_to_char.byte[0];	//31
 
 	convert_float_to_char.pf = Mag_T_final;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//32
+	ucData[i++] = convert_float_to_char.byte[2];	//33
+	ucData[i++] = convert_float_to_char.byte[1];	//34
+	ucData[i++] = convert_float_to_char.byte[0];	//35
 
 	convert_float_to_char.pf = Fase_T_rad;
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//36
+	ucData[i++] = convert_float_to_char.byte[2];	//37
+	ucData[i++] = convert_float_to_char.byte[1];	//38
+	ucData[i++] = convert_float_to_char.byte[0];	//39
 
 	// 8. FREQ = Desvio de frequencia do nominal, em mHz
 	//Freq_final = (Freq_final - f0)*1000;
 
 	convert_float_to_char.pf = (Freq_final);
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
+	ucData[i++] = convert_float_to_char.byte[3];	//40
+	ucData[i++] = convert_float_to_char.byte[2];	//41
+	ucData[i++] = convert_float_to_char.byte[1];	//42
+	ucData[i++] = convert_float_to_char.byte[0];	//43
 
 	// 9. DFREQ = ROCOF in Hz/s "times 100"
 	//ROCOF = ROCOF*100;
 
 	convert_float_to_char.pf = (media_rocof*100);
-	ucData[i++] = convert_float_to_char.byte[3];
-	ucData[i++] = convert_float_to_char.byte[2];
-	ucData[i++] = convert_float_to_char.byte[1];
-	ucData[i++] = convert_float_to_char.byte[0];
-
-	// 10. ANALOG = Analog word
-	//ucData[48] = 0x00;
-	//ucData[49] = 0x00;
-	//ucData[50] = 0x00;
-	//ucData[51] = 0x00;
-
-	// 11. DIGITAL = Digital status word
-	//ucData[52] = 0x00;
-	//ucData[53] = 0x00;
+	ucData[i++] = convert_float_to_char.byte[3];	//44
+	ucData[i++] = convert_float_to_char.byte[2];	//45
+	ucData[i++] = convert_float_to_char.byte[1];	//46
+	ucData[i++] = convert_float_to_char.byte[0];	//47
 
 	// 12. CRC-CCITT = Cyclic Redundancy Codes (CRC)
 	CRC_CCITT = ComputeCRC(ucData, i);
 
-	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
-	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);
+	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);	//48
+	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);			//49
 
+	/*Novo SOC foi calculado*/
+	if (newSOC) {
+		//Se a fila estiver vazia ...
+		if (isQueueEmpty(qUcData)) {
+			/*	... Retorna 1, informando o pmu_tcp_server_out
+			 *  pra apenas enviar o ucData atual, visto que nao tem
+			 	mais dados que este para enviar. */
+			return 1;
+		}
+		else {
+			/*	... coloca o newSOC em todos os elementos da fila
+			 *  para serem enviados pelo tcp_server.
+			 *
+			 *  Lembrando que a funcao changeSOC retorna o numero de elementos
+			 *  da fila, por isso se encontra em um return. */
+			insertQueueElement(qUcData, ucData);
+			return changeSOC(qUcData, SOC);
+		}
+	}
+	else {   /* Não há SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
+		if (isQueueEmpty(qUcData)){
+			FracSec = 0x00;
+			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seção 6.2.2)
+			ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
+			ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
+			ucData[13] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
+			FracSec += 0x00008235;
+		}
+		insertQueueElement(qUcData, ucData);
+		return 0;
+	}
 
-	return i;
+	//return i;
 }
 
 /////////////// FRAME DE CONFIGURAÇÃO
@@ -1150,7 +1102,6 @@ int frame_header(void)
 }
 
 //Callback chamado quando o ADC finaliza a conversão
-//extern void MX_TIM2_Init(void);
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	//Interrompe o TIM1 e zera sua contagem atribuindo 0 ao Auto Reload Register
 	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
@@ -1158,10 +1109,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 	BSP_LED_Toggle(LED1);
 
-#if 0
 	// Se for a primeira aquisição...
 	if (trigcount == 0) {
-		// Configura o TIM1 para ser trigado pelo TIM2 (ITR1)
+		// Configura o TIM1 para ser trigado pelo TIM8 (ITR1)
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
@@ -1170,17 +1120,21 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 		sSlaveConfig.TriggerFilter = 0;
 		HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
 
+		/*Inicializa o TIM8*/
+		htim8.Instance->CR1 |= (TIM_CR1_CEN);
+
+		newSOC = 0;
 		trigcount++;
 	}
-	// Do contrario, o TIM2 já está iniciado
+	// Do contrario, o TIM8 já está iniciado
 	else {
 		//Então conta-se um pulso
 		trigcount++;
 
 		if (trigcount > 29) {
-			// Caso o número de pulsos-1 tenha sido atingido, o TIM2 é interrompido
-			htim2.Instance->CR1 &= ~(TIM_CR1_CEN);
-			htim2.Instance->CNT = 0;
+			// Caso o número de pulsos-1 tenha sido atingido, o TIM8 é interrompido
+			htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
+			htim8.Instance->CNT = 0;
 
 			// O TIM1 é reestabelecido para ser disparado externamente
 			TIM_SlaveConfigTypeDef sSlaveConfig;
@@ -1195,6 +1149,5 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			trigcount = 0;
 		}
 	}
-#endif
 	osSemaphoreRelease(pmuSem_id);
 }

@@ -72,7 +72,7 @@ extern QSPI_HandleTypeDef            QSPIHandle;
 extern UART_HandleTypeDef 			 UART_Handle;
 extern UART_HandleTypeDef 			 huart6;
 extern DMA_HandleTypeDef 			 hdma_adc1;
-extern TIM_HandleTypeDef 			 htim2;
+extern TIM_HandleTypeDef 			 htim8;
 
 
 
@@ -309,17 +309,17 @@ void USART6_IRQHandler(void)
 
 
 /**
-* @brief This function handles TIM2 global interrupt.
+* @brief This function handles TIM8 global interrupt.
 */
-void TIM2_IRQHandler(void)
+void TIM8_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM2_IRQn 0 */
+  /* USER CODE BEGIN TIM8_IRQn 0 */
 	BSP_LED_Toggle(LED2);
-  /* USER CODE END TIM2_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim2);
-  /* USER CODE BEGIN TIM2_IRQn 1 */
+  /* USER CODE END TIM8_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim8);
+  /* USER CODE BEGIN TIM8_IRQn 1 */
 
-  /* USER CODE END TIM2_IRQn 1 */
+  /* USER CODE END TIM8_IRQn 1 */
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

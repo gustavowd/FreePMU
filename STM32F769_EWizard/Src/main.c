@@ -135,7 +135,7 @@ ADC_HandleTypeDef hadc3;
 DMA_HandleTypeDef hdma_adc1;
 
 TIM_HandleTypeDef htim1;
-TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim8;
 
 RNG_HandleTypeDef RngHandle;
 
@@ -152,7 +152,7 @@ osMessageQId SerialGPSq;
 
 unsigned int DR1 = 0;
 
-unsigned char TIM2_UART_Flag = 0, ADC_UART_Flag = 0;
+unsigned char TIM8_UART_Flag = 0, ADC_UART_Flag = 0;
 
 /********************** DEFINIÇÕES DE FUNÇÕES *******************/
 static void RNG_Init(void);
@@ -161,7 +161,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADCalibration_Init(void);
 static void MX_TIM1_Init(void);
-void MX_TIM2_Init(void);
+void MX_TIM8_Init(void);
 void MX_USART6_UART_Init(void);
 void DHCP_Thread(void const * argument);
 
@@ -403,10 +403,11 @@ int main(void)
 		MX_ADCalibration_Init();
 		MX_DMA_Init();
 		MX_TIM1_Init();
-		MX_TIM2_Init();
+		MX_TIM8_Init();
 		RNG_Init();
 		BSP_LED_Init(LED1);
 		BSP_LED_Init(LED2);
+		BSP_LED_Toggle(LED1);
 
 		/* Cria tarefa do DHCP */
 		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
@@ -861,6 +862,10 @@ static void MX_ADCalibration_Init(void)
 
 
 }
+/* TIM1_ETR = PA12 = D13  - OK
+ * TIM8_ETRF = PI3 = D7 - OK
+ * TIM2_ETR = PA5 - NOT ACCESSIBLE
+ * */
 
 static void MX_TIM1_Init(void)
 {
@@ -891,13 +896,13 @@ static void MX_TIM1_Init(void)
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
   {
-	  //_Error_Handler(__FILE__, __LINE__);
+	  _Error_Handler(__FILE__, __LINE__);
   }
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
   if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
   {
-	  //_Error_Handler(__FILE__, __LINE__);
+	  _Error_Handler(__FILE__, __LINE__);
   }
 
   sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
@@ -907,7 +912,7 @@ static void MX_TIM1_Init(void)
   sSlaveConfig.TriggerFilter = 0;
   if (HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig) != HAL_OK)
   {
-	  //_Error_Handler(__FILE__, __LINE__);
+	  _Error_Handler(__FILE__, __LINE__);
   }
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
@@ -920,35 +925,35 @@ static void MX_TIM1_Init(void)
 
 }
 
-/* TIM2 init function */
-void MX_TIM2_Init(void)
+/* TIM8 init function */
+void MX_TIM8_Init(void)
 {
 
 	  TIM_ClockConfigTypeDef sClockSourceConfig;
 	  TIM_SlaveConfigTypeDef sSlaveConfig;
 	  TIM_MasterConfigTypeDef sMasterConfig;
 
-	  htim2.Instance = TIM2;
-	  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+	  htim8.Instance = TIM8;
+	  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
       #if (NOMINAL_FREQ == 60)
-	  htim2.Init.Prescaler = 70-1;
-	  htim2.Init.Period = 50000-1;
+	  htim8.Init.Prescaler = 70-1;
+	  htim8.Init.Period = 50000-1;
       #endif
 	  #if (NOMINAL_FREQ == 50)
-	  htim2.Init.Prescaler = 100-1;
-	  htim2.Init.Period = 20000-1;
+	  htim8.Init.Prescaler = 100-1;
+	  htim8.Init.Period = 20000-1;
 	  #endif
-	  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-	  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-	  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+	  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+	  if (HAL_TIM_Base_Init(&htim8) != HAL_OK)
 	  {
-	    //_Error_Handler(__FILE__, __LINE__);
+	    _Error_Handler(__FILE__, __LINE__);
 	  }
 
 	  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-	  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+	  if (HAL_TIM_ConfigClockSource(&htim8, &sClockSourceConfig) != HAL_OK)
 	  {
-	    //_Error_Handler(__FILE__, __LINE__);
+	    _Error_Handler(__FILE__, __LINE__);
 	  }
 
 	  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
@@ -956,20 +961,20 @@ void MX_TIM2_Init(void)
 	  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
 	  sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
 	  sSlaveConfig.TriggerFilter = 0;
-	  if (HAL_TIM_SlaveConfigSynchronization(&htim2, &sSlaveConfig) != HAL_OK)
+	  if (HAL_TIM_SlaveConfigSynchronization(&htim8, &sSlaveConfig) != HAL_OK)
 	  {
-	    //_Error_Handler(__FILE__, __LINE__);
+	    _Error_Handler(__FILE__, __LINE__);
 	  }
 
 	  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
 	  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
-	  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+	  if (HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig) != HAL_OK)
 	  {
-	    //_Error_Handler(__FILE__, __LINE__);
+	    _Error_Handler(__FILE__, __LINE__);
 	  }
 
 	  /* Enable the TIM Update interrupt */
-	  //htim2.Instance->DIER |= 0x01;
+	  //htim8.Instance->DIER |= 0x01;
 
 }
 
@@ -978,7 +983,7 @@ void MX_USART6_UART_Init(void)
 
 
 	  huart6.Instance = USART6;
-	  huart6.Init.BaudRate = 115200;
+	  huart6.Init.BaudRate = 9600;
 	  huart6.Init.WordLength = UART_WORDLENGTH_8B;
 	  huart6.Init.StopBits = UART_STOPBITS_1;
 	  huart6.Init.Parity = UART_PARITY_NONE;
@@ -1142,6 +1147,16 @@ void MX_ADC3_Init(void)
 	  //_Error_Handler(__FILE__, __LINE__);
   }
 
+}
+
+void _Error_Handler(char *file, int line)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  while(1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
 }
 
 /********************** CALLBACKS ******************/
