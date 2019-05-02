@@ -61,9 +61,6 @@ unsigned long week_num, sec_of_week, SOC=0;
 unsigned long num;
 
 
-
-
-
 ///////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -499,15 +496,13 @@ void PMU_Task(void const * argument)
 		// O valor correto é o calculado - 1
 		/* No entanto, se o valor depois da virgula for maior que 0.5
 		   considera-se que o valor não precisa ser diminuido de 1 */
-#if 1
+
 		if (residual > 0.5){
 			htim1.Instance->ARR = tmpARRfix;
 		}else{
 			htim1.Instance->ARR = tmpARRfix - 1;
 		}
-#else
-		htim1.Instance->ARR = tmpARRfix - 1;
-#endif
+
 
 		//htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 
@@ -1103,25 +1098,26 @@ int frame_header(void)
 
 //Callback chamado quando o ADC finaliza a conversão
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
-	//Interrompe o TIM1 e zera sua contagem atribuindo 0 ao Auto Reload Register
-	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
-	htim1.Instance->CNT = 0;
+	//Interrompe o TIM8 e zera sua contagem atribuindo 0 ao Auto Reload Register
+	htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
+	htim8.Instance->CNT = 0;
 
 	BSP_LED_Toggle(LED1);
 
 	// Se for a primeira aquisição...
 	if (trigcount == 0) {
-		// Configura o TIM1 para ser trigado pelo TIM8 (ITR1)
+		// Configura o TIM8 para ser trigado pelo TIM1 (ITR0)
 		TIM_SlaveConfigTypeDef sSlaveConfig;
 		sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
-		sSlaveConfig.InputTrigger = TIM_TS_ITR1;
+		sSlaveConfig.InputTrigger = TIM_TS_ITR0;
 		sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
 		sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
 		sSlaveConfig.TriggerFilter = 0;
-		HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
+		HAL_TIM_SlaveConfigSynchronization(&htim8, &sSlaveConfig);
 
-		/*Inicializa o TIM8*/
-		htim8.Instance->CR1 |= (TIM_CR1_CEN);
+		/*Inicializa o TIM1*/
+		//todo: verificar
+		htim1.Instance->CR1 |= (TIM_CR1_CEN);
 
 		newSOC = 0;
 		trigcount++;
@@ -1132,18 +1128,18 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 		trigcount++;
 
 		if (trigcount > 29) {
-			// Caso o número de pulsos-1 tenha sido atingido, o TIM8 é interrompido
-			htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
-			htim8.Instance->CNT = 0;
+			// Caso o número de pulsos-1 tenha sido atingido, o TIM1 é interrompido
+			htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
+			htim1.Instance->CNT = 0;
 
-			// O TIM1 é reestabelecido para ser disparado externamente
+			// O TIM8 é reestabelecido para ser disparado externamente
 			TIM_SlaveConfigTypeDef sSlaveConfig;
 			sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 			sSlaveConfig.InputTrigger = TIM_TS_ETRF;
 			sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
 			sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
 			sSlaveConfig.TriggerFilter = 0;
-			HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
+			HAL_TIM_SlaveConfigSynchronization(&htim8, &sSlaveConfig);
 
 			// E a contagem de pulsos zerada
 			trigcount = 0;

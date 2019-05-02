@@ -67,7 +67,7 @@
 /* Private define ------------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
-#define NOMINAL_FREQ 50
+#define NOMINAL_FREQ 60
 #define OVERSAMPLING 1
 /* USER CODE END Private defines */
 

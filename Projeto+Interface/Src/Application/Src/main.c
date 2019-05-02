@@ -601,7 +601,6 @@ static void MX_ADCalibration_Init(void)
 
 }
 
-//todo: Pra que servem os dois timers?
 void MX_TIM2_Init(void)
 {
 

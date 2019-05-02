@@ -308,18 +308,4 @@ void USART6_IRQHandler(void)
 }
 
 
-/**
-* @brief This function handles TIM8 global interrupt.
-*/
-void TIM8_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM8_IRQn 0 */
-	BSP_LED_Toggle(LED2);
-  /* USER CODE END TIM8_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim8);
-  /* USER CODE BEGIN TIM8_IRQn 1 */
-
-  /* USER CODE END TIM8_IRQn 1 */
-}
-
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

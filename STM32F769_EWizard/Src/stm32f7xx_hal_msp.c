@@ -226,10 +226,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 	    /* Peripheral clock enable */
 		  __HAL_RCC_TIM1_CLK_ENABLE();
 
-		  /* USER CODE END TIM1_MspInit 0 */
-		  /* Peripheral clock enable */
-		  __HAL_RCC_TIM1_CLK_ENABLE();
-
 		  /**TIM1 GPIO Configuration
 		  PA12     ------> TIM1_ETR
 		  */
@@ -252,18 +248,14 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 		    __HAL_RCC_TIM8_CLK_ENABLE();
 
 		    /**TIM8 GPIO Configuration
-		    PI3     ------> TIM8_ETR
+		    PA0     ------> TIM8_ETR
 		    */
-		    GPIO_InitStruct.Pin = GPIO_PIN_3;
+		    GPIO_InitStruct.Pin = GPIO_PIN_0;
 		    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 		    GPIO_InitStruct.Pull = GPIO_NOPULL;
 		    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 		    GPIO_InitStruct.Alternate = GPIO_AF3_TIM8;
-		    HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
-
-		    /* TIM8 interrupt Init */
-		    //HAL_NVIC_SetPriority(TIM8_IRQn, 5, 0);
-		    //HAL_NVIC_EnableIRQ(TIM8_IRQn);
+		    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 		  /* USER CODE BEGIN TIM8_MspInit 1 */
 
@@ -275,22 +267,23 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 
 void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
-	if(htim_base->Instance==TIM8)
+	if(htim_base->Instance==TIM1)
 	  {
-	  /* USER CODE BEGIN TIM8_MspDeInit 0 */
+	    __HAL_RCC_TIM1_CLK_DISABLE();
 
-	  /* USER CODE END TIM8_MspDeInit 0 */
-	    /* Peripheral clock disable */
+		  /**TIM1 GPIO Configuration
+		  PA12     ------> TIM1_ETR*/
+	    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_12);
+	  }
+	else if(htim_base->Instance==TIM8)
+	  {
 	    __HAL_RCC_TIM8_CLK_DISABLE();
 
 	    /**TIM8 GPIO Configuration
 	    PI3     ------> TIM8_ETR
 	    */
-	    //HAL_GPIO_DeInit(GPIOI, GPIO_PIN_3);
+	    HAL_GPIO_DeInit(GPIOI, GPIO_PIN_3);
 
-	  /* USER CODE BEGIN TIM8_MspDeInit 1 */
-
-	  /* USER CODE END TIM8_MspDeInit 1 */
 	  }
 }
 /* USER CODE END 1 */
