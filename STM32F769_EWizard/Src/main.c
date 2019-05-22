@@ -82,7 +82,7 @@
 #include "ew_bsp_serial.h"
 #include "DeviceDriver.h"
 
-#include "TarefasPMU.h"
+#include "tarefasPMU.h"
 
 tlsf_t MemPool;
 
@@ -124,7 +124,7 @@ osThreadId defaultTaskHandle;
 // Numero de Amostras sera 2^MEDIA_CALIB_POWER2
 #define MEDIA_CALIB_SIZE (1<<MEDIA_CALIB_POWER2)
 
-/********************* VARIÁVEIS **********************/
+/********************* VARIï¿½VEIS **********************/
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart6;
 
@@ -154,7 +154,7 @@ unsigned int DR1 = 0;
 
 unsigned char TIM8_UART_Flag = 0, ADC_UART_Flag = 0;
 
-/********************** DEFINIÇÕES DE FUNÇÕES *******************/
+/********************** DEFINIï¿½ï¿½ES DE FUNï¿½ï¿½ES *******************/
 static void RNG_Init(void);
 static void MX_GPIO_Init(void);
 //static void MX_USART1_UART_Init(void);
@@ -397,7 +397,7 @@ int main(void)
 	  EwBspConfigSerial();
 	  xdev_out( EwBspPutCharacter );
 
-		/********* Inicialização dos Periféricos *********/
+		/********* Inicializaï¿½ï¿½o dos Perifï¿½ricos *********/
 	    MX_GPIO_Init();
 		//MX_USART1_UART_Init();
 		MX_ADCalibration_Init();
@@ -417,7 +417,7 @@ int main(void)
 		osThreadDef(gpsTask, GPS_Task, osPriorityHigh, 0, 2048);
 		gpsThread_Id = osThreadCreate (osThread(gpsTask), NULL);
 
-		/* Cria tarefa de estimação fasorial */
+		/* Cria tarefa de estimaï¿½ï¿½o fasorial */
 		osThreadDef(pmuTask, PMU_Task, osPriorityRealtime, 0, 2048);
 		pmuThread_Id = osThreadCreate (osThread(pmuTask), NULL);
 
@@ -863,7 +863,7 @@ static void MX_ADCalibration_Init(void)
 
 
 }
-/* Periférico        ucon  -    kit     GPS
+/* Perifï¿½rico        ucon  -    kit     GPS
  * TIM1_ETR          PA12       D13     PPS
  * TIM8_ETR          PA0        BT      PPS
  * USART6-TX         PC6        D1      RX
@@ -1164,7 +1164,7 @@ void _Error_Handler(char *file, int line)
 }
 
 /********************** CALLBACKS ******************/
-//Callback chamado quando a UART finaliza a recepção do fluxo de bytes
+//Callback chamado quando a UART finaliza a recepï¿½ï¿½o do fluxo de bytes
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if(huart->Instance == USART6){
 
