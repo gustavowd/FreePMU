@@ -13,6 +13,9 @@
 #include "lwip/tcpip.h"
 #include "ethernetif.h"
 
+/* Uncomment in order to use fixed IP. Specify the addresses below. */
+#define DHCP_ENABLE
+
  /* embedded wizard includes */
 #include "Application.h"
 
@@ -50,13 +53,18 @@ static void Netif_Config(void)
   ip_addr_t netmask;
   ip_addr_t gw;
 
-  /* IP address setting */
-  //IP4_ADDR(&ipaddr, IP_ADDR0, IP_ADDR1, IP_ADDR2, IP_ADDR3);
-  //IP4_ADDR(&netmask, NETMASK_ADDR0, NETMASK_ADDR1 , NETMASK_ADDR2, NETMASK_ADDR3);
-  //IP4_ADDR(&gw, GW_ADDR0, GW_ADDR1, GW_ADDR2, GW_ADDR3);
+#ifdef DHCP_ENABLE
   ipaddr.addr = 0;
   netmask.addr = 0;
   gw.addr = 0;
+#else
+  /* IP address setting */
+  IP4_ADDR(&ipaddr, 150, 162, 16, 119);
+  IP4_ADDR(&netmask, 255, 255 , 255, 0);
+  IP4_ADDR(&gw, 150, 162, 16, 254);
+#endif
+
+
 
   /* - netif_add(struct netif *netif, ip_addr_t *ipaddr,
   ip_addr_t *netmask, ip_addr_t *gw,
@@ -100,6 +108,7 @@ void DHCP_Thread(void const * argument) {
 	static int first_connection = 1;
 	if(VNC_DHCP_Semaphore == NULL) VNC_DHCP_Semaphore= xSemaphoreCreateBinary();
 
+#ifdef DHCP_ENABLE
     while(1) {
     	switch(DHCP_State) {
     	case DHCP_IFDOWN:
@@ -197,5 +206,24 @@ void DHCP_Thread(void const * argument) {
     	}
     	vTaskDelay(250);
     }
+#else
+    /* Create tcp_ip stack thread */
+    tcpip_init(NULL, NULL);
+    /* Initialize the LwIP stack */
+    Netif_Config();
+
+    sprintf((char*)text,
+            "IP fixo: %d.%d.%d.%d\n",
+            (uint8_t)(gnetif.ip_addr.addr),
+            (uint8_t)((gnetif.ip_addr.addr) >> 8),
+            (uint8_t)((gnetif.ip_addr.addr) >> 16),
+            (uint8_t)((gnetif.ip_addr.addr) >> 24));
+
+    SERVER_LogMessage ((char *)text);
+
+    while(1) {
+    	vTaskDelay(250);
+    }
+#endif
 }
 #endif
