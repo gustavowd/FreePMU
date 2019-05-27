@@ -631,7 +631,7 @@ void PMU_Task(void const * argument)
 
 		// Envia os dados pela serial
 		char *dados = (char*)&buffer;
-		UARTPutString(dados,36);
+		UARTPutString(dados,16);
 
 		//SOC = 1468976006;
 		/*Não é mais utilizado. Este trecho só é util quando não há um GPS conectado*/

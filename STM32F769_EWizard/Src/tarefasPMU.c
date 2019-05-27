@@ -600,7 +600,7 @@ void PMU_Task(void const * argument)
 
 		// Envia os dados pela serial
 		uint8_t *dados = (uint8_t*)&buffer;
-		UARTPutString(dados,36);
+		UARTPutString(dados,16);
 
 		#endif
 
