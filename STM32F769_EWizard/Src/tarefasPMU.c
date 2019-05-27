@@ -504,73 +504,66 @@ void PMU_Task(void const * argument)
 		}
 
 
-		//htim1.Instance->ARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
-
+		/*********************************************************/
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
 		//MAGNITUDE- ajuste da magnitude
 		// Y-data = Magnitude reference - X-data = Magnitude measured (não em p.u.)
 
-
-		mag = Mag_R;
-		MagR_x_mag = (float)-0.0018945693 + (float)4.1062603119*mag;
-		MagR_x_mag += (float)-0.0077128570*mag*mag;
-		MagR_x_mag += (float)0.0262579711*mag*mag*mag;
-		MagR_x_mag += (float)-0.0142115525*mag*mag*mag*mag;
-
-		mag = Mag_S;
-		MagS_x_mag = (float)-0.0018945693+(float)4.1062603119*mag;
-		MagS_x_mag += (float)-0.0077128570*mag*mag;
-		MagS_x_mag += (float)0.0262579711*mag*mag*mag;
-		MagS_x_mag += (float)-0.0142115525*mag*mag*mag*mag;
-
-		mag = Mag_T;
-		MagT_x_mag = (float)-0.0018945693+(float)4.1062603119*mag;
-		MagT_x_mag += (float)-0.0077128570*mag*mag;
-		MagT_x_mag += (float)0.0262579711*mag*mag*mag;
-		MagT_x_mag += (float)-0.0142115525*mag*mag*mag*mag;
+#if 0 // PMU 1 UFSC
+				MagR_x_mag = -0.0104230472+ 6.4799561727*Mag_R + 0.0058096119*Mag_R*Mag_R -0.0225779260*Mag_R*Mag_R*Mag_R;
+				MagS_x_mag = -0.0094105471+ 6.5295808671*Mag_S -0.0517533485*Mag_S*Mag_S + 0.0122170154*Mag_S*Mag_S*Mag_S;
+				MagT_x_mag = -0.0038224285+ 6.4664725524*Mag_T + 0.0200856470*Mag_T*Mag_T - 0.0147323440*Mag_T*Mag_T*Mag_T;
 
 
-		//FASE
-		//correcao de fase em funcao da magnitude
-		// Y-data = Phase deviation - X-data = Magnitude measured (não em p.u.)
+				//FASE
+				//correcao de fase em funcao da magnitude
+				// Y-data = Phase deviation - X-data = Magnitude measured (não em p.u.)
+				faseR_x_mag = Fase_R -61.3200434278 + 0.5306019593*MagR_x_mag - 0.0359982043*MagR_x_mag*MagR_x_mag;
+				faseS_x_mag = Fase_S -61.1903481072 + 0.6895729716*MagS_x_mag - 0.0945399081*MagS_x_mag*MagS_x_mag + 0.0047453058*MagS_x_mag*MagS_x_mag*MagS_x_mag;
+				faseT_x_mag = Fase_T -60.7272664968 + 0.3813063315*MagT_x_mag - 0.0388992543*MagT_x_mag*MagT_x_mag + 0.0013921956*MagT_x_mag*MagT_x_mag*MagT_x_mag;
 
-		mag = MagR_x_mag;
-		faseR_x_mag = (float)-1.2595979549+(float)0.4039280602*mag;
-		faseR_x_mag += (float)-0.1010751752*mag*mag;
-		faseR_x_mag += (float)0.0096132710*mag*mag*mag;
+				// FREQUENCIA
+				//correcao de fase em funcao da frequencia
+				// Y-data = phase deviation - X-data = frequency reference
+				faseR_x_freq = -2.7531705491 + 0.0512209453*Freq_final;
+				faseS_x_freq = -2.3592039210 + 0.0477269049*Freq_final;
+				faseT_x_freq = -2.6454608536 + 0.0538034619*Freq_final;
 
-		mag = MagS_x_mag;
-		faseS_x_mag = (float)-1.2595979549+(float)0.4039280602*mag;
-		faseS_x_mag += (float)-0.1010751752*mag*mag;
-		faseS_x_mag += (float)0.0096132710*mag*mag*mag;
+				// Calcula magnitude final
+				// Ajustes do ganho de magnitude:
+				// Sensor AZUL:
+				Mag_R_final = MagR_x_mag * 42.5038; //Mag_R;
+				Mag_S_final = MagS_x_mag * 42.1823;
+				Mag_T_final = MagT_x_mag * 42.5782; //MagT_x_mag;
+#endif
+#if 1  // PMU 2 UFSC
+				MagR_x_mag = -0.0016362996 + 6.4330443785*Mag_R + 0.0658874232*Mag_R*Mag_R - 0.0351025233*Mag_R*Mag_R*Mag_R;
+				MagS_x_mag = 0.0009628812 + 6.3757106266*Mag_S +0.0686457110*Mag_S*Mag_S -0.0299965117*Mag_S*Mag_S*Mag_S;
+				MagT_x_mag = 0.0004282697 + 6.4019875313*Mag_T + 0.0981472053*Mag_T*Mag_T -0.0467723654*Mag_T*Mag_T*Mag_T;
 
-		mag = MagT_x_mag;
-		faseT_x_mag = (float)-1.2595979549+(float)0.4039280602*mag;
-		faseT_x_mag += (float)-0.1010751752*mag*mag;
-		faseT_x_mag += (float)0.0096132710*mag*mag*mag;
+				//FASE
+				//correcao de fase em funcao da magnitude
+				// Y-data = Phase deviation - X-data = Magnitude measured (não em p.u.)
 
-		// FREQUENCIA
-		//correcao de fase em funcao da frequencia
-		mag = media_freq;
-		faseR_x_freq = (float)0.0237760101*mag-(float)1.1727874302;
-		faseS_x_freq = (float)0.0237760101*mag-(float)1.1727874302;
-		faseT_x_freq = (float)0.0237760101*mag-(float)1.1727874302;
+				faseR_x_mag = Fase_R - 60.256916502 + 0.1863745932*MagR_x_mag - 0.0076768782*MagR_x_mag*MagR_x_mag;
+				faseS_x_mag = Fase_S - 60.273407182 + 0.2463213789*MagS_x_mag - 0.0144579474*MagS_x_mag*MagS_x_mag;
+				faseT_x_mag = Fase_T - 60.271458135 + 0.1695834628*MagT_x_mag - 0.0045740754*MagT_x_mag*MagT_x_mag;
 
+				// FREQUENCIA
+				//correcao de fase em funcao da frequencia
+				// Y-data = phase deviation - X-data = frequency reference
+				faseR_x_freq = -2.5770186918 + 0.0521374904*Freq_final;
+				faseS_x_freq = -2.6741303661 + 0.0537621928*Freq_final;
+				faseT_x_freq = -2.3885333996 + 0.0485053178*Freq_final;
 
-
-		MagR_x_freq = mag*((float)-3.6463158287E-5)+(float)0.0011139213;
-		MagR_x_freq = mag*((float)-3.6463158287E-5)+(float)0.0011139213;
-		MagR_x_freq = mag*((float)-3.6463158287E-5)+(float)0.0011139213;
-
-
-		// Calcula magnitude final
-		// Ajustes da magnitude:
-
-		// Sensor PRETO:
-		Mag_R_final = MagR_x_mag * 64.727;
-		Mag_S_final = MagS_x_mag * 65.105;
-		Mag_T_final = MagT_x_mag * 64.596;
+				// Calcula magnitude final
+				// Ajustes do ganho de magnitude:
+				// Sensor AZUL:
+				Mag_R_final = MagR_x_mag * 42.3832; //Mag_R;
+				Mag_S_final = MagS_x_mag * 42.4718;
+				Mag_T_final = MagT_x_mag * 42.45794; //MagT_x_mag;
+#endif
 
 
 		//Calcula fase final (aplica as correcoes anteriores)
