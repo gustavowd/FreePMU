@@ -70,6 +70,13 @@
 #define NOMINAL_FREQ 60
 #define OVERSAMPLING 1
 #define PPS_30_HZ
+
+#if (NOMINAL_FREQ == 60)
+#define FRACAO_DE_SEGUNDO 0x00008235;  //Fração de segundo 0,03333
+#endif
+#if (NOMINAL_FREQ == 50)
+#define FRACAO_DE_SEGUNDO 0x00009C40;  // Fração de segundo = 0,04
+#endif
 /* USER CODE END Private defines */
 
 void _Error_Handler(char *, int);

@@ -184,11 +184,13 @@ void PMU_Task(void const * argument)
 	Freq_ant = f0;
 
 	//Calcula a fra��o de segundo (para etiqueta de tempo)
+#if 0
 	if(f0 == 60){
 		FracSec = 0x00008235;  //Fra��o de segundo 0,03333
 	}else if(f0 == 50){
 		FracSec = 0x00009C40;  // Fra��o de segundo = 0,04
 	}
+#endif
 
 	// carrega vetores de media m�vel
 	for(i=0;i<10;i++){
@@ -586,9 +588,13 @@ void PMU_Task(void const * argument)
 		#endif
 
 		#ifdef PPS_30_HZ
+		if (!frame_cnt){
+			FracSec += FRACAO_DE_SEGUNDO;
+		}
 		frame_cnt++;
 		if (frame_cnt >= (NOMINAL_FREQ/2)){
 			frame_cnt = 0;
+			FracSec = 0x00;
 			taskENTER_CRITICAL();
 			newSOC = 0;
 			taskEXIT_CRITICAL();
@@ -780,7 +786,9 @@ int frame_data(void)
 	ucData[i++] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
+	#ifndef PPS_30_HZ
 	FracSec += 0x00008235;
+	#endif
 
 	// 6. STAT = Flags, a criterio do usuario
 	ucData[i++] = 0x00;   //14
@@ -877,12 +885,16 @@ int frame_data(void)
 	}
 	else {   /* N�o h� SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
 		if (isQueueEmpty(qUcData)){
+			#ifndef PPS_30_HZ
 			FracSec = 0x00;
+			#endif
 			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (se��o 6.2.2)
 			ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 			ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 			ucData[13] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
+			#ifndef PPS_30_HZ
 			FracSec += 0x00008235;
+			#endif
 		}
 		insertQueueElement(qUcData, ucData);
 		return 0;
