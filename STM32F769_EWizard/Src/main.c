@@ -160,7 +160,9 @@ static void MX_GPIO_Init(void);
 //static void MX_USART1_UART_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADCalibration_Init(void);
+#ifndef PPS_30_HZ
 static void MX_TIM1_Init(void);
+#endif
 static void MX_TIM8_Init(void);
 void MX_USART6_UART_Init(void);
 void DHCP_Thread(void const * argument);
@@ -402,7 +404,9 @@ int main(void)
 		//MX_USART1_UART_Init();
 		MX_ADCalibration_Init();
 		MX_DMA_Init();
+		#ifndef PPS_30_HZ
 		MX_TIM1_Init();
+		#endif
 		MX_TIM8_Init();
 		RNG_Init();
 		BSP_LED_Init(LED1);
@@ -872,7 +876,6 @@ static void MX_ADCalibration_Init(void)
 /*TIM8 Init Function*/
 static void MX_TIM8_Init(void)
 {
-
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_SlaveConfigTypeDef sSlaveConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
@@ -929,6 +932,7 @@ static void MX_TIM8_Init(void)
 }
 
 /* TIM1 init function */
+#ifndef PPS_30_HZ
 void MX_TIM1_Init(void)
 {
 
@@ -981,13 +985,14 @@ void MX_TIM1_Init(void)
 	  //htim8.Instance->DIER |= 0x01;
 
 }
+#endif
 
 void MX_USART6_UART_Init(void)
 {
 
 
 	  huart6.Instance = USART6;
-	  huart6.Init.BaudRate = 9600;
+	  huart6.Init.BaudRate = 115200;
 	  huart6.Init.WordLength = UART_WORDLENGTH_8B;
 	  huart6.Init.StopBits = UART_STOPBITS_1;
 	  huart6.Init.Parity = UART_PARITY_NONE;

@@ -1,5 +1,5 @@
 /*
- * Arquivo de tarefas de Flavio Lori Grando(2016) em sua PMU proposta com código adaptado ao
+ * Arquivo de tarefas de Flavio Lori Grando(2016) em sua PMU proposta com cï¿½digo adaptado ao
  * sistema embarcado STM32F746G
  */
 
@@ -35,6 +35,9 @@ extern TIM_HandleTypeDef			 htim8;
 extern UART_HandleTypeDef 			 huart6;
 
 volatile uint8_t newSOC = 0;
+#ifdef PPS_30_HZ
+volatile int frame_cnt = 0;
+#endif
 
 unsigned short adcBuffer[numero_pontos*3] __attribute__((section(".ADCBUF")));
 #if (OVERSAMPLING  == 1)
@@ -50,7 +53,7 @@ extern unsigned int Get_ADC_Calib (void);
 //				LEITURA DOS DADOS DO GPS
 
 int cnt=0; // contador dos separadores (virgulas)
-unsigned int date_limit, tow_limit, wno_limit, size; //delimitadores das informaçoes
+unsigned int date_limit, tow_limit, wno_limit, size; //delimitadores das informaï¿½oes
 
 char serialGPS_SET = 0;
 char dado_gps[70];	//buffer da mensagem
@@ -64,7 +67,7 @@ unsigned long num;
 ///////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-//				ESTIMAÇÃO DOS DADOS DE INTERESSE
+//				ESTIMAï¿½ï¿½O DOS DADOS DE INTERESSE
 //
 // Fasores trifasicos, frequencia e rocof
 unsigned n=0, t_inicial=2;
@@ -107,7 +110,7 @@ float tolerancia = 10;
 float vetor_desvioR[10], vetor_desvioS[10], vetor_desvioT[10];
 float soma_r, soma_s, soma_t;
 unsigned int d=0;
-//Correçao da taxa de amostragem
+//Correï¿½ao da taxa de amostragem
 float  dif, vetor_freq[10], media_freq, soma_freq, media_freq_2;
 float vetor_rocof[10], media_rocof, soma_rocof;
 unsigned int  f=0, g=0, contador = 0;
@@ -141,7 +144,7 @@ union {
 }convert_float_to_char;
 
 
-// Referencia uma estrutura para o semáforo que sincroniza a transmissão pela porta serial
+// Referencia uma estrutura para o semï¿½foro que sincroniza a transmissï¿½o pela porta serial
 osSemaphoreId  pmuSem_id;
 extern osSemaphoreId syncSem_id;
 extern volatile unsigned char data_flag;
@@ -161,15 +164,10 @@ extern ADC_HandleTypeDef hadc3;
 
 void PMU_Task(void const * argument)
 {
-	/////////////////////// DEFINIÇÕES INICIAIS
-
-	//while(1){
-	//	vTaskDelay(1000);
-	//}
-
-	  osSemaphoreDef(SEM2);
-	  pmuSem_id = osSemaphoreCreate(osSemaphore(SEM2), 1);
-	  osSemaphoreWait(pmuSem_id, osWaitForever);
+	/////////////////////// DEFINIï¿½ï¿½ES INICIAIS
+	osSemaphoreDef(SEM2);
+	pmuSem_id = osSemaphoreCreate(osSemaphore(SEM2), 1);
+	osSemaphoreWait(pmuSem_id, osWaitForever);
 
 
 	// Tabela da DFT
@@ -181,18 +179,18 @@ void PMU_Task(void const * argument)
 	}
 
 	//Carrega valores iniciais
-	desvio_ang_esp = 0;  //desvio de ângulo esperado
+	desvio_ang_esp = 0;  //desvio de ï¿½ngulo esperado
 	tolerancia = 6.5;    //tolerancia do desvio esperado
 	Freq_ant = f0;
 
-	//Calcula a fração de segundo (para etiqueta de tempo)
+	//Calcula a fraï¿½ï¿½o de segundo (para etiqueta de tempo)
 	if(f0 == 60){
-		FracSec = 0x00008235;  //Fração de segundo 0,03333
+		FracSec = 0x00008235;  //Fraï¿½ï¿½o de segundo 0,03333
 	}else if(f0 == 50){
-		FracSec = 0x00009C40;  // Fração de segundo = 0,04
+		FracSec = 0x00009C40;  // Fraï¿½ï¿½o de segundo = 0,04
 	}
 
-	// carrega vetores de media móvel
+	// carrega vetores de media mï¿½vel
 	for(i=0;i<10;i++){
 		vetor_freq[i]=f0;
 		vetor_rocof[i]=0;
@@ -218,11 +216,11 @@ void PMU_Task(void const * argument)
 		// Espera completar as 768 amostras
 		osSemaphoreWait(pmuSem_id, osWaitForever);
 
-		// Calcula o fator de calibração
+		// Calcula o fator de calibraï¿½ï¿½o
 		//BSP_LED_Toggle(LED1);
 		FC=1.21/(Get_ADC_Calib());
 
-		// Calcula a média a cada 8 pontos para gerar os 256 de cada fase
+		// Calcula a mï¿½dia a cada 8 pontos para gerar os 256 de cada fase
 #if (OVERSAMPLING  == 1)
 		r=0;
 		s=1;
@@ -350,8 +348,8 @@ void PMU_Task(void const * argument)
 
 
 
-		// Correção do phase shift
-		//Desabilitar essa correção para os testes de frequência em estado estacionário!!
+		// Correï¿½ï¿½o do phase shift
+		//Desabilitar essa correï¿½ï¿½o para os testes de frequï¿½ncia em estado estacionï¿½rio!!
 /*
 		if(desvio_faseR > (desvio_ang_esp+tolerancia)){
 			desvio_faseR = desvio_ang_esp;
@@ -397,9 +395,6 @@ void PMU_Task(void const * argument)
 		}
 
 
-
-
-
 		//FREQUENCIA E ROCOF FINAL (sem correcoes)
 		//Calculo da freq para 30 pulsos e 3 fases
 
@@ -407,31 +402,17 @@ void PMU_Task(void const * argument)
 		freq_S = f0 + (desvio_faseS*fps)/360.0;
 		freq_T = f0 + (desvio_faseT*fps)/360.0;
 
-
-
 		Freq = (freq_R+freq_S+freq_T)/3.0;
-		//Freq = 60;
 
-
-		if(f0 == 50){
-			if(Freq > 55){
-				Freq = 55;
-			}else if(Freq < 45){
-				Freq = 45;
-			}
-		}else if(f0 == 60){
-			if(Freq > 65){
-				Freq = 65;
-			}else if(Freq < 55){
-				Freq = 55;
-			}
+		if(Freq > (NOMINAL_FREQ+5)){
+			Freq = (NOMINAL_FREQ+5);
+		}else if(Freq < (NOMINAL_FREQ-5)){
+			Freq = (NOMINAL_FREQ-5);
 		}
-
-
 
 		media_freq_2 = (Freq + Freq_ant)/2.0;
 
-		//Desvio de ângulo esperado (para correção do phase shift)
+		//Desvio de ï¿½ngulo esperado (para correï¿½ï¿½o do phase shift)
 		desvio_ang_esp = 360*(Freq-f0)/fps;
 
 
@@ -493,9 +474,9 @@ void PMU_Task(void const * argument)
 		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
 		volatile float residual = tmpARR - (float)tmpARRfix;
 
-		// O valor correto é o calculado - 1
+		// O valor correto ï¿½ o calculado - 1
 		/* No entanto, se o valor depois da virgula for maior que 0.5
-		   considera-se que o valor não precisa ser diminuido de 1 */
+		   considera-se que o valor nï¿½o precisa ser diminuido de 1 */
 
 		if (residual > 0.5){
 			htim1.Instance->ARR = tmpARRfix;
@@ -505,10 +486,10 @@ void PMU_Task(void const * argument)
 
 
 		/*********************************************************/
-		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
+		//APLICAï¿½ï¿½O DAS CORREï¿½ï¿½ES (em magnitude e fase)
 
 		//MAGNITUDE- ajuste da magnitude
-		// Y-data = Magnitude reference - X-data = Magnitude measured (não em p.u.)
+		// Y-data = Magnitude reference - X-data = Magnitude measured (nï¿½o em p.u.)
 
 #if 0 // PMU 1 UFSC
 				MagR_x_mag = -0.0104230472+ 6.4799561727*Mag_R + 0.0058096119*Mag_R*Mag_R -0.0225779260*Mag_R*Mag_R*Mag_R;
@@ -518,7 +499,7 @@ void PMU_Task(void const * argument)
 
 				//FASE
 				//correcao de fase em funcao da magnitude
-				// Y-data = Phase deviation - X-data = Magnitude measured (não em p.u.)
+				// Y-data = Phase deviation - X-data = Magnitude measured (nï¿½o em p.u.)
 				faseR_x_mag = Fase_R -61.3200434278 + 0.5306019593*MagR_x_mag - 0.0359982043*MagR_x_mag*MagR_x_mag;
 				faseS_x_mag = Fase_S -61.1903481072 + 0.6895729716*MagS_x_mag - 0.0945399081*MagS_x_mag*MagS_x_mag + 0.0047453058*MagS_x_mag*MagS_x_mag*MagS_x_mag;
 				faseT_x_mag = Fase_T -60.7272664968 + 0.3813063315*MagT_x_mag - 0.0388992543*MagT_x_mag*MagT_x_mag + 0.0013921956*MagT_x_mag*MagT_x_mag*MagT_x_mag;
@@ -544,7 +525,7 @@ void PMU_Task(void const * argument)
 
 				//FASE
 				//correcao de fase em funcao da magnitude
-				// Y-data = Phase deviation - X-data = Magnitude measured (não em p.u.)
+				// Y-data = Phase deviation - X-data = Magnitude measured (nï¿½o em p.u.)
 
 				faseR_x_mag = Fase_R - 60.256916502 + 0.1863745932*MagR_x_mag - 0.0076768782*MagR_x_mag*MagR_x_mag;
 				faseS_x_mag = Fase_S - 60.273407182 + 0.2463213789*MagS_x_mag - 0.0144579474*MagS_x_mag*MagS_x_mag;
@@ -604,6 +585,15 @@ void PMU_Task(void const * argument)
 
 		#endif
 
+		#ifdef PPS_30_HZ
+		frame_cnt++;
+		if (frame_cnt >= (NOMINAL_FREQ/2)){
+			frame_cnt = 0;
+			taskENTER_CRITICAL();
+			newSOC = 0;
+			taskEXIT_CRITICAL();
+		}
+		#endif
 
 		if((isSyncCreated == 1) && (data_flag)){
 				cnt = 0;
@@ -648,7 +638,7 @@ void GPS_Task(void const * argument)
 		   UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		}while(*p != '\n');
 
-		/*Verifica se chegou informações de Data e Hora*/
+		/*Verifica se chegou informaï¿½ï¿½es de Data e Hora*/
 		if (dado_gps[0] == 'G' && dado_gps[1] == 'P' && dado_gps[2] == 'R' &&
 				dado_gps[3] == 'M' && dado_gps[4] == 'C'){
 
@@ -671,7 +661,9 @@ void GPS_Task(void const * argument)
 			SOC = (unsigned long) mktime(&t);
 
 			/*Novo SOC foi calculado*/
+			taskENTER_CRITICAL();
 			newSOC = 1;
+			taskEXIT_CRITICAL();
 
 		//	sprintf(m, "SOC %d\n", (int)SOC);
 		//	EwPrint(m);
@@ -699,7 +691,7 @@ void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout)
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-//						FORMATAÇÃO DOS DADOS
+//						FORMATAï¿½ï¿½O DOS DADOS
 //
 
 // IEEE Std C37.118.2 - 2011 - PMU Standard data transfer
@@ -716,7 +708,7 @@ void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout)
 #define A_SYNC_CFG3 0x52
 #define A_SYNC_CMD 0x41
 
-// IMPLEMENTAÇÃO DO CRC-CCITT
+// IMPLEMENTAï¿½ï¿½O DO CRC-CCITT
 // Baseado na norma
 
 uint16_t CRC_CCITT;
@@ -783,13 +775,12 @@ int frame_data(void)
 	ucData[i++] = (unsigned char)((SOC & 0x0000FF00) >> 8);   //8
 	ucData[i++] = (unsigned char)(SOC & 0x000000FF);   //9
 
-	// 5. FRACSEC = Fração do segundo e qualidade do tempo
-	ucData[i++] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seção 6.2.2)
+	// 5. FRACSEC = Fraï¿½ï¿½o do segundo e qualidade do tempo
+	ucData[i++] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seï¿½ï¿½o 6.2.2)
 	ucData[i++] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
 	FracSec += 0x00008235;
-	//frame_cnt++;
 
 	// 6. STAT = Flags, a criterio do usuario
 	ucData[i++] = 0x00;   //14
@@ -884,10 +875,10 @@ int frame_data(void)
 			return changeSOC(qUcData, SOC);
 		}
 	}
-	else {   /* Não há SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
+	else {   /* Nï¿½o hï¿½ SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
 		if (isQueueEmpty(qUcData)){
 			FracSec = 0x00;
-			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seção 6.2.2)
+			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (seï¿½ï¿½o 6.2.2)
 			ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 			ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 			ucData[13] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
@@ -900,7 +891,7 @@ int frame_data(void)
 	//return i;
 }
 
-/////////////// FRAME DE CONFIGURAÇÃO
+/////////////// FRAME DE CONFIGURAï¿½ï¿½O
 int frame_config(void)
 {
 
@@ -928,8 +919,8 @@ int frame_config(void)
 	ucData[8] = (unsigned char)((SOC & 0x0000FF00) >> 8);
 	ucData[9] = (unsigned char)(SOC & 0x000000FF);
 
-	// 5. FRACSEC = Fração do segundo e qualidade do tempo
-	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seção 6.2.2)
+	// 5. FRACSEC = Fraï¿½ï¿½o do segundo e qualidade do tempo
+	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seï¿½ï¿½o 6.2.2)
 	ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
 	ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
 	ucData[13] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
@@ -1043,7 +1034,7 @@ int frame_config(void)
 }
 
 
-///////////////// FRAME DE CABEÇALHO
+///////////////// FRAME DE CABEï¿½ALHO
 int frame_header(void)
 {
 
@@ -1067,8 +1058,8 @@ int frame_header(void)
 	ucData[8] = (unsigned char)((SOC & 0x0000FF00) >> 8);
 	ucData[9] = (unsigned char)(SOC & 0x000000FF);
 
-	// 5. FRACSEC = Fração do segundo e qualidade do tempo
-	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seção 6.2.2)
+	// 5. FRACSEC = Fraï¿½ï¿½o do segundo e qualidade do tempo
+	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (seï¿½ï¿½o 6.2.2)
 	ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
 	ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
 	ucData[13] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
@@ -1089,7 +1080,7 @@ int frame_header(void)
 	return 19+1;
 }
 
-//Callback chamado quando o ADC finaliza a conversão
+//Callback chamado quando o ADC finaliza a conversï¿½o
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	//Interrompe o TIM8 e zera sua contagem atribuindo 0 ao Auto Reload Register
 	htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
@@ -1097,7 +1088,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 	BSP_LED_Toggle(LED1);
 
-	// Se for a primeira aquisição...
+	#ifndef PPS_30_HZ
+	// Se for a primeira aquisiï¿½ï¿½o...
 	if (trigcount == 0) {
 		// Configura o TIM8 para ser trigado pelo TIM1 (ITR0)
 		TIM_SlaveConfigTypeDef sSlaveConfig;
@@ -1115,17 +1107,17 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 		newSOC = 0;
 		trigcount++;
 	}
-	// Do contrario, o TIM8 já está iniciado
+	// Do contrario, o TIM8 jï¿½ estï¿½ iniciado
 	else {
-		//Então conta-se um pulso
+		//Entï¿½o conta-se um pulso
 		trigcount++;
 
 		if (trigcount > 29) {
-			// Caso o número de pulsos-1 tenha sido atingido, o TIM1 é interrompido
+			// Caso o nï¿½mero de pulsos-1 tenha sido atingido, o TIM1 ï¿½ interrompido
 			htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
 			htim1.Instance->CNT = 0;
 
-			// O TIM8 é reestabelecido para ser disparado externamente
+			// O TIM8 ï¿½ reestabelecido para ser disparado externamente
 			TIM_SlaveConfigTypeDef sSlaveConfig;
 			sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
 			sSlaveConfig.InputTrigger = TIM_TS_ETRF;
@@ -1138,5 +1130,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			trigcount = 0;
 		}
 	}
+	#endif
+
 	osSemaphoreRelease(pmuSem_id);
 }

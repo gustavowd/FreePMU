@@ -69,6 +69,7 @@
 /* USER CODE BEGIN Private defines */
 #define NOMINAL_FREQ 60
 #define OVERSAMPLING 1
+#define PPS_30_HZ
 /* USER CODE END Private defines */
 
 void _Error_Handler(char *, int);
