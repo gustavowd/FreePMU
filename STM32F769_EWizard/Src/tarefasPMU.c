@@ -588,7 +588,8 @@ void PMU_Task(void const * argument)
 		#endif
 
 		#ifdef PPS_30_HZ
-		if (!frame_cnt){
+		if (frame_cnt){
+			// Só incrementa a fração a partir do segundo pulso
 			FracSec += FRACAO_DE_SEGUNDO;
 		}
 		frame_cnt++;
