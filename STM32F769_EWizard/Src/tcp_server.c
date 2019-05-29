@@ -156,25 +156,25 @@ reboot_server:
 
 							switch(buffer[15]){
 
-								case 0x01:  //Desliga transmissão
+								case 0x01:  //Desliga transmissï¿½o
 									data_flag = 0;
 									break;
 
-								case 0x02: // Liga transmissão
+								case 0x02: // Liga transmissï¿½o
 									data_flag = 1;
 									break;
 
-								case 0x03: // Envia frame de cabeçalho
+								case 0x03: // Envia frame de cabeï¿½alho
 									nbytes = frame_header();
 									lwip_send(newsockfd, ucData, nbytes, 0);
 									break;
 
-								case 0x04: // Envia frame de cofiguração 1
+								case 0x04: // Envia frame de cofiguraï¿½ï¿½o 1
 									nbytes = frame_config();
 									lwip_send(newsockfd, ucData, nbytes, 0);
 									break;
 
-								case 0x05: // Envia frame de cofiguração 2
+								case 0x05: // Envia frame de cofiguraï¿½ï¿½o 2
 									nbytes = frame_config();
 									lwip_send(newsockfd, ucData, nbytes, 0);
 									SERVER_StatusMessage ("Conectado ao PDC!");
@@ -222,11 +222,11 @@ void pmu_tcp_server_out(void const * argument)
 			osMutexWait(ethMut_id,0);
 			nbytes = frame_data();
 
-			/*Não há elementos na fila, há apenas um ucData, que deve ser enviado*/
+			/*Nï¿½o hï¿½ elementos na fila, hï¿½ apenas um ucData, que deve ser enviado*/
 			if (nbytes == 1) {
 				// Os data frames aparentam ter sempre 50 bytes de tamanho
 				lwip_send(newsockfd_out, ucData, 50, 0);
-			// Caso contrário, envia-se a fila toda
+			// Caso contrï¿½rio, envia-se a fila toda
 			} else if (nbytes > 1) {
 				struct frameDataElement* temp = removeQueueElement(qUcData);
 				while (temp != NULL) {

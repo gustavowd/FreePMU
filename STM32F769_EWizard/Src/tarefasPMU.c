@@ -588,10 +588,8 @@ void PMU_Task(void const * argument)
 		#endif
 
 		#ifdef PPS_30_HZ
-		if (frame_cnt){
-			// Só incrementa a fração a partir do segundo pulso
-			FracSec += FRACAO_DE_SEGUNDO;
-		}
+		FracSec += FRACAO_DE_SEGUNDO;
+
 		frame_cnt++;
 		if (frame_cnt >= (NOMINAL_FREQ/2)){
 			frame_cnt = 0;
@@ -885,18 +883,16 @@ int frame_data(void)
 		}
 	}
 	else {   /* N�o h� SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
+		#ifndef PPS_30_HZ		
 		if (isQueueEmpty(qUcData)){
-			#ifndef PPS_30_HZ
 			FracSec = 0x00;
-			#endif
 			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (se��o 6.2.2)
 			ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 			ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 			ucData[13] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
-			#ifndef PPS_30_HZ
 			FracSec += 0x00008235;
-			#endif
 		}
+		#endif
 		insertQueueElement(qUcData, ucData);
 		return 0;
 	}
