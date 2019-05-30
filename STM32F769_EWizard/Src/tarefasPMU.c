@@ -56,7 +56,7 @@ int cnt=0; // contador dos separadores (virgulas)
 unsigned int date_limit, tow_limit, wno_limit, size; //delimitadores das informa�oes
 
 char serialGPS_SET = 0;
-char dado_gps[70];	//buffer da mensagem
+char dado_gps[100];	//buffer da mensagem
 char ID;			//Proprietary message identifier
 char UTC_WNO[4]; 	//UTC week number
 char UTC_TOW[6];	//UTC Time of Week
