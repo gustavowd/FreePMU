@@ -646,7 +646,8 @@ void GPS_Task(void const * argument)
 		   UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		}while(*p != '\n');
 
-		/*Verifica se chegou informa��es de Data e Hora*/
+		#if GPS_PROTOCOL == GPS_NMEA
+		/*Verifica se chegou informações de Data e Hora*/
 		if (dado_gps[0] == 'G' && dado_gps[1] == 'P' && dado_gps[2] == 'R' &&
 				dado_gps[3] == 'M' && dado_gps[4] == 'C'){
 
@@ -667,6 +668,27 @@ void GPS_Task(void const * argument)
 
 			/*segundo secular UNIX time (1 jan 1970)*/
 			SOC = (unsigned long) mktime(&t);
+			#endif
+
+			#if GPS_PROTOCOL == GPS_UBX
+			//Extrai a informação: segundos na semana
+			for(i=0;i<6;i++){
+			  UTC_TOW[i]=dado_gps[25+i];
+			}
+
+			//Extrai a informação: numero da semana
+			for(i=0;i<4;i++){
+				UTC_WNO[i]=dado_gps[35+i];
+			}
+
+			//Datasheet mentiroso, no  fonte UTC,  GPS! 10 anos de diferença
+			week_num = atoi(UTC_WNO);
+
+			sec_of_week = atoi(UTC_TOW);
+
+			//segundo secular UNIX time (1 jan 1970)
+			SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
+			#endif
 
 			/*Novo SOC foi calculado*/
 			taskENTER_CRITICAL();

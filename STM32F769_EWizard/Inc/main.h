@@ -77,6 +77,11 @@
 #if (NOMINAL_FREQ == 50)
 #define FRACAO_DE_SEGUNDO 0x00009C40;  // Fração de segundo = 0,04
 #endif
+
+#define GPS_NMEA	0
+#define GPS_UBX		1
+
+#define GPS_PROTOCOL GPS_NMEA
 /* USER CODE END Private defines */
 
 void _Error_Handler(char *, int);
