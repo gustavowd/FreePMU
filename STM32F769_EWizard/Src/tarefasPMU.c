@@ -588,15 +588,18 @@ void PMU_Task(void const * argument)
 		#endif
 
 		#ifdef PPS_30_HZ
-		FracSec += FRACAO_DE_SEGUNDO;
-
-		frame_cnt++;
-		if (frame_cnt >= (NOMINAL_FREQ/2)){
-			frame_cnt = 0;
+		if (frame_cnt){
+			FracSec += FRACAO_DE_SEGUNDO;
+		}else{
 			FracSec = 0x00;
 			taskENTER_CRITICAL();
 			newSOC = 0;
 			taskEXIT_CRITICAL();
+		}
+
+		frame_cnt++;
+		if (frame_cnt >= (NOMINAL_FREQ/2)){
+			frame_cnt = 0;
 		}
 		#endif
 
