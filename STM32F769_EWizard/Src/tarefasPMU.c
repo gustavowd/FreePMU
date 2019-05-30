@@ -668,38 +668,43 @@ void GPS_Task(void const * argument)
 
 			/*segundo secular UNIX time (1 jan 1970)*/
 			SOC = (unsigned long) mktime(&t);
-			#endif
-
-			#if GPS_PROTOCOL == GPS_UBX
-			//Extrai a informação: segundos na semana
-			for(i=0;i<6;i++){
-			  UTC_TOW[i]=dado_gps[25+i];
-			}
-
-			//Extrai a informação: numero da semana
-			for(i=0;i<4;i++){
-				UTC_WNO[i]=dado_gps[35+i];
-			}
-
-			//Datasheet mentiroso, no  fonte UTC,  GPS! 10 anos de diferença
-			week_num = atoi(UTC_WNO);
-
-			sec_of_week = atoi(UTC_TOW);
-
-			//segundo secular UNIX time (1 jan 1970)
-			SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
-			#endif
 
 			/*Novo SOC foi calculado*/
 			taskENTER_CRITICAL();
 			newSOC = 1;
 			taskEXIT_CRITICAL();
+		}
+		#endif
+
+		#if GPS_PROTOCOL == GPS_UBX
+		//Extrai a informação: segundos na semana
+		for(i=0;i<6;i++){
+		  UTC_TOW[i]=dado_gps[25+i];
+		}
+
+		//Extrai a informação: numero da semana
+		for(i=0;i<4;i++){
+			UTC_WNO[i]=dado_gps[35+i];
+		}
+
+		//Datasheet mentiroso, no  fonte UTC,  GPS! 10 anos de diferença
+		week_num = atoi(UTC_WNO);
+
+		sec_of_week = atoi(UTC_TOW);
+
+		//segundo secular UNIX time (1 jan 1970)
+		SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
+
+		/*Novo SOC foi calculado*/
+		taskENTER_CRITICAL();
+		newSOC = 1;
+		taskEXIT_CRITICAL();
+		#endif
 
 		//	sprintf(m, "SOC %d\n", (int)SOC);
 		//	EwPrint(m);
 
-			a=0; //Pra zerar o contador do FracSec
-		}
+		a=0; //Pra zerar o contador do FracSec
 	}
 }
 
