@@ -56,7 +56,7 @@ int cnt=0; // contador dos separadores (virgulas)
 unsigned int date_limit, tow_limit, wno_limit, size; //delimitadores das informa�oes
 
 char serialGPS_SET = 0;
-char dado_gps[70];	//buffer da mensagem
+char dado_gps[100];	//buffer da mensagem
 char ID;			//Proprietary message identifier
 char UTC_WNO[4]; 	//UTC week number
 char UTC_TOW[6];	//UTC Time of Week
@@ -630,6 +630,9 @@ void GPS_Task(void const * argument)
 	MX_USART6_UART_Init();
 	HAL_UART_Receive_IT(&huart6, (uint8_t*)&teste, 1);
 
+	uint8_t date_calc = 0;
+	uint8_t hora_calc = 0;
+
 	while(1){
 	    volatile unsigned char *p;
 
@@ -647,19 +650,49 @@ void GPS_Task(void const * argument)
 		}while(*p != '\n');
 
 		#if GPS_PROTOCOL == GPS_NMEA
+<<<<<<< HEAD
+
+		uint8_t substring=1;
+		struct tm t;
+
+		char* str = strtok(dado_gps, ",");
+		if (strcmp(str, "GPRMC\0") != 0){
+			substring = 10; /*Se a mensagem recebida não for correta*/
+		}
+		str+=6;
+=======
 		/*Verifica se chegou informações de Data e Hora*/
 		if (dado_gps[0] == 'G' && dado_gps[1] == 'P' && dado_gps[2] == 'R' &&
 				dado_gps[3] == 'M' && dado_gps[4] == 'C'){
+>>>>>>> 994d6d23dfedabed25090546d192e5864802874e
 
-			struct tm t;
+		hora_calc = 0;
 
-			t.tm_hour = 10*(dado_gps[6]-48) + (dado_gps[7]-48);
-			t.tm_min = 10*(dado_gps[8]-48) + (dado_gps[9]-48);
-			t.tm_sec = 10*(dado_gps[10]-48) + (dado_gps[11]-48);
-			t.tm_mday = 10*(dado_gps[52]-48) + (dado_gps[53]-48);
-			t.tm_mon = 10*(dado_gps[54]-48) + (dado_gps[55]-48)-1;
-			t.tm_year = 2000+10*(dado_gps[56]-48) + (dado_gps[57]-48) - 1900;
-			t.tm_isdst = -1;
+		while (substring <=9){
+
+			if (substring == 1 && *str != ','){
+
+				t.tm_hour = 10*( *str++ -48) + (*str++ - 48);
+				t.tm_min = 10*(*str++ - 48) + (*str++ - 48);
+				t.tm_sec = 10*(*str++ - 48) + (*str++ - 48);
+				hora_calc = 1;
+
+			}else if (substring == 9 && *str != ','){
+
+				t.tm_mday = 10*( *str++ - 48) + ( *str++ - 48);
+				t.tm_mon = 10*( *str++ - 48) + ( *str++ - 48)-1;
+				t.tm_year = 2000+10*( *str++ - 48) + ( *str++  - 48) - 1900;
+				t.tm_isdst = -1;
+				date_calc = 1;
+			}
+
+			while (*str++ != ',');
+
+			substring++;
+		}
+
+		/*Verifica se chegou informações de Data e Hora*/
+		if (date_calc && hora_calc){
 
 			//char m[80];
 			//sprintf(m, "%d:%d:%d - %d/%d/%d\n", t.tm_hour, t.tm_min, t.tm_sec,
