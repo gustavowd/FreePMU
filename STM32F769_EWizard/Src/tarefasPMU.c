@@ -650,7 +650,7 @@ void GPS_Task(void const * argument)
 		}while(*p != '\n');
 
 		#if GPS_PROTOCOL == GPS_NMEA
-<<<<<<< HEAD
+
 
 		uint8_t substring=1;
 		struct tm t;
@@ -660,11 +660,11 @@ void GPS_Task(void const * argument)
 			substring = 10; /*Se a mensagem recebida não for correta*/
 		}
 		str+=6;
-=======
+
 		/*Verifica se chegou informações de Data e Hora*/
 		if (dado_gps[0] == 'G' && dado_gps[1] == 'P' && dado_gps[2] == 'R' &&
 				dado_gps[3] == 'M' && dado_gps[4] == 'C'){
->>>>>>> 994d6d23dfedabed25090546d192e5864802874e
+
 
 		hora_calc = 0;
 
