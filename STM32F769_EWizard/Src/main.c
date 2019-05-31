@@ -160,10 +160,12 @@ static void MX_GPIO_Init(void);
 //static void MX_USART1_UART_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADCalibration_Init(void);
-#ifndef PPS_30_HZ
+#ifdef PPS_30_HZ
 static void MX_TIM1_Init(void);
-#endif
+#else
+static void MX_TIM1_Init(void);
 static void MX_TIM8_Init(void);
+#endif
 void MX_USART6_UART_Init(void);
 void DHCP_Thread(void const * argument);
 
@@ -399,15 +401,17 @@ int main(void)
 	  EwBspConfigSerial();
 	  xdev_out( EwBspPutCharacter );
 
-		/********* Inicializa��o dos Perif�ricos *********/
+		/********* Inicialização dos Periféricos *********/
 	    MX_GPIO_Init();
 		//MX_USART1_UART_Init();
 		MX_ADCalibration_Init();
 		MX_DMA_Init();
-		#ifndef PPS_30_HZ
+		#ifdef PPS_30_HZ
 		MX_TIM1_Init();
-		#endif
+		#else
+		MX_TIM1_Init();
 		MX_TIM8_Init();
+		#endif
 		RNG_Init();
 		BSP_LED_Init(LED1);
 		BSP_LED_Init(LED2);
@@ -867,7 +871,71 @@ static void MX_ADCalibration_Init(void)
 
 
 }
-/* Perif�rico        ucon  -    kit     GPS
+
+
+#ifdef PPS_30_HZ
+/* Periférico        ucon  -    kit     GPS
+ * TIM1_ETR          PA12       D13     PPS
+ * USART6-TX         PC6        D1      RX
+ * USART6-RX         PC7        D0      TX
+ * */
+
+/*TIM1 Init Function*/
+static void MX_TIM1_Init(void){
+
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_SlaveConfigTypeDef sSlaveConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 0;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  #if (NOMINAL_FREQ == 60)
+  #if (OVERSAMPLING  == 1)
+  htim1.Init.Period = 1708; //60 Hz - //1708 - 8x; //3417 - 4x;//13671 - 1x;
+  #else
+  htim1.Init.Period = 13671; //60 Hz - //1708 - 8x; //3417 - 4x;//13671 - 1x;
+  #endif
+  #endif
+  #if (NOMINAL_FREQ == 50)
+  #if (OVERSAMPLING  == 1)
+  htim1.Init.Period = 1953; //50 Hz - //1953 - 8x; //3906 - 4x;//15625 - 1x;
+  #else
+  htim1.Init.Period = 15625-1;//50 Hz - //1953 - 8x; //3906 - 4x;//15625 - 1x;
+  #endif
+  #endif
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK){
+	  _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK){
+	  _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+  sSlaveConfig.InputTrigger = TIM_TS_ETRF;
+  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_NONINVERTED;
+  sSlaveConfig.TriggerPrescaler = TIM_TRIGGERPRESCALER_DIV1;
+  sSlaveConfig.TriggerFilter = 0;
+  if (HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig) != HAL_OK){
+	  _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK){
+	  _Error_Handler(__FILE__, __LINE__);
+  }
+}
+
+#else
+
+/* Periférico        ucon  -    kit     GPS
  * TIM1_ETR          PA12       D13     PPS
  * TIM8_ETR          PA0        BT      PPS
  * USART6-TX         PC6        D1      RX
@@ -932,7 +1000,6 @@ static void MX_TIM8_Init(void)
 }
 
 /* TIM1 init function */
-#ifndef PPS_30_HZ
 void MX_TIM1_Init(void)
 {
 

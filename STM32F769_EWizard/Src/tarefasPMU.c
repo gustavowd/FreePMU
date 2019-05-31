@@ -482,11 +482,19 @@ void PMU_Task(void const * argument)
 		/* No entanto, se o valor depois da virgula for maior que 0.5
 		   considera-se que o valor não precisa ser diminuido de 1 */
 
+		#ifdef PPS_30_HZ
 		if (residual > 0.5){
 			htim1.Instance->ARR = tmpARRfix;
 		}else{
 			htim1.Instance->ARR = tmpARRfix - 1;
 		}
+		#else
+		if (residual > 0.5){
+			htim8.Instance->ARR = tmpARRfix;
+		}else{
+			htim8.Instance->ARR = tmpARRfix - 1;
+		}
+		#endif
 
 
 		/*********************************************************/
@@ -1150,16 +1158,24 @@ int frame_header(void)
 	return 19+1;
 }
 
-//Callback chamado quando o ADC finaliza a convers�o
+//Callback chamado quando o ADC finaliza a conversão
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+#ifdef PPS_30_HZ
+	//Interrompe o TIM1 e zera sua contagem atribuindo 0 ao Auto Reload Register
+	htim1.Instance->CR1 &= ~(TIM_CR1_CEN);
+	htim1.Instance->CNT = 0;
+
+	BSP_LED_Toggle(LED1);
+
+	osSemaphoreRelease(pmuSem_id);
+#else
 	//Interrompe o TIM8 e zera sua contagem atribuindo 0 ao Auto Reload Register
 	htim8.Instance->CR1 &= ~(TIM_CR1_CEN);
 	htim8.Instance->CNT = 0;
 
 	BSP_LED_Toggle(LED1);
 
-	#ifndef PPS_30_HZ
-	// Se for a primeira aquisi��o...
+	// Se for a primeira aquisição...
 	if (trigcount == 0) {
 		// Configura o TIM8 para ser trigado pelo TIM1 (ITR0)
 		TIM_SlaveConfigTypeDef sSlaveConfig;
@@ -1200,7 +1216,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 			trigcount = 0;
 		}
 	}
-	#endif
 
 	osSemaphoreRelease(pmuSem_id);
+#endif
 }
