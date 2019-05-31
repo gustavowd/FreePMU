@@ -82,6 +82,15 @@
 #define GPS_UBX		1
 
 #define GPS_PROTOCOL GPS_NMEA
+
+
+#define PMU_UFSC_1 1
+#define PMU_UFSC_2 2
+
+#define PMU PMU_UFSC_2
+
+//#define PLATAFORMA_DE_TESTES 1
+//#define USAR_DFT
 /* USER CODE END Private defines */
 
 void _Error_Handler(char *, int);

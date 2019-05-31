@@ -78,19 +78,23 @@ volatile unsigned int n_amostras=256;
 
 unsigned int k=0;
 unsigned int flag=0;
-unsigned int r,s,t, rr, ss, tt;
+unsigned int r,s,t; //rr, ss, tt;
 
+#ifdef USAR_DFT
 //Tabela da DFT
 float teta, seno[numero_pontos], cosseno[numero_pontos];
+#endif
 //aplicacao do fator de calibracao
 float FC;
 float FasesAC[numero_pontos*3];
 float FasesAC_mod_R[numero_pontos], FasesAC_mod_S[numero_pontos], FasesAC_mod_T[numero_pontos];
 float FasesAC_ReIm_R[numero_pontos*2], FasesAC_ReIm_S[numero_pontos*2], FasesAC_ReIm_T[numero_pontos*2];
+#ifdef USAR_DFT
 //Aplicacao da DFT
 float modulor,modulos,modulot,faser,fases,faset,somaMr,somaMs,somaMt,somaFr,somaFs,somaFt;
 //Fasor em coordenadas retangulares
 float Mr,Ms,Mt,Fr,Fs,Ft;
+#endif
 //Fasor em coordenadas polares
 float Mag_R,Mag_S,Mag_T,Fase_R,Fase_S,Fase_T;
 //Frequencia e rocof
@@ -110,12 +114,15 @@ float tolerancia = 10;
 float vetor_desvioR[10], vetor_desvioS[10], vetor_desvioT[10];
 float soma_r, soma_s, soma_t;
 unsigned int d=0;
-//Corre�ao da taxa de amostragem
+//Correção da taxa de amostragem
 float  dif, vetor_freq[10], media_freq, soma_freq, media_freq_2;
 float vetor_rocof[10], media_rocof, soma_rocof;
 unsigned int  f=0, g=0, contador = 0;
+
+#ifdef PLATAFORMA_DE_TESTES
 //Transmissao via serial
 float buffer[10];
+#endif
 
 //Definicoes para correcao das medidas
 float mag, faseR_x_mag, faseS_x_mag, faseT_x_mag, faseR_x_freq, faseS_x_freq, faseT_x_freq;
@@ -149,14 +156,16 @@ osSemaphoreId  pmuSem_id;
 extern osSemaphoreId syncSem_id;
 extern volatile unsigned char data_flag;
 extern char isSyncCreated;
-//extern char *IP_global[16];
 
 volatile int trigcount = 0;
 
 void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
 void MX_ADC3_Init(void);
+
+#ifdef PLATAFORMA_DE_TESTES
 void UARTPutString(uint8_t *string, uint16_t size);
+#endif
 
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc2;
@@ -164,12 +173,12 @@ extern ADC_HandleTypeDef hadc3;
 
 void PMU_Task(void const * argument)
 {
-	/////////////////////// DEFINI��ES INICIAIS
+	/////////////////////// DEFINIÇÕES INICIAIS
 	osSemaphoreDef(SEM2);
 	pmuSem_id = osSemaphoreCreate(osSemaphore(SEM2), 1);
 	osSemaphoreWait(pmuSem_id, osWaitForever);
 
-
+	#ifdef USAR_DFT
 	// Tabela da DFT
 	teta=2*M_PI/n_amostras;
 
@@ -177,13 +186,14 @@ void PMU_Task(void const * argument)
 		seno[k]=sin(k*teta);
 		cosseno[k]=cos(k*teta);
 	}
+	#endif
 
 	//Carrega valores iniciais
-	desvio_ang_esp = 0;  //desvio de �ngulo esperado
+	desvio_ang_esp = 0;  //desvio de ângulo esperado
 	tolerancia = 6.5;    //tolerancia do desvio esperado
 	Freq_ant = f0;
 
-	// carrega vetores de media m�vel
+	// carrega vetores de media móvel
 	for(i=0;i<10;i++){
 		vetor_freq[i]=f0;
 		vetor_rocof[i]=0;
@@ -202,18 +212,15 @@ void PMU_Task(void const * argument)
 	  #endif
 
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
-	while(1)
-	{
-
-
+	while(1){
 		// Espera completar as 768 amostras
 		osSemaphoreWait(pmuSem_id, osWaitForever);
 
-		// Calcula o fator de calibra��o
+		// Calcula o fator de calibração
 		//BSP_LED_Toggle(LED1);
 		FC=1.21/(Get_ADC_Calib());
 
-		// Calcula a m�dia a cada 8 pontos para gerar os 256 de cada fase
+		// Calcula a média a cada 8 pontos para gerar os 256 de cada fase
 #if (OVERSAMPLING  == 1)
 		r=0;
 		s=1;
@@ -245,11 +252,11 @@ void PMU_Task(void const * argument)
 
 		send_serial = 0;
 
-
 		r=0;
 		s=1;
 		t=2;
 
+		#ifdef USAR_DFT
 		somaMr=0;
 		somaMs=0;
 		somaMt=0;
@@ -257,16 +264,11 @@ void PMU_Task(void const * argument)
 		somaFr=0;
 		somaFs=0;
 		somaFt=0;
-
+		#endif
 
 		//Aplicacao da DFT
 		int k2 = 0;
 		for (k=0;k<n_amostras;k++){
-
-			modulor = FasesAC[r]*cosseno[k];
-			modulos = FasesAC[s]*cosseno[k];
-			modulot = FasesAC[t]*cosseno[k];
-
 			//##############################
 			// Para FFT
 			FasesAC_ReIm_R[k2]=FasesAC[r];
@@ -279,6 +281,11 @@ void PMU_Task(void const * argument)
 			k2 += 2;
 			//##############################
 
+			#ifdef USAR_DFT
+			modulor = FasesAC[r]*cosseno[k];
+			modulos = FasesAC[s]*cosseno[k];
+			modulot = FasesAC[t]*cosseno[k];
+
 			faser = FasesAC[r]*seno[k];
 			fases = FasesAC[s]*seno[k];
 			faset = FasesAC[t]*seno[k];
@@ -290,6 +297,7 @@ void PMU_Task(void const * argument)
 			somaFr += faser;
 			somaFs += fases;
 			somaFt += faset;
+			#endif
 
 			r +=3;
 			s +=3;
@@ -308,7 +316,18 @@ void PMU_Task(void const * argument)
 		arm_cmplx_mag_f32(FasesAC_ReIm_T,FasesAC_mod_T,256);
 		//##############################
 
+		#ifndef USAR_DFT
+		Mag_R = 2*sqrt(FasesAC_ReIm_R[3]*FasesAC_ReIm_R[3] + FasesAC_ReIm_R[2]*FasesAC_ReIm_R[2])/256;
+		Fase_R = atan2(FasesAC_ReIm_R[3],FasesAC_ReIm_R[2])*180/M_PI;	//Fase R da harmonica fundamental
 
+		Mag_S = 2*sqrt(FasesAC_ReIm_S[3]*FasesAC_ReIm_S[3] + FasesAC_ReIm_S[2]*FasesAC_ReIm_S[2])/256;
+		Fase_S=atan2(FasesAC_ReIm_S[3],FasesAC_ReIm_S[2])*180/M_PI;	//Fase S da harmonica fundamental
+
+		Mag_T = 2*sqrt(FasesAC_ReIm_T[3]*FasesAC_ReIm_T[3] + FasesAC_ReIm_T[2]*FasesAC_ReIm_T[2])/256;
+		Fase_T=atan2(FasesAC_ReIm_T[3],FasesAC_ReIm_T[2])*180/M_PI;	//Fase T da harmonica fundamental
+		#endif
+
+		#ifdef USAR_DFT
 		//Fasor em coordenadas retangulares
 		Mr=somaMr*2/n_amostras;
 		Ms=somaMs*2/n_amostras;
@@ -326,21 +345,20 @@ void PMU_Task(void const * argument)
 		Fase_R = (atan2(-Fr,Mr)*180/M_PI);
 		Fase_S = (atan2(-Fs,Ms)*180/M_PI);
 		Fase_T = (atan2(-Ft,Mt)*180/M_PI);
+		#endif
 
 		//Desvio de fase (para estimacao de frequencia)
 		desvio_faseR = (Fase_R-Fase_R_ant);
 		desvio_faseS = (Fase_S-Fase_S_ant);
 		desvio_faseT = (Fase_T-Fase_T_ant);
 
-
 		Fase_R_ant = Fase_R;
 		Fase_S_ant = Fase_S;
 		Fase_T_ant = Fase_T;
 
 
-
-		// Corre��o do phase shift
-		//Desabilitar essa corre��o para os testes de frequ�ncia em estado estacion�rio!!
+		// Correção do phase shift
+		//Desabilitar essa correção para os testes de frequência em estado estacionário!!
 /*
 		if(desvio_faseR > (desvio_ang_esp+tolerancia)){
 			desvio_faseR = desvio_ang_esp;
@@ -403,7 +421,7 @@ void PMU_Task(void const * argument)
 
 		media_freq_2 = (Freq + Freq_ant)/2.0;
 
-		//Desvio de �ngulo esperado (para corre��o do phase shift)
+		//Desvio de ângulo esperado (para correção do phase shift)
 		desvio_ang_esp = 360*(Freq-f0)/fps;
 
 
@@ -440,10 +458,6 @@ void PMU_Task(void const * argument)
 		Freq_final = media_freq; //+media_rocof/fps;
 
 
-
-
-
-
 		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TESTES SEM SINAL
 		//media_freq = f0;  /////////////////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -455,7 +469,6 @@ void PMU_Task(void const * argument)
 
 */
 
-#if 1
 		//AJUSTE DA TAXA DE AMOSTRAGEM
 	#if (OVERSAMPLING  == 1)
 		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras*4*2);
@@ -465,9 +478,9 @@ void PMU_Task(void const * argument)
 		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
 		volatile float residual = tmpARR - (float)tmpARRfix;
 
-		// O valor correto � o calculado - 1
+		// O valor correto é o calculado - 1
 		/* No entanto, se o valor depois da virgula for maior que 0.5
-		   considera-se que o valor n�o precisa ser diminuido de 1 */
+		   considera-se que o valor não precisa ser diminuido de 1 */
 
 		if (residual > 0.5){
 			htim1.Instance->ARR = tmpARRfix;
@@ -477,12 +490,12 @@ void PMU_Task(void const * argument)
 
 
 		/*********************************************************/
-		//APLICA��O DAS CORRE��ES (em magnitude e fase)
+		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
 		//MAGNITUDE- ajuste da magnitude
 		// Y-data = Magnitude reference - X-data = Magnitude measured (n�o em p.u.)
 
-#if 0 // PMU 1 UFSC
+		#if (PMU == PMU_UFSC_1) // PMU 1 UFSC
 				MagR_x_mag = -0.0104230472+ 6.4799561727*Mag_R + 0.0058096119*Mag_R*Mag_R -0.0225779260*Mag_R*Mag_R*Mag_R;
 				MagS_x_mag = -0.0094105471+ 6.5295808671*Mag_S -0.0517533485*Mag_S*Mag_S + 0.0122170154*Mag_S*Mag_S*Mag_S;
 				MagT_x_mag = -0.0038224285+ 6.4664725524*Mag_T + 0.0200856470*Mag_T*Mag_T - 0.0147323440*Mag_T*Mag_T*Mag_T;
@@ -508,8 +521,8 @@ void PMU_Task(void const * argument)
 				Mag_R_final = MagR_x_mag * 42.5038; //Mag_R;
 				Mag_S_final = MagS_x_mag * 42.1823;
 				Mag_T_final = MagT_x_mag * 42.5782; //MagT_x_mag;
-#endif
-#if 1  // PMU 2 UFSC
+		#endif
+		#if (PMU == PMU_UFSC_2)  // PMU 2 UFSC
 				MagR_x_mag = -0.0016362996 + 6.4330443785*Mag_R + 0.0658874232*Mag_R*Mag_R - 0.0351025233*Mag_R*Mag_R*Mag_R;
 				MagS_x_mag = 0.0009628812 + 6.3757106266*Mag_S +0.0686457110*Mag_S*Mag_S -0.0299965117*Mag_S*Mag_S*Mag_S;
 				MagT_x_mag = 0.0004282697 + 6.4019875313*Mag_T + 0.0981472053*Mag_T*Mag_T -0.0467723654*Mag_T*Mag_T*Mag_T;
@@ -535,7 +548,7 @@ void PMU_Task(void const * argument)
 				Mag_R_final = MagR_x_mag * 42.3832; //Mag_R;
 				Mag_S_final = MagS_x_mag * 42.4718;
 				Mag_T_final = MagT_x_mag * 42.45794; //MagT_x_mag;
-#endif
+		#endif
 
 
 		//Calcula fase final (aplica as correcoes anteriores)
@@ -564,19 +577,20 @@ void PMU_Task(void const * argument)
 			Fase_T_final = (Fase_T_final+360);
 		}
 
-		  // DADOS DA TRANSMISSAO (via serial pro PC)
+
+	#ifdef PLATAFORMA_DE_TESTES
+		// DADOS DA TRANSMISSAO (via serial pro PC)
 		buffer[0] = Mag_R_final;
-		buffer[1] = Fase_R_final;//_final;
+		buffer[1] = Fase_R_final;
 		buffer[2] = Freq_final;
 		buffer[3] = media_rocof;
 
 		// Envia os dados pela serial
 		uint8_t *dados = (uint8_t*)&buffer;
 		UARTPutString(dados,16);
+	#endif
 
-		#endif
-
-		#ifdef PPS_30_HZ
+	#ifdef PPS_30_HZ
 		if (frame_cnt){
 			FracSec += FRACAO_DE_SEGUNDO;
 		}else{
@@ -590,7 +604,7 @@ void PMU_Task(void const * argument)
 		if (frame_cnt >= (NOMINAL_FREQ/2)){
 			frame_cnt = 0;
 		}
-		#endif
+	#endif
 
 		if((isSyncCreated == 1) && (data_flag)){
 				cnt = 0;
