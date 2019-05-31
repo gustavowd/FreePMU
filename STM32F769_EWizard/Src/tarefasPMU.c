@@ -183,15 +183,6 @@ void PMU_Task(void const * argument)
 	tolerancia = 6.5;    //tolerancia do desvio esperado
 	Freq_ant = f0;
 
-	//Calcula a fra��o de segundo (para etiqueta de tempo)
-#if 0
-	if(f0 == 60){
-		FracSec = 0x00008235;  //Fra��o de segundo 0,03333
-	}else if(f0 == 50){
-		FracSec = 0x00009C40;  // Fra��o de segundo = 0,04
-	}
-#endif
-
 	// carrega vetores de media m�vel
 	for(i=0;i<10;i++){
 		vetor_freq[i]=f0;
@@ -307,7 +298,6 @@ void PMU_Task(void const * argument)
 
 		//##############################
 		// Para FFT
-#if 1
 		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_R,0,1);
 		arm_cmplx_mag_f32(FasesAC_ReIm_R,FasesAC_mod_R,256);
 
@@ -316,7 +306,6 @@ void PMU_Task(void const * argument)
 
 		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_T,0,1);
 		arm_cmplx_mag_f32(FasesAC_ReIm_T,FasesAC_mod_T,256);
-#endif
 		//##############################
 
 
