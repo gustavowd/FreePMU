@@ -560,10 +560,9 @@ void PMU_Task(void const * argument)
 
 
 		//Calcula fase final (aplica as correcoes anteriores)
-		Fase_R_final = Fase_R+faseR_x_mag+faseR_x_freq;
-		Fase_S_final = Fase_S+faseS_x_mag+faseS_x_freq;
-		Fase_T_final = Fase_T+faseT_x_mag+faseT_x_freq;
-
+		Fase_R_final = faseR_x_mag + faseR_x_freq;
+		Fase_S_final = faseS_x_mag + faseS_x_freq;
+		Fase_T_final = faseT_x_mag + faseT_x_freq;
 
 		// Correcao da regiao de 180 graus para a fase final
 		if(Fase_R_final > 180.0){
