@@ -759,6 +759,7 @@ static void MX_GPIO_Init(void)
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOI_CLK_ENABLE();
+    __HAL_RCC_GPIOJ_CLK_ENABLE();
 
 
     GPIO_InitTypeDef  gpio_init_structure;
@@ -770,6 +771,14 @@ static void MX_GPIO_Init(void)
     gpio_init_structure.Speed = GPIO_SPEED_HIGH;
 
     HAL_GPIO_Init(GPIOF, &gpio_init_structure);
+
+    /*PJ1 is enable GPS chip*/
+    gpio_init_structure.Pin   = GPIO_PIN_1;
+    gpio_init_structure.Mode  = GPIO_MODE_OUTPUT_PP;
+    gpio_init_structure.Pull  = GPIO_NOPULL;
+    gpio_init_structure.Speed = GPIO_SPEED_HIGH;
+
+    HAL_GPIO_Init(GPIOJ, &gpio_init_structure);
 }
 
 #if 0
@@ -874,11 +883,7 @@ static void MX_ADCalibration_Init(void)
 
 
 #ifdef PPS_30_HZ
-/* Periférico        ucon  -    kit     GPS
- * TIM1_ETR          PA12       D13     PPS
- * USART6-TX         PC6        D1      RX
- * USART6-RX         PC7        D0      TX
- * */
+
 
 /*TIM1 Init Function*/
 static void MX_TIM1_Init(void){
@@ -937,9 +942,13 @@ static void MX_TIM1_Init(void){
 
 /* Periférico        ucon  -    kit     GPS
  * TIM1_ETR          PA12       D13     PPS
- * TIM8_ETR          PA0        BT      PPS
+ * TIM8_ETR          PA0        BT      PPS (apenas versão 1 PPS)
  * USART6-TX         PC6        D1      RX
  * USART6-RX         PC7        D0      TX
+ * Enable GPS        PJ1        D2      Alimentação
+ * ADC-Fase R        PA6        A0      -
+ * ADC-Fase S        PA4        A1      -
+ * ADC-Fase T        PF10       A3      -
  * */
 /*TIM8 Init Function*/
 static void MX_TIM8_Init(void)

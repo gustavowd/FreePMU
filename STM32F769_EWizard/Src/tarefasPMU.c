@@ -646,6 +646,9 @@ void GPS_Task(void const * argument)
 
 		p = (unsigned char*)&dado_gps;
 
+		/*Liga o GPS*/
+		HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_1, GPIO_PIN_SET);
+
 		do{
 			UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		  }while(*p != '$');
@@ -670,8 +673,6 @@ void GPS_Task(void const * argument)
 			substring = 10; /*Se a mensagem recebida não for correta*/
 		}
 		str+=6;
-
-		hora_calc = 0;
 
 		while (substring <=9){
 			if (substring == 1 && *str != ','){
