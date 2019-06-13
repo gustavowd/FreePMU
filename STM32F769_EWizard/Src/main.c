@@ -779,6 +779,9 @@ static void MX_GPIO_Init(void)
     gpio_init_structure.Speed = GPIO_SPEED_HIGH;
 
     HAL_GPIO_Init(GPIOJ, &gpio_init_structure);
+
+    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_1, GPIO_PIN_RESET);
+
 }
 
 #if 0

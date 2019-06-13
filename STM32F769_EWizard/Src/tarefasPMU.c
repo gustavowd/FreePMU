@@ -34,7 +34,7 @@ extern TIM_HandleTypeDef			 htim8;
 
 extern UART_HandleTypeDef 			 huart6;
 
-volatile uint8_t newSOC = 0;
+volatile uint8_t newSOC;
 #ifdef PPS_30_HZ
 volatile int frame_cnt = 0;
 #endif
@@ -211,10 +211,12 @@ void PMU_Task(void const * argument)
 	  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)adcBuffer, 768);
 	  #endif
 
+	  newSOC = 0;
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
 	while(1){
 		// Espera completar as 768 amostras
 		osSemaphoreWait(pmuSem_id, osWaitForever);
+
 
 		// Calcula o fator de calibração
 		//BSP_LED_Toggle(LED1);
@@ -600,11 +602,14 @@ void PMU_Task(void const * argument)
 	#ifdef PPS_30_HZ
 		if (frame_cnt){
 			FracSec += FRACAO_DE_SEGUNDO;
+			if (FracSec > 0xEC001){
+				taskENTER_CRITICAL();
+				newSOC = 0;
+				FracSec = 0;
+				taskEXIT_CRITICAL();
+			}
 		}else{
-			FracSec = 0x00;
-			taskENTER_CRITICAL();
-			newSOC = 0;
-			taskEXIT_CRITICAL();
+			FracSec = FRACAO_DE_SEGUNDO_INIT;
 		}
 
 		frame_cnt++;
@@ -661,6 +666,7 @@ void GPS_Task(void const * argument)
 
 		#if GPS_PROTOCOL == GPS_NMEA
 		uint8_t date_calc = 0;
+		uint8_t valid_data = 0;
 		uint8_t hora_calc = 0;
 		uint8_t substring=1;
 		struct tm t;
@@ -682,7 +688,11 @@ void GPS_Task(void const * argument)
 				t.tm_sec = 10*(*str++ - 48);
 				t.tm_sec += (*str++ - 48);
 				hora_calc = 1;
-			}else if (substring == 9 && *str != ','){
+			}else if (substring ==2 && *str != ','){
+				if (*str++ == 'A')
+					valid_data=1;
+			}
+			else if (substring == 9 && *str != ','){
 				t.tm_mday = 10*( *str++ - 48);
 				t.tm_mday += ( *str++ - 48);
 				t.tm_mon = 10*( *str++ - 48);
@@ -698,7 +708,7 @@ void GPS_Task(void const * argument)
 		}
 
 		/*Verifica se chegou informações de Data e Hora*/
-		if (date_calc && hora_calc){
+		if (date_calc && hora_calc && valid_data){
 
 			//char m[80];
 			//sprintf(m, "%d:%d:%d - %d/%d/%d\n", t.tm_hour, t.tm_min, t.tm_sec,
@@ -932,6 +942,9 @@ int frame_data(void)
 	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);	//48
 	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);			//49
 
+	//HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
+
+
 	/*Novo SOC foi calculado*/
 	if (newSOC) {
 		//Se a fila estiver vazia ...
@@ -965,8 +978,6 @@ int frame_data(void)
 		insertQueueElement(qUcData, ucData);
 		return 0;
 	}
-
-	//return i;
 }
 
 /////////////// FRAME DE CONFIGURA��O
@@ -1166,6 +1177,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	htim1.Instance->CNT = 0;
 
 	BSP_LED_Toggle(LED1);
+
+	//HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
 
 	osSemaphoreRelease(pmuSem_id);
 #else

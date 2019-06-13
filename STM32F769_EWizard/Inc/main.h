@@ -73,6 +73,7 @@
 
 #if (NOMINAL_FREQ == 60)
 #define FRACAO_DE_SEGUNDO 0x00008235;  //Fração de segundo 0,03333
+#define FRACAO_DE_SEGUNDO_INIT 0x0001869F;  //Fração de segundo 0,03333
 #endif
 #if (NOMINAL_FREQ == 50)
 #define FRACAO_DE_SEGUNDO 0x00009C40;  // Fração de segundo = 0,04
