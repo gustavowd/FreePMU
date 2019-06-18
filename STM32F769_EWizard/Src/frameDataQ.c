@@ -5,6 +5,7 @@
  *      Author: Leonardo
  */
 
+#include <string.h>
 #include "frameDataQ.h"
 
 /* Cria um novo elemento. */
@@ -69,15 +70,17 @@ int isQueueEmpty (struct frameDataQueue* q) {
 	}
 }
 
+uint16_t ComputeCRC(unsigned char *Message, unsigned char MessLen);
+
 /* Funcao para trocar o SOC do ucData. Retorna int para dizer qtos elementos ha na fila. */
 int changeSOC (struct frameDataQueue* q, unsigned long nSOC) {
 	uint16_t CRC_CCITT;
 	int qtdE = 0;
 
-	/* O ponteiro de temp é colocado no início da fila para iterar sobre os elementos*/
+	/* O ponteiro temp e colocado no inicio da fila para iterar sobre os elementos*/
 	struct frameDataElement* temp = q->ini;
 
-	/*O final da fila ocorre quando este pointeiro chegar a NULL, então para cada item...*/
+	/*O final da fila ocorre quando este pointeiro chegar a NULL, entao para cada item...*/
 	while (temp != NULL) {
 		// ... altera-se o SOC com o novo SOC
 		temp->ucData[6] = (unsigned char)((nSOC & 0xFF000000) >> 24);
@@ -91,7 +94,7 @@ int changeSOC (struct frameDataQueue* q, unsigned long nSOC) {
 		temp->ucData[48] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
 		temp->ucData[49] = (unsigned char)(CRC_CCITT & 0x00FF);
 
-		/*E transcorre-se para o próximo elemento da fila*/
+		/*E transcorre-se para o proximo elemento da fila*/
 		temp = temp->next;
 
 		++qtdE;

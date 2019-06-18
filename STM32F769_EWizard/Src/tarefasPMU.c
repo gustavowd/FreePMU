@@ -1,5 +1,5 @@
 /*
- * Arquivo de tarefas de Flavio Lori Grando(2016) em sua PMU proposta com c�digo adaptado ao
+ * Arquivo de tarefas de Flavio Lori Grando(2016) em sua PMU proposta com codigo adaptado ao
  * sistema embarcado STM32F746G
  */
 
@@ -30,11 +30,13 @@
 extern osMessageQId SerialGPSq;
 
 extern TIM_HandleTypeDef 			 htim1;
+#ifndef PPS_30_HZ
 extern TIM_HandleTypeDef			 htim8;
+#endif
 
 extern UART_HandleTypeDef 			 huart6;
 
-volatile uint8_t newSOC;
+volatile uint8_t newSOC = 0;
 #ifdef PPS_30_HZ
 volatile int frame_cnt = 0;
 #endif
@@ -820,18 +822,12 @@ uint16_t ComputeCRC(unsigned char *Message, unsigned char MessLen)
 
 
 unsigned char ucData[128];
-
-
 unsigned int PmuID = 0x0001;			// Identificacao da PMU
-
-
-
 
 
 /////////////// FRAME DE DADOS
 struct frameDataQueue* qUcData = NULL;
-int frame_data(void)
-{
+int frame_data(void){
 	// Se a fila nao existir, cria-la
 	if (qUcData == NULL) {
 		qUcData = createFDQueue();
@@ -859,8 +855,8 @@ int frame_data(void)
 	ucData[i++] = (unsigned char)((SOC & 0x0000FF00) >> 8);   //8
 	ucData[i++] = (unsigned char)(SOC & 0x000000FF);   //9
 
-	// 5. FRACSEC = Fra��o do segundo e qualidade do tempo
-	ucData[i++] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (se��o 6.2.2)
+	// 5. FRACSEC = Fracao do segundo e qualidade do tempo
+	ucData[i++] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (secao 6.2.2)
 	ucData[i++] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
@@ -874,13 +870,11 @@ int frame_data(void)
 
 	// 7. PHASORS
 	// Magnitude primeiro - unidades de engenharia
-
 	float Fase_R_rad, Fase_S_rad, Fase_T_rad ;
 	// Fase, depois da magnitude -  em radianos
 	Fase_R_rad = Fase_R_final*M_PI/180.0;
 	Fase_S_rad = Fase_S_final*M_PI/180.0;
 	Fase_T_rad = Fase_T_final*M_PI/180.0;
-
 
 	convert_float_to_char.pf = Mag_R_final;
 	ucData[i++] = convert_float_to_char.byte[3];	//16
@@ -944,7 +938,6 @@ int frame_data(void)
 
 	//HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
 
-
 	/*Novo SOC foi calculado*/
 	if (newSOC) {
 		//Se a fila estiver vazia ...
@@ -964,11 +957,11 @@ int frame_data(void)
 			return changeSOC(qUcData, SOC);
 		}
 	}
-	else {   /* N�o h� SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
+	else {   /* Nao ha SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
 		#ifndef PPS_30_HZ		
 		if (isQueueEmpty(qUcData)){
 			FracSec = 0x00;
-			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (se��o 6.2.2)
+			ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //10 - Time quality (secao 6.2.2)
 			ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 			ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 			ucData[13] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
@@ -980,12 +973,8 @@ int frame_data(void)
 	}
 }
 
-/////////////// FRAME DE CONFIGURA��O
-int frame_config(void)
-{
-
-
-	//unsigned char ucData[98];
+/////////////// FRAME DE CONFIGURACAO
+int frame_config(void){
 	char CHName[16]; //vetor nome dos canais, frame config
 
 	memset(ucData, 0x00, sizeof(ucData));
@@ -1008,8 +997,8 @@ int frame_config(void)
 	ucData[8] = (unsigned char)((SOC & 0x0000FF00) >> 8);
 	ucData[9] = (unsigned char)(SOC & 0x000000FF);
 
-	// 5. FRACSEC = Fra��o do segundo e qualidade do tempo
-	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (se��o 6.2.2)
+	// 5. FRACSEC = Fracao do segundo e qualidade do tempo
+	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (secao 6.2.2)
 	ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
 	ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
 	ucData[13] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
@@ -1123,7 +1112,7 @@ int frame_config(void)
 }
 
 
-///////////////// FRAME DE CABE�ALHO
+///////////////// FRAME DE CABECALHO
 int frame_header(void)
 {
 
@@ -1147,8 +1136,8 @@ int frame_header(void)
 	ucData[8] = (unsigned char)((SOC & 0x0000FF00) >> 8);
 	ucData[9] = (unsigned char)(SOC & 0x000000FF);
 
-	// 5. FRACSEC = Fra��o do segundo e qualidade do tempo
-	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (se��o 6.2.2)
+	// 5. FRACSEC = Fracao do segundo e qualidade do tempo
+	ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);  //Time quality (secao 6.2.2)
 	ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //fracsec
 	ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //fracsec
 	ucData[13] = (unsigned char)(FracSec & 0x000000FF);			//fracsec
