@@ -1190,7 +1190,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 		/*Inicializa o TIM1*/
 		//todo: verificar
-		htim1.Instance->CR1 |= (TIM_CR1_CEN);
+		//htim1.Instance->CR1 |= (TIM_CR1_CEN);
 
 		newSOC = 0;
 		trigcount++;

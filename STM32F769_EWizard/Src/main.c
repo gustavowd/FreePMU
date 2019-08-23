@@ -708,7 +708,12 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 25;
-  RCC_OscInitStruct.PLL.PLLN = 432;
+#if NOMINAL_FREQ == 60
+  RCC_OscInitStruct.PLL.PLLN = 420;
+#else
+  RCC_OscInitStruct.PLL.PLLN = 400;
+#endif
+
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -1022,8 +1027,8 @@ void MX_TIM1_Init(void)
 	  htim1.Instance = TIM1;
 	  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
       #if (NOMINAL_FREQ == 60)
-	  htim1.Init.Prescaler = 70-1;
-	  htim1.Init.Period = 50000-1;
+	  htim1.Init.Prescaler = 55-1;
+	  htim1.Init.Period = 63636+1;
       #endif
 	  #if (NOMINAL_FREQ == 50)
 	  htim1.Init.Prescaler = 100-1;
