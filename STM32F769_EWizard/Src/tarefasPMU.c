@@ -485,21 +485,21 @@ void PMU_Task(void const * argument)
 		// O valor correto é o calculado - 1
 		/* No entanto, se o valor depois da virgula for maior que 0.5
 		   considera-se que o valor não precisa ser diminuido de 1 */
-
-		#ifdef PPS_30_HZ
-		if (residual > 0.5){
-			htim1.Instance->ARR = tmpARRfix;
-		}else{
-			htim1.Instance->ARR = tmpARRfix - 1;
-		}
-		#else
-		if (residual > 0.5){
-			htim8.Instance->ARR = tmpARRfix;
-		}else{
-			htim8.Instance->ARR = tmpARRfix - 1;
-		}
+		#ifdef CORRIGE_RESIDUAL
+			#ifdef PPS_30_HZ
+			if (residual > 0.5){
+				htim1.Instance->ARR = tmpARRfix;
+			}else{
+				htim1.Instance->ARR = tmpARRfix - 1;
+			}
+			#else
+			if (residual > 0.5){
+				htim8.Instance->ARR = tmpARRfix;
+			}else{
+				htim8.Instance->ARR = tmpARRfix - 1;
+			}
+			#endif
 		#endif
-
 
 		/*********************************************************/
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)

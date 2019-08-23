@@ -84,6 +84,9 @@
 
 #define GPS_PROTOCOL GPS_NMEA
 
+//#define CORRIGE_RESIDUAL
+
+#define CORR_HTIM1 1
 
 #define PMU_UFSC_1 1
 #define PMU_UFSC_2 2

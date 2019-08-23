@@ -1028,7 +1028,7 @@ void MX_TIM1_Init(void)
 	  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
       #if (NOMINAL_FREQ == 60)
 	  htim1.Init.Prescaler = 55-1;
-	  htim1.Init.Period = 63636+1;
+	  htim1.Init.Period = 63636- (CORR_HTIM1);
       #endif
 	  #if (NOMINAL_FREQ == 50)
 	  htim1.Init.Prescaler = 100-1;
