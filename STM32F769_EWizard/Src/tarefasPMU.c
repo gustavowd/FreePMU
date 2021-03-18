@@ -100,6 +100,8 @@ float Mr,Ms,Mt,Fr,Fs,Ft;
 #endif
 //Fasor em coordenadas polares
 float Mag_R,Mag_S,Mag_T,Fase_R,Fase_S,Fase_T;
+//float CalibHarmonicas_mag[numero_pontos];
+//float CalibHarmonicas_phase[10];
 float Harmonics_gain = 1;
 float harmonics_mag[10];
 float harmonics_phase[10];
@@ -326,11 +328,20 @@ void PMU_Task(void const * argument)
 
 		//##############################
 		// Cálculo de harmônicas da fase AC
-		arm_scale_f32(FasesAC_mod_R,Harmonics_gain*invN, FasesAC_mod_R,numero_pontos);		//Ganho de tensao
+
+		// Ajuste do ganho de tensão
+		arm_scale_f32(FasesAC_mod_R,Harmonics_gain*invN, FasesAC_mod_R,numero_pontos);
+
+		// Se precisar a amplitude de cada harmônica com um valor diferente
+		//arm_mult_f32(FasesAC_mod_R, CalibHarmonicas_mag, FasesAC_mod_R,numero_pontos);
+
 		for(k=0;k<10;k++){ // Para calcular harmônicos
 			//harmonics_mag[k] = 2*sqrt(FasesAC_ReIm_R[2*k+3]*FasesAC_ReIm_R[2*k+3] + FasesAC_ReIm_R[2*k+2]*FasesAC_ReIm_R[2*k+2])/256;
 			harmonics_mag[k] = FasesAC_mod_R[k];
 			harmonics_phase[k] = atan2(FasesAC_ReIm_R[2*k+3],FasesAC_ReIm_R[2*k+2])*180/M_PI;
+
+			// calibração de fase das harmônicas ???
+			//harmonics_phase[k] = harmonics_phase[k] - CalibHarmonicas_phase[k];
 		}
 		//##############################
 
@@ -488,13 +499,15 @@ void PMU_Task(void const * argument)
 */
 
 		//AJUSTE DA TAXA DE AMOSTRAGEM
+#ifdef CORRIGE_RESIDUAL
 	#if (OVERSAMPLING  == 1)
 		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras*4*2);
-		#else
+	#else
 		volatile float tmpARR = (float)MCLOCK_FREQ/((media_freq)*n_amostras);
 	#endif
 		volatile uint32_t tmpARRfix = (uint32_t)tmpARR;
 		volatile float residual = tmpARR - (float)tmpARRfix;
+#endif
 
 		// O valor correto é o calculado - 1
 		/* No entanto, se o valor depois da virgula for maior que 0.5
@@ -835,7 +848,7 @@ uint16_t ComputeCRC(unsigned char *Message, unsigned char MessLen)
 }
 
 
-unsigned char ucData[128];
+unsigned char ucData[288];
 unsigned int PmuID = 0x0001;			// Identificacao da PMU
 
 
@@ -926,29 +939,44 @@ int frame_data(void){
 	ucData[i++] = convert_float_to_char.byte[1];	//38
 	ucData[i++] = convert_float_to_char.byte[0];	//39
 
+	for (int j = 0; j<10; j++){
+		convert_float_to_char.pf = harmonics_mag[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+
+		convert_float_to_char.pf = harmonics_phase[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+	}
+
+
 	// 8. FREQ = Desvio de frequencia do nominal, em mHz
 	//Freq_final = (Freq_final - f0)*1000;
 
 	convert_float_to_char.pf = (Freq_final);
-	ucData[i++] = convert_float_to_char.byte[3];	//40
-	ucData[i++] = convert_float_to_char.byte[2];	//41
-	ucData[i++] = convert_float_to_char.byte[1];	//42
-	ucData[i++] = convert_float_to_char.byte[0];	//43
+	ucData[i++] = convert_float_to_char.byte[3];	//80
+	ucData[i++] = convert_float_to_char.byte[2];	//81
+	ucData[i++] = convert_float_to_char.byte[1];	//82
+	ucData[i++] = convert_float_to_char.byte[0];	//83
 
 	// 9. DFREQ = ROCOF in Hz/s "times 100"
 	//ROCOF = ROCOF*100;
 
 	convert_float_to_char.pf = (media_rocof*100);
-	ucData[i++] = convert_float_to_char.byte[3];	//44
-	ucData[i++] = convert_float_to_char.byte[2];	//45
-	ucData[i++] = convert_float_to_char.byte[1];	//46
-	ucData[i++] = convert_float_to_char.byte[0];	//47
+	ucData[i++] = convert_float_to_char.byte[3];	//84
+	ucData[i++] = convert_float_to_char.byte[2];	//85
+	ucData[i++] = convert_float_to_char.byte[1];	//86
+	ucData[i++] = convert_float_to_char.byte[0];	//87
 
 	// 12. CRC-CCITT = Cyclic Redundancy Codes (CRC)
 	CRC_CCITT = ComputeCRC(ucData, i);
 
-	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);	//48
-	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);			//49
+	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);	//88
+	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);			//89
 
 	//HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
 
@@ -1056,7 +1084,8 @@ int frame_config(void){
 
 	// 11. PHNMR = Numero de fasores
 	ucData[40] = 0x00;
-	ucData[41] = 0x03;  // 3 fasores
+	//ucData[41] = 0x03;  // 3 fasores
+	ucData[41] = 0x0D;  // 13 fasores
 
 	// 12. ANNMR = Number of Analog Values
 	ucData[42] = 0x00;
@@ -1081,6 +1110,13 @@ int frame_config(void){
 	memcpy(ucData + 78, CHName, 16);
 
 	int i = 94;
+	for (int j = 2; j<12; j++){
+		memset(CHName, 0x00, 16);
+		sprintf(CHName, "%d Harmônica", j);
+		memcpy(ucData + i, CHName, 16);
+		i += 16;
+	}
+
 	// 15.  PHUNIT = fator de conversao pra canais fasoriais
 	// 4 bytes pra cada fasor
 	ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
