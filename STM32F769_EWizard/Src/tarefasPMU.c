@@ -26,6 +26,7 @@
 #endif
 
 #define numero_pontos 256
+#define invN					(float)1/numero_pontos		//1/N
 
 extern osMessageQId SerialGPSq;
 
@@ -99,6 +100,9 @@ float Mr,Ms,Mt,Fr,Fs,Ft;
 #endif
 //Fasor em coordenadas polares
 float Mag_R,Mag_S,Mag_T,Fase_R,Fase_S,Fase_T;
+float Harmonics_gain = 1;
+float harmonics_mag[10];
+float harmonics_phase[10];
 //Frequencia e rocof
 #if (NOMINAL_FREQ == 60)
 float f0=60; // Freq nominal
@@ -318,6 +322,16 @@ void PMU_Task(void const * argument)
 
 		arm_cfft_f32(&arm_cfft_sR_f32_len256,FasesAC_ReIm_T,0,1);
 		arm_cmplx_mag_f32(FasesAC_ReIm_T,FasesAC_mod_T,256);
+		//##############################
+
+		//##############################
+		// Cálculo de harmônicas da fase AC
+		arm_scale_f32(FasesAC_mod_R,Harmonics_gain*invN, FasesAC_mod_R,numero_pontos);		//Ganho de tensao
+		for(k=0;k<10;k++){ // Para calcular harmônicos
+			//harmonics_mag[k] = 2*sqrt(FasesAC_ReIm_R[2*k+3]*FasesAC_ReIm_R[2*k+3] + FasesAC_ReIm_R[2*k+2]*FasesAC_ReIm_R[2*k+2])/256;
+			harmonics_mag[k] = FasesAC_mod_R[k];
+			harmonics_phase[k] = atan2(FasesAC_ReIm_R[2*k+3],FasesAC_ReIm_R[2*k+2])*180/M_PI;
+		}
 		//##############################
 
 		#ifndef USAR_DFT
