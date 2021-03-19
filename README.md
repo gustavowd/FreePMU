@@ -3,8 +3,12 @@ The microPMU project delivers an open source Phasor Measurement Unit (PMU) for p
 
 Prototype
 
-![alt text](https://github.com/gustavowd/microPMU/blob/main/Images/prototype.jpg)
+![Prototype](https://github.com/gustavowd/microPMU/blob/main/Images/prototype.jpg)
 
 Used GPS
-![alt text](https://github.com/gustavowd/microPMU/blob/main/Images/GPS.jpg)
+![GPS](https://github.com/gustavowd/microPMU/blob/main/Images/GPS.jpg)
+
+Used voltage transformer
+
+![voltage transformer](https://github.com/gustavowd/microPMU/blob/main/Images/voltage_transformer.jpg)
 
