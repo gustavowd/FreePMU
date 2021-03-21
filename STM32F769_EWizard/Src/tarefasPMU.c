@@ -860,7 +860,7 @@ int frame_data(void){
 		qUcData = createFDQueue();
 	}
 
-	uint8_t i=0;
+	uint16_t i=0;
 
 	memset((void*)ucData, 0, 128);
 
@@ -1109,7 +1109,7 @@ int frame_config(void){
 	strcpy(CHName, "Fase_C");
 	memcpy(ucData + 78, CHName, 16);
 
-	int i = 94;
+	uint16_t i = 94;
 	for (int j = 2; j<12; j++){
 		memset(CHName, 0x00, 16);
 		sprintf(CHName, "%d Harmônica", j);
