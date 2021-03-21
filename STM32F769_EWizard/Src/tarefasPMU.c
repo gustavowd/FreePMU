@@ -826,7 +826,7 @@ void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout)
 
 uint16_t CRC_CCITT;
 
-uint16_t ComputeCRC(unsigned char *Message, unsigned char MessLen)
+uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen)
 {
 	uint16_t crc=0xFFFF;
 	uint16_t temp;
