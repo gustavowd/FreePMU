@@ -34,7 +34,7 @@
 
 unsigned char cmd;
 volatile unsigned char connected=0;
-extern unsigned char ucData[128];
+extern unsigned char ucData[320];
 extern int frame_data(uint16_t *size);
 extern int frame_config(uint8_t config);
 extern int frame_header(void);
@@ -240,12 +240,14 @@ void pmu_tcp_server_out(void const * argument)
 			osMutexRelease(ethMut_id);
 
 		}else{
-			// Se não está conectado e tem itens na fila, esvazia a fila
-			if (isQueueEmpty(qUcData) == 0){
-				struct frameDataElement* temp = removeQueueElement(qUcData);
-				while (temp != NULL) {
-					vPortFree(temp);
-					temp = removeQueueElement(qUcData);
+			if (qUcData != NULL){
+				// Se não está conectado e tem itens na fila, esvazia a fila
+				if (isQueueEmpty(qUcData) == 0){
+					struct frameDataElement* temp = removeQueueElement(qUcData);
+					while (temp != NULL) {
+						vPortFree(temp);
+						temp = removeQueueElement(qUcData);
+					}
 				}
 			}
 		}

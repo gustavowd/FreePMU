@@ -148,6 +148,9 @@ osThreadId pmuThread_Id;
 osThreadId gpsThread_Id;
 osThreadId dhcpThread_Id;
 
+osMutexId guiMut_id;
+osMutexDef(guiMut);
+
 osMessageQId SerialGPSq;
 
 unsigned int DR1 = 0;
@@ -417,6 +420,8 @@ int main(void)
 		BSP_LED_Init(LED2);
 		BSP_LED_Toggle(LED1);
 
+		guiMut_id = osMutexCreate(osMutex(guiMut));
+
 		/* Cria tarefa do DHCP */
 		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
 		dhcpThread_Id = osThreadCreate (osThread(dhcpTask), NULL);
@@ -591,6 +596,7 @@ static void EmWiMainLoop( const void* arg )
     int events  = 0;
     int devices = 0;
 
+    osMutexWait(guiMut_id,osWaitForever);
     /* process data of your device driver(s) and update the GUI
        application by setting properties or by triggering events */
     devices = DeviceDriver_ProcessData();
@@ -641,12 +647,16 @@ static void EmWiMainLoop( const void* arg )
       /* after each processed message start the garbage collection */
       EwReclaimMemory();
 
+      osMutexRelease(guiMut_id);
+
       /* print current memory statistic to serial interface - uncomment if needed */
       //  EwPrintProfilerStatistic( 0 );
     }
     /* otherwise sleep/suspend the UI application until a certain event occurs or a timer expires... */
-    else
+    else{
+      osMutexRelease(guiMut_id);
       EwBspWaitForSystemEvent( EwNextTimerExpiration());
+    }
   }
 
   /* Deinitialize your device driver(s) */

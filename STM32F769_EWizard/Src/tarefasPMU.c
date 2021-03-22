@@ -848,7 +848,7 @@ uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen)
 }
 
 
-unsigned char ucData[288];
+unsigned char ucData[320];
 unsigned int PmuID = 0x0001;			// Identificacao da PMU
 
 
@@ -870,7 +870,7 @@ int frame_data(uint16_t *size){
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
 	ucData[i++] = (unsigned char)0x00;   //2
-	ucData[i++] = (unsigned char)0x32;   //3
+	ucData[i++] = (unsigned char)0x82;   //3
 
 	// 3. IDCODE = ID da fonte de transmissao
 	ucData[i++] = (unsigned char)((PmuID & 0xFF00) >> 8);   //4
@@ -1027,8 +1027,8 @@ int frame_config(uint8_t config){
 	ucData[1] = config;
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
-	ucData[2] = (unsigned char)0x00;
-	ucData[3] = (unsigned char)0x72; //
+	ucData[2] = (unsigned char)0x01;
+	ucData[3] = (unsigned char)0x3A; //
 
 	// 3. IDCODE = ID da fonte de transmissao
 	ucData[4] = (unsigned char)((PmuID & 0xFF00) >> 8);
@@ -1113,27 +1113,19 @@ int frame_config(uint8_t config){
 	uint16_t i = 94;
 	for (int j = 2; j<12; j++){
 		memset(CHName, 0x00, 16);
-		sprintf(CHName, "%d Harmônica", j);
+		sprintf(CHName, "%d Harmonica", j);
 		memcpy(ucData + i, CHName, 16);
 		i += 16;
 	}
 
 	// 15.  PHUNIT = fator de conversao pra canais fasoriais
 	// 4 bytes pra cada fasor
-	ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
-	ucData[i++] = 0x00;  // ignore
-	ucData[i++] = 0x00;  // ignore
-	ucData[i++] = 0x00;  // ignore
-
-	ucData[i++] = 0x00;  //
-	ucData[i++] = 0x00;  //
-    ucData[i++] = 0x00;  //
-	ucData[i++] = 0x00;  //
-
-	ucData[i++] = 0x00;
-	ucData[i++] = 0x00;
-	ucData[i++] = 0x00;  //
-	ucData[i++] = 0x00;  //
+	for (j = 0; j<13; j++){
+		ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+	}
 
 	// 18. FNOM = Frequencia nominal
 	ucData[i++] = 0x00;

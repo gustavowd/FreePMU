@@ -72,6 +72,7 @@ struct link_str link_arg;
 int _Sock;
 osThreadId  VNC_ThreadId = 0;
 int escutando = 0;
+extern osMutexId guiMut_id;
 /* Private function prototypes -----------------------------------------------*/
 void SERVER_StatusMessage (const char *message);
 void SERVER_ButtonStatus (uint8_t StartButton, uint8_t StopButton);
@@ -90,15 +91,15 @@ osThreadId serveroutThread_Id = NULL;
 void VNC_SERVER_Start (void)
 {
     if (gnetif.ip_addr.addr == 0){
-    	SERVER_StatusMessage ("Sem conexão com a internet!");
+    	SERVER_StatusMessage ("Sem conexÃ£o com a internet!");
     }else{
     	if (!escutando){
     		//escutando = 1;
 
-    		// Desliga o botão de start
+    		// Desliga o botï¿½o de start
     		SERVER_ButtonStatus (0, 1);
 
-    		// Verifica se a tarefa já não foi criada
+    		// Verifica se a tarefa jï¿½ nï¿½o foi criada
     		if (serverThread_Id == NULL){
 				/* Cria tarefa do DHCP */
 				osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 3072);
@@ -126,7 +127,7 @@ void VNC_SERVER_Stop (void)
 {
 	escutando = 0;
 
-	// Desliga o botão de stop e liga o botão start
+	// Desliga o botï¿½o de stop e liga o botï¿½o start
 	SERVER_ButtonStatus (1, 0);
 
 	if (serverThread_Id != NULL){
@@ -178,9 +179,11 @@ void  VNC_SetLockState(uint8_t LockState)
 }
 
 void SERVER_StatusMessage (const char *message) {
+	osMutexWait(guiMut_id,osWaitForever);
 	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
 	XString m = EwNewStringAnsi(message);
 	ApplicationClasse__StatusTrigger(disp, m);
+	osMutexRelease(guiMut_id);
 }
 
 

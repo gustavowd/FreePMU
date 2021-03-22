@@ -27,14 +27,18 @@ extern ETH_HandleTypeDef EthHandle;
 xSemaphoreHandle VNC_DHCP_Semaphore = NULL;
 osThreadId  DHCP_ThreadId = 0;
 
+extern osMutexId guiMut_id;
+
 void SERVER_LogMessage (const char *message) {
+	osMutexWait(guiMut_id,osWaitForever);
 	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
 	XString m = EwNewStringAnsi(message);
 	ApplicationClasse__LogMessageTrigger(disp, m);
+	osMutexRelease(guiMut_id);
 }
 
-/*	Função para controlar o estado dos botões Iniciar e Parar na interface
- *  StartButton define o estado do botão Iniciar, com valores 0 e 1, desativando e ativando o botão, respectivamente
+/*	Funï¿½ï¿½o para controlar o estado dos botï¿½es Iniciar e Parar na interface
+ *  StartButton define o estado do botï¿½o Iniciar, com valores 0 e 1, desativando e ativando o botï¿½o, respectivamente
  	Idem para StopButton. */
 void SERVER_ButtonStatus (uint8_t StartButton, uint8_t StopButton) {
 	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
@@ -148,7 +152,7 @@ void DHCP_Thread(void const * argument) {
     			dhcp_stop(&gnetif);
 
     		    sprintf((char*)text,
-    		            "Endereço IP : %d.%d.%d.%d\n",
+    		            "EndereÃ§o IP : %d.%d.%d.%d\n",
     		            (uint8_t)(gnetif.ip_addr.addr),
     		            (uint8_t)((gnetif.ip_addr.addr) >> 8),
     		            (uint8_t)((gnetif.ip_addr.addr) >> 16),
@@ -162,7 +166,7 @@ void DHCP_Thread(void const * argument) {
     			// TODO: link is up
     		} else {
     			watchdog_cnt++;
-    			// 50 segundos para pegar o IP, senão reinicia a conexão ethernet
+    			// 50 segundos para pegar o IP, senï¿½o reinicia a conexï¿½o ethernet
     			if (watchdog_cnt < 200){
     				DHCP_State = DHCP_WAIT_FOR_ADDRESS;
     			}else{
