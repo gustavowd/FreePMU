@@ -42,6 +42,6 @@ struct frameDataElement* removeQueueElement (struct frameDataQueue* q);
 int isQueueEmpty (struct frameDataQueue* q);
 
 /* Funcao para trocar o SOC do ucData. Retorna int para dizer qtos elementos ha na fila. */
-int changeSOC (struct frameDataQueue* q, unsigned long nSOC);
+int changeSOC (struct frameDataQueue* q, unsigned long nSOC, uint16_t size);
 
 #endif /* APPLICATION_INC_FRAMEDATAQ_H_ */

@@ -163,6 +163,7 @@ void SNTP_SET_SYSTEM_TIME_RTC(unsigned long time){
 	horario.Hours = ts.tm_hour;
 	horario.Minutes = ts.tm_min;
 	horario.Seconds = ts.tm_sec;
+	(void)horario;
 	//k_SetTime(&horario);
 
 	data.Date = ts.tm_mday;

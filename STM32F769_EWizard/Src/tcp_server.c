@@ -35,7 +35,7 @@
 unsigned char cmd;
 volatile unsigned char connected=0;
 extern unsigned char ucData[128];
-extern int frame_data(void);
+extern int frame_data(uint16_t *size);
 extern int frame_config(uint8_t config);
 extern int frame_header(void);
 osMutexId ethMut_id;
@@ -220,17 +220,18 @@ void pmu_tcp_server_out(void const * argument)
 		if(connected){
 
 			osMutexWait(ethMut_id,0);
-			nbytes = frame_data();
+			uint16_t size = 0;
+			nbytes = frame_data(&size);
 
 			/*Nao ha elementos na fila, ha apenas um ucData, que deve ser enviado*/
 			if ((nbytes == 1) && (isQueueEmpty(qUcData) == 1)) {
 				// Os data frames aparentam ter sempre 50 bytes de tamanho
-				lwip_send(newsockfd_out, ucData, 50, 0);
+				lwip_send(newsockfd_out, ucData, size, 0);
 			// Caso contrario, envia-se a fila toda
 			} else if (nbytes > 1) {
 				struct frameDataElement* temp = removeQueueElement(qUcData);
 				while (temp != NULL) {
-					lwip_send(newsockfd_out, temp->ucData, 50, 0);
+					lwip_send(newsockfd_out, temp->ucData, size, 0);
 					vPortFree(temp);
 					temp = removeQueueElement(qUcData);
 				}
@@ -238,6 +239,15 @@ void pmu_tcp_server_out(void const * argument)
 
 			osMutexRelease(ethMut_id);
 
+		}else{
+			// Se não está conectado e tem itens na fila, esvazia a fila
+			if (isQueueEmpty(qUcData) == 0){
+				struct frameDataElement* temp = removeQueueElement(qUcData);
+				while (temp != NULL) {
+					vPortFree(temp);
+					temp = removeQueueElement(qUcData);
+				}
+			}
 		}
 	}
 }

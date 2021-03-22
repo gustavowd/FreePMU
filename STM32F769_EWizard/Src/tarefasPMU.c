@@ -141,7 +141,7 @@ volatile float Mag_R_final,Mag_S_final,Mag_T_final,Fase_R_final,Fase_S_final,Fas
 float Freq_final;
 
 //Outros
-float x, y, z, w, a=0;
+float x, y, z, w;// a=0;
 unsigned int Freq_int;
 
 //////////////////////////////////////////
@@ -631,7 +631,7 @@ void PMU_Task(void const * argument)
 	#ifdef PPS_30_HZ
 		if (frame_cnt){
 			FracSec += FRACAO_DE_SEGUNDO;
-			if (FracSec > 0xEC001){
+			if (FracSec > LIMITE_FRACAO_DE_SEGUNDO){
 				taskENTER_CRITICAL();
 				newSOC = 0;
 				FracSec = 0;
@@ -782,7 +782,7 @@ void GPS_Task(void const * argument)
 		//	sprintf(m, "SOC %d\n", (int)SOC);
 		//	EwPrint(m);
 
-		a=0; //Pra zerar o contador do FracSec
+		//a=0; //Pra zerar o contador do FracSec
 	}
 }
 
@@ -854,7 +854,7 @@ unsigned int PmuID = 0x0001;			// Identificacao da PMU
 
 /////////////// FRAME DE DADOS
 struct frameDataQueue* qUcData = NULL;
-int frame_data(void){
+int frame_data(uint16_t *size){
 	// Se a fila nao existir, cria-la
 	if (qUcData == NULL) {
 		qUcData = createFDQueue();
@@ -888,7 +888,7 @@ int frame_data(void){
 	ucData[i++] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 	ucData[i++] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
 	#ifndef PPS_30_HZ
-	FracSec += 0x00008235;
+	FracSec += FRACAO_DE_SEGUNDO;
 	#endif
 
 	// 6. STAT = Flags, a criterio do usuario
@@ -977,6 +977,7 @@ int frame_data(void){
 
 	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);	//88
 	ucData[i++] = (unsigned char)(CRC_CCITT & 0x00FF);			//89
+	*size = i;
 
 	//HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_6);
 
@@ -996,7 +997,7 @@ int frame_data(void){
 			 *  Lembrando que a funcao changeSOC retorna o numero de elementos
 			 *  da fila, por isso se encontra em um return. */
 			insertQueueElement(qUcData, ucData);
-			return changeSOC(qUcData, SOC);
+			return changeSOC(qUcData, SOC, *size);
 		}
 	}
 	else {   /* Nao ha SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/
@@ -1007,7 +1008,7 @@ int frame_data(void){
 			ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);  //11 - fracsec
 			ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);   //12 - fracsec
 			ucData[13] = (unsigned char)(FracSec & 0x000000FF);		  //13 - fracsec
-			FracSec += 0x00008235;
+			FracSec += FRACAO_DE_SEGUNDO;
 		}
 		#endif
 		insertQueueElement(qUcData, ucData);

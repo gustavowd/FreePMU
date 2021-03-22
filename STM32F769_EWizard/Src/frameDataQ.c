@@ -73,7 +73,7 @@ int isQueueEmpty (struct frameDataQueue* q) {
 uint16_t ComputeCRC(unsigned char *Message, unsigned char MessLen);
 
 /* Funcao para trocar o SOC do ucData. Retorna int para dizer qtos elementos ha na fila. */
-int changeSOC (struct frameDataQueue* q, unsigned long nSOC) {
+int changeSOC (struct frameDataQueue* q, unsigned long nSOC, uint16_t size) {
 	uint16_t CRC_CCITT;
 	int qtdE = 0;
 
@@ -89,10 +89,10 @@ int changeSOC (struct frameDataQueue* q, unsigned long nSOC) {
 		temp->ucData[9] = (unsigned char)(nSOC & 0x000000FF);
 
 		/*Recalcula-se o CRC*/
-		CRC_CCITT = ComputeCRC(temp->ucData, 48);
+		CRC_CCITT = ComputeCRC(temp->ucData, (size - 2));
 
-		temp->ucData[48] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
-		temp->ucData[49] = (unsigned char)(CRC_CCITT & 0x00FF);
+		temp->ucData[(size - 2)] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
+		temp->ucData[(size - 1)] = (unsigned char)(CRC_CCITT & 0x00FF);
 
 		/*E transcorre-se para o proximo elemento da fila*/
 		temp = temp->next;

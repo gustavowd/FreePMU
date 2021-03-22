@@ -69,14 +69,16 @@
 /* USER CODE BEGIN Private defines */
 #define NOMINAL_FREQ 60
 #define OVERSAMPLING 1
-//#define PPS_30_HZ
+#define PPS_30_HZ
 
+#define FRACAO_DE_SEGUNDO_INIT 0
 #if (NOMINAL_FREQ == 60)
-#define FRACAO_DE_SEGUNDO 0x00008235;  //Fração de segundo 0,03333
-#define FRACAO_DE_SEGUNDO_INIT = 0;  //antigo = 0x0001869F
+#define FRACAO_DE_SEGUNDO 0x00008235  //Fração de segundo 0,03333
+#define LIMITE_FRACAO_DE_SEGUNDO 0xEC001
 #endif
 #if (NOMINAL_FREQ == 50)
-#define FRACAO_DE_SEGUNDO 0x00009C40;  // Fração de segundo = 0,04
+#define FRACAO_DE_SEGUNDO 0x00009C40  // Fração de segundo = 0,04
+#define LIMITE_FRACAO_DE_SEGUNDO 0xEA600
 #endif
 
 #define GPS_NMEA	0
