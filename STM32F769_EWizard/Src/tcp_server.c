@@ -36,7 +36,7 @@ unsigned char cmd;
 volatile unsigned char connected=0;
 extern unsigned char ucData[128];
 extern int frame_data(void);
-extern int frame_config(void);
+extern int frame_config(uint8_t config);
 extern int frame_header(void);
 osMutexId ethMut_id;
 volatile int newsockfd_out;
@@ -66,7 +66,6 @@ reboot_server:
     /* First call to socket() function */
 	sockfd = lwip_socket(AF_INET, SOCK_STREAM, 0);
 	int on = 1;
-	int status = lwip_setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR, (const char *) &on, sizeof(on));
 	if (sockfd < 0) {
 		//erro
 		SERVER_StatusMessage ("Erro no servidor");
@@ -74,6 +73,9 @@ reboot_server:
 			osDelay(1000);
 		}
 	}
+
+	int status = lwip_setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR, (const char *) &on, sizeof(on));
+	(void)status;
 
 	/* Initialize socket structure */
 	/* set up address to connect to */
@@ -168,12 +170,12 @@ reboot_server:
 									break;
 
 								case 0x04: // Envia frame de cofiguracao 1
-									nbytes = frame_config();
+									nbytes = frame_config(A_SYNC_CFG1);
 									lwip_send(newsockfd, ucData, nbytes, 0);
 									break;
 
 								case 0x05: // Envia frame de cofiguracao 2
-									nbytes = frame_config();
+									nbytes = frame_config(A_SYNC_CFG2);
 									lwip_send(newsockfd, ucData, nbytes, 0);
 									SERVER_StatusMessage ("Conectado ao PDC!");
 									break;

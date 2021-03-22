@@ -1016,14 +1016,14 @@ int frame_data(void){
 }
 
 /////////////// FRAME DE CONFIGURACAO
-int frame_config(void){
+int frame_config(uint8_t config){
 	char CHName[16]; //vetor nome dos canais, frame config
 
 	memset(ucData, 0x00, sizeof(ucData));
 
 	// 1. SYNC = Data Message Sync Byte andFrame Type
 	ucData[0] = A_SYNC_AA;
-	ucData[1] = A_SYNC_CFG2;
+	ucData[1] = config;
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
 	ucData[2] = (unsigned char)0x00;
