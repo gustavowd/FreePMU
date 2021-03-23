@@ -5,6 +5,10 @@ Prototype
 
 ![Prototype](https://github.com/gustavowd/microPMU/blob/main/Images/prototype.jpg)
 
+Interface video
+
+[![Watch the interface video](https://img.youtube.com/vi/6qP93z6WD3M/hqdefault.jpg)](https://youtu.be/6qP93z6WD3M)
+
 Used GPS
 ![GPS](https://github.com/gustavowd/microPMU/blob/main/Images/GPS.jpg)
 
