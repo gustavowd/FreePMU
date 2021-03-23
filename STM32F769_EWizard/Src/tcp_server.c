@@ -6,6 +6,7 @@
 #include "lwip/tcpip.h"
 #include "lwip/sockets.h"
 #include "lwip/tcp.h"
+#include "lwip/udp.h"
 #include "lwip/ip.h"
 #include "lwip/memp.h"
 #include "lwip/stats.h"
@@ -23,6 +24,7 @@
 #include "frameDataQ.h"
 /* ------------------------ IEEE C37118 includes --------------------------- */
 #define TCP_PORT 4712
+#define UDP_PORT 4713
 
 #define A_SYNC_AA 0xAA
 #define A_SYNC_DATA 0x01
@@ -41,6 +43,9 @@ extern int frame_header(void);
 osMutexId ethMut_id;
 volatile int newsockfd_out;
 volatile unsigned char data_flag=0;
+#if TRANSPORT_PROTOCOL == UDP_PMU
+struct sockaddr_in cli_addr;
+#endif
 
 extern int escutando;
 
@@ -50,7 +55,11 @@ osMutexDef(ethMut);
 void pmu_tcp_server(void const * argument)
 {
 	int sockfd, newsockfd, clilen;
+#if TRANSPORT_PROTOCOL == TCP_PMU
 	struct sockaddr_in serv_addr, cli_addr;
+#else
+	struct sockaddr_in serv_addr;
+#endif
 	int n;
 	unsigned char buffer[1024];
 
@@ -62,6 +71,7 @@ void pmu_tcp_server(void const * argument)
 
     ethMut_id = osMutexCreate(osMutex(ethMut));
 
+#if TRANSPORT_PROTOCOL == TCP_PMU
 reboot_server:
     /* First call to socket() function */
 	sockfd = lwip_socket(AF_INET, SOCK_STREAM, 0);
@@ -197,6 +207,68 @@ reboot_server:
 			osMutexRelease(ethMut_id);
 		}
 	} /* end of while */
+#endif
+#if TRANSPORT_PROTOCOL == UDP_PMU
+	/* First call to socket() function */
+	sockfd = lwip_socket(AF_INET, SOCK_DGRAM, 0);
+	//int on = 1;
+	if (sockfd < 0) {
+		//erro
+		SERVER_StatusMessage ("Erro no servidor");
+		while(1){
+			osDelay(1000);
+		}
+	}
+
+	//int status = lwip_setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR, (const char *) &on, sizeof(on));
+	//(void)status;
+
+	/* Initialize socket structure */
+	/* set up address to connect to */
+	bzero((char *) &serv_addr, sizeof(serv_addr));
+	serv_addr.sin_len = sizeof(serv_addr);
+	serv_addr.sin_family = AF_INET;
+	serv_addr.sin_port = PP_HTONS(TCP_PORT);
+	serv_addr.sin_addr.s_addr = INADDR_ANY;
+
+    /*Destination*/
+	bzero((char *) &cli_addr, sizeof(cli_addr));
+	cli_addr.sin_family = AF_INET;
+	cli_addr.sin_len = sizeof(cli_addr);
+	cli_addr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+	cli_addr.sin_port = PP_HTONS(UDP_PORT);
+
+	/* Now bind the host address using bind() call.*/
+	if (lwip_bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0){
+		//erro
+		lwip_close(sockfd);
+		while(1){
+			SERVER_StatusMessage ("Erro no servidor");
+			osDelay(1000);
+		}
+	}
+
+	SERVER_StatusMessage ("Broadcasting na porta 4713");
+	newsockfd_out = sockfd;
+	escutando = 1;
+	connected = 1;
+
+	while(1){
+
+		bzero(buffer,1024);
+		osMutexWait(ethMut_id,osWaitForever);
+
+		// Envia frame de cofiguracao 2
+		nbytes = frame_config(A_SYNC_CFG2);
+		lwip_sendto(sockfd, ucData, nbytes, 0, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
+
+		// Liga transmissao
+		data_flag = 1;
+
+		osMutexRelease(ethMut_id);
+		vTaskDelay(10000);
+	}
+#endif
 }
 
 
@@ -226,12 +298,22 @@ void pmu_tcp_server_out(void const * argument)
 			/*Nao ha elementos na fila, ha apenas um ucData, que deve ser enviado*/
 			if ((nbytes == 1) && (isQueueEmpty(qUcData) == 1)) {
 				// Os data frames aparentam ter sempre 50 bytes de tamanho
+				#if TRANSPORT_PROTOCOL == TCP_PMU
 				lwip_send(newsockfd_out, ucData, size, 0);
+				#endif
+				#if TRANSPORT_PROTOCOL == UDP_PMU
+				lwip_sendto(newsockfd_out, ucData, size, 0, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
+				#endif
 			// Caso contrario, envia-se a fila toda
 			} else if (nbytes > 1) {
 				struct frameDataElement* temp = removeQueueElement(qUcData);
 				while (temp != NULL) {
+					#if TRANSPORT_PROTOCOL == TCP_PMU
 					lwip_send(newsockfd_out, temp->ucData, size, 0);
+					#endif
+					#if TRANSPORT_PROTOCOL == UDP_PMU
+					lwip_sendto(newsockfd_out, ucData, size, 0, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
+					#endif
 					vPortFree(temp);
 					temp = removeQueueElement(qUcData);
 				}

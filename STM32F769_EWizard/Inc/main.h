@@ -86,6 +86,10 @@
 
 #define GPS_PROTOCOL GPS_NMEA
 
+#define TCP_PMU 0
+#define UDP_PMU 1
+#define TRANSPORT_PROTOCOL TCP_PMU
+
 //#define CORRIGE_RESIDUAL
 
 #define CORR_HTIM1 1

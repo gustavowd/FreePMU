@@ -152,7 +152,7 @@ void DHCP_Thread(void const * argument) {
     			dhcp_stop(&gnetif);
 
     		    sprintf((char*)text,
-    		            "Endereço IP : %d.%d.%d.%d\n",
+    		            "Endereco IP : %d.%d.%d.%d\n",
     		            (uint8_t)(gnetif.ip_addr.addr),
     		            (uint8_t)((gnetif.ip_addr.addr) >> 8),
     		            (uint8_t)((gnetif.ip_addr.addr) >> 16),
