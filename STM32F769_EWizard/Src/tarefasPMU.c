@@ -548,8 +548,16 @@ void PMU_Task(void const * argument)
 		// Y-data = Phase deviation - X-data = Magnitude measured (não em p.u.)
 
 		faseR_x_mag = Fase_R - FIT_PHASE_GAIN_A_R + FIT_PHASE_GAIN_B_R*MagR_x_mag - FIT_PHASE_GAIN_C_R*MagR_x_mag*MagR_x_mag;
+	#ifdef FIT_PHASE_GAIN_D_S
+		faseS_x_mag = Fase_S - FIT_PHASE_GAIN_A_S + FIT_PHASE_GAIN_B_S*MagS_x_mag - FIT_PHASE_GAIN_C_S*MagS_x_mag*MagS_x_mag + FIT_PHASE_GAIN_D_S*MagS_x_mag*MagS_x_mag*MagS_x_mag;
+	#else
 		faseS_x_mag = Fase_S - FIT_PHASE_GAIN_A_S + FIT_PHASE_GAIN_B_S*MagS_x_mag - FIT_PHASE_GAIN_C_S*MagS_x_mag*MagS_x_mag;
+	#endif
+	#ifdef FIT_PHASE_GAIN_D_T
+		faseT_x_mag = Fase_T - FIT_PHASE_GAIN_A_T + FIT_PHASE_GAIN_B_T*MagT_x_mag - FIT_PHASE_GAIN_C_T*MagT_x_mag*MagT_x_mag + FIT_PHASE_GAIN_D_T*MagT_x_mag*MagT_x_mag*MagT_x_mag;
+	#else
 		faseT_x_mag = Fase_T - FIT_PHASE_GAIN_A_T + FIT_PHASE_GAIN_B_T*MagT_x_mag - FIT_PHASE_GAIN_C_T*MagT_x_mag*MagT_x_mag;
+	#endif
 
 		// FREQUENCIA
 		//correcao de fase em funcao da frequencia
