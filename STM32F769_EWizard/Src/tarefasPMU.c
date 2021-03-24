@@ -348,16 +348,13 @@ void PMU_Task(void const * argument)
 		//##############################
 
 		#ifndef USAR_DFT
-		//Mag_R = 2*sqrt(FasesAC_ReIm_R[3]*FasesAC_ReIm_R[3] + FasesAC_ReIm_R[2]*FasesAC_ReIm_R[2])/256;
-		Mag_R = 2*FasesAC_mod_R[1];
+		Mag_R = PEAK_OR_RMS*FasesAC_mod_R[1];
 		Fase_R = atan2(FasesAC_ReIm_R[3],FasesAC_ReIm_R[2])*180/M_PI;	//Fase R da harmonica fundamental
 
-		//Mag_S = 2*sqrt(FasesAC_ReIm_S[3]*FasesAC_ReIm_S[3] + FasesAC_ReIm_S[2]*FasesAC_ReIm_S[2])/256;
-		Mag_S = 2*FasesAC_mod_S[1];
+		Mag_S = PEAK_OR_RMS*FasesAC_mod_S[1];
 		Fase_S=atan2(FasesAC_ReIm_S[3],FasesAC_ReIm_S[2])*180/M_PI;	//Fase S da harmonica fundamental
 
-		//Mag_T = 2*sqrt(FasesAC_ReIm_T[3]*FasesAC_ReIm_T[3] + FasesAC_ReIm_T[2]*FasesAC_ReIm_T[2])/256;
-		Mag_T = 2*FasesAC_mod_T[1];
+		Mag_T = PEAK_OR_RMS*FasesAC_mod_T[1];
 		Fase_T=atan2(FasesAC_ReIm_T[3],FasesAC_ReIm_T[2])*180/M_PI;	//Fase T da harmonica fundamental
 		#endif
 
@@ -537,62 +534,33 @@ void PMU_Task(void const * argument)
 		//APLICAÇÃO DAS CORREÇÕES (em magnitude e fase)
 
 		//MAGNITUDE- ajuste da magnitude
-		// Y-data = Magnitude reference - X-data = Magnitude measured (n�o em p.u.)
+		// Y-data = Magnitude reference - X-data = Magnitude measured (não em p.u.)
 
-		#if (PMU == PMU_UFSC_1) // PMU 1 UFSC
-				MagR_x_mag = -0.0104230472+ 6.4799561727*Mag_R + 0.0058096119*Mag_R*Mag_R -0.0225779260*Mag_R*Mag_R*Mag_R;
-				MagS_x_mag = -0.0094105471+ 6.5295808671*Mag_S -0.0517533485*Mag_S*Mag_S + 0.0122170154*Mag_S*Mag_S*Mag_S;
-				MagT_x_mag = -0.0038224285+ 6.4664725524*Mag_T + 0.0200856470*Mag_T*Mag_T - 0.0147323440*Mag_T*Mag_T*Mag_T;
+		MagR_x_mag = FIT_MAG_GAIN_A_R + FIT_MAG_GAIN_B_R*Mag_R + FIT_MAG_GAIN_C_R*Mag_R*Mag_R - FIT_MAG_GAIN_D_R*Mag_R*Mag_R*Mag_R;
+		MagS_x_mag = FIT_MAG_GAIN_A_S + FIT_MAG_GAIN_B_S*Mag_S + FIT_MAG_GAIN_C_S*Mag_S*Mag_S - FIT_MAG_GAIN_D_S*Mag_S*Mag_S*Mag_S;
+		MagT_x_mag = FIT_MAG_GAIN_A_T + FIT_MAG_GAIN_B_T*Mag_T + FIT_MAG_GAIN_C_T*Mag_T*Mag_T - FIT_MAG_GAIN_D_T*Mag_T*Mag_T*Mag_T;
 
+		//FASE
+		//correcao de fase em funcao da magnitude
+		// Y-data = Phase deviation - X-data = Magnitude measured (não em p.u.)
 
-				//FASE
-				//correcao de fase em funcao da magnitude
-				// Y-data = Phase deviation - X-data = Magnitude measured (n�o em p.u.)
-				faseR_x_mag = Fase_R -61.3200434278 + 0.5306019593*MagR_x_mag - 0.0359982043*MagR_x_mag*MagR_x_mag;
-				faseS_x_mag = Fase_S -61.1903481072 + 0.6895729716*MagS_x_mag - 0.0945399081*MagS_x_mag*MagS_x_mag + 0.0047453058*MagS_x_mag*MagS_x_mag*MagS_x_mag;
-				faseT_x_mag = Fase_T -60.7272664968 + 0.3813063315*MagT_x_mag - 0.0388992543*MagT_x_mag*MagT_x_mag + 0.0013921956*MagT_x_mag*MagT_x_mag*MagT_x_mag;
+		faseR_x_mag = Fase_R - FIT_PHASE_GAIN_A_R + FIT_PHASE_GAIN_B_R*MagR_x_mag - FIT_PHASE_GAIN_C_R*MagR_x_mag*MagR_x_mag;
+		faseS_x_mag = Fase_S - FIT_PHASE_GAIN_A_S + FIT_PHASE_GAIN_B_S*MagS_x_mag - FIT_PHASE_GAIN_C_S*MagS_x_mag*MagS_x_mag;
+		faseT_x_mag = Fase_T - FIT_PHASE_GAIN_A_T + FIT_PHASE_GAIN_B_T*MagT_x_mag - FIT_PHASE_GAIN_C_T*MagT_x_mag*MagT_x_mag;
 
-				// FREQUENCIA
-				//correcao de fase em funcao da frequencia
-				// Y-data = phase deviation - X-data = frequency reference
-				faseR_x_freq = -2.7531705491 + 0.0512209453*Freq_final;
-				faseS_x_freq = -2.3592039210 + 0.0477269049*Freq_final;
-				faseT_x_freq = -2.6454608536 + 0.0538034619*Freq_final;
+		// FREQUENCIA
+		//correcao de fase em funcao da frequencia
+		// Y-data = phase deviation - X-data = frequency reference
+		faseR_x_freq = FIT_FREQ_GAIN_A_R + FIT_FREQ_GAIN_B_R*Freq_final;
+		faseS_x_freq = FIT_FREQ_GAIN_A_S + FIT_FREQ_GAIN_B_S*Freq_final;
+		faseT_x_freq = FIT_FREQ_GAIN_A_T + FIT_FREQ_GAIN_B_T*Freq_final;
 
-				// Calcula magnitude final
-				// Ajustes do ganho de magnitude:
-				// Sensor AZUL:
-				Mag_R_final = MagR_x_mag * 42.5038; //Mag_R;
-				Mag_S_final = MagS_x_mag * 42.1823;
-				Mag_T_final = MagT_x_mag * 42.5782; //MagT_x_mag;
-		#endif
-		#if (PMU == PMU_UFSC_2)  // PMU 2 UFSC
-				MagR_x_mag = -0.0016362996 + 6.4330443785*Mag_R + 0.0658874232*Mag_R*Mag_R - 0.0351025233*Mag_R*Mag_R*Mag_R;
-				MagS_x_mag = 0.0009628812 + 6.3757106266*Mag_S +0.0686457110*Mag_S*Mag_S -0.0299965117*Mag_S*Mag_S*Mag_S;
-				MagT_x_mag = 0.0004282697 + 6.4019875313*Mag_T + 0.0981472053*Mag_T*Mag_T -0.0467723654*Mag_T*Mag_T*Mag_T;
-
-				//FASE
-				//correcao de fase em funcao da magnitude
-				// Y-data = Phase deviation - X-data = Magnitude measured (n�o em p.u.)
-
-				faseR_x_mag = Fase_R - 60.256916502 + 0.1863745932*MagR_x_mag - 0.0076768782*MagR_x_mag*MagR_x_mag;
-				faseS_x_mag = Fase_S - 60.273407182 + 0.2463213789*MagS_x_mag - 0.0144579474*MagS_x_mag*MagS_x_mag;
-				faseT_x_mag = Fase_T - 60.271458135 + 0.1695834628*MagT_x_mag - 0.0045740754*MagT_x_mag*MagT_x_mag;
-
-				// FREQUENCIA
-				//correcao de fase em funcao da frequencia
-				// Y-data = phase deviation - X-data = frequency reference
-				faseR_x_freq = -2.5770186918 + 0.0521374904*Freq_final;
-				faseS_x_freq = -2.6741303661 + 0.0537621928*Freq_final;
-				faseT_x_freq = -2.3885333996 + 0.0485053178*Freq_final;
-
-				// Calcula magnitude final
-				// Ajustes do ganho de magnitude:
-				// Sensor AZUL:
-				Mag_R_final = MagR_x_mag * MAG_GAIN_R; //Mag_R;
-				Mag_S_final = MagS_x_mag * MAG_GAIN_S;
-				Mag_T_final = MagT_x_mag * MAG_GAIN_T; //MagT_x_mag;
-		#endif
+		// Calcula magnitude final
+		// Ajustes do ganho de magnitude:
+		// Sensor AZUL:
+		Mag_R_final = MagR_x_mag * MAG_GAIN_R; //Mag_R;
+		Mag_S_final = MagS_x_mag * MAG_GAIN_S;
+		Mag_T_final = MagT_x_mag * MAG_GAIN_T; //MagT_x_mag;
 
 
 		//Calcula fase final (aplica as correcoes anteriores)
