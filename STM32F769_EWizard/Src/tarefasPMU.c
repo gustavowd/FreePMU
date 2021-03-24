@@ -102,7 +102,7 @@ float Mr,Ms,Mt,Fr,Fs,Ft;
 float Mag_R,Mag_S,Mag_T,Fase_R,Fase_S,Fase_T;
 //float CalibHarmonicas_mag[numero_pontos];
 //float CalibHarmonicas_phase[10];
-float Harmonics_gain = 1;
+float Harmonics_gain[3] = {NORM_GAIN_127V_R, NORM_GAIN_127V_S, NORM_GAIN_127V_T};
 float harmonics_mag[10];
 float harmonics_phase[10];
 //Frequencia e rocof
@@ -330,9 +330,9 @@ void PMU_Task(void const * argument)
 		// Cálculo de harmônicas da fase AC
 
 		// Ajuste do ganho de tensão
-		arm_scale_f32(FasesAC_mod_R,Harmonics_gain*invN, FasesAC_mod_R,numero_pontos);
-		arm_scale_f32(FasesAC_mod_S,Harmonics_gain*invN, FasesAC_mod_S,numero_pontos);
-		arm_scale_f32(FasesAC_mod_T,Harmonics_gain*invN, FasesAC_mod_T,numero_pontos);
+		arm_scale_f32(FasesAC_mod_R,Harmonics_gain[0]*invN, FasesAC_mod_R,numero_pontos);
+		arm_scale_f32(FasesAC_mod_S,Harmonics_gain[1]*invN, FasesAC_mod_S,numero_pontos);
+		arm_scale_f32(FasesAC_mod_T,Harmonics_gain[2]*invN, FasesAC_mod_T,numero_pontos);
 
 		// Se precisar a amplitude de cada harmônica com um valor diferente
 		//arm_mult_f32(FasesAC_mod_R, CalibHarmonicas_mag, FasesAC_mod_R,numero_pontos);
@@ -589,9 +589,9 @@ void PMU_Task(void const * argument)
 				// Calcula magnitude final
 				// Ajustes do ganho de magnitude:
 				// Sensor AZUL:
-				Mag_R_final = MagR_x_mag * 42.3832; //Mag_R;
-				Mag_S_final = MagS_x_mag * 42.4718;
-				Mag_T_final = MagT_x_mag * 42.45794; //MagT_x_mag;
+				Mag_R_final = MagR_x_mag * MAG_GAIN_R; //Mag_R;
+				Mag_S_final = MagS_x_mag * MAG_GAIN_S;
+				Mag_T_final = MagT_x_mag * MAG_GAIN_T; //MagT_x_mag;
 		#endif
 
 

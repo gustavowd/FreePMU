@@ -94,6 +94,20 @@
 
 #define CORR_HTIM1 1
 
+
+// Gains
+#define NORM_GAIN_127V_R	(float)3.048178533
+#define NORM_GAIN_127V_S	(float)3.031196288
+#define NORM_GAIN_127V_T	(float)3.047962608
+
+#define NORM_GAIN_220V_R	(float)1.759630335
+#define NORM_GAIN_220V_S	(float)1.749826948
+#define NORM_GAIN_220V_T	(float)1.759505687
+
+#define MAG_GAIN_R			(float)42.3832
+#define MAG_GAIN_S			(float)42.4718
+#define MAG_GAIN_T			(float)42.45794
+
 #define PMU_UFSC_1 1
 #define PMU_UFSC_2 2
 
