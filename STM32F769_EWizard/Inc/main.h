@@ -71,6 +71,9 @@
 // Define nominal frequency
 #define NOMINAL_FREQ 60
 
+// Define nominal voltage
+#define NOMINAL_VOLTAGE 127
+
 // Define for enabling 4x oversampling
 #define OVERSAMPLING 1
 
@@ -112,13 +115,17 @@
 /* PMU Gains */
 
 /* Defines for normalized harmonics (127V or 220V) */
+#if NOMINAL_VOLTAGE == 127
 #define NORM_GAIN_127V_R	(float)3.048178533
 #define NORM_GAIN_127V_S	(float)3.031196288
 #define NORM_GAIN_127V_T	(float)3.047962608
+#endif
 
+#if NOMINAL_VOLTAGE == 220
 #define NORM_GAIN_220V_R	(float)1.759630335
 #define NORM_GAIN_220V_S	(float)1.749826948
 #define NORM_GAIN_220V_T	(float)1.759505687
+#endif
 
 /* Defines for the magnitude of fundamental phases */
 #define MAG_GAIN_R			(float)42.3832

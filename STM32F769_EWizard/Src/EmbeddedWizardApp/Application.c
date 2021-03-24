@@ -24,6 +24,7 @@
 *
 *******************************************************************************/
 
+#include "main.h"
 #include "ewlocale.h"
 #include "_ApplicationAplic.h"
 #include "_ApplicationAplic769.h"
@@ -4098,7 +4099,11 @@ void ApplicationFreq__Init( ApplicationFreq _this, XObject aLink, XHandle aArg )
   ViewsText_OnSetString( &_this->val_freq, EwLoadString( &_Const0017 ));
   CoreTimer_OnSetPeriod( &_this->intervalo, 500 );
   CoreTimer_OnSetEnabled( &_this->intervalo, 1 );
+#if NOMINAL_FREQ == 60
   _this->valorMeio = 60.000000f;
+#else
+  _this->valorMeio = 50.000000f;
+#endif
   CoreRectView__OnSetBounds( &_this->IconButton, _Const005E );
   ApplicationModIconButton_OnSetIconIndex( &_this->IconButton, 7 );
   _this->freqV[ 0 ] = 1;
@@ -4717,7 +4722,11 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   ViewsText_OnSetAlignment( &_this->labelUnidades, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->labelUnidades, EwLoadString( &_Const0071 ));
+#if NOMINAL_VOLTAGE == 127
+  _this->valorMeio = 120.000000f;
+#else
   _this->valorMeio = 220.000000f;
+#endif
   _this->freqV[ 0 ] = 1;
   _this->freqV[ 1 ] = 2;
   _this->freqV[ 2 ] = 5;
