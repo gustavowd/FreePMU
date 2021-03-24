@@ -330,6 +330,9 @@ void PMU_Task(void const * argument)
 		// Cálculo de harmônicas da fase AC
 
 		// Ajuste do ganho de tensão
+		Mag_R = FasesAC_mod_R[1];
+		Mag_S = FasesAC_mod_S[1];
+		Mag_T = FasesAC_mod_T[1];
 		arm_scale_f32(FasesAC_mod_R,Harmonics_gain[0]*invN, FasesAC_mod_R,numero_pontos);
 		arm_scale_f32(FasesAC_mod_S,Harmonics_gain[1]*invN, FasesAC_mod_S,numero_pontos);
 		arm_scale_f32(FasesAC_mod_T,Harmonics_gain[2]*invN, FasesAC_mod_T,numero_pontos);
@@ -348,13 +351,13 @@ void PMU_Task(void const * argument)
 		//##############################
 
 		#ifndef USAR_DFT
-		Mag_R = PEAK_OR_RMS*FasesAC_mod_R[1];
+		Mag_R = PEAK_OR_RMS*invN*Mag_R;
 		Fase_R = atan2(FasesAC_ReIm_R[3],FasesAC_ReIm_R[2])*180/M_PI;	//Fase R da harmonica fundamental
 
-		Mag_S = PEAK_OR_RMS*FasesAC_mod_S[1];
+		Mag_S = PEAK_OR_RMS*invN*Mag_S;
 		Fase_S=atan2(FasesAC_ReIm_S[3],FasesAC_ReIm_S[2])*180/M_PI;	//Fase S da harmonica fundamental
 
-		Mag_T = PEAK_OR_RMS*FasesAC_mod_T[1];
+		Mag_T = PEAK_OR_RMS*invN*Mag_T;
 		Fase_T=atan2(FasesAC_ReIm_T[3],FasesAC_ReIm_T[2])*180/M_PI;	//Fase T da harmonica fundamental
 		#endif
 
