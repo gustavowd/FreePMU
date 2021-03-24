@@ -67,6 +67,8 @@
 /* Private define ------------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
+// PMU ID
+#define PMUID	0x0001
 
 // Define nominal frequency
 #define NOMINAL_FREQ 60

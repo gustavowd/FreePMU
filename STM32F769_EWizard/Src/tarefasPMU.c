@@ -825,7 +825,7 @@ uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen)
 
 
 unsigned char ucData[320];
-unsigned int PmuID = 0x0001;			// Identificacao da PMU
+unsigned int PmuID = PMUID;			// Identificacao da PMU
 
 
 /////////////// FRAME DE DADOS

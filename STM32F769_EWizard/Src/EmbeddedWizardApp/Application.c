@@ -4723,7 +4723,7 @@ void ApplicationMag__Init( ApplicationMag _this, XObject aLink, XHandle aArg )
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->labelUnidades, EwLoadString( &_Const0071 ));
 #if NOMINAL_VOLTAGE == 127
-  _this->valorMeio = 120.000000f;
+  _this->valorMeio = 127.000000f;
 #else
   _this->valorMeio = 220.000000f;
 #endif
