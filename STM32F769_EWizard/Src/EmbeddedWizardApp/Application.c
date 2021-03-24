@@ -4540,7 +4540,7 @@ void ApplicationFreq_trocaEscala( ApplicationFreq _this, XObject sender )
   EwCheckIndex( _this->freqIdx, 7 )], 0, 10 )), EwLoadString( &_Const0063 )));
 }
 
-/* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem.
+/* Atualiza os rï¿½tulos do eixo vertical do grï¿½fico e a proporï¿½ï¿½o de plotagem.
    Please note, this function serves as the dispatcher to the methods overriden 
    in the derived class variants. */
 void ApplicationFreq_atualizaY( ApplicationFreq _this )
@@ -4571,7 +4571,7 @@ void ApplicationFreq___atualizaY( ApplicationFreq _this )
   3 ), EwLoadString( &_Const0060 )));
 }
 
-/* Atualiza os rótulos do eixo X no gráfico.
+/* Atualiza os rï¿½tulos do eixo X no grï¿½fico.
    Please note, this function serves as the dispatcher to the methods overriden 
    in the derived class variants. */
 void ApplicationFreq_atualizaX( ApplicationFreq _this )
@@ -5144,7 +5144,7 @@ void ApplicationMag_trocaEscala( ApplicationMag _this, XObject sender )
   EwCheckIndex( _this->freqIdx, 6 )], 0, 10 )), EwLoadString( &_Const0063 )));
 }
 
-/* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem.
+/* Atualiza os rï¿½tulos do eixo vertical do grï¿½fico e a proporï¿½ï¿½o de plotagem.
    Please note, this function serves as the dispatcher to the methods overriden 
    in the derived class variants. */
 void ApplicationMag_atualizaY( ApplicationMag _this )
@@ -5174,7 +5174,7 @@ void ApplicationMag___atualizaY( ApplicationMag _this )
   1 ), EwLoadString( &_Const0072 )));
 }
 
-/* Atualiza os rótulos do eixo X no gráfico.
+/* Atualiza os rï¿½tulos do eixo X no grï¿½fico.
    Please note, this function serves as the dispatcher to the methods overriden 
    in the derived class variants. */
 void ApplicationMag_atualizaX( ApplicationMag _this )
@@ -5705,7 +5705,7 @@ void ApplicationFase_setConfigScreen( ApplicationFase _this )
   CoreGroup_OnSetVisible((CoreGroup)&_this->config.SupSignMenos, 0 );
 }
 
-/* Atualiza os rótulos do eixo X no gráfico.
+/* Atualiza os rï¿½tulos do eixo X no grï¿½fico.
    Please note, this function serves as the dispatcher to the methods overriden 
    in the derived class variants. */
 void ApplicationFase_atualizaX( ApplicationFase _this )
@@ -6884,15 +6884,16 @@ ChartsCoordList ApplicationClasse_getFFT_R( ApplicationClasse _this )
     int i;
 
     for (i = 0; i < 50; i++) {
-      aFFT[i] = FasesAC_mod_R[i]/422.4; //256*1.65
+      aFFT[i] = FasesAC_mod_R[i];
     }
+    aFFT[0] = 0;
   }
   ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 50 );
   ChartsCoordList_ClearList( cordFFT );
 
   for ( j = 0; j < 50; j = j + 1 )
   {
-    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j + 1 ), -aFFT[ EwCheckIndex( j, 
+    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j ), -aFFT[ EwCheckIndex( j,
     50 )]);
   }
 
@@ -6918,15 +6919,16 @@ ChartsCoordList ApplicationClasse_getFFT_S( ApplicationClasse _this )
     int i;
 
     for (i = 0; i < 50; i++) {
-      aFFT[i] = FasesAC_mod_S[i]/256.0;
+      aFFT[i] = FasesAC_mod_S[i];
     }
+    aFFT[0] = 0;
   }
   ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 50 );
   ChartsCoordList_ClearList( cordFFT );
 
   for ( j = 0; j < 50; j = j + 1 )
   {
-    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j + 1 ), -aFFT[ EwCheckIndex( j, 
+    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j ), -aFFT[ EwCheckIndex( j,
     50 )]);
   }
 
@@ -6952,15 +6954,16 @@ ChartsCoordList ApplicationClasse_getFFT_T( ApplicationClasse _this )
     int i;
 
     for (i = 0; i < 50; i++) {
-      aFFT[i] = FasesAC_mod_T[i]/256.0;
+      aFFT[i] = FasesAC_mod_T[i];
     }
+    aFFT[0] = 0;
   }
   ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 50 );
   ChartsCoordList_ClearList( cordFFT );
 
   for ( j = 0; j < 50; j = j + 1 )
   {
-    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j + 1 ), -aFFT[ EwCheckIndex( j, 
+    ChartsCoordList_AddCoord( cordFFT, (XFloat)( j ), -aFFT[ EwCheckIndex( j,
     50 )]);
   }
 
@@ -7398,7 +7401,7 @@ void ApplicationFreq769_Init( ApplicationFreq _this, XHandle aArg )
   EwSignal( EwNewSlot( _this, ApplicationFreq_trocaEscala ), ((XObject)_this ));
 }
 
-/* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem. */
+/* Atualiza os rï¿½tulos do eixo vertical do grï¿½fico e a proporï¿½ï¿½o de plotagem. */
 void ApplicationFreq769_atualizaY( ApplicationFreq _this )
 {
   ApplicationPlotterGraph_OnSetVerticalRatio( &_this->grafico, (XFloat)( EwGetRectH( 
@@ -7414,7 +7417,7 @@ void ApplicationFreq769_atualizaY( ApplicationFreq _this )
   &_Const0060 )));
 }
 
-/* Atualiza os rótulos do eixo X no gráfico. */
+/* Atualiza os rï¿½tulos do eixo X no grï¿½fico. */
 void ApplicationFreq769_atualizaX( ApplicationFreq _this )
 {
   ViewsText_OnSetString( &_this->val_t_1, EwConcatString( ApplicationFreq_float2String((ApplicationFreq)_this, 
@@ -7525,7 +7528,7 @@ void ApplicationMag769_Init( ApplicationMag _this, XHandle aArg )
   EwSignal( EwNewSlot( _this, ApplicationMag_trocaEscala ), ((XObject)_this ));
 }
 
-/* Atualiza os rótulos do eixo vertical do gráfico e a proporção de plotagem. */
+/* Atualiza os rï¿½tulos do eixo vertical do grï¿½fico e a proporï¿½ï¿½o de plotagem. */
 void ApplicationMag769_atualizaY( ApplicationMag _this )
 {
   GraphicsPath_InitMatrix( &_this->grafico.PathDataR );
@@ -7544,7 +7547,7 @@ void ApplicationMag769_atualizaY( ApplicationMag _this )
   &_Const0072 )));
 }
 
-/* Atualiza os rótulos do eixo X no gráfico. */
+/* Atualiza os rï¿½tulos do eixo X no grï¿½fico. */
 void ApplicationMag769_atualizaX( ApplicationMag _this )
 {
   ViewsText_OnSetString( &_this->val_t_1, EwConcatString( ApplicationMag_float2String((ApplicationMag)_this, 
@@ -7651,7 +7654,7 @@ void ApplicationFase769_Init( ApplicationFase _this, XHandle aArg )
   EwSignal( EwNewSlot( _this, ApplicationFase_trocaEscala ), ((XObject)_this ));
 }
 
-/* Atualiza os rótulos do eixo X no gráfico. */
+/* Atualiza os rï¿½tulos do eixo X no grï¿½fico. */
 void ApplicationFase769_atualizaX( ApplicationFase _this )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */

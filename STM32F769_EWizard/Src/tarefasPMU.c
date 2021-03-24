@@ -331,6 +331,8 @@ void PMU_Task(void const * argument)
 
 		// Ajuste do ganho de tensão
 		arm_scale_f32(FasesAC_mod_R,Harmonics_gain*invN, FasesAC_mod_R,numero_pontos);
+		arm_scale_f32(FasesAC_mod_S,Harmonics_gain*invN, FasesAC_mod_S,numero_pontos);
+		arm_scale_f32(FasesAC_mod_T,Harmonics_gain*invN, FasesAC_mod_T,numero_pontos);
 
 		// Se precisar a amplitude de cada harmônica com um valor diferente
 		//arm_mult_f32(FasesAC_mod_R, CalibHarmonicas_mag, FasesAC_mod_R,numero_pontos);
@@ -346,13 +348,16 @@ void PMU_Task(void const * argument)
 		//##############################
 
 		#ifndef USAR_DFT
-		Mag_R = 2*sqrt(FasesAC_ReIm_R[3]*FasesAC_ReIm_R[3] + FasesAC_ReIm_R[2]*FasesAC_ReIm_R[2])/256;
+		//Mag_R = 2*sqrt(FasesAC_ReIm_R[3]*FasesAC_ReIm_R[3] + FasesAC_ReIm_R[2]*FasesAC_ReIm_R[2])/256;
+		Mag_R = 2*FasesAC_mod_R[1];
 		Fase_R = atan2(FasesAC_ReIm_R[3],FasesAC_ReIm_R[2])*180/M_PI;	//Fase R da harmonica fundamental
 
-		Mag_S = 2*sqrt(FasesAC_ReIm_S[3]*FasesAC_ReIm_S[3] + FasesAC_ReIm_S[2]*FasesAC_ReIm_S[2])/256;
+		//Mag_S = 2*sqrt(FasesAC_ReIm_S[3]*FasesAC_ReIm_S[3] + FasesAC_ReIm_S[2]*FasesAC_ReIm_S[2])/256;
+		Mag_S = 2*FasesAC_mod_S[1];
 		Fase_S=atan2(FasesAC_ReIm_S[3],FasesAC_ReIm_S[2])*180/M_PI;	//Fase S da harmonica fundamental
 
-		Mag_T = 2*sqrt(FasesAC_ReIm_T[3]*FasesAC_ReIm_T[3] + FasesAC_ReIm_T[2]*FasesAC_ReIm_T[2])/256;
+		//Mag_T = 2*sqrt(FasesAC_ReIm_T[3]*FasesAC_ReIm_T[3] + FasesAC_ReIm_T[2]*FasesAC_ReIm_T[2])/256;
+		Mag_T = 2*FasesAC_mod_T[1];
 		Fase_T=atan2(FasesAC_ReIm_T[3],FasesAC_ReIm_T[2])*180/M_PI;	//Fase T da harmonica fundamental
 		#endif
 
