@@ -1054,7 +1054,7 @@ class Freq : Core::Group
   }
 
   $rect <210,270,410,310>
-  var float valorMeio = 50.0;
+  var float valorMeio = 60.0;
 
   // ATENÇÃO:
   // O método "float2String" existe devido ao casting nativo de float para string \
@@ -1627,7 +1627,7 @@ class Mag : Core::Group
   }
 
   $rect <420,380,600,420>
-  var float valorMeio = 120.0;
+  var float valorMeio = 127.0;
 
   // ATENÇÃO:
   // O método "float2String" existe devido ao casting nativo de float para string \
@@ -2647,6 +2647,10 @@ class FFT : Core::Group
   $rect <260,310,460,350>
   slot atualizaFFT
   {
+    var float valor_THD_R;
+    var float valor_THD_S;
+    var float valor_THD_T;
+
     if (faseAtual == 0) {
       graf_FFT.Coordinates = device.getFFT_R();
     } else if (faseAtual == 1) {
@@ -2654,12 +2658,21 @@ class FFT : Core::Group
     } else if (faseAtual == 2) {
       graf_FFT.Coordinates = device.getFFT_T();
     }
+
+    valor_THD_R = device.getTHD_R();
+    valor_THD_S = device.getTHD_S();
+    valor_THD_T = device.getTHD_T();
+
+    val_THD_R.String = float2String(valor_THD_R, 1);
+    val_THD_S.String = float2String(valor_THD_S, 1);
+    val_THD_T.String = float2String(valor_THD_T, 1);
+
   }
 
   $rect <20,20,160,60>
   object Application::ModifiedButton botao_R
   {
-    preset Bounds = <370,40,470,85>;
+    preset Bounds = <370,10,470,55>;
     preset OnAction = acaoBotao;
     preset Caption = "Fase R";
     preset ItemColor = Flat::ColorOfTouch;
@@ -2669,7 +2682,7 @@ class FFT : Core::Group
   $rect <20,20,160,60>
   object Application::ModifiedButton botao_S
   {
-    preset Bounds = <370,100,470,145>;
+    preset Bounds = <370,86,470,131>;
     preset OnAction = acaoBotao;
     preset Caption = "Fase S";
     preset ItemColor = Flat::ColorOfDisabled;
@@ -2679,7 +2692,7 @@ class FFT : Core::Group
   $rect <20,20,160,60>
   object Application::ModifiedButton botao_T
   {
-    preset Bounds = <370,160,470,205>;
+    preset Bounds = <370,161,470,206>;
     preset OnAction = acaoBotao;
     preset Caption = "Fase T";
     preset ItemColor = Flat::ColorOfDisabled;
@@ -2742,6 +2755,59 @@ class FFT : Core::Group
   note legend Note
   {
     attr Bounds = <460,340,680,400>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_THD_R
+  {
+    preset Bounds = <410,60,450,80>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "0,75";
+    preset Font = Application::NumbersP;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_THD_S
+  {
+    preset Bounds = <410,135,450,155>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "0,5";
+    preset Font = Application::NumbersP;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_THD_T
+  {
+    preset Bounds = <420,210,460,230>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "0,25";
+    preset Font = Application::NumbersP;
+  }
+
+  $rect <510,70,710,110>
+  method string float2String( arg float numero, arg int32 casas )
+  {
+    var string valor = "";
+    var string valor2;
+    var int32 inteiro;
+    var float dec;
+
+    if (numero < 0.0) {
+      valor = "-";
+      inteiro = (int32)(-numero);
+      dec = (numero + (float)inteiro)*(-1.0*math_pow(10.0,float(casas)));
+    } else {
+      inteiro = (int32)numero;
+      dec = (numero - (float)inteiro)*math_pow(10.0,float(casas));
+    }
+
+    dec = math_round(dec);
+    if (dec >= math_pow(10.0,float(casas))) dec = dec - 1.0;
+
+    valor = valor + string(inteiro);
+    valor2 = string((int32)dec, casas);
+
+    return (valor + "," + valor2);
   }
 }
 
@@ -3182,6 +3248,10 @@ inline Inline
   extern float Fase_S_final;
   extern float Fase_T_final;
 
+  extern float THD_R;
+  extern float THD_S;
+  extern float THD_T;
+
   extern float FasesAC_mod_R[50];
   extern float FasesAC_mod_S[50];
   extern float FasesAC_mod_T[50];
@@ -3277,7 +3347,8 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return math_rand(59.995,60.005);
+    //return math_rand(59.995,60.005);
+    return frequencia;
   }
 
   $rect <10,330,210,370>
@@ -3291,7 +3362,8 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return 123.0+math_rand(-0.1,0.1);
+    //return 123.0+math_rand(-0.1,0.1);
+    return magR;
   }
 
   $rect <10,410,210,450>
@@ -3305,7 +3377,8 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return 119.0+math_rand(-0.1,0.1);
+    //return 119.0+math_rand(-0.1,0.1);
+    return magT;
   }
 
   $rect <10,370,210,410>
@@ -3319,7 +3392,8 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return 121.0+math_rand(-0.1,0.1);
+    //return 121.0+math_rand(-0.1,0.1);
+    return magS;
   }
 
   $rect <210,330,410,370>
@@ -3333,7 +3407,8 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return 30.0+math_rand(-0.1,0.1);
+    //return 30.0+math_rand(-0.1,0.1);
+    return faseR;
   }
 
   $rect <210,410,410,450>
@@ -3347,7 +3422,8 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return 30.0+math_rand(-0.1,0.1)-120.0;
+    //return 30.0+math_rand(-0.1,0.1)-120.0;
+    return faseT;
   }
 
   $rect <210,370,410,410>
@@ -3361,14 +3437,15 @@ class Classe : Templates::DeviceClass
     }
     $endif
 
-    return 30.0+math_rand(-0.1,0.1)+120.0;
+    //return 30.0+math_rand(-0.1,0.1)+120.0;
+    return faseS;
   }
 
   $rect <10,480,210,520>
   method Charts::CoordList getFFT_R()
   {
     //Vetor que receberá os valores tratados do vetor de FFT
-    array float           aFFT[50];
+    array float           aFFT[16];
     var   int32           j;
     //Variável local de lista de coordenadas que será retornado no final do método
     var Charts::CoordList cordFFT = new Charts::CoordList;
@@ -3381,24 +3458,24 @@ class Classe : Templates::DeviceClass
     native (aFFT) {
       int i;
       
-      for (i = 0; i < 50; i++) {
-        aFFT[i] = FasesAC_mod_R[i]/422.4; //256*1.65
+      for (i = 0; i < 16; i++) {
+        aFFT[i] = FasesAC_mod_R[i];
       }
     }
     $endif
 
-    aFFT[0] = 0.9+math_rand(-0.1,0.1);
-    aFFT[1] = 0.2+math_rand(-0.05,0.05);
-    for (j = 2; j < aFFT.size; j = j + 1)
-      aFFT[j] = math_rand(0.05,0.15);
+    //aFFT[1] = 0.9+math_rand(-0.1,0.1);
+    //aFFT[2] = 0.2+math_rand(-0.05,0.05);
+    //for (j = 3; j < aFFT.size; j = j + 1) 
+    //  aFFT[j] = math_rand(0.05,0.15);
+    //aFFT[0] = 0;
 
     //Define o número máximo de itens no CoordList, limpa e adiciona os valores
-    cordFFT.MaxNoOfItems = 50;
+    cordFFT.MaxNoOfItems = 16;
     cordFFT.ClearList();
 
-    for (j = 0; j < 50; j = j + 1) {
-      //cordFFT.AddCoord(j+1, -math_rand(0.2,0.3));  
-      cordFFT.AddCoord(j+1, -aFFT[j]);
+    for (j = 0; j < 16; j = j + 1) {
+      cordFFT.AddCoord(j, -aFFT[j]);
     }
 
     return cordFFT;
@@ -3408,7 +3485,7 @@ class Classe : Templates::DeviceClass
   method Charts::CoordList getFFT_S()
   {
     //Vetor que receberá os valores tratados do vetor de FFT
-    array float           aFFT[50];
+    array float           aFFT[16];
     var   int32           j;
     //Variável local de lista de coordenadas que será retornado no final do método
     var Charts::CoordList cordFFT = new Charts::CoordList;
@@ -3421,19 +3498,19 @@ class Classe : Templates::DeviceClass
     native (aFFT) {
       int i;
       
-      for (i = 0; i < 50; i++) {
-        aFFT[i] = FasesAC_mod_S[i]/256.0;
+      for (i = 0; i < 16; i++) {
+        aFFT[i] = FasesAC_mod_S[i];
       }
     }
     $endif
 
     //Define o número máximo de itens no CoordList, limpa e adiciona os valores
-    cordFFT.MaxNoOfItems = 50;
+    cordFFT.MaxNoOfItems = 16;
     cordFFT.ClearList();
 
-    for (j = 0; j < 50; j = j + 1) {
+    for (j = 0; j < 16; j = j + 1) {
       //cordFFT.AddCoord(j+1, -math_rand(0.4,0.5));
-      cordFFT.AddCoord(j+1, -aFFT[j]);
+      cordFFT.AddCoord(j, -aFFT[j]);
     }
 
     return cordFFT;
@@ -3443,7 +3520,7 @@ class Classe : Templates::DeviceClass
   method Charts::CoordList getFFT_T()
   {
     //Vetor que receberá os valores tratados do vetor de FFT
-    array float           aFFT[50];
+    array float           aFFT[16];
     var   int32           j;
     //Variável local de lista de coordenadas que será retornado no final do método
     var Charts::CoordList cordFFT = new Charts::CoordList;
@@ -3456,19 +3533,19 @@ class Classe : Templates::DeviceClass
     native (aFFT) {
       int i;
       
-      for (i = 0; i < 50; i++) {
-        aFFT[i] = FasesAC_mod_T[i]/256.0;
+      for (i = 0; i < 16; i++) {
+        aFFT[i] = FasesAC_mod_T[i];
       }
     }
     $endif
 
     //Define o número máximo de itens no CoordList, limpa e adiciona os valores
-    cordFFT.MaxNoOfItems = 50;
+    cordFFT.MaxNoOfItems = 16;
     cordFFT.ClearList();
 
-    for (j = 0; j < 50; j = j + 1) {
+    for (j = 0; j < 16; j = j + 1) {
       //cordFFT.AddCoord(j+1, -math_rand(0.5,0.6));
-      cordFFT.AddCoord(j+1, -aFFT[j]);
+      cordFFT.AddCoord(j, -aFFT[j]);
     }
 
     return cordFFT;
@@ -3509,6 +3586,132 @@ class Classe : Templates::DeviceClass
     else  contexto_botao.Parar = true;
 
     ButtonStateEvent.Trigger(contexto_botao, false);
+  }
+
+  $rect <830,100,1030,140>
+  object Core::SystemEvent THD_R_Event;
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about a particular system event.
+  $rect <830,140,1030,180>
+  $output true
+  method void THD_R_Trigger( arg string thd_R_text )
+  {
+    var Application::FFTMessageR contexto = new Application::FFTMessageR;
+
+    contexto.THD_R_text = thd_R_text;
+
+    LogMessageEvent.Trigger( contexto, false );
+  }
+
+  // The object 'SystemEvent' represents an individual system event. When the system \
+  // event is triggered all associated system event handler are notified automatically.
+  // 
+  // The method 'TriggerEvent' method is intended to be called by the device to notify \
+  // the GUI application about the particular system event represented by the object \
+  // 'SystemEvent'. This method exists for your convenience only and is optional. \
+  // See inline documentation inside the method.
+  note legend Note5
+  {
+    attr Bounds = <1020,100,1530,190>;
+  }
+
+  $rect <830,210,1030,250>
+  object Core::SystemEvent THD_S_Event;
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about a particular system event.
+  $rect <830,250,1030,290>
+  $output true
+  method void THD_S_Trigger( arg string thd_S_text )
+  {
+    var Application::FFTMessageS contexto = new Application::FFTMessageS;
+
+    contexto.THD_S_text = thd_S_text;
+
+    LogMessageEvent.Trigger( contexto, false );
+  }
+
+  // The object 'SystemEvent' represents an individual system event. When the system \
+  // event is triggered all associated system event handler are notified automatically.
+  // 
+  // The method 'TriggerEvent' method is intended to be called by the device to notify \
+  // the GUI application about the particular system event represented by the object \
+  // 'SystemEvent'. This method exists for your convenience only and is optional. \
+  // See inline documentation inside the method.
+  note legend Note6
+  {
+    attr Bounds = <1050,210,1550,390>;
+  }
+
+  $rect <830,390,1030,430>
+  object Core::SystemEvent THD_T_Event;
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about a particular system event.
+  $rect <840,440,1040,480>
+  $output true
+  method void THD_T_Trigger( arg string thd_T_text )
+  {
+    var Application::FFTMessageT contexto = new Application::FFTMessageT;
+
+    contexto.THD_T_text = thd_T_text;
+
+    LogMessageEvent.Trigger( contexto, false );
+  }
+
+  // The object 'SystemEvent' represents an individual system event. When the system \
+  // event is triggered all associated system event handler are notified automatically.
+  // 
+  // The method 'TriggerEvent' method is intended to be called by the device to notify \
+  // the GUI application about the particular system event represented by the object \
+  // 'SystemEvent'. This method exists for your convenience only and is optional. \
+  // See inline documentation inside the method.
+  note legend Note7
+  {
+    attr Bounds = <1050,390,1550,570>;
+  }
+
+  $rect <660,460,860,500>
+  method float getTHD_R()
+  {
+    var float thd_R = 0.0;
+
+    $if !$prototyper
+    native (thd_R) {  
+      thd_R = (XFloat)THD_R;
+    }
+    $endif
+
+    return thd_R;
+  }
+
+  $rect <660,510,860,550>
+  method float getTHD_S()
+  {
+    var float thd_S = 0.0;
+
+    $if !$prototyper
+    native (thd_S) {  
+      thd_S = (XFloat)THD_S;
+    }
+    $endif
+
+    return thd_S;
+  }
+
+  $rect <660,560,860,600>
+  method float getTHD_T()
+  {
+    var float thd_T = 0.0;
+
+    $if !$prototyper
+    native (thd_T) {  
+      thd_T = (XFloat)THD_T;
+    }
+    $endif
+
+    return thd_T;
   }
 }
 
@@ -4341,55 +4544,53 @@ vclass FFT769 : Application::FFT
   $rect <20,20,160,60>
   inherited object linha_h_10
   {
-    preset Point2 = <120,399>;
-    preset Point1 = <120,20>;
+    preset Point2 = <185,399>;
+    preset Point1 = <185,20>;
     preset Width = 2;
   }
 
   $rect <20,20,160,60>
   inherited object linha_h_20
   {
-    preset Point2 = <219,399>;
-    preset Point1 = <219,20>;
+    preset Point2 = <350,399>;
+    preset Point1 = <350,20>;
     preset Width = 2;
   }
 
   $rect <20,20,160,60>
   inherited object linha_h_30
   {
-    preset Point2 = <320,399>;
-    preset Point1 = <320,20>;
-    preset Width = 2;
+    preset Point2 = <1250,350>;
+    preset Point1 = <1250,150>;
   }
 
   $rect <20,20,160,60>
   inherited object linha_h_40
   {
-    preset Point2 = <420,399>;
-    preset Point1 = <420,20>;
-    preset Width = 2;
+    preset Point2 = <1090,510>;
+    preset Point1 = <1090,310>;
   }
 
   $rect <20,20,160,60>
   inherited object linha_m_25
   {
-    preset Point2 = <519,304>;
-    preset Point1 = <20,304>;
+    preset Point2 = <514,305>;
+    preset Point1 = <20,305>;
     preset Width = 2;
   }
 
   $rect <20,20,160,60>
   inherited object linha_m_50
   {
-    preset Point2 = <519,209>;
-    preset Point1 = <20,209>;
+    preset Point2 = <514,210>;
+    preset Point1 = <20,210>;
     preset Width = 2;
   }
 
   $rect <20,20,160,60>
   inherited object linha_m_75
   {
-    preset Point2 = <519,115>;
+    preset Point2 = <514,115>;
     preset Point1 = <20,115>;
     preset Width = 2;
   }
@@ -4397,78 +4598,246 @@ vclass FFT769 : Application::FFT
   $rect <20,20,160,60>
   inherited object val_h_10
   {
-    preset Bounds = <90,400,150,430>;
+    preset Bounds = <155,400,215,430>;
+    preset String = "5";
   }
 
   $rect <20,20,160,60>
   inherited object val_h_20
   {
-    preset Bounds = <190,400,250,430>;
+    preset Bounds = <321,400,381,430>;
+    preset String = "10";
   }
 
   $rect <20,20,160,60>
   inherited object val_h_30
   {
-    preset Bounds = <290,400,350,430>;
+    preset Bounds = <483,400,543,430>;
+    preset String = "15";
   }
 
   $rect <20,20,160,60>
   inherited object val_h_40
   {
-    preset Bounds = <390,400,450,430>;
+    preset Bounds = <526,11,586,41>;
+    preset String = "20%%";
   }
 
   $rect <20,20,160,60>
   inherited object val_m_25
   {
-    preset Bounds = <530,290,600,320>;
+    preset Bounds = <525,289,595,319>;
+    preset String = "5%%";
   }
 
   $rect <20,20,160,60>
   inherited object val_m_50
   {
-    preset Bounds = <530,195,600,225>;
+    preset Bounds = <525,195,595,225>;
+    preset String = "10%%";
   }
 
   $rect <20,20,160,60>
   inherited object val_m_75
   {
-    preset Bounds = <530,100,600,130>;
+    preset Bounds = <525,98,595,128>;
+    preset String = "15%%";
   }
 
   $rect <20,20,160,60>
   inherited object graf_FFT
   {
-    preset Bounds = <20,20,520,400>;
+    preset Bounds = <20,20,515,400>;
     preset LineWidth = 6;
     preset CoordOrigin = <0,380>;
-    preset PixelPerUnit = <10,380>;
+    preset PixelPerUnit = <33,1900>;
   }
 
   $rect <20,20,160,60>
   inherited object borda
   {
-    preset Bounds = <20,20,520,400>;
+    preset Bounds = <20,20,515,400>;
     preset Width = 2;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_m_76
+  {
+    preset Bounds = <610,107,680,137>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "THD:";
+    preset Font = Application::NumbersP;
+    preset Color = Application::cor_R;
   }
 
   $rect <20,20,160,60>
   inherited object botao_R
   {
-    preset Bounds = <610,60,780,130>;
+    preset Bounds = <610,30,780,100>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_m_78
+  {
+    preset Bounds = <610,239,680,269>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "THD:";
+    preset Font = Application::NumbersP;
+    preset Color = Application::cor_S;
   }
 
   $rect <20,20,160,60>
   inherited object botao_S
   {
-    preset Bounds = <610,180,780,250>;
+    preset Bounds = <610,163,780,233>;
   }
 
   $rect <20,20,160,60>
   inherited object botao_T
   {
-    preset Bounds = <610,300,780,370>;
+    preset Bounds = <610,297,780,367>;
   }
+
+  $rect <20,20,160,60>
+  object Views::Text val_m_80
+  {
+    preset Bounds = <610,370,680,400>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "THD:";
+    preset Font = Application::NumbersP;
+    preset Color = Application::cor_T;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_THD_R
+  {
+    preset Bounds = <680,107,778,137>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "1.0";
+    preset Font = Application::NumbersP;
+    preset Color = Application::cor_R;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_THD_S
+  {
+    preset Bounds = <680,239,778,269>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "1.0";
+    preset Font = Application::NumbersP;
+    preset Color = Application::cor_S;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_THD_T
+  {
+    preset Bounds = <680,370,778,400>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "1.0";
+    preset Font = Application::NumbersP;
+    preset Color = Application::cor_T;
+  }
+
+  $rect <810,0,1010,40>
+  object Core::SystemEventHandler THD_R_Message_Handler
+  {
+    preset OnEvent = THD_R_Message;
+    preset Event = Application::Autoobjeto.THD_R_Event;
+  }
+
+  // This slot method is executed when the associated system event handler 'SystemEventHandler' \
+  // receives an event.
+  $rect <1010,0,1210,40>
+  slot THD_R_Message
+  {
+    var Application::FFTMessageR ctxRecebido = (Application::FFTMessageR)THD_R_Message_Handler.Context;
+
+    val_THD_R.String = ctxRecebido.THD_R_text;
+  }
+
+  // The object 'SystemEventHandler' is a handler of a particular system event. When \
+  // the system event is triggered, the handler calls the associated slot method \
+  // 'onEvent' automatically. Within the 'onEvent' method you can react to the event. \
+  // The method 'onEvent' exists for your convenience only. You can remove it and \
+  // connect the system event handler with another slot method. See inline documentation \
+  // inside the method.
+  // 
+  // Don't forget to connect the handler with the system event of interest. To do \
+  // this set the property 'Event' of the handler to refer to the correct system \
+  // event object.
+  note legend Note
+  {
+    attr Bounds = <1220,0,1720,40>;
+  }
+
+  $rect <810,91,1010,131>
+  object Core::SystemEventHandler THD_S_Message_Handler
+  {
+    preset OnEvent = THD_S_Message;
+    preset Event = Application::Autoobjeto.THD_S_Event;
+  }
+
+  // This slot method is executed when the associated system event handler 'SystemEventHandler' \
+  // receives an event.
+  $rect <1010,91,1210,131>
+  slot THD_S_Message
+  {
+    var Application::FFTMessageS ctxRecebido = (Application::FFTMessageS)THD_S_Message_Handler.Context;
+
+    val_THD_S.String = ctxRecebido.THD_S_text;
+  }
+
+  // The object 'SystemEventHandler' is a handler of a particular system event. When \
+  // the system event is triggered, the handler calls the associated slot method \
+  // 'onEvent' automatically. Within the 'onEvent' method you can react to the event. \
+  // The method 'onEvent' exists for your convenience only. You can remove it and \
+  // connect the system event handler with another slot method. See inline documentation \
+  // inside the method.
+  // 
+  // Don't forget to connect the handler with the system event of interest. To do \
+  // this set the property 'Event' of the handler to refer to the correct system \
+  // event object.
+  note legend Note1
+  {
+    attr Bounds = <1220,91,1720,151>;
+  }
+
+  $rect <810,200,1010,240>
+  object Core::SystemEventHandler THD_T_Message_Handler
+  {
+    preset OnEvent = THD_T_Message;
+    preset Event = Application::Autoobjeto.THD_T_Event;
+  }
+
+  // This slot method is executed when the associated system event handler 'SystemEventHandler' \
+  // receives an event.
+  $rect <1010,200,1210,240>
+  slot THD_T_Message
+  {
+    var Application::FFTMessageT ctxRecebido = (Application::FFTMessageT)THD_T_Message_Handler.Context;
+
+    val_THD_T.String = ctxRecebido.THD_T_text;
+  }
+
+  // The object 'SystemEventHandler' is a handler of a particular system event. When \
+  // the system event is triggered, the handler calls the associated slot method \
+  // 'onEvent' automatically. Within the 'onEvent' method you can react to the event. \
+  // The method 'onEvent' exists for your convenience only. You can remove it and \
+  // connect the system event handler with another slot method. See inline documentation \
+  // inside the method.
+  // 
+  // Don't forget to connect the handler with the system event of interest. To do \
+  // this set the property 'Event' of the handler to refer to the correct system \
+  // event object.
+  note legend Note2
+  {
+    attr Bounds = <1220,200,1720,260>;
+  }
+
+  $reorder float2String 9
+  $reorder val_m_76 9
+  $reorder val_m_78 7
+  $reorder val_m_80 4
 }
 
 $rect <230,300,430,340>
@@ -6277,5 +6646,92 @@ class PDCButtonState
   onget Parar
   {
     return pure Parar;
+  }
+}
+
+$rect <650,340,850,380>
+$output false
+class FFTMessageR
+{
+  $rect <10,10,210,50>
+  property string THD_R_text = 0;
+
+  $rect <10,50,210,90>
+  onset THD_R_text
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure THD_R_text == value )
+      return;
+
+    // Remember the property's new value.
+    pure THD_R_text = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <10,90,210,130>
+  onget THD_R_text
+  {
+    return pure THD_R_text;
+  }
+}
+
+$rect <650,380,850,420>
+$output false
+class FFTMessageS
+{
+  $rect <10,10,210,50>
+  property string THD_S_text = 0;
+
+  $rect <10,50,210,90>
+  onset THD_S_text
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure THD_S_text == value )
+      return;
+
+    // Remember the property's new value.
+    pure THD_S_text = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <10,90,210,130>
+  onget THD_S_text
+  {
+    return pure THD_S_text;
+  }
+}
+
+$rect <650,420,850,460>
+$output false
+class FFTMessageT
+{
+  $rect <10,10,210,50>
+  property string THD_T_text = 0;
+
+  $rect <10,50,210,90>
+  onset THD_T_text
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure THD_T_text == value )
+      return;
+
+    // Remember the property's new value.
+    pure THD_T_text = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <10,90,210,130>
+  onget THD_T_text
+  {
+    return pure THD_T_text;
   }
 }
