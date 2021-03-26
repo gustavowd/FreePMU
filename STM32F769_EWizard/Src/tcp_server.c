@@ -36,7 +36,7 @@
 
 unsigned char cmd;
 volatile unsigned char connected=0;
-extern unsigned char ucData[320];
+extern unsigned char ucData[768];
 extern int frame_data(uint16_t *size);
 extern int frame_config(uint8_t config);
 extern int frame_header(void);

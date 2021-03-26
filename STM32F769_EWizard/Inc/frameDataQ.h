@@ -14,7 +14,7 @@
 /******* Estruturas de dados e funcoes para a fila de ucData *******/
 /* Elemento da fila. */
 struct frameDataElement {
-	unsigned char ucData[128];
+	unsigned char ucData[320];
 	struct frameDataElement *next;
 };
 

@@ -99,11 +99,6 @@
 #define RMS_GAIN	(float)1.414213562
 #define PEAK_OR_RMS	RMS_GAIN
 
-//Definition for the GPS protocol
-#define GPS_NMEA	0
-#define GPS_UBX		1
-#define GPS_PROTOCOL GPS_UBX
-
 // Definition to choose between TCP or UDP communication
 #define TCP_PMU 0
 #define UDP_PMU 1

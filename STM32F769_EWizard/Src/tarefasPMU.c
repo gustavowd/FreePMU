@@ -60,9 +60,11 @@ unsigned int date_limit, tow_limit, wno_limit, size; //delimitadores das informa
 
 char serialGPS_SET = 0;
 char dado_gps[100];	//buffer da mensagem
+//char *dado_gps = "PUBX,04,073731.00,091202,1138.00,119,15D,1930035,-2660.664,43,*3C\n";
+//char *dado_gps = "GPRMC,190430,A,4812.3038,S,07330.7690,W,3.7,3.8,090210,13.7,E,D*26\n";
 char ID;			//Proprietary message identifier
-char UTC_WNO[4]; 	//UTC week number
-char UTC_TOW[6];	//UTC Time of Week
+char UTC_WNO[5]; 	//UTC week number
+char UTC_TOW[7];	//UTC Time of Week
 unsigned long week_num, sec_of_week, SOC=0;
 unsigned long num;
 
@@ -103,8 +105,14 @@ float Mag_R,Mag_S,Mag_T,Fase_R,Fase_S,Fase_T;
 //float CalibHarmonicas_mag[numero_pontos];
 //float CalibHarmonicas_phase[10];
 float Harmonics_gain[3] = {NORM_GAIN_127V_R, NORM_GAIN_127V_S, NORM_GAIN_127V_T};
-float harmonics_mag[10];
-float harmonics_phase[10];
+float harmonics_R_mag[15];
+float harmonics_R_phase[15];
+float harmonics_S_mag[15];
+float harmonics_S_phase[15];
+float harmonics_T_mag[15];
+float harmonics_T_phase[15];
+
+float THD_R, THD_S, THD_T = 0.0;
 //Frequencia e rocof
 #if (NOMINAL_FREQ == 60)
 float f0=60; // Freq nominal
@@ -329,10 +337,11 @@ void PMU_Task(void const * argument)
 		//##############################
 		// Cálculo de harmônicas da fase AC
 
-		// Ajuste do ganho de tensão
 		Mag_R = FasesAC_mod_R[1];
 		Mag_S = FasesAC_mod_S[1];
 		Mag_T = FasesAC_mod_T[1];
+
+		// Ajuste do ganho de tensão (normalizado para a tensão 127V ou 220V)
 		arm_scale_f32(FasesAC_mod_R,Harmonics_gain[0]*invN, FasesAC_mod_R,numero_pontos);
 		arm_scale_f32(FasesAC_mod_S,Harmonics_gain[1]*invN, FasesAC_mod_S,numero_pontos);
 		arm_scale_f32(FasesAC_mod_T,Harmonics_gain[2]*invN, FasesAC_mod_T,numero_pontos);
@@ -340,14 +349,42 @@ void PMU_Task(void const * argument)
 		// Se precisar a amplitude de cada harmônica com um valor diferente
 		//arm_mult_f32(FasesAC_mod_R, CalibHarmonicas_mag, FasesAC_mod_R,numero_pontos);
 
-		for(k=0;k<10;k++){ // Para calcular harmônicos
-			//harmonics_mag[k] = 2*sqrt(FasesAC_ReIm_R[2*k+3]*FasesAC_ReIm_R[2*k+3] + FasesAC_ReIm_R[2*k+2]*FasesAC_ReIm_R[2*k+2])/256;
-			harmonics_mag[k] = FasesAC_mod_R[k];
-			harmonics_phase[k] = atan2(FasesAC_ReIm_R[2*k+3],FasesAC_ReIm_R[2*k+2])*180/M_PI;
+		// Calculo de THD e fase das harmônicas
+		float tmp_THD_R = 0.0;
+		float tmp_THD_S = 0.0;
+		float tmp_THD_T = 0.0;
+		for(k=0;k<15;k++){
+			harmonics_R_mag[k] = FasesAC_mod_R[k+2];
+			harmonics_R_phase[k] = atan2(FasesAC_ReIm_R[2*k+5],FasesAC_ReIm_R[2*k+4])*180/M_PI;
+			tmp_THD_R += harmonics_R_mag[k]*harmonics_R_mag[k];
 
+			harmonics_S_mag[k] = FasesAC_mod_S[k+2];
+			harmonics_S_phase[k] = atan2(FasesAC_ReIm_S[2*k+5],FasesAC_ReIm_S[2*k+4])*180/M_PI;
+			tmp_THD_S += harmonics_S_mag[k]*harmonics_S_mag[k];
+
+			harmonics_T_mag[k] = FasesAC_mod_T[k+2];
+			harmonics_T_phase[k] = atan2(FasesAC_ReIm_T[2*k+5],FasesAC_ReIm_T[2*k+4])*180/M_PI;
+			tmp_THD_T += harmonics_T_mag[k]*harmonics_T_mag[k];
 			// calibração de fase das harmônicas ???
 			//harmonics_phase[k] = harmonics_phase[k] - CalibHarmonicas_phase[k];
 		}
+		arm_sqrt_f32(tmp_THD_R, &THD_R);
+		THD_R = (THD_R / FasesAC_mod_R[1])*100;
+		arm_sqrt_f32(tmp_THD_S, &THD_S);
+		THD_S = (THD_S / FasesAC_mod_S[1])*100;
+		arm_sqrt_f32(tmp_THD_T, &THD_T);
+		THD_T = (THD_T / FasesAC_mod_T[1])*100;
+
+		// Ajuste das harmônicas para a tensão nominal
+	#if (NOMINAL_VOLTAGE == 127)
+		float voltage_gain = 89.802561211*PEAK_OR_RMS;
+	#endif
+	#if (NOMINAL_VOLTAGE == 220)
+		float voltage_gain = 155.563491861*PEAK_OR_RMS;
+	#endif
+		arm_scale_f32(harmonics_R_mag,voltage_gain, harmonics_R_mag,15);
+		arm_scale_f32(harmonics_S_mag,voltage_gain, harmonics_S_mag,15);
+		arm_scale_f32(harmonics_T_mag,voltage_gain, harmonics_T_mag,15);
 		//##############################
 
 		#ifndef USAR_DFT
@@ -677,7 +714,6 @@ void GPS_Task(void const * argument)
 		   UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		}while(*p != '\n');
 
-		#if GPS_PROTOCOL == GPS_NMEA
 		uint8_t date_calc = 0;
 		uint8_t valid_data = 0;
 		uint8_t hora_calc = 0;
@@ -687,86 +723,99 @@ void GPS_Task(void const * argument)
 		char* str = strtok(dado_gps, ",");
 
 		/*Verifica se chegou informações de Data e Hora*/
-		if (strcmp(str, "GPRMC\0") != 0){
+		if (strcmp(str, "GPRMC") != 0){
 			substring = 10; /*Se a mensagem recebida não for correta*/
 		}
-		str+=6;
 
-		while (substring <=9){
-			if (substring == 1 && *str != ','){
-				t.tm_hour = 10*( *str++ - 48);
-				t.tm_hour += (*str++ - 48);
-				t.tm_min = 10*(*str++ - 48);
-				t.tm_min += (*str++ - 48);
-				t.tm_sec = 10*(*str++ - 48);
-				t.tm_sec += (*str++ - 48);
-				hora_calc = 1;
-			}else if (substring ==2 && *str != ','){
-				if (*str++ == 'A')
-					valid_data=1;
+		if (substring < 10){
+			// Foi identificada uma mensagem válida
+			str+=6;
+
+			while (substring <=9){
+				if (substring == 1 && *str != ','){
+					t.tm_hour = 10*( *str++ - 48);
+					t.tm_hour += (*str++ - 48);
+					t.tm_min = 10*(*str++ - 48);
+					t.tm_min += (*str++ - 48);
+					t.tm_sec = 10*(*str++ - 48);
+					t.tm_sec += (*str++ - 48);
+					hora_calc = 1;
+				}else if (substring ==2 && *str != ','){
+					if (*str++ == 'A')
+						valid_data=1;
+				}
+				else if (substring == 9 && *str != ','){
+					t.tm_mday = 10*( *str++ - 48);
+					t.tm_mday += ( *str++ - 48);
+					t.tm_mon = 10*( *str++ - 48);
+					t.tm_mon += ( *str++ - 48) - 1;
+					t.tm_year = 2000+10*( *str++ - 48);
+					t.tm_year += ( *str++  - 48) - 1900;
+					t.tm_isdst = -1;
+					date_calc = 1;
+				}
+
+				while (*str++ != ',');
+				substring++;
 			}
-			else if (substring == 9 && *str != ','){
-				t.tm_mday = 10*( *str++ - 48);
-				t.tm_mday += ( *str++ - 48);
-				t.tm_mon = 10*( *str++ - 48);
-				t.tm_mon += ( *str++ - 48) - 1;
-				t.tm_year = 2000+10*( *str++ - 48);
-				t.tm_year += ( *str++  - 48) - 1900;
-				t.tm_isdst = -1;
-				date_calc = 1;
+
+			/*Verifica se chegou informações de Data e Hora*/
+			if (date_calc && hora_calc && valid_data){
+				/*segundo secular UNIX time (1 jan 1970)*/
+				SOC = (unsigned long) mktime(&t);
+
+				/*Novo SOC foi calculado*/
+				taskENTER_CRITICAL();
+				newSOC = 1;
+				taskEXIT_CRITICAL();
 			}
+		}else{
+			// Procura por mensagem UBX, caso não seja mensagem NMEA GPRMC
+			// Determina se a mensagem é UBX,04
+			if (strcmp(str, "PUBX") == 0){
+				// Testa se a mensagem é do tipo 4
+				//if (dado_gps[6] == '4'){
+				if (dado_gps[6] == '4'){
+					//Extrai a informação: segundos na semana
+					str = strtok(NULL, ",");
+					str = strtok(NULL, ",");
+					str = strtok(NULL, ",");
+					str = strtok(NULL, ",");
+					i = 0;
+					while(*str){
+						if (*str != '.'){
+							UTC_TOW[i]=*str++;
+							i++;
+						}else{
+							break;
+						}
+					}
+					UTC_TOW[i] = '\0';
 
-			while (*str++ != ',');
-			substring++;
+					//Extrai a informação: numero da semana
+					i = 0;
+					str = strtok(NULL, ",");
+					while(*str){
+						UTC_WNO[i]=*str++;
+						i++;
+					}
+					UTC_WNO[i] = '\0';
+
+					//Datasheet mentiroso, no  fonte UTC,  GPS! 10 anos de diferença
+					week_num = atoi(UTC_WNO);
+
+					sec_of_week = atoi(UTC_TOW);
+
+					//segundo secular UNIX time (since 6 jan 1980)
+					SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
+
+					/*Novo SOC foi calculado*/
+					taskENTER_CRITICAL();
+					newSOC = 1;
+					taskEXIT_CRITICAL();
+				}
+			}
 		}
-
-		/*Verifica se chegou informações de Data e Hora*/
-		if (date_calc && hora_calc && valid_data){
-
-			//char m[80];
-			//sprintf(m, "%d:%d:%d - %d/%d/%d\n", t.tm_hour, t.tm_min, t.tm_sec,
-			//		                            t.tm_mday, t.tm_mon+1, t.tm_year+1900 );
-			//EwPrint(m);
-
-			/*segundo secular UNIX time (1 jan 1970)*/
-			SOC = (unsigned long) mktime(&t);
-
-			/*Novo SOC foi calculado*/
-			taskENTER_CRITICAL();
-			newSOC = 1;
-			taskEXIT_CRITICAL();
-		}
-		#endif
-
-		#if GPS_PROTOCOL == GPS_UBX
-		//Extrai a informação: segundos na semana
-		for(i=0;i<6;i++){
-		  UTC_TOW[i]=dado_gps[25+i];
-		}
-
-		//Extrai a informação: numero da semana
-		for(i=0;i<4;i++){
-			UTC_WNO[i]=dado_gps[35+i];
-		}
-
-		//Datasheet mentiroso, no  fonte UTC,  GPS! 10 anos de diferença
-		week_num = atoi(UTC_WNO);
-
-		sec_of_week = atoi(UTC_TOW);
-
-		//segundo secular UNIX time (1 jan 1970)
-		SOC = sec_of_week + week_num*604800 + 60*60*24*365*10 + 60*60*24*7;
-
-		/*Novo SOC foi calculado*/
-		taskENTER_CRITICAL();
-		newSOC = 1;
-		taskEXIT_CRITICAL();
-		#endif
-
-		//	sprintf(m, "SOC %d\n", (int)SOC);
-		//	EwPrint(m);
-
-		//a=0; //Pra zerar o contador do FracSec
 	}
 }
 
@@ -832,7 +881,7 @@ uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen)
 }
 
 
-unsigned char ucData[320];
+unsigned char ucData[768];
 unsigned int PmuID = PMUID;			// Identificacao da PMU
 
 
@@ -846,15 +895,15 @@ int frame_data(uint16_t *size){
 
 	uint16_t i=0;
 
-	memset((void*)ucData, 0, 128);
+	memset((void*)ucData, 0, 290);
 
 	// 1. SYNC = Data Message Sync Byte and Frame Type
 	ucData[i++] = A_SYNC_AA;   //0
 	ucData[i++] = A_SYNC_DATA; //1
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
-	ucData[i++] = (unsigned char)0x00;   //2
-	ucData[i++] = (unsigned char)0x82;   //3
+	ucData[i++] = (unsigned char)0x01;   //2
+	ucData[i++] = (unsigned char)0x22;   //3
 
 	// 3. IDCODE = ID da fonte de transmissao
 	ucData[i++] = (unsigned char)((PmuID & 0xFF00) >> 8);   //4
@@ -924,13 +973,41 @@ int frame_data(uint16_t *size){
 	ucData[i++] = convert_float_to_char.byte[0];	//39
 
 	for (int j = 0; j<10; j++){
-		convert_float_to_char.pf = harmonics_mag[j];
+		convert_float_to_char.pf = harmonics_R_mag[j];
 		ucData[i++] = convert_float_to_char.byte[3];
 		ucData[i++] = convert_float_to_char.byte[2];
 		ucData[i++] = convert_float_to_char.byte[1];
 		ucData[i++] = convert_float_to_char.byte[0];
 
-		convert_float_to_char.pf = harmonics_phase[j];
+		convert_float_to_char.pf = harmonics_R_phase[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+	}
+
+	for (int j = 0; j<10; j++){
+		convert_float_to_char.pf = harmonics_S_mag[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+
+		convert_float_to_char.pf = harmonics_S_phase[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+	}
+
+	for (int j = 0; j<10; j++){
+		convert_float_to_char.pf = harmonics_T_mag[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+
+		convert_float_to_char.pf = harmonics_T_phase[j];
 		ucData[i++] = convert_float_to_char.byte[3];
 		ucData[i++] = convert_float_to_char.byte[2];
 		ucData[i++] = convert_float_to_char.byte[1];
@@ -1011,8 +1088,8 @@ int frame_config(uint8_t config){
 	ucData[1] = config;
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
-	ucData[2] = (unsigned char)0x01;
-	ucData[3] = (unsigned char)0x3A; //
+	ucData[2] = (unsigned char)0x02;
+	ucData[3] = (unsigned char)0xCA; //
 
 	// 3. IDCODE = ID da fonte de transmissao
 	ucData[4] = (unsigned char)((PmuID & 0xFF00) >> 8);
@@ -1070,7 +1147,7 @@ int frame_config(uint8_t config){
 	// 11. PHNMR = Numero de fasores
 	ucData[40] = 0x00;
 	//ucData[41] = 0x03;  // 3 fasores
-	ucData[41] = 0x0D;  // 13 fasores
+	ucData[41] = 0x21;  // 13 fasores
 
 	// 12. ANNMR = Number of Analog Values
 	ucData[42] = 0x00;
@@ -1097,14 +1174,27 @@ int frame_config(uint8_t config){
 	uint16_t i = 94;
 	for (int j = 2; j<12; j++){
 		memset(CHName, 0x00, 16);
-		sprintf(CHName, "%d Harmonica", j);
+		sprintf(CHName, "%d Harmonica R", j);
 		memcpy(ucData + i, CHName, 16);
 		i += 16;
 	}
 
+	for (int j = 2; j<12; j++){
+		memset(CHName, 0x00, 16);
+		sprintf(CHName, "%d Harmonica S", j);
+		memcpy(ucData + i, CHName, 16);
+		i += 16;
+	}
+
+	for (int j = 2; j<12; j++){
+		memset(CHName, 0x00, 16);
+		sprintf(CHName, "%d Harmonica T", j);
+		memcpy(ucData + i, CHName, 16);
+		i += 16;
+	}
 	// 15.  PHUNIT = fator de conversao pra canais fasoriais
 	// 4 bytes pra cada fasor
-	for (j = 0; j<13; j++){
+	for (j = 0; j<33; j++){
 		ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
 		ucData[i++] = 0x00;  // ignore
 		ucData[i++] = 0x00;  // ignore
