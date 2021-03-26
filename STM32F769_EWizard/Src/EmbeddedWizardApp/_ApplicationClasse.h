@@ -63,6 +63,9 @@ EW_DEFINE_FIELDS( ApplicationClasse, TemplatesDeviceClass )
   EW_OBJECT  ( LogMessageEvent, CoreSystemEvent )
   EW_OBJECT  ( StatusChangedEvent, CoreSystemEvent )
   EW_OBJECT  ( ButtonStateEvent, CoreSystemEvent )
+  EW_OBJECT  ( THD_R_Event,     CoreSystemEvent )
+  EW_OBJECT  ( THD_S_Event,     CoreSystemEvent )
+  EW_OBJECT  ( THD_T_Event,     CoreSystemEvent )
 EW_END_OF_FIELDS( ApplicationClasse )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Classe' */
@@ -149,6 +152,45 @@ void ApplicationClasse__ChangeBtnState( void* _this, XInt32 IniState, XInt32 Par
 
 /* The following define announces the presence of the method Application::Classe.ChangeBtnState(). */
 #define _ApplicationClasse__ChangeBtnState_
+
+/* This method is intended to be called by the device to notify the GUI application 
+   about a particular system event. */
+void ApplicationClasse_THD_R_Trigger( ApplicationClasse _this, XString thd_R_text );
+
+/* Wrapper function for the non virtual method : 'Application::Classe.THD_R_Trigger()' */
+void ApplicationClasse__THD_R_Trigger( void* _this, XString thd_R_text );
+
+/* The following define announces the presence of the method Application::Classe.THD_R_Trigger(). */
+#define _ApplicationClasse__THD_R_Trigger_
+
+/* This method is intended to be called by the device to notify the GUI application 
+   about a particular system event. */
+void ApplicationClasse_THD_S_Trigger( ApplicationClasse _this, XString thd_S_text );
+
+/* Wrapper function for the non virtual method : 'Application::Classe.THD_S_Trigger()' */
+void ApplicationClasse__THD_S_Trigger( void* _this, XString thd_S_text );
+
+/* The following define announces the presence of the method Application::Classe.THD_S_Trigger(). */
+#define _ApplicationClasse__THD_S_Trigger_
+
+/* This method is intended to be called by the device to notify the GUI application 
+   about a particular system event. */
+void ApplicationClasse_THD_T_Trigger( ApplicationClasse _this, XString thd_T_text );
+
+/* Wrapper function for the non virtual method : 'Application::Classe.THD_T_Trigger()' */
+void ApplicationClasse__THD_T_Trigger( void* _this, XString thd_T_text );
+
+/* The following define announces the presence of the method Application::Classe.THD_T_Trigger(). */
+#define _ApplicationClasse__THD_T_Trigger_
+
+/* 'C' function for method : 'Application::Classe.getTHD_R()' */
+XFloat ApplicationClasse_getTHD_R( ApplicationClasse _this );
+
+/* 'C' function for method : 'Application::Classe.getTHD_S()' */
+XFloat ApplicationClasse_getTHD_S( ApplicationClasse _this );
+
+/* 'C' function for method : 'Application::Classe.getTHD_T()' */
+XFloat ApplicationClasse_getTHD_T( ApplicationClasse _this );
 
 #ifdef __cplusplus
   }

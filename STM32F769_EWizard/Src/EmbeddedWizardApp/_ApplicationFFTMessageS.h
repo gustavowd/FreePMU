@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _CoreLayoutContext_H
-#define _CoreLayoutContext_H
+#ifndef _ApplicationFFTMessageS_H
+#define _ApplicationFFTMessageS_H
 
 #ifdef __cplusplus
   extern "C"
@@ -42,35 +42,30 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-/* Forward declaration of the class Core::LayoutContext */
-#ifndef _CoreLayoutContext_
-  EW_DECLARE_CLASS( CoreLayoutContext )
-#define _CoreLayoutContext_
-#endif
-
-/* Forward declaration of the class Core::Outline */
-#ifndef _CoreOutline_
-  EW_DECLARE_CLASS( CoreOutline )
-#define _CoreOutline_
+/* Forward declaration of the class Application::FFTMessageS */
+#ifndef _ApplicationFFTMessageS_
+  EW_DECLARE_CLASS( ApplicationFFTMessageS )
+#define _ApplicationFFTMessageS_
 #endif
 
 
-/* Deklaration of class : 'Core::LayoutContext' */
-EW_DEFINE_FIELDS( CoreLayoutContext, XObject )
-  EW_VARIABLE( extent,          XRect )
-  EW_VARIABLE( bounds,          XRect )
-  EW_VARIABLE( outline,         CoreOutline )
-  EW_VARIABLE( isEmpty,         XBool )
-EW_END_OF_FIELDS( CoreLayoutContext )
+/* Deklaration of class : 'Application::FFTMessageS' */
+EW_DEFINE_FIELDS( ApplicationFFTMessageS, XObject )
+  EW_PROPERTY( THD_S_text,      XString )
+EW_END_OF_FIELDS( ApplicationFFTMessageS )
 
-/* Virtual Method Table (VMT) for the class : 'Core::LayoutContext' */
-EW_DEFINE_METHODS( CoreLayoutContext, XObject )
-EW_END_OF_METHODS( CoreLayoutContext )
+/* Virtual Method Table (VMT) for the class : 'Application::FFTMessageS' */
+EW_DEFINE_METHODS( ApplicationFFTMessageS, XObject )
+EW_END_OF_METHODS( ApplicationFFTMessageS )
+
+/* 'C' function for method : 'Application::FFTMessageS.OnSetTHD_S_text()' */
+void ApplicationFFTMessageS_OnSetTHD_S_text( ApplicationFFTMessageS _this, XString 
+  value );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _CoreLayoutContext_H */
+#endif /* _ApplicationFFTMessageS_H */
 
 /* Embedded Wizard */

@@ -45,6 +45,7 @@
 #include "_ApplicationFFT.h"
 #include "_ApplicationModifiedButton.h"
 #include "_ChartsGraph.h"
+#include "_CoreSystemEventHandler.h"
 #include "_CoreTimer.h"
 #include "_ViewsBorder.h"
 #include "_ViewsLine.h"
@@ -101,11 +102,29 @@
 
 /* Deklaration of class variant : 'Application::FFT769' */
 EW_DEFINE_VFIELDS( ApplicationFFT769, XObjectVariant, ApplicationFFT )
+  EW_OBJECT  ( val_m_76,        ViewsText )
+  EW_OBJECT  ( val_m_78,        ViewsText )
+  EW_OBJECT  ( val_m_80,        ViewsText )
+  EW_OBJECT  ( THD_R_Message_Handler, CoreSystemEventHandler )
+  EW_OBJECT  ( THD_S_Message_Handler, CoreSystemEventHandler )
+  EW_OBJECT  ( THD_T_Message_Handler, CoreSystemEventHandler )
 EW_END_OF_VFIELDS( ApplicationFFT769 )
 
 /* Virtual Method Table (VMT) for the class variant : 'Application::FFT769' */
 EW_DEFINE_VMETHODS( ApplicationFFT769, XObjectVariant, ApplicationFFT )
 EW_END_OF_VMETHODS( ApplicationFFT769 )
+
+/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
+   receives an event. */
+void ApplicationFFT769_THD_R_Message( ApplicationFFT _this, XObject sender );
+
+/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
+   receives an event. */
+void ApplicationFFT769_THD_S_Message( ApplicationFFT _this, XObject sender );
+
+/* This slot method is executed when the associated system event handler 'SystemEventHandler' 
+   receives an event. */
+void ApplicationFFT769_THD_T_Message( ApplicationFFT _this, XObject sender );
 
 #ifdef __cplusplus
   }

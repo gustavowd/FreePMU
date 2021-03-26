@@ -124,6 +124,9 @@ EW_DEFINE_FIELDS( ApplicationFFT, CoreGroup )
   EW_OBJECT  ( botao_S,         ApplicationModifiedButton )
   EW_OBJECT  ( botao_T,         ApplicationModifiedButton )
   EW_VARIABLE( faseAtual,       XInt32 )
+  EW_OBJECT  ( val_THD_R,       ViewsText )
+  EW_OBJECT  ( val_THD_S,       ViewsText )
+  EW_OBJECT  ( val_THD_T,       ViewsText )
 EW_END_OF_FIELDS( ApplicationFFT )
 
 /* Virtual Method Table (VMT) for the class : 'Application::FFT' */
@@ -196,6 +199,10 @@ void ApplicationFFT_atualizaFFT( ApplicationFFT _this, XObject sender );
 
 /* 'C' function for method : 'Application::FFT.acaoBotao()' */
 void ApplicationFFT_acaoBotao( ApplicationFFT _this, XObject sender );
+
+/* 'C' function for method : 'Application::FFT.float2String()' */
+XString ApplicationFFT_float2String( ApplicationFFT _this, XFloat numero, XInt32 
+  casas );
 
 #ifdef __cplusplus
   }
