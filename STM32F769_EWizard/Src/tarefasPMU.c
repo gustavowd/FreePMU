@@ -355,15 +355,18 @@ void PMU_Task(void const * argument)
 		float tmp_THD_T = 0.0;
 		for(k=0;k<15;k++){
 			harmonics_R_mag[k] = FasesAC_mod_R[k+2];
-			harmonics_R_phase[k] = atan2(FasesAC_ReIm_R[2*k+5],FasesAC_ReIm_R[2*k+4])*180/M_PI;
+			// Calcula fase em radianos das harmônicas da fase R
+			harmonics_R_phase[k] = atan2(FasesAC_ReIm_R[2*k+5],FasesAC_ReIm_R[2*k+4]);//*180/M_PI;
 			tmp_THD_R += harmonics_R_mag[k]*harmonics_R_mag[k];
 
 			harmonics_S_mag[k] = FasesAC_mod_S[k+2];
-			harmonics_S_phase[k] = atan2(FasesAC_ReIm_S[2*k+5],FasesAC_ReIm_S[2*k+4])*180/M_PI;
+			// Calcula fase em radianos das harmônicas da fase S
+			harmonics_S_phase[k] = atan2(FasesAC_ReIm_S[2*k+5],FasesAC_ReIm_S[2*k+4]);//*180/M_PI;
 			tmp_THD_S += harmonics_S_mag[k]*harmonics_S_mag[k];
 
 			harmonics_T_mag[k] = FasesAC_mod_T[k+2];
-			harmonics_T_phase[k] = atan2(FasesAC_ReIm_T[2*k+5],FasesAC_ReIm_T[2*k+4])*180/M_PI;
+			// Calcula fase em radianos das harmônicas da fase T
+			harmonics_T_phase[k] = atan2(FasesAC_ReIm_T[2*k+5],FasesAC_ReIm_T[2*k+4]);//*180/M_PI;
 			tmp_THD_T += harmonics_T_mag[k]*harmonics_T_mag[k];
 			// calibração de fase das harmônicas ???
 			//harmonics_phase[k] = harmonics_phase[k] - CalibHarmonicas_phase[k];
@@ -723,7 +726,7 @@ void GPS_Task(void const * argument)
 		char* str = strtok(dado_gps, ",");
 
 		/*Verifica se chegou informações de Data e Hora*/
-		if (strcmp(str, "GPRMC") != 0){
+		if (strcmp(str, "GPRMC\0") != 0){
 			substring = 10; /*Se a mensagem recebida não for correta*/
 		}
 
@@ -772,9 +775,8 @@ void GPS_Task(void const * argument)
 		}else{
 			// Procura por mensagem UBX, caso não seja mensagem NMEA GPRMC
 			// Determina se a mensagem é UBX,04
-			if (strcmp(str, "PUBX") == 0){
+			if (strcmp(str, "PUBX\0") == 0){
 				// Testa se a mensagem é do tipo 4
-				//if (dado_gps[6] == '4'){
 				if (dado_gps[6] == '4'){
 					//Extrai a informação: segundos na semana
 					str = strtok(NULL, ",");
