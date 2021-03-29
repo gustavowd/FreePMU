@@ -744,7 +744,8 @@ void GPS_Task(void const * argument)
 					t.tm_sec += (*str++ - 48);
 					hora_calc = 1;
 				}else if (substring ==2 && *str != ','){
-					if (*str++ == 'A')
+                    //Não precisa de dados válidos para data e hora
+					//if (*str++ == 'A')
 						valid_data=1;
 				}
 				else if (substring == 9 && *str != ','){
