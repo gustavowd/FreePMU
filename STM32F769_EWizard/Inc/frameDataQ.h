@@ -27,13 +27,13 @@ struct frameDataQueue {
 };
 
 /* Cria um novo elemento. */
-struct frameDataElement* newElement (unsigned char* newUcData);
+struct frameDataElement* newElement (unsigned char* newUcData, uint16_t size);
 
 /* Cria uma fila vazia. */
 struct frameDataQueue* createFDQueue ();
 
 /* Enfila o elemento. */
-void insertQueueElement (struct frameDataQueue* q, unsigned char* newUcData);
+void insertQueueElement (struct frameDataQueue* q, unsigned char* newUcData, uint16_t size);
 
 /* Desenfila o elemento e retorna a struct. */
 struct frameDataElement* removeQueueElement (struct frameDataQueue* q);

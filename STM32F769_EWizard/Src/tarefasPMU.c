@@ -1059,7 +1059,7 @@ int frame_data(uint16_t *size){
 			 *
 			 *  Lembrando que a funcao changeSOC retorna o numero de elementos
 			 *  da fila, por isso se encontra em um return. */
-			insertQueueElement(qUcData, ucData);
+			insertQueueElement(qUcData, ucData, i);
 			return changeSOC(qUcData, SOC, *size);
 		}
 	}
@@ -1074,7 +1074,17 @@ int frame_data(uint16_t *size){
 			FracSec += FRACAO_DE_SEGUNDO;
 		}
 		#endif
-		insertQueueElement(qUcData, ucData);
+		// Proteção contra estouro de memória quando não recebe newSOCs por mais de 1 segundo
+		if (qUcData->number_elements < 30){
+			insertQueueElement(qUcData, ucData, i);
+		}else{
+			// Esvazia a fila se chegar a 30 pacotes sem newSOC
+			struct frameDataElement* temp = removeQueueElement(qUcData);
+			while (temp != NULL) {
+				vPortFree(temp);
+				temp = removeQueueElement(qUcData);
+			}
+		}
 		return 0;
 	}
 }

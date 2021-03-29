@@ -9,10 +9,9 @@
 #include "frameDataQ.h"
 
 /* Cria um novo elemento. */
-struct frameDataElement* newElement (unsigned char* newUcData) {
+struct frameDataElement* newElement (unsigned char* newUcData, uint16_t size) {
 	struct frameDataElement *temp = (struct frameDataElement*)pvPortMalloc(sizeof(struct frameDataElement));
-	memcpy(temp->ucData, newUcData, 50);
-	//temp->ucData = newUcData;
+	memcpy(temp->ucData, newUcData, size);
 	temp->next = NULL;
 	return temp;
 }
@@ -26,9 +25,9 @@ struct frameDataQueue* createFDQueue () {
 }
 
 /* Enfila o elemento. */
-void insertQueueElement (struct frameDataQueue* q, unsigned char* newUcData) {
+void insertQueueElement (struct frameDataQueue* q, unsigned char* newUcData, uint16_t size) {
 	// Cria o novo elemento
-	struct frameDataElement* temp = newElement(newUcData);
+	struct frameDataElement* temp = newElement(newUcData, size);
 
 	// Se a fila estiver vazia, o novo elemento sera o inicio e o fim da fila
 	if (q->end == NULL) {
