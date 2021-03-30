@@ -884,7 +884,11 @@ uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen)
 }
 
 
+#if (ENABLE_HARMONICS == 1)
 unsigned char ucData[768];
+#else
+unsigned char ucData[128];
+#endif
 unsigned int PmuID = PMUID;			// Identificacao da PMU
 
 
@@ -898,15 +902,24 @@ int frame_data(uint16_t *size){
 
 	uint16_t i=0;
 
+	#if (ENABLE_HARMONICS == 1)
 	memset((void*)ucData, 0, 290);
+	#else
+	memset((void*)ucData, 0, 50);
+	#endif
 
 	// 1. SYNC = Data Message Sync Byte and Frame Type
 	ucData[i++] = A_SYNC_AA;   //0
 	ucData[i++] = A_SYNC_DATA; //1
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
+	#if (ENABLE_HARMONICS == 1)
 	ucData[i++] = (unsigned char)0x01;   //2
 	ucData[i++] = (unsigned char)0x22;   //3
+	#else
+	ucData[i++] = (unsigned char)0x00;   //2
+	ucData[i++] = (unsigned char)0x32;   //3
+	#endif
 
 	// 3. IDCODE = ID da fonte de transmissao
 	ucData[i++] = (unsigned char)((PmuID & 0xFF00) >> 8);   //4
@@ -975,6 +988,7 @@ int frame_data(uint16_t *size){
 	ucData[i++] = convert_float_to_char.byte[1];	//38
 	ucData[i++] = convert_float_to_char.byte[0];	//39
 
+	#if (ENABLE_HARMONICS == 1)
 	for (int j = 0; j<10; j++){
 		convert_float_to_char.pf = harmonics_R_mag[j];
 		ucData[i++] = convert_float_to_char.byte[3];
@@ -1016,7 +1030,7 @@ int frame_data(uint16_t *size){
 		ucData[i++] = convert_float_to_char.byte[1];
 		ucData[i++] = convert_float_to_char.byte[0];
 	}
-
+	#endif
 
 	// 8. FREQ = Desvio de frequencia do nominal, em mHz
 	//Freq_final = (Freq_final - f0)*1000;
@@ -1101,8 +1115,13 @@ int frame_config(uint8_t config){
 	ucData[1] = config;
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
+	#if (ENABLE_HARMONICS == 1)
 	ucData[2] = (unsigned char)0x02;
 	ucData[3] = (unsigned char)0xCA; //
+	#else
+	ucData[2] = (unsigned char)0x00;
+	ucData[3] = (unsigned char)0x72; //
+	#endif
 
 	// 3. IDCODE = ID da fonte de transmissao
 	ucData[4] = (unsigned char)((PmuID & 0xFF00) >> 8);
@@ -1159,8 +1178,11 @@ int frame_config(uint8_t config){
 
 	// 11. PHNMR = Numero de fasores
 	ucData[40] = 0x00;
-	//ucData[41] = 0x03;  // 3 fasores
-	ucData[41] = 0x21;  // 13 fasores
+	#if (ENABLE_HARMONICS == 1)
+	ucData[41] = 0x21;  // 33 fasores
+	#else
+	ucData[41] = 0x03;  // 3 fasores
+	#endif
 
 	// 12. ANNMR = Number of Analog Values
 	ucData[42] = 0x00;
@@ -1185,6 +1207,7 @@ int frame_config(uint8_t config){
 	memcpy(ucData + 78, CHName, 16);
 
 	uint16_t i = 94;
+	#if (ENABLE_HARMONICS == 1)
 	for (int j = 2; j<12; j++){
 		memset(CHName, 0x00, 16);
 		sprintf(CHName, "%d Harmonica R", j);
@@ -1213,6 +1236,24 @@ int frame_config(uint8_t config){
 		ucData[i++] = 0x00;  // ignore
 		ucData[i++] = 0x00;  // ignore
 	}
+	#else
+	// 15.  PHUNIT = fator de conversao pra canais fasoriais
+	// 4 bytes pra cada fasor
+	ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
+	ucData[i++] = 0x00;  // ignore
+	ucData[i++] = 0x00;  // ignore
+	ucData[i++] = 0x00;  // ignore
+
+	ucData[i++] = 0x00;  //
+	ucData[i++] = 0x00;  //
+    ucData[i++] = 0x00;  //
+	ucData[i++] = 0x00;  //
+
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;  //
+	ucData[i++] = 0x00;  //
+	#endif
 
 	// 18. FNOM = Frequencia nominal
 	ucData[i++] = 0x00;
@@ -1245,9 +1286,6 @@ int frame_config(uint8_t config){
 ///////////////// FRAME DE CABECALHO
 int frame_header(void)
 {
-
-	//unsigned char ucData[20];
-
 	// 1. SYNC = Data Message Sync Byte andFrame Type
 	ucData[0] = A_SYNC_AA;
 	ucData[1] = A_SYNC_HDR;

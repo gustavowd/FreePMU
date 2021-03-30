@@ -14,7 +14,11 @@
 /******* Estruturas de dados e funcoes para a fila de ucData *******/
 /* Elemento da fila. */
 struct frameDataElement {
+	#if (ENABLE_HARMONICS == 1)
 	unsigned char ucData[320];
+	#else
+	unsigned char ucData[128];
+	#endif
 	struct frameDataElement *next;
 };
 

@@ -36,7 +36,11 @@
 
 unsigned char cmd;
 volatile unsigned char connected=0;
+#if (ENABLE_HARMONICS == 1)
 extern unsigned char ucData[768];
+#else
+extern unsigned char ucData[128];
+#endif
 extern int frame_data(uint16_t *size);
 extern int frame_config(uint8_t config);
 extern int frame_header(void);

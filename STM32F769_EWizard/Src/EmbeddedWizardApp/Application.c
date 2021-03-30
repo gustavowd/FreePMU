@@ -7068,6 +7068,9 @@ ChartsCoordList ApplicationClasse_getFFT_R( ApplicationClasse _this )
 
     for (i = 0; i < 16; i++) {
       aFFT[i] = FasesAC_mod_R[i];
+      if (aFFT[i] > 0.2){
+    	  aFFT[i] = 0.2;
+      }
     }
   }
   ChartsCoordList_OnSetMaxNoOfItems( cordFFT, 16 );

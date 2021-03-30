@@ -76,6 +76,9 @@
 // Define nominal voltage
 #define NOMINAL_VOLTAGE 127
 
+// Define if harmonics are enable or not
+#define ENABLE_HARMONICS 1
+
 // Define for enabling 4x oversampling
 #define OVERSAMPLING 1
 
