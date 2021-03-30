@@ -3,10 +3,10 @@ $version 1.0
 attr active = Application::Classe;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,6>;
-attr codeInspector = Application::Inline;
-attr codeSelEnd = <16,18>;
-attr codeSelStart = <16,18>;
+attr codeFirstPos = <0,9>;
+attr codeInspector = Application::Classe.getFFT_T;
+attr codeSelEnd = <33,18>;
+attr codeSelStart = <33,18>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;

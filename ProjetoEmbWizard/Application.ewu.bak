@@ -3248,6 +3248,10 @@ inline Inline
   extern float Fase_S_final;
   extern float Fase_T_final;
 
+  extern float THD_R;
+  extern float THD_S;
+  extern float THD_T;
+
   extern float FasesAC_mod_R[50];
   extern float FasesAC_mod_S[50];
   extern float FasesAC_mod_T[50];
@@ -4657,18 +4661,6 @@ vclass FFT769 : Application::FFT
   }
 
   $rect <20,20,160,60>
-  inherited object botao_R
-  {
-    preset Bounds = <610,30,780,100>;
-  }
-
-  $rect <20,20,160,60>
-  inherited object botao_S
-  {
-    preset Bounds = <610,163,780,233>;
-  }
-
-  $rect <20,20,160,60>
   object Views::Text val_m_76
   {
     preset Bounds = <610,107,680,137>;
@@ -4679,9 +4671,9 @@ vclass FFT769 : Application::FFT
   }
 
   $rect <20,20,160,60>
-  inherited object botao_T
+  inherited object botao_R
   {
-    preset Bounds = <610,297,780,367>;
+    preset Bounds = <610,30,780,100>;
   }
 
   $rect <20,20,160,60>
@@ -4695,13 +4687,15 @@ vclass FFT769 : Application::FFT
   }
 
   $rect <20,20,160,60>
-  object Views::Text val_THD_R
+  inherited object botao_S
   {
-    preset Bounds = <680,107,778,137>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "1.0";
-    preset Font = Application::NumbersP;
-    preset Color = Application::cor_R;
+    preset Bounds = <610,163,780,233>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object botao_T
+  {
+    preset Bounds = <610,297,780,367>;
   }
 
   $rect <20,20,160,60>
@@ -4712,6 +4706,16 @@ vclass FFT769 : Application::FFT
     preset String = "THD:";
     preset Font = Application::NumbersP;
     preset Color = Application::cor_T;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text val_THD_R
+  {
+    preset Bounds = <680,107,778,137>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "1.0";
+    preset Font = Application::NumbersP;
+    preset Color = Application::cor_R;
   }
 
   $rect <20,20,160,60>
@@ -4830,10 +4834,10 @@ vclass FFT769 : Application::FFT
     attr Bounds = <1220,200,1720,260>;
   }
 
-  $reorder float2String 6
-  $reorder val_m_76 6
-  $reorder val_m_78 4
-  $reorder val_m_80 2
+  $reorder float2String 9
+  $reorder val_m_76 9
+  $reorder val_m_78 7
+  $reorder val_m_80 4
 }
 
 $rect <230,300,430,340>
