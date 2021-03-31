@@ -1346,11 +1346,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 }
 
 void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName ){
+  xputs("Stack Overflow of task ");
+  xputs(pcTaskName);
+  xputs("\n");
   while(1);
 }
 
 
 void vApplicationMallocFailedHook( void ){
+  xputs( "Malloc failed\n" );
   while(1);
 }
 
