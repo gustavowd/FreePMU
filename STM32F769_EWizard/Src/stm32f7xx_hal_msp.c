@@ -261,7 +261,27 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 
 		  /* USER CODE END TIM8_MspInit 1 */
 	  }
+	  else if(htim_base->Instance==TIM12){
+		  /* USER CODE BEGIN TIM12_MspInit 0 */
 
+		  /* USER CODE END TIM12_MspInit 0 */
+		    /* Peripheral clock enable */
+		    __HAL_RCC_TIM12_CLK_ENABLE();
+
+		    /**TIM12 GPIO Configuration
+		    PB14     ------> TIM12_CH1
+		    */
+		    GPIO_InitStruct.Pin = GPIO_PIN_14;
+		    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+		    GPIO_InitStruct.Pull = GPIO_NOPULL;
+		    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+		    GPIO_InitStruct.Alternate = GPIO_AF9_TIM12;
+		    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+		  /* USER CODE BEGIN TIM12_MspInit 1 */
+
+		  /* USER CODE END TIM12_MspInit 1 */
+	  }
 
 }
 
@@ -285,6 +305,16 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 	    HAL_GPIO_DeInit(GPIOI, GPIO_PIN_3);
 
 	  }
+	else if(htim_base->Instance==TIM12)
+		  {
+		    __HAL_RCC_TIM12_CLK_DISABLE();
+
+		    /**TIM12 GPIO Configuration
+		    PB14     ------> CHANNEL1_PWM
+		    */
+		    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_14);
+
+		  }
 }
 /* USER CODE END 1 */
 

@@ -31,6 +31,9 @@
 extern osMessageQId SerialGPSq;
 
 extern TIM_HandleTypeDef 			 htim1;
+#if (SIMULATED_GPS == 1)
+extern TIM_HandleTypeDef 			htim12;
+#endif
 #ifndef PPS_30_HZ
 extern TIM_HandleTypeDef			 htim8;
 #endif
@@ -51,6 +54,7 @@ void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 
 extern void MX_USART6_UART_Init(void);
 extern unsigned int Get_ADC_Calib (void);
+extern void UARTPutString(uint8_t *string, uint16_t size);
 
 
 //				LEITURA DOS DADOS DO GPS
@@ -59,7 +63,11 @@ int cnt=0; // contador dos separadores (virgulas)
 unsigned int date_limit, tow_limit, wno_limit, size; //delimitadores das informa�oes
 
 char serialGPS_SET = 0;
+#if (SIMULATED_GPS == 1)
+char *dado_gps = "GPRMC,190430,A,4812.3038,S,07330.7690,W,3.7,3.8,090210,13.7,E,D*26\n";
+#else
 char dado_gps[100];	//buffer da mensagem
+#endif
 //char *dado_gps = "PUBX,04,073731.00,091202,1138.00,119,15D,1930035,-2660.664,43,*3C\n";
 //char *dado_gps = "GPRMC,190430,A,4812.3038,S,07330.7690,W,3.7,3.8,090210,13.7,E,D*26\n";
 char ID;			//Proprietary message identifier
@@ -228,6 +236,9 @@ void PMU_Task(void const * argument)
 	  #endif
 
 	  newSOC = 0;
+	#if (SIMULATED_GPS == 1)
+	  HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
+	#endif
 	//////////////////// INICIO DO PROCESSO DE ESTIMACAO
 	while(1){
 		// Espera completar as 768 amostras
@@ -703,6 +714,7 @@ void GPS_Task(void const * argument)
 
 		p = (unsigned char*)&dado_gps;
 
+	#if (SIMULATED_GPS != 1)
 		/*Liga o GPS*/
 		HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_1, GPIO_PIN_SET);
 
@@ -716,12 +728,19 @@ void GPS_Task(void const * argument)
 		   p++;
 		   UARTGetChar(&huart6, (uint8_t*)p, osWaitForever);
 		}while(*p != '\n');
+	#endif
 
 		uint8_t date_calc = 0;
 		uint8_t valid_data = 0;
 		uint8_t hora_calc = 0;
 		uint8_t substring=1;
 		struct tm t;
+
+	#if (SIMULATED_GPS == 1)
+		vTaskDelay(500);
+		UARTPutString(dado_gps, 67);
+		UARTPutString("\r\n", 2);
+	#endif
 
 		char* str = strtok(dado_gps, ",");
 
@@ -773,6 +792,9 @@ void GPS_Task(void const * argument)
 				newSOC = 1;
 				taskEXIT_CRITICAL();
 			}
+		#if (SIMULATED_GPS == 1)
+			vTaskDelay(490);
+		#endif
 		}else{
 			// Procura por mensagem UBX, caso não seja mensagem NMEA GPRMC
 			// Determina se a mensagem é UBX,04

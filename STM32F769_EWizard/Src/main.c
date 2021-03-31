@@ -136,6 +136,9 @@ DMA_HandleTypeDef hdma_adc1;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim8;
+#if (SIMULATED_GPS == 1)
+TIM_HandleTypeDef htim12;
+#endif
 
 RNG_HandleTypeDef RngHandle;
 
@@ -168,6 +171,9 @@ static void MX_TIM1_Init(void);
 #else
 static void MX_TIM1_Init(void);
 static void MX_TIM8_Init(void);
+#endif
+#if (SIMULATED_GPS == 1)
+static void MX_TIM12_Init(void);
 #endif
 void MX_USART6_UART_Init(void);
 void DHCP_Thread(void const * argument);
@@ -414,6 +420,9 @@ int main(void)
 		#else
 		MX_TIM1_Init();
 		MX_TIM8_Init();
+		#endif
+		#if (SIMULATED_GPS == 1)
+		MX_TIM12_Init();
 		#endif
 		RNG_Init();
 		BSP_LED_Init(LED1);
@@ -1078,6 +1087,58 @@ void MX_TIM1_Init(void)
 	  /* Enable the TIM Update interrupt */
 	  //htim8.Instance->DIER |= 0x01;
 
+}
+#endif
+
+#if (SIMULATED_GPS == 1)
+/**
+  * @brief TIM12 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM12_Init(void)
+{
+
+  /* USER CODE BEGIN TIM12_Init 0 */
+
+  /* USER CODE END TIM12_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM12_Init 1 */
+
+  /* USER CODE END TIM12_Init 1 */
+  htim12.Instance = TIM12;
+  htim12.Init.Prescaler = 99;
+  htim12.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim12.Init.Period = 49999;
+  htim12.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim12.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim12) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim12, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim12) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 24999;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim12, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM12_Init 2 */
+
+  /* USER CODE END TIM12_Init 2 */
 }
 #endif
 
