@@ -76,9 +76,15 @@ extern osMutexId guiMut_id;
 /* Private function prototypes -----------------------------------------------*/
 void SERVER_StatusMessage (const char *message);
 void SERVER_ButtonStatus (uint8_t StartButton, uint8_t StopButton);
-extern void pmu_tcp_server(void *pvParameters);
-extern void pmu_tcp_server_out(void *pvParameters);
 /* Private functions ---------------------------------------------------------*/
+
+/*	Fun��o para controlar o estado dos bot�es Iniciar e Parar na interface
+ *  StartButton define o estado do bot�o Iniciar, com valores 0 e 1, desativando e ativando o bot�o, respectivamente
+ 	Idem para StopButton. */
+void SERVER_ButtonStatus (uint8_t StartButton, uint8_t StopButton) {
+	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
+	ApplicationClasse__ChangeBtnState(disp, (XInt32)StartButton, (XInt32)StopButton);
+}
 
 
 /**
@@ -86,36 +92,11 @@ extern void pmu_tcp_server_out(void *pvParameters);
   * @param  None.
   * @retval Audio state.
   */
-osThreadId serverThread_Id = NULL;
-osThreadId serveroutThread_Id = NULL;
+
 void VNC_SERVER_Start (void)
 {
-    if (gnetif.ip_addr.addr == 0){
-    	SERVER_StatusMessage ("Sem conexão com a internet!");
-    }else{
-    	if (!escutando){
-    		//escutando = 1;
-
-    		// Desliga o bot�o de start
-    		SERVER_ButtonStatus (0, 1);
-
-    		// Verifica se a tarefa j� n�o foi criada
-    		if (serverThread_Id == NULL){
-				/* Cria tarefa do DHCP */
-				osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 3072);
-				serverThread_Id = osThreadCreate (osThread(PDCServerTask), NULL);
-
-				/* Cria tarefa do GPS */
-				osThreadDef(ServerOutTask, pmu_tcp_server_out, osPriorityNormal, 0, 2048);
-				serveroutThread_Id = osThreadCreate (osThread(ServerOutTask), NULL);
-    		}else{
-    			// REsume as tarefas do PDC
-    			vTaskResume(serverThread_Id);
-    			vTaskResume(serveroutThread_Id);
-    		}
-    	}
-    }
-
+	// Desliga o bot�o de start
+	SERVER_ButtonStatus (0, 1);
 }
 
 /**
@@ -125,17 +106,8 @@ void VNC_SERVER_Start (void)
   */
 void VNC_SERVER_Stop (void)
 {
-	escutando = 0;
-
 	// Desliga o bot�o de stop e liga o bot�o start
 	SERVER_ButtonStatus (1, 0);
-
-	if (serverThread_Id != NULL){
-		// Suspende as tarefas do PDC
-		vTaskSuspend(serveroutThread_Id);
-		vTaskSuspend(serverThread_Id);
-	}
-
 }
 
 /**
@@ -178,13 +150,7 @@ void  VNC_SetLockState(uint8_t LockState)
   VNC_LockState = LockState;
 }
 
-void SERVER_StatusMessage (const char *message) {
-	osMutexWait(guiMut_id,osWaitForever);
-	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
-	XString m = EwNewStringAnsi(message);
-	ApplicationClasse__StatusTrigger(disp, m);
-	osMutexRelease(guiMut_id);
-}
+
 
 
 

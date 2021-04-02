@@ -82,10 +82,9 @@ reboot_server:
 	int on = 1;
 	if (sockfd < 0) {
 		//erro
-		SERVER_StatusMessage ("Erro no servidor");
-		while(1){
-			osDelay(1000);
-		}
+		SERVER_StatusMessage ("Erro ao criar socket!");
+		osDelay(5000);
+		goto reboot_server;
 	}
 
 	int status = lwip_setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR, (const char *) &on, sizeof(on));
@@ -103,10 +102,9 @@ reboot_server:
 	if (lwip_bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0){
 		//erro
 		lwip_close(sockfd);
-		while(1){
-			SERVER_StatusMessage ("Erro no servidor");
-			osDelay(1000);
-		}
+		SERVER_StatusMessage ("Erro no bind do servidor!");
+		osDelay(5000);
+		goto reboot_server;
 	}
 	/* Now start listening for the clients, here
 	 * process will go in sleep mode and will wait
@@ -114,10 +112,8 @@ reboot_server:
 	 */
 	if ( lwip_listen(sockfd, 5) != 0 ){
 		lwip_close(sockfd);
-		while(1){
-			SERVER_StatusMessage ("Erro no servidor");
-			osDelay(1000);
-		}
+		SERVER_StatusMessage ("Erro ao escutar a porta 4712!");
+		osDelay(5000);
 	}
 
 	clilen = sizeof(cli_addr);

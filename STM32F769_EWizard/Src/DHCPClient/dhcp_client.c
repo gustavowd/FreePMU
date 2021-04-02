@@ -37,14 +37,19 @@ void SERVER_LogMessage (const char *message) {
 	osMutexRelease(guiMut_id);
 }
 
-/*	Fun��o para controlar o estado dos bot�es Iniciar e Parar na interface
- *  StartButton define o estado do bot�o Iniciar, com valores 0 e 1, desativando e ativando o bot�o, respectivamente
- 	Idem para StopButton. */
-void SERVER_ButtonStatus (uint8_t StartButton, uint8_t StopButton) {
+void SERVER_StatusMessage (const char *message) {
+	osMutexWait(guiMut_id,osWaitForever);
 	ApplicationClasse disp = EwGetAutoObject(&ApplicationAutoobjeto, ApplicationClasse);
-	ApplicationClasse__ChangeBtnState(disp, (XInt32)StartButton, (XInt32)StopButton);
+	XString m = EwNewStringAnsi(message);
+	ApplicationClasse__StatusTrigger(disp, m);
+	osMutexRelease(guiMut_id);
 }
 
+
+extern void pmu_tcp_server(void const * argument);
+extern void pmu_tcp_server_out(void const * argument);
+osThreadId serverThread_Id = NULL;
+osThreadId serveroutThread_Id = NULL;
 
 /**
   * @brief  Initializes the lwIP stack
@@ -88,18 +93,6 @@ static void Netif_Config(void)
   /*  Registers the default network interface. */
   netif_set_default(&gnetif);
 
-#if 0
-  if (netif_is_link_up(&gnetif))
-  {
-    /* When the netif is fully configured this function must be called.*/
-    netif_set_up(&gnetif);
-  }
-  else
-  {
-    /* When the netif link is down this function must be called */
-    netif_set_down(&gnetif);
-  }
-#endif
   /* When the netif is fully configured this function must be called.*/
   netif_set_up(&gnetif);
 }
@@ -112,27 +105,31 @@ void DHCP_Thread(void const * argument) {
 	static int first_connection = 1;
 	if(VNC_DHCP_Semaphore == NULL) VNC_DHCP_Semaphore= xSemaphoreCreateBinary();
 
+	// Aguarda a tarefa do LCD subir
+	vTaskDelay(2500);
+
 #ifdef DHCP_ENABLE
     while(1) {
     	switch(DHCP_State) {
     	case DHCP_IFDOWN:
+    	    SERVER_LogMessage ("Iniciando a interface de rede");
+    	    SERVER_StatusMessage ("Esperando acesso a rede");
+
     	    /* Create tcp_ip stack thread */
     	    tcpip_init(NULL, NULL);
 
     	    /* Initialize the LwIP stack */
     	    Netif_Config();
 
-    	    SERVER_LogMessage ("Iniciando...");
-
-    	    /* Check connection */
-    	    //if (netif_is_up(&gnetif)) {
     	    DHCP_State = DHCP_CABLE_DISCONNECTED;
-    	    //}
     		break;
     	case DHCP_CABLE_DISCONNECTED:
     		HAL_ETH_ReadPHYRegister(&EthHandle, PHY_BSR, &phyreg);
     		if (phyreg & PHY_AUTONEGO_COMPLETE) {
     			DHCP_State = DHCP_CABLE_CONNECTED;
+    		}else{
+    			SERVER_LogMessage ("Cabo desconectado!");
+    			vTaskDelay(1000);
     		}
     		break;
     	case DHCP_CABLE_CONNECTED:
@@ -162,6 +159,14 @@ void DHCP_Thread(void const * argument) {
 
     			if (first_connection){
     				first_connection = 0;
+
+    				/* Cria tarefa do servidor TCP/UDP */
+    				osThreadDef(PDCServerTask, pmu_tcp_server, osPriorityNormal, 0, 3072);
+    				serverThread_Id = osThreadCreate (osThread(PDCServerTask), NULL);
+
+    				/* Cria tarefa que envia os pacotes de dados para o PDC */
+    				osThreadDef(ServerOutTask, pmu_tcp_server_out, osPriorityNormal, 0, 2048);
+    				serveroutThread_Id = osThreadCreate (osThread(ServerOutTask), NULL);
     			}
     			// TODO: link is up
     		} else {
