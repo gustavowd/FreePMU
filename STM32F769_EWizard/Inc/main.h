@@ -85,6 +85,9 @@
 // Define for GPS 30 Hz PPS
 #define PPS_30_HZ
 
+// Define for GPS baudrate
+#define GPS_BAUDRATE 115200
+
 // Set this define to 1 for simulate GPS time stamp and PPS
 #define SIMULATED_GPS 0
 
