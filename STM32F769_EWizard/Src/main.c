@@ -432,7 +432,7 @@ int main(void)
 		guiMut_id = osMutexCreate(osMutex(guiMut));
 
 		/* Cria tarefa do DHCP */
-		osThreadDef(dhcpTask, DHCP_Thread, osPriorityHigh, 0, 2048);
+		osThreadDef(dhcpTask, DHCP_Thread, osPriorityAboveNormal, 0, 2048);
 		dhcpThread_Id = osThreadCreate (osThread(dhcpTask), NULL);
 
 		/* Cria tarefa do GPS */
