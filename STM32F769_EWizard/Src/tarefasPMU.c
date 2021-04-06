@@ -43,6 +43,7 @@ extern UART_HandleTypeDef 			 huart6;
 volatile uint8_t newSOC = 0;
 #ifdef PPS_30_HZ
 volatile int frame_cnt = 0;
+volatile int frame_cnt_3 = 0;
 #endif
 
 unsigned short adcBuffer[numero_pontos*3] __attribute__((section(".ADCBUF")));
@@ -673,13 +674,26 @@ void PMU_Task(void const * argument)
 				taskEXIT_CRITICAL();
 			}
 		}else{
+			taskENTER_CRITICAL();
+			newSOC = 0;
 			FracSec = FRACAO_DE_SEGUNDO_INIT;
+			taskEXIT_CRITICAL();
 		}
 
 		frame_cnt++;
 		if (frame_cnt >= (NOMINAL_FREQ/2)){
 			frame_cnt = 0;
 		}
+	#if (NOMINAL_FREQ == 60)
+		// Arredonda o framesec a cada 3 fasores (framesec 100, 200, 300, ..., 900)
+		if (FracSec != 0){
+			frame_cnt_3++;
+			if (frame_cnt_3 == 3){
+				frame_cnt_3 = 0;
+				FracSec++;
+			}
+		}
+	#endif
 	#endif
 
 		if((isSyncCreated == 1) && (data_flag)){
@@ -889,7 +903,7 @@ uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen)
 	uint16_t crc=0xFFFF;
 	uint16_t temp;
 	uint16_t quick;
-	int i;
+	uint16_t i;
 
 	for(i=0;i<MessLen;i++)
 	{
@@ -1097,7 +1111,7 @@ int frame_data(uint16_t *size){
 			 *  Lembrando que a funcao changeSOC retorna o numero de elementos
 			 *  da fila, por isso se encontra em um return. */
 			insertQueueElement(qUcData, ucData, i);
-			return changeSOC(qUcData, SOC, *size);
+			return changeSOC(qUcData, SOC, i);
 		}
 	}
 	else {   /* Nao ha SOC calculado, guarda na fila e retorna 0, nada para ser enviado*/

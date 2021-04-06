@@ -92,7 +92,7 @@
 #define FRACAO_DE_SEGUNDO_INIT 0
 #if (NOMINAL_FREQ == 60)
 #define FRACAO_DE_SEGUNDO 0x00008235  //Fração de segundo 0,03333
-#define LIMITE_FRACAO_DE_SEGUNDO 0xEC001
+#define LIMITE_FRACAO_DE_SEGUNDO 0xEC00B
 #endif
 #if (NOMINAL_FREQ == 50)
 #define FRACAO_DE_SEGUNDO 0x00009C40  // Fração de segundo = 0,04
