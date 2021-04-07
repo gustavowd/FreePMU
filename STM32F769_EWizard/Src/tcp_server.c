@@ -37,7 +37,7 @@
 unsigned char cmd;
 volatile unsigned char connected=0;
 #if (ENABLE_HARMONICS == 1)
-extern unsigned char ucData[768];
+extern unsigned char ucData[832];
 #else
 extern unsigned char ucData[128];
 #endif
@@ -318,7 +318,6 @@ void pmu_tcp_server_out(void const * argument)
 					temp = removeQueueElement(qUcData);
 				}
 			}
-
 			osMutexRelease(ethMut_id);
 
 		}else{

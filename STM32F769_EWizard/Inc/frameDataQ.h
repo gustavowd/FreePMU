@@ -15,11 +15,7 @@
 /* Elemento da fila. */
 struct frameDataElement {
 	#if (ENABLE_HARMONICS == 1)
-	#if (OPENPDC_COMPATIBILITY == 1)
-	unsigned char ucData[132];
-	#else
 	unsigned char ucData[320];
-	#endif
 	#else
 	unsigned char ucData[128];
 	#endif

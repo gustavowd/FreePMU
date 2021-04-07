@@ -922,7 +922,7 @@ uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen)
 
 
 #if (ENABLE_HARMONICS == 1)
-unsigned char ucData[768];
+unsigned char ucData[832];
 #else
 unsigned char ucData[128];
 #endif
@@ -940,11 +940,7 @@ int frame_data(uint16_t *size){
 	uint16_t i=0;
 
 	#if (ENABLE_HARMONICS == 1)
-	#if (OPENPDC_COMPATIBILITY == 1)
-	memset((void*)ucData, 0, 130);
-	#else
-	memset((void*)ucData, 0, 290);
-	#endif
+	memset((void*)ucData, 0, 320);
 	#else
 	memset((void*)ucData, 0, 50);
 	#endif
@@ -955,13 +951,8 @@ int frame_data(uint16_t *size){
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
 	#if (ENABLE_HARMONICS == 1)
-	#if (OPENPDC_COMPATIBILITY == 1)
-	ucData[i++] = (unsigned char)0x00;   //2
-	ucData[i++] = (unsigned char)0x82;   //3
-	#else
 	ucData[i++] = (unsigned char)0x01;   //2
-	ucData[i++] = (unsigned char)0x22;   //3
-	#endif
+	ucData[i++] = (unsigned char)0x40;   //3
 	#else
 	ucData[i++] = (unsigned char)0x00;   //2
 	ucData[i++] = (unsigned char)0x32;   //3
@@ -1034,7 +1025,32 @@ int frame_data(uint16_t *size){
 	ucData[i++] = convert_float_to_char.byte[1];	//38
 	ucData[i++] = convert_float_to_char.byte[0];	//39
 
-	#if (ENABLE_HARMONICS == 1)
+	// 8. FREQ = Desvio de frequencia do nominal, em mHz
+	//Freq_final = (Freq_final - f0)*1000;
+
+	convert_float_to_char.pf = (Freq_final);
+	ucData[i++] = convert_float_to_char.byte[3];	//80
+	ucData[i++] = convert_float_to_char.byte[2];	//81
+	ucData[i++] = convert_float_to_char.byte[1];	//82
+	ucData[i++] = convert_float_to_char.byte[0];	//83
+
+	// 9. DFREQ = ROCOF in Hz/s "times 100"
+	//ROCOF = ROCOF*100;
+
+	convert_float_to_char.pf = (media_rocof*100);
+	ucData[i++] = convert_float_to_char.byte[3];	//84
+	ucData[i++] = convert_float_to_char.byte[2];	//85
+	ucData[i++] = convert_float_to_char.byte[1];	//86
+	ucData[i++] = convert_float_to_char.byte[0];	//87
+
+
+#if (ENABLE_HARMONICS == 1)
+	// Phase R
+	// 6. STAT = Flags, a criterio do usuario
+	ucData[i++] = 0x00;   //14
+	ucData[i++] = 0x00;   //15
+
+	// 7. PHASORS
 	for (int j = 0; j<10; j++){
 		convert_float_to_char.pf = harmonics_R_mag[j];
 		ucData[i++] = convert_float_to_char.byte[3];
@@ -1048,37 +1064,6 @@ int frame_data(uint16_t *size){
 		ucData[i++] = convert_float_to_char.byte[1];
 		ucData[i++] = convert_float_to_char.byte[0];
 	}
-
-	#if (OPENPDC_COMPATIBILITY != 1)
-	for (int j = 0; j<10; j++){
-		convert_float_to_char.pf = harmonics_S_mag[j];
-		ucData[i++] = convert_float_to_char.byte[3];
-		ucData[i++] = convert_float_to_char.byte[2];
-		ucData[i++] = convert_float_to_char.byte[1];
-		ucData[i++] = convert_float_to_char.byte[0];
-
-		convert_float_to_char.pf = harmonics_S_phase[j];
-		ucData[i++] = convert_float_to_char.byte[3];
-		ucData[i++] = convert_float_to_char.byte[2];
-		ucData[i++] = convert_float_to_char.byte[1];
-		ucData[i++] = convert_float_to_char.byte[0];
-	}
-
-	for (int j = 0; j<10; j++){
-		convert_float_to_char.pf = harmonics_T_mag[j];
-		ucData[i++] = convert_float_to_char.byte[3];
-		ucData[i++] = convert_float_to_char.byte[2];
-		ucData[i++] = convert_float_to_char.byte[1];
-		ucData[i++] = convert_float_to_char.byte[0];
-
-		convert_float_to_char.pf = harmonics_T_phase[j];
-		ucData[i++] = convert_float_to_char.byte[3];
-		ucData[i++] = convert_float_to_char.byte[2];
-		ucData[i++] = convert_float_to_char.byte[1];
-		ucData[i++] = convert_float_to_char.byte[0];
-	}
-	#endif
-	#endif
 
 	// 8. FREQ = Desvio de frequencia do nominal, em mHz
 	//Freq_final = (Freq_final - f0)*1000;
@@ -1097,6 +1082,83 @@ int frame_data(uint16_t *size){
 	ucData[i++] = convert_float_to_char.byte[2];	//85
 	ucData[i++] = convert_float_to_char.byte[1];	//86
 	ucData[i++] = convert_float_to_char.byte[0];	//87
+
+	// Phase S
+	// 6. STAT = Flags, a criterio do usuario
+	ucData[i++] = 0x00;   //14
+	ucData[i++] = 0x00;   //15
+
+	// 7. PHASORS
+	for (int j = 0; j<10; j++){
+		convert_float_to_char.pf = harmonics_S_mag[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+
+		convert_float_to_char.pf = harmonics_S_phase[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+	}
+
+	// 8. FREQ = Desvio de frequencia do nominal, em mHz
+	//Freq_final = (Freq_final - f0)*1000;
+
+	convert_float_to_char.pf = (Freq_final);
+	ucData[i++] = convert_float_to_char.byte[3];	//80
+	ucData[i++] = convert_float_to_char.byte[2];	//81
+	ucData[i++] = convert_float_to_char.byte[1];	//82
+	ucData[i++] = convert_float_to_char.byte[0];	//83
+
+	// 9. DFREQ = ROCOF in Hz/s "times 100"
+	//ROCOF = ROCOF*100;
+
+	convert_float_to_char.pf = (media_rocof*100);
+	ucData[i++] = convert_float_to_char.byte[3];	//84
+	ucData[i++] = convert_float_to_char.byte[2];	//85
+	ucData[i++] = convert_float_to_char.byte[1];	//86
+	ucData[i++] = convert_float_to_char.byte[0];	//87
+
+	// Phase T
+	// 6. STAT = Flags, a criterio do usuario
+	ucData[i++] = 0x00;   //14
+	ucData[i++] = 0x00;   //15
+
+	// 7. PHASORS
+	for (int j = 0; j<10; j++){
+		convert_float_to_char.pf = harmonics_T_mag[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+
+		convert_float_to_char.pf = harmonics_T_phase[j];
+		ucData[i++] = convert_float_to_char.byte[3];
+		ucData[i++] = convert_float_to_char.byte[2];
+		ucData[i++] = convert_float_to_char.byte[1];
+		ucData[i++] = convert_float_to_char.byte[0];
+	}
+
+	// 8. FREQ = Desvio de frequencia do nominal, em mHz
+	//Freq_final = (Freq_final - f0)*1000;
+
+	convert_float_to_char.pf = (Freq_final);
+	ucData[i++] = convert_float_to_char.byte[3];	//80
+	ucData[i++] = convert_float_to_char.byte[2];	//81
+	ucData[i++] = convert_float_to_char.byte[1];	//82
+	ucData[i++] = convert_float_to_char.byte[0];	//83
+
+	// 9. DFREQ = ROCOF in Hz/s "times 100"
+	//ROCOF = ROCOF*100;
+
+	convert_float_to_char.pf = (media_rocof*100);
+	ucData[i++] = convert_float_to_char.byte[3];	//84
+	ucData[i++] = convert_float_to_char.byte[2];	//85
+	ucData[i++] = convert_float_to_char.byte[1];	//86
+	ucData[i++] = convert_float_to_char.byte[0];	//87
+#endif
 
 	// 12. CRC-CCITT = Cyclic Redundancy Codes (CRC)
 	CRC_CCITT = ComputeCRC(ucData, i);
@@ -1164,13 +1226,8 @@ int frame_config(uint8_t config){
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
 	#if (ENABLE_HARMONICS == 1)
-	#if (OPENPDC_COMPATIBILITY == 1)
-	ucData[2] = (unsigned char)0x01;
-	ucData[3] = (unsigned char)0x3A; //
-	#else
-	ucData[2] = (unsigned char)0x02;
-	ucData[3] = (unsigned char)0xCA; //
-	#endif
+	ucData[2] = (unsigned char)0x03;
+	ucData[3] = (unsigned char)0x24; //
 	#else
 	ucData[2] = (unsigned char)0x00;
 	ucData[3] = (unsigned char)0x72; //
@@ -1199,11 +1256,15 @@ int frame_config(uint8_t config){
 	ucData[17] = (unsigned char)(Time_base & 0x000000FF);
 
 	// 7. NUM_PMU = numero de PMUs inclusas no frame de dados
+	#if (ENABLE_HARMONICS == 1)
+	ucData[18] = 0x00;
+	ucData[19] = 0x04;
+	#else
 	ucData[18] = 0x00;
 	ucData[19] = 0x01;
+	#endif
 
 	// 8. STN = Nome da estacao
-	//Exemplo: "Station A" = 53 74 61 74 69 6F 6E 20 41 20 20 20 20 20 20 20
 	ucData[20] = 'F';
 	ucData[21] = 'r';
 	ucData[22] = 'e';
@@ -1213,12 +1274,12 @@ int frame_config(uint8_t config){
 	ucData[26] = 'M';
 	ucData[27] = 'U';
 	ucData[28] = ' ';
-	ucData[29] = 48 + PmuID;
-	ucData[30] = 0x20;
-	ucData[31] = 0x20;
-	ucData[32] = 0x20;
-	ucData[33] = 0x20;
-	ucData[34] = 0x20;
+	ucData[29] = 48 + (PmuID/10);
+	ucData[30] = 48 + PmuID;
+	ucData[31] = ' ';
+	ucData[32] = 'R';
+	ucData[33] = 'S';
+	ucData[34] = 'T';
 	ucData[35] = 0x20;
 
 	// 9. IDCODE = uma PMU, nesse caso igual ao campo 3
@@ -1231,15 +1292,7 @@ int frame_config(uint8_t config){
 
 	// 11. PHNMR = Numero de fasores
 	ucData[40] = 0x00;
-	#if (ENABLE_HARMONICS == 1)
-	#if (OPENPDC_COMPATIBILITY == 1)
-	ucData[41] = 0x0D;  // 13 fasores
-	#else
-	ucData[41] = 0x21;  // 33 fasores
-	#endif
-	#else
 	ucData[41] = 0x03;  // 3 fasores
-	#endif
 
 	// 12. ANNMR = Number of Analog Values
 	ucData[42] = 0x00;
@@ -1250,57 +1303,20 @@ int frame_config(uint8_t config){
 	ucData[45] = 0x00;
 
 	// 14. CHNAM = Nome de fasores e canais
-
 	memset(CHName, 0x00, 16);
-	strcpy(CHName, "Fase_A");
+	strcpy(CHName, "Phase_R");
 	memcpy(ucData + 46, CHName, 16);
 
 	memset(CHName, 0x00, 16);
-	strcpy(CHName, "Fase_B");
+	strcpy(CHName, "Phase_S");
 	memcpy(ucData + 62, CHName, 16);
 
 	memset(CHName, 0x00, 16);
-	strcpy(CHName, "Fase_C");
+	strcpy(CHName, "Phase_T");
 	memcpy(ucData + 78, CHName, 16);
 
 	uint16_t i = 94;
-	#if (ENABLE_HARMONICS == 1)
-	for (int j = 2; j<12; j++){
-		memset(CHName, 0x00, 16);
-		sprintf(CHName, "%d Harmonica R", j);
-		memcpy(ucData + i, CHName, 16);
-		i += 16;
-	}
 
-	#if (OPENPDC_COMPATIBILITY != 1)
-	for (int j = 2; j<12; j++){
-		memset(CHName, 0x00, 16);
-		sprintf(CHName, "%d Harmonica S", j);
-		memcpy(ucData + i, CHName, 16);
-		i += 16;
-	}
-
-	for (int j = 2; j<12; j++){
-		memset(CHName, 0x00, 16);
-		sprintf(CHName, "%d Harmonica T", j);
-		memcpy(ucData + i, CHName, 16);
-		i += 16;
-	}
-	#endif
-
-	// 15.  PHUNIT = fator de conversao pra canais fasoriais
-	// 4 bytes pra cada fasor
-	#if (OPENPDC_COMPATIBILITY == 1)
-	for (j = 0; j<13; j++){
-	#else
-	for (j = 0; j<33; j++){
-	#endif
-		ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
-		ucData[i++] = 0x00;  // ignore
-		ucData[i++] = 0x00;  // ignore
-		ucData[i++] = 0x00;  // ignore
-	}
-	#else
 	// 15.  PHUNIT = fator de conversao pra canais fasoriais
 	// 4 bytes pra cada fasor
 	ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
@@ -1317,7 +1333,6 @@ int frame_config(uint8_t config){
 	ucData[i++] = 0x00;
 	ucData[i++] = 0x00;  //
 	ucData[i++] = 0x00;  //
-	#endif
 
 	// 18. FNOM = Frequencia nominal
 	ucData[i++] = 0x00;
@@ -1332,12 +1347,231 @@ int frame_config(uint8_t config){
 	ucData[i++] = 0x00;
 	ucData[i++] = 0x00;  //
 
+
+#if (ENABLE_HARMONICS == 1)
+	// Phase R
+	unsigned char pmuid_tmp = PmuID;
+	pmuid_tmp++;
+
+	// 8. STN = Nome da estacao
+	ucData[i++] = 'F';
+	ucData[i++] = 'r';
+	ucData[i++] = 'e';
+	ucData[i++] = 'e';
+	ucData[i++] = ' ';
+	ucData[i++] = 'P';
+	ucData[i++] = 'M';
+	ucData[i++] = 'U';
+	ucData[i++] = ' ';
+	ucData[i++] = 48 + (pmuid_tmp/10);
+	ucData[i++] = 48 + pmuid_tmp;
+	ucData[i++] = ' ';
+	ucData[i++] = 'R';
+	ucData[i++] = 'H';
+	ucData[i++] = ' ';
+	ucData[i++] = ' ';
+
+	// 9. IDCODE = uma PMU, nesse caso igual ao campo 3
+	ucData[i++] = (unsigned char)((pmuid_tmp & 0xFF00) >> 8);
+	ucData[i++] = (unsigned char)(pmuid_tmp & 0x00FF);
+
+	// 10. FORMAT = Formato dos dados nos frames de dados
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x0F;  // 0111b
+
+	// 11. PHNMR = Numero de fasores
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x0A;  // 10 fasores
+
+	// 12. ANNMR = Number of Analog Values
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;  //
+
+	// 13. DGNMR = Number of Digital Status Words
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;
+
+	// 14. CHNAM = Nome de fasores e canais
+	for (int j = 2; j<12; j++){
+		memset(CHName, 0x00, 16);
+		sprintf(CHName, "%d Harmonic R", j);
+		memcpy(ucData + i, CHName, 16);
+		i += 16;
+	}
+
+	// 15.  PHUNIT = fator de conversao pra canais fasoriais
+	// 4 bytes pra cada fasor
+	for (j = 0; j<10; j++){
+		ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+	}
+
+
+	// 18. FNOM = Frequencia nominal
+	ucData[i++] = 0x00;
+
+	if(f0 == 50){
+		ucData[i++] = 0x01; // 1 = 50 Hz
+	 }else{
+		 ucData[i++] = 0x00; // 0 = 60 Hz
+	 }
+
+	// 19. CFGCNT = contador de alteracao da configuracao
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;  //
+
+	// Phase S
+	pmuid_tmp++;
+
+	// 8. STN = Nome da estacao
+	ucData[i++] = 'F';
+	ucData[i++] = 'r';
+	ucData[i++] = 'e';
+	ucData[i++] = 'e';
+	ucData[i++] = ' ';
+	ucData[i++] = 'P';
+	ucData[i++] = 'M';
+	ucData[i++] = 'U';
+	ucData[i++] = ' ';
+	ucData[i++] = 48 + (pmuid_tmp/10);
+	ucData[i++] = 48 + pmuid_tmp;
+	ucData[i++] = ' ';
+	ucData[i++] = 'S';
+	ucData[i++] = 'H';
+	ucData[i++] = ' ';
+	ucData[i++] = ' ';
+
+	// 9. IDCODE = uma PMU, nesse caso igual ao campo 3
+	ucData[i++] = (unsigned char)((pmuid_tmp & 0xFF00) >> 8);
+	ucData[i++] = (unsigned char)(pmuid_tmp & 0x00FF);
+
+	// 10. FORMAT = Formato dos dados nos frames de dados
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x0F;  // 0111b
+
+	// 11. PHNMR = Numero de fasores
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x0A;  // 10 fasores
+
+	// 12. ANNMR = Number of Analog Values
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;  //
+
+	// 13. DGNMR = Number of Digital Status Words
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;
+
+	// 14. CHNAM = Nome de fasores e canais
+	for (int j = 2; j<12; j++){
+		memset(CHName, 0x00, 16);
+		sprintf(CHName, "%d Harmonic S", j);
+		memcpy(ucData + i, CHName, 16);
+		i += 16;
+	}
+
+	// 15.  PHUNIT = fator de conversao pra canais fasoriais
+	// 4 bytes pra cada fasor
+	for (j = 0; j<10; j++){
+		ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+	}
+
+
+	// 18. FNOM = Frequencia nominal
+	ucData[i++] = 0x00;
+
+	if(f0 == 50){
+		ucData[i++] = 0x01; // 1 = 50 Hz
+	 }else{
+		 ucData[i++] = 0x00; // 0 = 60 Hz
+	 }
+
+	// 19. CFGCNT = contador de alteracao da configuracao
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;  //
+
+	// Phase T
+	pmuid_tmp++;
+
+	// 8. STN = Nome da estacao
+	ucData[i++] = 'F';
+	ucData[i++] = 'r';
+	ucData[i++] = 'e';
+	ucData[i++] = 'e';
+	ucData[i++] = ' ';
+	ucData[i++] = 'P';
+	ucData[i++] = 'M';
+	ucData[i++] = 'U';
+	ucData[i++] = ' ';
+	ucData[i++] = 48 + (pmuid_tmp/10);
+	ucData[i++] = 48 + pmuid_tmp;
+	ucData[i++] = ' ';
+	ucData[i++] = 'T';
+	ucData[i++] = 'H';
+	ucData[i++] = ' ';
+	ucData[i++] = ' ';
+
+	// 9. IDCODE = uma PMU, nesse caso igual ao campo 3
+	ucData[i++] = (unsigned char)((pmuid_tmp & 0xFF00) >> 8);
+	ucData[i++] = (unsigned char)(pmuid_tmp & 0x00FF);
+
+	// 10. FORMAT = Formato dos dados nos frames de dados
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x0F;  // 0111b
+
+	// 11. PHNMR = Numero de fasores
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x0A;  // 10 fasores
+
+	// 12. ANNMR = Number of Analog Values
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;  //
+
+	// 13. DGNMR = Number of Digital Status Words
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;
+
+	// 14. CHNAM = Nome de fasores e canais
+	for (int j = 2; j<12; j++){
+		memset(CHName, 0x00, 16);
+		sprintf(CHName, "%d Harmonic T", j);
+		memcpy(ucData + i, CHName, 16);
+		i += 16;
+	}
+
+	// 15.  PHUNIT = fator de conversao pra canais fasoriais
+	// 4 bytes pra cada fasor
+	for (j = 0; j<10; j++){
+		ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+		ucData[i++] = 0x00;  // ignore
+	}
+
+
+	// 18. FNOM = Frequencia nominal
+	ucData[i++] = 0x00;
+
+	if(f0 == 50){
+		ucData[i++] = 0x01; // 1 = 50 Hz
+	 }else{
+		 ucData[i++] = 0x00; // 0 = 60 Hz
+	 }
+
+	// 19. CFGCNT = contador de alteracao da configuracao
+	ucData[i++] = 0x00;
+	ucData[i++] = 0x00;  //
+#endif
+
 	// 20. DATA_RATE = Taxa de transmissao de fasores
 	ucData[i++] = ((fps & 0xFF00) >> 8);
 	ucData[i++] = (fps & 0x00FF);
 
 	//21. CRC-CCITT = Calcula o CRC
-
 	CRC_CCITT = ComputeCRC(ucData, i);
 
 	ucData[i++] = (unsigned char)((CRC_CCITT & 0xFF00) >> 8);
