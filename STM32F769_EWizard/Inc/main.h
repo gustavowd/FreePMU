@@ -91,6 +91,9 @@
 // Set this define to 1 for simulate GPS time stamp and PPS
 #define SIMULATED_GPS 0
 
+// If this define is enable, only sends harmonics of phase R
+#define OPENPDC_COMPATIBILITY 1
+
 // Defines for 50 or 60Hz in the SOC time stamp
 #define FRACAO_DE_SEGUNDO_INIT 0
 #if (NOMINAL_FREQ == 60)

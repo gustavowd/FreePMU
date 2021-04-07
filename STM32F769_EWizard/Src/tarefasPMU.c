@@ -74,7 +74,8 @@ char dado_gps[100];	//buffer da mensagem
 char ID;			//Proprietary message identifier
 char UTC_WNO[5]; 	//UTC week number
 char UTC_TOW[7];	//UTC Time of Week
-unsigned long week_num, sec_of_week, SOC=0;
+unsigned long week_num, sec_of_week;
+unsigned long SOC = 1617793084;
 unsigned long num;
 
 
@@ -939,7 +940,11 @@ int frame_data(uint16_t *size){
 	uint16_t i=0;
 
 	#if (ENABLE_HARMONICS == 1)
+	#if (OPENPDC_COMPATIBILITY == 1)
+	memset((void*)ucData, 0, 130);
+	#else
 	memset((void*)ucData, 0, 290);
+	#endif
 	#else
 	memset((void*)ucData, 0, 50);
 	#endif
@@ -950,8 +955,13 @@ int frame_data(uint16_t *size){
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
 	#if (ENABLE_HARMONICS == 1)
+	#if (OPENPDC_COMPATIBILITY == 1)
+	ucData[i++] = (unsigned char)0x00;   //2
+	ucData[i++] = (unsigned char)0x82;   //3
+	#else
 	ucData[i++] = (unsigned char)0x01;   //2
 	ucData[i++] = (unsigned char)0x22;   //3
+	#endif
 	#else
 	ucData[i++] = (unsigned char)0x00;   //2
 	ucData[i++] = (unsigned char)0x32;   //3
@@ -1039,6 +1049,7 @@ int frame_data(uint16_t *size){
 		ucData[i++] = convert_float_to_char.byte[0];
 	}
 
+	#if (OPENPDC_COMPATIBILITY != 1)
 	for (int j = 0; j<10; j++){
 		convert_float_to_char.pf = harmonics_S_mag[j];
 		ucData[i++] = convert_float_to_char.byte[3];
@@ -1066,6 +1077,7 @@ int frame_data(uint16_t *size){
 		ucData[i++] = convert_float_to_char.byte[1];
 		ucData[i++] = convert_float_to_char.byte[0];
 	}
+	#endif
 	#endif
 
 	// 8. FREQ = Desvio de frequencia do nominal, em mHz
@@ -1152,8 +1164,13 @@ int frame_config(uint8_t config){
 
 	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
 	#if (ENABLE_HARMONICS == 1)
+	#if (OPENPDC_COMPATIBILITY == 1)
+	ucData[2] = (unsigned char)0x01;
+	ucData[3] = (unsigned char)0x3A; //
+	#else
 	ucData[2] = (unsigned char)0x02;
 	ucData[3] = (unsigned char)0xCA; //
+	#endif
 	#else
 	ucData[2] = (unsigned char)0x00;
 	ucData[3] = (unsigned char)0x72; //
@@ -1187,16 +1204,16 @@ int frame_config(uint8_t config){
 
 	// 8. STN = Nome da estacao
 	//Exemplo: "Station A" = 53 74 61 74 69 6F 6E 20 41 20 20 20 20 20 20 20
-	ucData[20] = 0x53;
-	ucData[21] = 0x74;
-	ucData[22] = 0x61;
-	ucData[23] = 0x74;
-	ucData[24] = 0x69;
-	ucData[25] = 0x6F;
-	ucData[26] = 0x6E;
-	ucData[27] = 0x20;
-	ucData[28] = 0x41;
-	ucData[29] = 0x20;
+	ucData[20] = 'F';
+	ucData[21] = 'r';
+	ucData[22] = 'e';
+	ucData[23] = 'e';
+	ucData[24] = ' ';
+	ucData[25] = 'P';
+	ucData[26] = 'M';
+	ucData[27] = 'U';
+	ucData[28] = ' ';
+	ucData[29] = 48 + PmuID;
 	ucData[30] = 0x20;
 	ucData[31] = 0x20;
 	ucData[32] = 0x20;
@@ -1215,7 +1232,11 @@ int frame_config(uint8_t config){
 	// 11. PHNMR = Numero de fasores
 	ucData[40] = 0x00;
 	#if (ENABLE_HARMONICS == 1)
+	#if (OPENPDC_COMPATIBILITY == 1)
+	ucData[41] = 0x0D;  // 13 fasores
+	#else
 	ucData[41] = 0x21;  // 33 fasores
+	#endif
 	#else
 	ucData[41] = 0x03;  // 3 fasores
 	#endif
@@ -1251,6 +1272,7 @@ int frame_config(uint8_t config){
 		i += 16;
 	}
 
+	#if (OPENPDC_COMPATIBILITY != 1)
 	for (int j = 2; j<12; j++){
 		memset(CHName, 0x00, 16);
 		sprintf(CHName, "%d Harmonica S", j);
@@ -1264,9 +1286,15 @@ int frame_config(uint8_t config){
 		memcpy(ucData + i, CHName, 16);
 		i += 16;
 	}
+	#endif
+
 	// 15.  PHUNIT = fator de conversao pra canais fasoriais
 	// 4 bytes pra cada fasor
+	#if (OPENPDC_COMPATIBILITY == 1)
+	for (j = 0; j<13; j++){
+	#else
 	for (j = 0; j<33; j++){
+	#endif
 		ucData[i++] = 0x00;  // 0 = Voltage, 1 = Current
 		ucData[i++] = 0x00;  // ignore
 		ucData[i++] = 0x00;  // ignore
