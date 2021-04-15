@@ -55,7 +55,6 @@ void UARTGetChar(UART_HandleTypeDef *huart, unsigned char *data, int timeout);
 
 extern void MX_USART6_UART_Init(void);
 extern unsigned int Get_ADC_Calib (void);
-extern void UARTPutString(uint8_t *string, uint16_t size);
 
 
 //				LEITURA DOS DADOS DO GPS
@@ -147,7 +146,7 @@ unsigned int  f=0, g=0, contador = 0;
 
 #ifdef PLATAFORMA_DE_TESTES
 //Transmissao via serial
-float buffer[10];
+float buffer[68];
 #endif
 
 //Definicoes para correcao das medidas
@@ -189,13 +188,13 @@ void MX_ADC1_Init(void);
 void MX_ADC2_Init(void);
 void MX_ADC3_Init(void);
 
-#ifdef PLATAFORMA_DE_TESTES
-void UARTPutString(uint8_t *string, uint16_t size);
-#endif
+extern void UARTPutString(uint8_t *string, uint16_t size);
+extern void UARTPutChar(char ucData);
 
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc2;
 extern ADC_HandleTypeDef hadc3;
+
 
 void PMU_Task(void const * argument)
 {
@@ -655,14 +654,38 @@ void PMU_Task(void const * argument)
 
 	#ifdef PLATAFORMA_DE_TESTES
 		// DADOS DA TRANSMISSAO (via serial pro PC)
-		buffer[0] = Mag_R_final;
-		buffer[1] = Fase_R_final;
-		buffer[2] = Freq_final;
-		buffer[3] = media_rocof;
+		UARTPutChar('$');
+		idx = 0;
+		//buffer[idx++] = SOC;
+		buffer[idx++] = Mag_R_final;
+		buffer[idx++] = Fase_R_final;
+		buffer[idx++] = Mag_S_final;
+		buffer[idx++] = Fase_S_final;
+		buffer[idx++] = Mag_T_final;
+		buffer[idx++] = Fase_T_final;
+
+		for (int j = 0; j<10; j++){
+			buffer[idx++] = harmonics_R_mag[j];
+			buffer[idx++] = harmonics_R_phase[j];
+		}
+
+		for (int j = 0; j<10; j++){
+			buffer[idx++] = harmonics_S_mag[j];
+			buffer[idx++] = harmonics_S_phase[j];
+		}
+
+		for (int j = 0; j<10; j++){
+			buffer[idx++] = harmonics_T_mag[j];
+			buffer[idx++] = harmonics_T_phase[j];
+		}
+
+		buffer[idx++] = Freq_final;
+		buffer[idx++] = media_rocof;
 
 		// Envia os dados pela serial
 		uint8_t *dados = (uint8_t*)&buffer;
-		UARTPutString(dados,16);
+		UARTPutString(dados,(idx*4));
+		UARTPutString((uint8_t*)"\n\r", 2);
 	#endif
 
 	#ifdef PPS_30_HZ
