@@ -1,0 +1,10 @@
+ecp_curves.c:1235:12:ecp_mod_p255	72	static
+ecp_curves.c:1186:12:ecp_mod_p521	104	static
+ecp_curves.c:901:12:ecp_mod_p192	48	static
+ecp_curves.c:1113:12:ecp_mod_p384	120	static
+ecp_curves.c:1441:12:ecp_mod_p224k1	104	static
+ecp_curves.c:1055:12:ecp_mod_p224	96	static
+ecp_curves.c:1076:12:ecp_mod_p256	104	static
+ecp_curves.c:1460:12:ecp_mod_p256k1	104	static
+ecp_curves.c:1427:12:ecp_mod_p192k1	104	static
+ecp_curves.c:754:5:mbedtls_ecp_group_load	16	static

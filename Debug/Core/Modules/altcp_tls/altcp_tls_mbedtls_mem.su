@@ -1,0 +1,5 @@
+altcp_tls_mbedtls_mem.c:161:1:altcp_mbedtls_mem_init	0	static
+altcp_tls_mbedtls_mem.c:172:1:altcp_mbedtls_alloc	8	static
+altcp_tls_mbedtls_mem.c:182:1:altcp_mbedtls_free	8	static
+altcp_tls_mbedtls_mem.c:190:1:altcp_mbedtls_alloc_config	0	static
+altcp_tls_mbedtls_mem.c:203:1:altcp_mbedtls_free_config	8	static

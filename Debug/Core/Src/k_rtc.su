@@ -1,0 +1,9 @@
+k_rtc.c:71:6:k_CalendarBkupInit	4	static
+k_rtc.c:103:6:HAL_RTC_MspInit	208	static
+k_rtc.c:137:6:HAL_RTC_MspDeInit	0	static
+k_rtc.c:152:6:k_BkupSaveParameter	0	static
+k_rtc.c:164:10:k_BkupRestoreParameter	0	static
+k_rtc.c:174:6:k_GetTime	0	static
+k_rtc.c:184:6:k_SetTime	0	static
+k_rtc.c:197:6:k_GetDate	8	static
+k_rtc.c:212:6:k_SetDate	0	static

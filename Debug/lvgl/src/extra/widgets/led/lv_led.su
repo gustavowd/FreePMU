@@ -1,0 +1,9 @@
+lv_led.c:153:13:lv_led_constructor	8	static
+lv_led.c:161:13:lv_led_event	152	static
+lv_led.c:60:12:lv_led_create	8	static
+lv_led.c:77:6:lv_led_set_color	0	static
+lv_led.c:89:6:lv_led_set_brightness	0	static
+lv_led.c:107:6:lv_led_on	0	static
+lv_led.c:116:6:lv_led_off	0	static
+lv_led.c:125:6:lv_led_toggle	0	static
+lv_led.c:143:9:lv_led_get_brightness	0	static

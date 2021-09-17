@@ -1,0 +1,11 @@
+ecdh.c:94:5:mbedtls_ecdh_gen_public	40	static
+ecdh.c:142:5:mbedtls_ecdh_compute_shared	88	static
+ecdh.c:172:6:mbedtls_ecdh_init	8	static
+ecdh.c:209:5:mbedtls_ecdh_setup	8	static
+ecdh.c:256:6:mbedtls_ecdh_free	8	static
+ecdh.c:340:5:mbedtls_ecdh_make_params	72	static
+ecdh.c:389:5:mbedtls_ecdh_read_params	24	static
+ecdh.c:445:5:mbedtls_ecdh_get_params	16	static
+ecdh.c:526:5:mbedtls_ecdh_make_public	64	static
+ecdh.c:577:5:mbedtls_ecdh_read_public	24	static
+ecdh.c:646:5:mbedtls_ecdh_calc_secret	88	static

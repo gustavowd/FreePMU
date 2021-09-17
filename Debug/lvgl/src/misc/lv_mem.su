@@ -1,0 +1,15 @@
+lv_mem.c:528:13:lv_mem_walker	4	static
+lv_mem.c:81:6:lv_mem_init	8	static
+lv_mem.c:103:6:lv_mem_deinit	8	static
+lv_mem.c:116:8:lv_mem_alloc	48	static
+lv_mem.c:151:6:lv_mem_free	0	static
+lv_mem.c:174:8:lv_mem_realloc	48	static
+lv_mem.c:199:10:lv_mem_test	8	static
+lv_mem.c:254:8:lv_mem_buf_get	56	static
+lv_mem.c:309:6:lv_mem_buf_release	0	static
+lv_mem.c:326:6:lv_mem_buf_free_all	32	static
+lv_mem.c:345:30:lv_memcpy	80	static
+lv_mem.c:407:28:lv_memset	16	static
+lv_mem.c:226:6:lv_mem_monitor	8	static
+lv_mem.c:450:28:lv_memset_00	16	static
+lv_mem.c:488:28:lv_memset_ff	16	static

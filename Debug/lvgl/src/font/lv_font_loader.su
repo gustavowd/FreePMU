@@ -1,0 +1,3 @@
+lv_font_loader.c:117:6:lv_font_free	24	static
+lv_font_loader.c:583:9:load_kern	56	static
+lv_font_loader.c:86:13:lv_font_load	168	static

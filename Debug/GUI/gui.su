@@ -1,0 +1,11 @@
+gui.c:901:6:server_async_set_status	0	static
+gui.c:372:13:phasors_timer_cb	48	static
+gui.c:510:13:frequency_timer_cb	40	static
+gui.c:629:13:phase_timer_cb	48	static
+gui.c:215:13:baudrate_event_handler	48	static
+gui.c:851:13:ip_status_timer_cb	8	static
+gui.c:492:13:frequency_chart_event_cb	48	static
+gui.c:610:13:phase_chart_event_cb	48	static
+gui.c:91:6:lv_init_widgets	144	static
+gui.c:937:6:server_set_status	0	static
+gui.c:941:9:dhcp_set_status	16	static

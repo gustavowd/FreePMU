@@ -1,0 +1,3 @@
+lv_switch.c:73:13:lv_switch_constructor	16	static
+lv_switch.c:86:13:lv_switch_event	112	static
+lv_switch.c:61:12:lv_switch_create	8	static

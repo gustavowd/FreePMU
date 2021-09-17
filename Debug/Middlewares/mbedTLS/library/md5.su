@@ -1,0 +1,15 @@
+md5.c:74:6:mbedtls_md5_init	0	static
+md5.c:79:6:mbedtls_md5_free	0	static
+md5.c:87:6:mbedtls_md5_clone	8	static
+md5.c:96:5:mbedtls_md5_starts_ret	12	static
+md5.c:110:6:mbedtls_md5_starts	8	static
+md5.c:117:5:mbedtls_internal_md5_process	120	static
+md5.c:258:5:mbedtls_md5_update_ret.part.0	32	static
+md5.c:247:6:mbedtls_md5_process	0	static
+md5.c:258:5:mbedtls_md5_update_ret	0	static
+md5.c:307:6:mbedtls_md5_update	0	static
+md5.c:318:5:mbedtls_md5_finish_ret	16	static
+md5.c:373:6:mbedtls_md5_finish	16	static
+md5.c:385:5:mbedtls_md5_ret	104	static
+md5.c:410:6:mbedtls_md5	112	static
+md5.c:460:5:mbedtls_md5_self_test	144	static

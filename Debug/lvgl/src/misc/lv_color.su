@@ -1,0 +1,10 @@
+lv_color.c:36:28:lv_color_fill	16	static
+lv_color.c:126:12:lv_color_lighten	12	static
+lv_color.c:131:12:lv_color_darken	4	static
+lv_color.c:136:12:lv_color_change_lightness	12	static
+lv_color.c:151:12:lv_color_hsv_to_rgb	12	static
+lv_color.c:216:16:lv_color_rgb_to_hsv	32	static
+lv_color.c:267:16:lv_color_to_hsv	32	static
+lv_color.c:274:12:lv_palette_main	0	static
+lv_color.c:293:12:lv_palette_lighten	0	static
+lv_color.c:332:12:lv_palette_darken	0	static

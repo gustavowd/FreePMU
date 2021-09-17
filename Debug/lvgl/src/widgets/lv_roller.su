@@ -1,0 +1,15 @@
+lv_roller.c:760:13:set_y_anim	0	static
+lv_roller.c:706:13:inf_normalize.part.0	24	static
+lv_roller.c:571:13:refr_position	104	static
+lv_roller.c:753:13:scroll_anim_ready_cb	8	static
+lv_roller.c:290:13:lv_roller_constructor	24	static
+lv_roller.c:410:13:lv_roller_label_event	104	static
+lv_roller.c:77:12:lv_roller_create	8	static
+lv_roller.c:95:6:lv_roller_set_options	48	static
+lv_roller.c:151:6:lv_roller_set_selected	8	static
+lv_roller.c:311:13:lv_roller_event	152	static
+lv_roller.c:187:6:lv_roller_set_visible_row_count	24	static
+lv_roller.c:206:10:lv_roller_get_selected	0	static
+lv_roller.c:226:6:lv_roller_get_selected_str	24	static
+lv_roller.c:259:14:lv_roller_get_options	8	static
+lv_roller.c:272:10:lv_roller_get_option_cnt	0	static

@@ -1,0 +1,3 @@
+lv_example_spinbox_1.c:15:13:lv_spinbox_decrement_event_cb	8	static
+lv_example_spinbox_1.c:7:13:lv_spinbox_increment_event_cb	8	static
+lv_example_spinbox_1.c:24:6:lv_example_spinbox_1	32	static

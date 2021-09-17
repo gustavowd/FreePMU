@@ -1,0 +1,5 @@
+lv_slider.c:414:13:position_knob	32	static
+lv_slider.c:79:13:lv_slider_constructor	16	static
+lv_slider.c:94:13:lv_slider_event	232	static
+lv_slider.c:59:12:lv_slider_create	8	static
+lv_slider.c:67:6:lv_slider_is_dragged	0	static

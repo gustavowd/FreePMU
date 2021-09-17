@@ -1,0 +1,7 @@
+lv_draw_img.c:336:35:lv_draw_map	256	static
+lv_draw_img.c:57:6:lv_draw_img_dsc_init	8	static
+lv_draw_img.c:73:6:lv_draw_img	176	static
+lv_draw_img.c:98:9:lv_img_cf_get_px_size	0	static
+lv_draw_img.c:143:6:lv_img_cf_is_chroma_keyed	0	static
+lv_draw_img.c:170:6:lv_img_cf_has_alpha	0	static
+lv_draw_img.c:203:14:lv_img_src_get_type	0	static

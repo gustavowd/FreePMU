@@ -1,0 +1,4 @@
+lv_theme_basic.c:72:19:grey_filter_cb	12	static
+lv_theme_basic.c:176:13:theme_apply	24	static
+lv_theme_basic.c:65:19:dark_color_filter_cb	0	static
+lv_theme_basic.c:149:14:lv_theme_basic_init	32	static

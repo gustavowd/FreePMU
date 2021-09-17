@@ -1,0 +1,3 @@
+ov9655.c:572:6:ov9655_Init	16	static
+ov9655.c:682:10:ov9655_ReadID	8	static
+ov9655.c:633:6:ov9655_Config	24	static

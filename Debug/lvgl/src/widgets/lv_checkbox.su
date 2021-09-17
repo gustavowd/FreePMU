@@ -1,0 +1,7 @@
+lv_checkbox.c:116:13:lv_checkbox_constructor	8	static
+lv_checkbox.c:145:13:lv_checkbox_event	264	static
+lv_checkbox.c:132:13:lv_checkbox_destructor	16	static
+lv_checkbox.c:56:12:lv_checkbox_create	8	static
+lv_checkbox.c:68:6:lv_checkbox_set_text	16	static
+lv_checkbox.c:90:6:lv_checkbox_set_text_static	16	static
+lv_checkbox.c:106:14:lv_checkbox_get_text	0	static

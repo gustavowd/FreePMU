@@ -1,0 +1,17 @@
+lv_txt.c:546:16:lv_txt_utf8_size	0	static
+lv_txt.c:597:17:lv_txt_utf8_conv_wc	16	static
+lv_txt.c:625:17:lv_txt_utf8_next	24	static
+lv_txt.c:733:17:lv_txt_utf8_get_byte_id	24	static
+lv_txt.c:752:17:lv_txt_utf8_get_char_id	32	static
+lv_txt.c:771:17:lv_txt_utf8_get_length	24	static
+lv_txt.c:564:17:lv_txt_unicode_to_utf8	8	static
+lv_txt.c:700:17:lv_txt_utf8_prev	32	static
+lv_txt.c:356:12:lv_txt_get_width.part.0	56	static
+lv_txt.c:296:10:_lv_txt_get_next_line	104	static
+lv_txt.c:97:6:lv_txt_get_size	72	static
+lv_txt.c:356:12:lv_txt_get_width	12	static
+lv_txt.c:403:6:_lv_txt_is_cmd	0	static
+lv_txt.c:441:6:_lv_txt_ins	24	static
+lv_txt.c:467:6:_lv_txt_cut	32	static
+lv_txt.c:487:8:_lv_txt_set_text_vfmt	40	static
+lv_txt.c:530:6:_lv_txt_encoded_letter_next_2	24	static

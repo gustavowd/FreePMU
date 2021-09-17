@@ -1,0 +1,4 @@
+lv_draw_arc.c:504:13:get_rounded_area	32	static
+lv_draw_arc.c:62:28:lv_draw_arc_dsc_init	8	static
+lv_draw_arc.c:70:6:lv_draw_arc	392	static
+lv_draw_arc.c:211:6:lv_draw_arc_get_area	56	static

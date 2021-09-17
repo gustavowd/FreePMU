@@ -1,0 +1,10 @@
+lv_style.c:40:6:lv_style_init	0	static
+lv_style.c:54:6:lv_style_reset	8	static
+lv_style.c:71:17:lv_style_register_prop	0	static
+lv_style.c:78:6:lv_style_remove_prop	40	static
+lv_style.c:137:6:lv_style_set_prop	24	static
+lv_style.c:208:10:lv_style_get_prop	12	static
+lv_style.c:213:6:lv_style_transition_dsc_init	24	static
+lv_style.c:227:18:lv_style_prop_get_default	0	static
+lv_style.c:270:6:lv_style_is_empty	0	static
+lv_style.c:277:9:_lv_style_get_prop_group	0	static

@@ -1,0 +1,2 @@
+platform_util.c:73:6:mbedtls_platform_zeroize	0	static
+platform_util.c:106:12:mbedtls_platform_gmtime_r	24	static

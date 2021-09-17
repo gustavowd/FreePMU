@@ -1,0 +1,17 @@
+st7789h2.c:338:10:ST7789H2_GetLcdPixelWidth	0	static
+st7789h2.c:481:6:ST7789H2_SetDisplayWindow	16	static
+st7789h2.c:358:10:ST7789H2_ReadID	8	static
+st7789h2.c:348:10:ST7789H2_GetLcdPixelHeight	0	static
+st7789h2.c:371:6:ST7789H2_SetCursor	16	static
+st7789h2.c:307:6:ST7789H2_DisplayOn	8	static
+st7789h2.c:321:6:ST7789H2_DisplayOff	8	static
+st7789h2.c:614:6:ST7789H2_DrawRGBImage	48	static
+st7789h2.c:130:6:ST7789H2_Init	32	static
+st7789h2.c:577:6:ST7789H2_DrawBitmap	56	static
+st7789h2.c:395:6:ST7789H2_WritePixel	16	static
+st7789h2.c:528:6:ST7789H2_DrawHLine	24	static
+st7789h2.c:553:6:ST7789H2_DrawVLine	32	static
+st7789h2.c:413:10:ST7789H2_ReadPixel	24	static
+st7789h2.c:265:6:ST7789H2_SetOrientation	24	static
+st7789h2.c:442:6:ST7789H2_WriteReg	16	static
+st7789h2.c:461:9:ST7789H2_ReadReg	8	static

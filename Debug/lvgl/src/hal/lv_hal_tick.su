@@ -1,0 +1,3 @@
+lv_hal_tick.c:46:28:lv_tick_inc	4	static
+lv_hal_tick.c:56:10:lv_tick_get	0	static
+lv_hal_tick.c:82:10:lv_tick_elaps	4	static

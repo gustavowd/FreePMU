@@ -1,0 +1,3 @@
+lv_draw_label.c:91:28:lv_draw_label_dsc_init	16	static
+lv_draw_label.c:113:28:lv_draw_label	320	static
+lv_draw_label.c:398:28:lv_draw_letter	136	static

@@ -1,0 +1,8 @@
+lv_keyboard.c:321:13:lv_keyboard_constructor	16	static
+lv_keyboard.c:226:6:lv_keyboard_def_event_cb	16	static
+lv_keyboard.c:122:12:lv_keyboard_create	8	static
+lv_keyboard.c:139:6:lv_keyboard_set_textarea	16	static
+lv_keyboard.c:165:6:lv_keyboard_set_mode	16	static
+lv_keyboard.c:182:6:lv_keyboard_set_map	16	static
+lv_keyboard.c:198:12:lv_keyboard_get_textarea	0	static
+lv_keyboard.c:209:20:lv_keyboard_get_mode	0	static

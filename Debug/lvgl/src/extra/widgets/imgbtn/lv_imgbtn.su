@@ -1,0 +1,8 @@
+lv_imgbtn.c:146:13:lv_imgbtn_constructor	8	static
+lv_imgbtn.c:159:13:lv_imgbtn_event	96	static
+lv_imgbtn.c:56:12:lv_imgbtn_create	8	static
+lv_imgbtn.c:79:6:lv_imgbtn_set_src	24	static
+lv_imgbtn.c:104:14:lv_imgbtn_get_src_left	0	static
+lv_imgbtn.c:119:14:lv_imgbtn_get_src_middle	0	static
+lv_imgbtn.c:133:14:lv_imgbtn_get_src_right	0	static
+lv_imgbtn.c:321:19:get_state	8	static

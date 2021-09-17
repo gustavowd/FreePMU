@@ -1,0 +1,6 @@
+ssl_cookie.c:74:6:mbedtls_ssl_cookie_init	8	static
+ssl_cookie.c:87:6:mbedtls_ssl_cookie_set_timeout	0	static
+ssl_cookie.c:92:6:mbedtls_ssl_cookie_free	8	static
+ssl_cookie.c:103:5:mbedtls_ssl_cookie_setup	48	static
+ssl_cookie.c:156:5:mbedtls_ssl_cookie_write	56	static
+ssl_cookie.c:202:5:mbedtls_ssl_cookie_check	88	static

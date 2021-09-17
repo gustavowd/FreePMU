@@ -1,0 +1,17 @@
+stm32f7xx_hal_sram.c:290:13:HAL_SRAM_DMA_XferErrorCallback	0	static
+stm32f7xx_hal_sram.c:274:13:HAL_SRAM_DMA_XferCpltCallback	0	static
+stm32f7xx_hal_sram.c:242:13:HAL_SRAM_MspInit	0	static
+stm32f7xx_hal_sram.c:160:19:HAL_SRAM_Init	16	static
+stm32f7xx_hal_sram.c:258:13:HAL_SRAM_MspDeInit	0	static
+stm32f7xx_hal_sram.c:210:19:HAL_SRAM_DeInit	8	static
+stm32f7xx_hal_sram.c:327:19:HAL_SRAM_Read_8b	8	static
+stm32f7xx_hal_sram.c:363:19:HAL_SRAM_Write_8b	8	static
+stm32f7xx_hal_sram.c:405:19:HAL_SRAM_Read_16b	8	static
+stm32f7xx_hal_sram.c:441:19:HAL_SRAM_Write_16b	8	static
+stm32f7xx_hal_sram.c:483:19:HAL_SRAM_Read_32b	8	static
+stm32f7xx_hal_sram.c:517:19:HAL_SRAM_Write_32b	8	static
+stm32f7xx_hal_sram.c:557:19:HAL_SRAM_Read_DMA	24	static
+stm32f7xx_hal_sram.c:590:19:HAL_SRAM_Write_DMA	24	static
+stm32f7xx_hal_sram.c:820:19:HAL_SRAM_WriteOperation_Enable	16	static
+stm32f7xx_hal_sram.c:843:19:HAL_SRAM_WriteOperation_Disable	8	static
+stm32f7xx_hal_sram.c:888:23:HAL_SRAM_GetState	0	static

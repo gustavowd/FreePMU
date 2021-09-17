@@ -1,0 +1,6 @@
+serial.c:51:6:UARTInit	48	static
+serial.c:87:19:get_fd_from_instance	0	static
+serial.c:103:6:HAL_UART_RxCpltCallback	16	static,ignoring_inline_asm
+serial.c:121:6:HAL_UART_TxCpltCallback	16	static,ignoring_inline_asm
+serial.c:142:6:UARTPutChar	24	static
+serial.c:162:6:UARTPutString	24	static

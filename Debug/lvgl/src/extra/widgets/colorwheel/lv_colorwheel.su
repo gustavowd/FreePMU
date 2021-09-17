@@ -1,0 +1,13 @@
+lv_colorwheel.c:322:18:get_knob_area	32	static
+lv_colorwheel.c:537:13:refr_knob_pos	32	static
+lv_colorwheel.c:215:13:lv_colorwheel_constructor	16	static
+lv_colorwheel.c:344:13:lv_colorwheel_event	184	static
+lv_colorwheel.c:75:12:lv_colorwheel_create	8	static
+lv_colorwheel.c:95:6:lv_colorwheel_set_hsv	24	static
+lv_colorwheel.c:120:6:lv_colorwheel_set_rgb	24	static
+lv_colorwheel.c:133:6:lv_colorwheel_set_mode	8	static
+lv_colorwheel.c:147:6:lv_colorwheel_set_mode_fixed	0	static
+lv_colorwheel.c:164:16:lv_colorwheel_get_hsv	8	static
+lv_colorwheel.c:176:12:lv_colorwheel_get_rgb	0	static
+lv_colorwheel.c:188:22:lv_colorwheel_get_color_mode	0	static
+lv_colorwheel.c:200:6:lv_colorwheel_get_color_mode_fixed	0	static

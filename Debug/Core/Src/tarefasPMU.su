@@ -1,0 +1,8 @@
+tarefasPMU.c:194:7:LWordSwap	0	static
+tarefasPMU.c:204:6:PMU_Task	96	static
+tarefasPMU.c:743:6:GPS_Task	80	static
+tarefasPMU.c:906:10:ComputeCRC	4	static
+tarefasPMU.c:938:5:frame_data	80	static
+tarefasPMU.c:1222:5:frame_config	72	static
+tarefasPMU.c:1589:5:frame_header	16	static
+tarefasPMU.c:1632:6:HAL_ADC_ConvCpltCallback	8	static

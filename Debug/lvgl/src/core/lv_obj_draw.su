@@ -1,0 +1,9 @@
+lv_obj_draw.c:39:6:lv_obj_init_draw_rect_dsc	32	static
+lv_obj_draw.c:183:6:lv_obj_init_draw_label_dsc	16	static
+lv_obj_draw.c:215:6:lv_obj_init_draw_img_dsc	16	static
+lv_obj_draw.c:240:6:lv_obj_init_draw_line_dsc	16	static
+lv_obj_draw.c:269:6:lv_obj_init_draw_arc_dsc	24	static
+lv_obj_draw.c:293:12:lv_obj_calculate_ext_draw_size	24	static
+lv_obj_draw.c:327:6:lv_obj_draw_dsc_init	16	static
+lv_obj_draw.c:333:6:lv_obj_refresh_ext_draw_size	24	static
+lv_obj_draw.c:357:12:_lv_obj_get_ext_draw_size	0	static

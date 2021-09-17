@@ -1,0 +1,7 @@
+lv_animimg.c:104:13:lv_animimg_constructor	16	static
+lv_animimg.c:122:13:index_change	4	static
+lv_animimg.c:57:12:lv_animimg_create	8	static
+lv_animimg.c:65:6:lv_animimg_set_src	0	static
+lv_animimg.c:73:6:lv_animimg_start	0	static
+lv_animimg.c:83:6:lv_animimg_set_duration	0	static
+lv_animimg.c:90:6:lv_animimg_set_repeat_count	0	static

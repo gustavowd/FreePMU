@@ -1,0 +1,4 @@
+lv_draw_rect.c:1106:35:shadow_blur_corner	80	static
+lv_draw_rect.c:1216:13:draw_full_border	200	static
+lv_draw_rect.c:75:28:lv_draw_rect_dsc_init	16	static
+lv_draw_rect.c:98:6:lv_draw_rect	248	static

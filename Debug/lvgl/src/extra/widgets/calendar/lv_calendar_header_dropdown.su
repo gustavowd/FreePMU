@@ -1,0 +1,3 @@
+lv_calendar_header_dropdown.c:93:13:month_event_cb	16	static
+lv_calendar_header_dropdown.c:107:13:year_event_cb	16	static
+lv_calendar_header_dropdown.c:52:12:lv_calendar_header_dropdown_create	32	static

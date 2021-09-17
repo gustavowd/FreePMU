@@ -1,0 +1,3 @@
+lv_example_chart_5.c:56:13:slider_y_event_cb	8	static
+lv_example_chart_5.c:49:13:slider_x_event_cb	8	static
+lv_example_chart_5.c:68:6:lv_example_chart_5	40	static

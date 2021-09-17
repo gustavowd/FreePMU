@@ -1,0 +1,11 @@
+stm32f769i_discovery_qspi.c:223:9:BSP_QSPI_Read	80	static
+stm32f769i_discovery_qspi.c:269:9:BSP_QSPI_Write	184	static
+stm32f769i_discovery_qspi.c:343:9:BSP_QSPI_Erase_Block	176	static
+stm32f769i_discovery_qspi.c:385:9:BSP_QSPI_Erase_Chip	176	static
+stm32f769i_discovery_qspi.c:425:9:BSP_QSPI_GetStatus	80	static
+stm32f769i_discovery_qspi.c:470:9:BSP_QSPI_GetInfo	12	static
+stm32f769i_discovery_qspi.c:486:9:BSP_QSPI_EnableMemoryMappedMode	80	static
+stm32f769i_discovery_qspi.c:531:13:BSP_QSPI_MspInit	88	static
+stm32f769i_discovery_qspi.c:128:9:BSP_QSPI_Init	184	static,ignoring_inline_asm
+stm32f769i_discovery_qspi.c:592:13:BSP_QSPI_MspDeInit	16	static
+stm32f769i_discovery_qspi.c:194:9:BSP_QSPI_DeInit	72	static

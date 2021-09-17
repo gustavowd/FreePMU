@@ -1,0 +1,17 @@
+lv_obj_tree.c:410:31:walk_core	24	static
+lv_obj_tree.c:332:13:obj_del_core.part.0	24	static
+lv_obj_tree.c:47:6:lv_obj_del	24	static
+lv_obj_tree.c:325:13:lv_obj_del_async_cb	0	static
+lv_obj_tree.c:89:6:lv_obj_clean	16	static
+lv_obj_tree.c:113:6:lv_obj_del_anim_ready_cb	0	static
+lv_obj_tree.c:118:6:lv_obj_del_async	0	static
+lv_obj_tree.c:124:6:lv_obj_set_parent	48	static
+lv_obj_tree.c:190:6:lv_obj_move_foreground	24	static
+lv_obj_tree.c:210:6:lv_obj_move_background	16	static
+lv_obj_tree.c:230:12:lv_obj_get_screen	0	static
+lv_obj_tree.c:245:13:lv_obj_get_disp	24	static
+lv_obj_tree.c:266:12:lv_obj_get_parent	0	static
+lv_obj_tree.c:274:12:lv_obj_get_child	0	static
+lv_obj_tree.c:293:10:lv_obj_get_child_cnt	0	static
+lv_obj_tree.c:300:10:lv_obj_get_child_id	8	static
+lv_obj_tree.c:316:6:lv_obj_tree_walk	0	static

@@ -1,0 +1,5 @@
+dhcp_client.c:26:7:GetIPAdddress	0	static
+dhcp_client.c:35:10:lwIPLocalIPAddrGet	0	static
+dhcp_client.c:48:6:Netif_Config	48	static
+dhcp_client.c:98:6:DHCP_Thread	80	static
+dhcp_client.c:203:10:DHCP_GetState	0	static

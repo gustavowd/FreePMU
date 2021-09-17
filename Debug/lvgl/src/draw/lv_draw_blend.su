@@ -1,0 +1,4 @@
+lv_draw_blend.c:1014:26:color_blend_true_color_subtractive	16	static
+lv_draw_blend.c:963:26:color_blend_true_color_additive	16	static
+lv_draw_blend.c:126:28:_lv_blend_fill	120	static
+lv_draw_blend.c:188:28:_lv_blend_map	112	static

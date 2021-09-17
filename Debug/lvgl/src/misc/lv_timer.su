@@ -1,0 +1,15 @@
+lv_timer.c:54:6:_lv_timer_core_init	8	static
+lv_timer.c:66:37:lv_timer_handler	56	static
+lv_timer.c:140:14:lv_timer_create_basic	16	static
+lv_timer.c:154:14:lv_timer_create	24	static
+lv_timer.c:179:6:lv_timer_set_cb	0	static
+lv_timer.c:188:6:lv_timer_del	8	static
+lv_timer.c:200:6:lv_timer_pause	0	static
+lv_timer.c:205:6:lv_timer_resume	0	static
+lv_timer.c:215:6:lv_timer_set_period	0	static
+lv_timer.c:224:6:lv_timer_ready	8	static
+lv_timer.c:234:6:lv_timer_set_repeat_count	0	static
+lv_timer.c:244:6:lv_timer_reset	8	static
+lv_timer.c:253:6:lv_timer_enable	0	static
+lv_timer.c:262:9:lv_timer_get_idle	0	static
+lv_timer.c:272:14:lv_timer_get_next	0	static

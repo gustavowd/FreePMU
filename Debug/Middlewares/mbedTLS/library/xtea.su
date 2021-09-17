@@ -1,0 +1,6 @@
+xtea.c:69:6:mbedtls_xtea_init	0	static
+xtea.c:74:6:mbedtls_xtea_free	0	static
+xtea.c:85:6:mbedtls_xtea_setup	8	static
+xtea.c:100:5:mbedtls_xtea_crypt_ecb	16	static
+xtea.c:143:5:mbedtls_xtea_crypt_cbc	40	static
+xtea.c:236:5:mbedtls_xtea_self_test	64	static

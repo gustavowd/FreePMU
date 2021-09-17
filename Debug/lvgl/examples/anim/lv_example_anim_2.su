@@ -1,0 +1,3 @@
+lv_example_anim_2.c:5:13:anim_x_cb	0	static
+lv_example_anim_2.c:10:13:anim_size_cb	0	static
+lv_example_anim_2.c:18:6:lv_example_anim_2	88	static

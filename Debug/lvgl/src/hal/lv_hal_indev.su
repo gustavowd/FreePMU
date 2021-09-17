@@ -1,0 +1,5 @@
+lv_hal_indev.c:57:6:lv_indev_drv_init	8	static
+lv_hal_indev.c:76:14:lv_indev_drv_register	16	static
+lv_hal_indev.c:107:6:lv_indev_drv_update	0	static
+lv_hal_indev.c:118:14:lv_indev_get_next	0	static
+lv_hal_indev.c:131:6:_lv_indev_read	16	static

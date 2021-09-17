@@ -1,0 +1,4 @@
+lv_list.c:56:12:lv_list_create	8	static
+lv_list.c:65:12:lv_list_add_text	16	static
+lv_list.c:76:12:lv_list_add_btn	16	static
+lv_list.c:99:14:lv_list_get_btn_text	24	static

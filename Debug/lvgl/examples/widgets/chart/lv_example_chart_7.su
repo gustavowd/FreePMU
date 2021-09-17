@@ -1,0 +1,3 @@
+lv_example_chart_7.c:29:13:add_data	16	static
+lv_example_chart_7.c:4:13:draw_event_cb	40	static
+lv_example_chart_7.c:39:6:lv_example_chart_7	40	static

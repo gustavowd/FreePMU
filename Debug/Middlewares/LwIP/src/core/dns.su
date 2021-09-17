@@ -1,0 +1,10 @@
+dns.c:942:1:dns_call_found	32	static
+dns.c:748:1:dns_send	64	static
+dns.c:1047:1:dns_check_entry	16	static
+dns.c:1170:1:dns_recv	88	static
+dns.c:315:1:dns_init	0	static
+dns.c:361:1:dns_setserver	0	static
+dns.c:381:1:dns_getserver	0	static
+dns.c:395:1:dns_tmr	32	static
+dns.c:1547:1:dns_gethostbyname_addrtype	56	static
+dns.c:1526:1:dns_gethostbyname	16	static

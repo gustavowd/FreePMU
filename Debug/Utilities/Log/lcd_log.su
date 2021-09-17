@@ -1,0 +1,9 @@
+lcd_log.c:141:6:LCD_LOG_Init	8	static
+lcd_log.c:155:6:LCD_LOG_DeInit	8	static
+lcd_log.c:177:6:LCD_LOG_SetHeader	16	static
+lcd_log.c:201:6:LCD_LOG_SetFooter	24	static
+lcd_log.c:225:6:LCD_LOG_ClearTextZone	16	static
+lcd_log.c:319:6:LCD_LOG_UpdateDisplay	32	static
+lcd_log.c:243:1:__io_putchar	40	static
+lcd_log.c:367:13:LCD_LOG_ScrollBack	24	static
+lcd_log.c:439:13:LCD_LOG_ScrollForward	24	static

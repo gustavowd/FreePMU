@@ -1,0 +1,11 @@
+lv_refr.c:895:13:draw_buf_flush	128	static
+lv_refr.c:662:13:lv_refr_obj.part.0	64	static
+lv_refr.c:613:13:lv_refr_obj_and_children	32	static
+lv_refr.c:574:19:lv_refr_get_top_obj.part.0	32	static
+lv_refr.c:487:13:lv_refr_area_part	112	static
+lv_refr.c:72:6:_lv_refr_init	0	static
+lv_refr.c:107:6:_lv_inv_area	32	static
+lv_refr.c:162:13:_lv_refr_get_disp_refreshing	0	static
+lv_refr.c:173:6:_lv_refr_set_disp_refreshing	0	static
+lv_refr.c:182:6:_lv_disp_refr_timer	72	static
+lv_refr.c:84:6:lv_refr_now	8	static

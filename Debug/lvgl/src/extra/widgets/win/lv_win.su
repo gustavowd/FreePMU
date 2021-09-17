@@ -1,0 +1,6 @@
+lv_win.c:92:13:lv_win_constructor	24	static
+lv_win.c:45:12:lv_win_create	8	static
+lv_win.c:55:12:lv_win_add_title	16	static
+lv_win.c:65:12:lv_win_add_btn	16	static
+lv_win.c:78:12:lv_win_get_header	0	static
+lv_win.c:83:12:lv_win_get_content	0	static
