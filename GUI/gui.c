@@ -31,6 +31,7 @@ typedef enum {
 static void phasors_create(lv_obj_t * parent);
 static void frequency_create(lv_obj_t * parent);
 static void phase_create(lv_obj_t * parent);
+static void harmonics_create(lv_obj_t * parent);
 static void settings_create(lv_obj_t * parent);
 static void color_changer_create(lv_obj_t * parent);
 
@@ -58,16 +59,21 @@ static lv_style_t style_bullet;
 
 static lv_obj_t * chart1;
 static lv_obj_t * chart2;
+static lv_obj_t * chart3;
 
 static lv_chart_series_t * ser1;
+
+//static lv_chart_series_t * ser2;
+static lv_chart_series_t * ser3;
+//static lv_chart_series_t * ser4;
 
 static lv_chart_series_t *ser1_phase;
 static lv_chart_series_t *ser2_phase;
 static lv_chart_series_t *ser3_phase;
 
-static lv_chart_series_t * ser2;
-static lv_chart_series_t * ser3;
-static lv_chart_series_t * ser4;
+static lv_chart_series_t *ser1_harmonic;
+static lv_chart_series_t *ser2_harmonic;
+static lv_chart_series_t *ser3_harmonic;
 
 static const lv_font_t * font_large;
 static const lv_font_t * font_normal;
@@ -179,11 +185,11 @@ void lv_init_widgets(void)
 
     if(disp_size == DISP_LARGE) {
         lv_obj_t * tab_btns = lv_tabview_get_tab_btns(tv);
-        lv_obj_set_style_pad_left(tab_btns, LV_HOR_RES / 2, 0);
+        lv_obj_set_style_pad_left(tab_btns, (LV_HOR_RES / 2) - 100, 0);
         lv_obj_t * logo = lv_img_create(tab_btns);
         LV_IMG_DECLARE(icon);
         lv_img_set_src(logo, &icon);
-        lv_obj_align(logo, LV_ALIGN_LEFT_MID, -LV_HOR_RES / 2 + 25, 0);
+        lv_obj_align(logo, LV_ALIGN_LEFT_MID, -LV_HOR_RES / 2 + 125, 0);
 
         lv_obj_t * label = lv_label_create(tab_btns);
         lv_obj_add_style(label, &style_title, 0);
@@ -199,11 +205,13 @@ void lv_init_widgets(void)
     lv_obj_t * t1 = lv_tabview_add_tab(tv, "Phasors");
     lv_obj_t * t2 = lv_tabview_add_tab(tv, "Frequency");
     lv_obj_t * t3 = lv_tabview_add_tab(tv, "Phase");
-    lv_obj_t * t4 = lv_tabview_add_tab(tv, "Settings");
+    lv_obj_t * t4 = lv_tabview_add_tab(tv, "Harmonics");
+    lv_obj_t * t5 = lv_tabview_add_tab(tv, "Settings");
     phasors_create(t1);
     frequency_create(t2);
     phase_create(t3);
-    settings_create(t4);
+    harmonics_create(t4);
+    settings_create(t5);
 
     //color_changer_create(tv);
 }
@@ -715,6 +723,63 @@ static void phase_create(lv_obj_t * parent){
 
     lv_timer_create(phase_timer_cb, 40, NULL);
 }
+
+
+extern float FasesAC_mod_R[50];
+extern float FasesAC_mod_S[50];
+extern float FasesAC_mod_T[50];
+
+static void harmonics_timer_cb(lv_timer_t * timer){
+    for (int i = 1; i <= 16; i++) {
+        ser1_harmonic->y_points[i] = (lv_coord_t)(FasesAC_mod_R[i-1]*100);
+        ser2_harmonic->y_points[i] = (lv_coord_t)(FasesAC_mod_S[i-1]*100);
+        ser3_harmonic->y_points[i] = (lv_coord_t)(FasesAC_mod_T[i-1]*100);
+    }
+	lv_chart_refresh(chart3); /*Required after direct set*/
+}
+
+
+static void harmonics_create(lv_obj_t * parent){
+
+	lv_obj_t * panel1 = lv_obj_create(parent);
+	lv_obj_set_pos(panel1, 0, 0);
+    lv_obj_set_size(panel1, 760, 370);
+
+	lv_obj_t * title = lv_label_create(panel1);
+    lv_label_set_text(title, "Harmonics (%)");
+    lv_obj_add_style(title, &style_title, 0);
+    lv_obj_set_pos(title, 0, 0);
+
+    chart3 = lv_chart_create(panel1);
+	lv_obj_set_pos(chart3, 55, 30);
+    lv_obj_set_size(chart3, 655, 290);
+    lv_chart_set_axis_tick(chart3, LV_CHART_AXIS_PRIMARY_Y, 5, 5, 5, 1, true, 80);
+    lv_chart_set_axis_tick(chart3, LV_CHART_AXIS_PRIMARY_X, 0, 0, 17, 1, true, 50);
+    lv_chart_set_div_line_count(chart3, 0, 5);
+    lv_chart_set_point_count(chart3, 17);
+    lv_chart_set_type(chart3, LV_CHART_TYPE_BAR);
+    //lv_obj_add_event_cb(chart3, phase_chart_event_cb, LV_EVENT_ALL, NULL);
+
+    lv_obj_set_style_border_side(chart3, LV_BORDER_SIDE_LEFT | LV_BORDER_SIDE_BOTTOM, 0);
+    lv_obj_set_style_radius(chart3, 0, 0);
+
+    lv_chart_set_range(chart3, LV_CHART_AXIS_PRIMARY_Y, 0, 20);
+    lv_chart_set_range(chart3, LV_CHART_AXIS_PRIMARY_X, 1, 16);
+    lv_chart_set_range(chart3, LV_CHART_AXIS_SECONDARY_X, 1, 16);
+
+    ser1_harmonic = lv_chart_add_series(chart3, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
+    ser2_harmonic = lv_chart_add_series(chart3, lv_palette_main(LV_PALETTE_GREEN), LV_CHART_AXIS_PRIMARY_Y);
+    ser3_harmonic = lv_chart_add_series(chart3, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
+
+    for (int i = 0; i <= 16; i++) {
+    	lv_chart_set_next_value(chart3, ser1_harmonic, (lv_coord_t)0);
+    	lv_chart_set_next_value(chart3, ser2_harmonic, (lv_coord_t)0);
+    	lv_chart_set_next_value(chart3, ser3_harmonic, (lv_coord_t)0);
+    }
+
+    lv_timer_create(harmonics_timer_cb, 1000, NULL);
+}
+
 
 
 static void color_changer_create(lv_obj_t * parent)
