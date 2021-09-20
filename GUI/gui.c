@@ -83,6 +83,8 @@ static const lv_font_t * font_normal2;
 
 static lv_obj_t * status_label_info = NULL;
 static lv_obj_t * server_label_info = NULL;
+static lv_obj_t * gps_label_info = NULL;
+static lv_obj_t * gps_protocol_info = NULL;
 
 xSemaphoreHandle GUI_mutex = NULL;
 
@@ -297,7 +299,7 @@ static void settings_create(lv_obj_t * parent)
     lv_label_set_text(gps_label, "Status");
     lv_obj_add_style(gps_label, &style_text_muted, 0);
 
-    lv_obj_t * gps_label_info = lv_label_create(panel3);
+    gps_label_info = lv_label_create(panel3);
     lv_label_set_text(gps_label_info, "Disconnected");
     lv_obj_add_style(gps_label_info, &style_text, 0);
 
@@ -314,7 +316,7 @@ static void settings_create(lv_obj_t * parent)
     lv_label_set_text(gps_protocol_label, "Protocol");
     lv_obj_add_style(gps_protocol_label, &style_text_muted, 0);
 
-    lv_obj_t * gps_protocol_info = lv_label_create(panel3);
+    gps_protocol_info = lv_label_create(panel3);
     lv_label_set_text(gps_protocol_info, "Unknown");
     lv_obj_add_style(gps_protocol_info, &style_text, 0);
 
@@ -962,6 +964,35 @@ static void server_status_timer_cb(lv_timer_t * timer){
 }
 #endif
 
+void gps_async_set_status(void *state){
+	char *text;
+	uint32_t gps_state = (uint32_t)state;
+	if (gps_state == 1){
+		text = "Connected";
+	}
+
+	lv_label_set_text(gps_label_info, text);
+}
+
+void gps_set_status(uint32_t gps_state){
+	lv_async_call(gps_async_set_status, (void *)gps_state);
+}
+
+void gps_protocol_async_set_status(void *protocol){
+	char *text;
+	uint32_t gps_protocol = (uint32_t)protocol;
+	if (gps_protocol == 1){
+		text = "NMEA";
+	}else{
+		text = "UBX";
+	}
+
+	lv_label_set_text(gps_protocol_info, text);
+}
+
+void gps_protocol_set_status(uint32_t gps_protocol){
+	lv_async_call(gps_protocol_async_set_status, (void *)gps_protocol);
+}
 
 void server_async_set_status(void *state){
 	char *text;

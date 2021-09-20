@@ -10,6 +10,8 @@
 void lv_init_widgets(void);
 int32_t dhcp_set_status(uint32_t dhcp_state);
 void server_set_status(uint32_t server_state);
+void gps_protocol_set_status(uint32_t gps_protocol);
+void gps_set_status(uint32_t gps_state);
 
 extern xSemaphoreHandle GUI_mutex;
 

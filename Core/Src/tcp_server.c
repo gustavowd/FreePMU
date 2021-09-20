@@ -21,6 +21,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "frameDataQ.h"
+
+#include "GUI/gui.h"
 /* ------------------------ IEEE C37118 includes --------------------------- */
 #define TCP_PORT 4712
 #define UDP_PORT 4713

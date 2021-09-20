@@ -17,6 +17,7 @@
 #include "stm32f769i_discovery.h"
 #include "serial.h"
 #include "frameDataQ.h"
+#include "GUI/gui.h"
 
 #if (NOMINAL_FREQ == 50)
 #define MCLOCK_FREQ 200000000
@@ -742,6 +743,8 @@ char teste;
 
 void GPS_Task(void *argument)
 {
+	uint32_t gps_status = 0, gps_protocol = 0;
+	vTaskDelay(100);
 	while(1){
 	    volatile unsigned char *p;
 
@@ -784,6 +787,12 @@ void GPS_Task(void *argument)
 
 		if (substring < 10){
 			// Foi identificada uma mensagem válida
+			if (gps_status == 0){
+				gps_status = 1;
+				gps_protocol = 1;
+				gps_set_status(gps_status);
+				gps_protocol_set_status(gps_protocol);
+			}
 			str+=6;
 
 			while (substring <=9){
@@ -834,6 +843,14 @@ void GPS_Task(void *argument)
 			if (strcmp(str, "PUBX\0") == 0){
 				// Testa se a mensagem é do tipo 4
 				if (dado_gps[6] == '4'){
+
+					if (gps_status == 0){
+						gps_status = 1;
+						gps_protocol = 2;
+						gps_set_status(gps_status);
+						gps_protocol_set_status(gps_protocol);
+					}
+
 					//Extrai a informação: segundos na semana
 					str = strtok(NULL, ",");
 					str = strtok(NULL, ",");

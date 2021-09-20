@@ -109,6 +109,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 	xQueueSendToBackFromISR(qUART[fd], &huart->Instance->RDR, &pxHigherPriorityTaskWokenRX);
 
+	HAL_UART_Receive_IT(&uart_handler[fd], &rx_buff[fd], sizeof(rx_buff[fd]));
+
 	if (pxHigherPriorityTaskWokenRX == pdTRUE){
 		portYIELD();
 	}
