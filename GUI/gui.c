@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "GUI/gui.h"
 #include "dhcp_client.h"
+#include "serial.h"
 #include "stm32f7xx_hal_conf.h"
 
 
@@ -221,15 +222,38 @@ void lv_init_widgets(void)
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-
+extern volatile uint32_t gps_status;
 static void baudrate_event_handler(lv_event_t * e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	lv_obj_t * obj = lv_event_get_target(e);
 	if(code == LV_EVENT_VALUE_CHANGED) {
-		char buf[32];
-		lv_dropdown_get_selected_str(obj, buf, sizeof(buf));
-		LV_LOG_USER("Option: %s", buf);
+		//char buf[32];
+		//lv_dropdown_get_selected_str(obj, buf, sizeof(buf));
+		//LV_LOG_USER("Option: %s", buf);
+		uint32_t baudrate = 115200;
+		uint16_t idx = lv_dropdown_get_selected(obj);
+		switch(idx){
+			case 0:
+				baudrate = 9600;
+				gps_status = 0;
+				break;
+			case 1:
+				baudrate = 38400;
+				gps_status = 0;
+				break;
+			case 2:
+				baudrate = 115200;
+				gps_status = 0;
+				break;
+			default:
+				break;
+		}
+		if (gps_status == 0){
+			lv_label_set_text(gps_label_info, "Disconnected");
+			lv_label_set_text(gps_protocol_info, "Unknown");
+			UARTChangeBaudrate(SERIAL, baudrate);
+		}
 	}
 }
 
@@ -969,6 +993,8 @@ void gps_async_set_status(void *state){
 	uint32_t gps_state = (uint32_t)state;
 	if (gps_state == 1){
 		text = "Connected";
+	}else{
+		text = "Disconnected";
 	}
 
 	lv_label_set_text(gps_label_info, text);

@@ -84,6 +84,32 @@ void UARTInit(void)
 	}
 }
 
+void UARTChangeBaudrate(file_descriptor_t fd, uint32_t baudrate){
+	char nothing;
+
+    /* Disable the UART Parity Error Interrupt and RXNE interrupts */
+    CLEAR_BIT(uart_handler[fd].Instance->CR1, (USART_CR1_RXNEIE | USART_CR1_PEIE));
+
+    /* Disable the UART Error Interrupt: (Frame error, noise error, overrun error) */
+    CLEAR_BIT(uart_handler[fd].Instance->CR3, USART_CR3_EIE);
+
+	if(HAL_UART_DeInit(&uart_handler[fd]) != HAL_OK) {
+		while(1){
+			vTaskDelay(portMAX_DELAY);	/*TODO: error handler*/
+		}
+	}
+
+	uart_handler[fd].Init.BaudRate = baudrate;
+	if(HAL_UART_Init(&uart_handler[fd]) != HAL_OK) {
+		while(1){
+			vTaskDelay(portMAX_DELAY);	/*TODO: error handler*/
+		}
+	}
+
+	HAL_UART_Receive_IT(&uart_handler[fd], &rx_buff[fd], sizeof(rx_buff[fd]));
+	xQueueReceive(qUART[fd], &nothing, 1);
+}
+
 file_descriptor_t get_fd_from_instance(UART_HandleTypeDef* huart)
 {
 	file_descriptor_t i;

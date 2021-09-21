@@ -740,10 +740,11 @@ void PMU_Task(void *argument)
 
 extern xSemaphoreHandle sUART;
 char teste;
+volatile uint32_t gps_status = 0;
 
 void GPS_Task(void *argument)
 {
-	uint32_t gps_status = 0, gps_protocol = 0;
+	uint32_t gps_protocol = 0;
 	vTaskDelay(100);
 	while(1){
 	    volatile unsigned char *p;

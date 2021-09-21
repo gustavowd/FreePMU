@@ -15,6 +15,7 @@ typedef enum {INVALID_FD=-1, STDOUT=0, SERIAL, FD_NUM} file_descriptor_t;
 extern xQueueHandle qUART[FD_NUM];
 
 void UARTInit(void);
+void UARTChangeBaudrate(file_descriptor_t fd, uint32_t baudrate);
 //portBASE_TYPE UARTGetCharTimeout(file_descriptor_t fd, char *data, TickType_t timeout);
 //portBASE_TYPE UARTGetChar(file_descriptor_t fd, char *data);
 #define UARTGetCharTimeout(fd, data, timeout) xQueueReceive(qUART[(fd)], (data), (timeout))
