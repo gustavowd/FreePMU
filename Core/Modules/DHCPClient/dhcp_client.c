@@ -101,7 +101,7 @@ void DHCP_Thread(void * argument){
 	uint32_t dhcp_state = DHCP_State;
 	//static int first_connection = 1;
 
-	dhcp_set_status(dhcp_state);
+	//dhcp_set_status(dhcp_state);
 
     while(1) {
     	switch(DHCP_State) {
@@ -149,6 +149,8 @@ void DHCP_Thread(void * argument){
 							(uint8_t)((gnetif.ip_addr.addr) >> 8),
 							(uint8_t)((gnetif.ip_addr.addr) >> 16),
 							(uint8_t)((gnetif.ip_addr.addr) >> 24));
+
+					ip_set_address();
 				} else {
 					watchdog_cnt++;
 					// 50 segundos para pegar o IP, senão reinicia a conexão ethernet
@@ -181,6 +183,7 @@ void DHCP_Thread(void * argument){
 					DHCP_State = DHCP_CABLE_DISCONNECTED;
 					iptxt[0] = '\0';
 					dhcp_stop(&gnetif);
+					ip_set_address();
 					// TODO: link is down
 				}
 			break;
@@ -189,11 +192,17 @@ void DHCP_Thread(void * argument){
 			break;
     	}
     	// Update dhcp status in the LCD screen
+    	/*
     	if (dhcp_state != DHCP_State){
     		int ret = dhcp_set_status(DHCP_State);
     		if (ret >= 0){
     			dhcp_state = DHCP_State;
     		}
+    	}
+    	*/
+    	if (dhcp_state != DHCP_State){
+    		dhcp_set_status(DHCP_State);
+    		dhcp_state = DHCP_State;
     	}
     	vTaskDelay(250);
     }

@@ -39,7 +39,7 @@ static void color_changer_create(lv_obj_t * parent);
 
 static void color_changer_event_cb(lv_event_t * e);
 static void color_event_cb(lv_event_t * e);
-static void ip_status_timer_cb(lv_timer_t * timer);
+//static void ip_status_timer_cb(lv_timer_t * timer);
 static void phasors_timer_cb(lv_timer_t * timer);
 
 /**********************
@@ -83,6 +83,7 @@ static const lv_font_t * font_normal2;
 
 
 static lv_obj_t * status_label_info = NULL;
+static lv_obj_t * ip_label_info = NULL;
 static lv_obj_t * server_label_info = NULL;
 static lv_obj_t * gps_label_info = NULL;
 static lv_obj_t * gps_protocol_info = NULL;
@@ -306,11 +307,11 @@ static void settings_create(lv_obj_t * parent)
     lv_label_set_text(ip_label, "IP Address");
     lv_obj_add_style(ip_label, &style_text_muted, 0);
 
-    lv_obj_t * ip_label_info = lv_label_create(panel2);
+    ip_label_info = lv_label_create(panel2);
     lv_label_set_text(ip_label_info, "0.0.0.0");
     lv_obj_add_style(ip_label_info, &style_text, 0);
 
-    lv_timer_create(ip_status_timer_cb, 1000, ip_label_info);
+    //lv_timer_create(ip_status_timer_cb, 1000, ip_label_info);
 
 
     /*Create the third panel*/
@@ -938,12 +939,30 @@ static void color_event_cb(lv_event_t * e)
     }
 }
 
-
+#if 0
 static void ip_status_timer_cb(lv_timer_t * timer){
 	lv_obj_t *ip_label_info = timer->user_data;
 	char *ip_address = GetIPAdddress();
 	if (ip_address != NULL){
 		lv_label_set_text(ip_label_info, &ip_address[4]);
+	}else{
+		lv_label_set_text(ip_label_info, "0.0.0.0");
+	}
+}
+#endif
+
+void ip_async_set_address(void *ip_address){
+	char *text = ip_address;
+
+	lv_label_set_text(ip_label_info, text);
+}
+
+void ip_set_address(void){
+	char *ip_address = GetIPAdddress();
+	if (ip_address != NULL){
+		lv_async_call(ip_async_set_address, (void *)&ip_address[4]);
+	}else{
+		lv_async_call(ip_async_set_address, (void *)"0.0.0.0");
 	}
 }
 
@@ -1060,6 +1079,39 @@ void server_set_status(uint32_t server_state){
 	lv_async_call(server_async_set_status, (void *)server_state);
 }
 
+
+void dhcp_async_set_status(void *state){
+	char *text;
+	uint32_t dhcp_state = (uint32_t)state;
+	switch (dhcp_state){
+		case DHCP_IFDOWN:
+			text = "Interface Down";
+			break;
+		case DHCP_CABLE_DISCONNECTED:
+			text = "Cable Disconnected";
+			break;
+		case DHCP_CABLE_CONNECTED:
+			text = "Cable Connected";
+			break;
+		case DHCP_WAIT_FOR_ADDRESS:
+			text = "Waiting for IP address";
+			break;
+		case DHCP_DONE:
+			text = "Connected - IP address acquired";
+			break;
+		default:
+			text = "Unkwown";
+			break;
+	}
+
+	lv_label_set_text(status_label_info, text);
+}
+
+void dhcp_set_status(uint32_t dhcp_state){
+	lv_async_call(dhcp_async_set_status, (void *)dhcp_state);
+}
+
+#if 0
 int32_t dhcp_set_status(uint32_t dhcp_state){
 
 	if (status_label_info != NULL){
@@ -1096,4 +1148,4 @@ int32_t dhcp_set_status(uint32_t dhcp_state){
 		return -1;
 	}
 }
-
+#endif
