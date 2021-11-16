@@ -5,6 +5,16 @@ Prototype
 
 ![pmu](https://user-images.githubusercontent.com/16105418/142029947-1d503f89-67db-444a-9919-b6f38e5b5248.png)
 
+# Publications
+
+SEGER, P. V. H.; MORETO, MIGUEL; GRANDO, F. L.; LAZZARETTI, A. E.; DENARDIN, G. W.; PASTRO, C. R. Monitoring Low Voltage Electrical Networks Using Low Cost PMUs: a Case Study. IEEE International Conference on Environment and Electrical Engineering and IEEE Industrial and Commercial Power Systems Europe, 2020, Madrid.
+
+GRANDO, F. L.; DENARDIN, G. W.; MORETO, M.; LAZZARETTI, A. E.; VIEIRA NETO, H. A method for synchronized harmonic phasor measurement based on hardware-enhanced Fast Fourier Transform. International Transactions on Electrical Energy Systems, v. 30, p. 1-19, 2020.
+
+
+
+# Configurations
+
 The PMU code has several possible configurations. These settings can be configured in the main.h file.
 
 1. Set the PMU identification number for the communication with PDC
