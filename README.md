@@ -1,4 +1,7 @@
 # FreePMU
+
+A Low-Cost, Open Architecture, Synchronized Harmonic Phasor Measurement Unit.
+
 The FreePMU project delivers an open source Phasor Measurement Unit (PMU) for power system analysis based on the STM32F769 Discovery kit and an instrumentation PCB. Its characteristics are low cost, open architecture and open source code. FreePMU measures fundamental and harmonic synchrophasors as well as the signal frequency for a three-phase distribution circuit.
 
 Prototype
