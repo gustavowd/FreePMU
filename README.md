@@ -3,8 +3,7 @@ The FreePMU project delivers an open source Phasor Measurement Unit (PMU) for po
 
 Prototype
 
-![Prototype](https://github.com/gustavowd/microPMU/blob/main/Images/prototype.jpg)
-
+![pmu](https://user-images.githubusercontent.com/16105418/142029947-1d503f89-67db-444a-9919-b6f38e5b5248.png)
 
 The PMU code has several possible configurations. These settings can be configured in the main.h file.
 
