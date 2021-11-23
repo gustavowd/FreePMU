@@ -113,7 +113,7 @@ float Mr,Ms,Mt,Fr,Fs,Ft;
 float Mag_R,Mag_S,Mag_T,Fase_R,Fase_S,Fase_T;
 //float CalibHarmonicas_mag[numero_pontos];
 //float CalibHarmonicas_phase[10];
-float Harmonics_gain[3] = {NORM_GAIN_127V_R, NORM_GAIN_127V_S, NORM_GAIN_127V_T};
+float Harmonics_gain[3] = {HARM_NORM_GAIN_R, HARM_NORM_GAIN_S, HARM_NORM_GAIN_T};
 float harmonics_R_mag[15];
 float harmonics_R_phase[15];
 float harmonics_S_mag[15];
@@ -660,7 +660,7 @@ void PMU_Task(void *argument)
 
 	#ifdef PLATAFORMA_DE_TESTES
 		// DADOS DA TRANSMISSAO (via serial pro PC)
-		UARTPutChar('$');
+		UARTPutChar(STDOUT,'$');
 		idx = 0;
 		//buffer[idx++] = SOC;
 		buffer[idx++] = Mag_R_final;
@@ -690,8 +690,8 @@ void PMU_Task(void *argument)
 
 		// Envia os dados pela serial
 		uint8_t *dados = (uint8_t*)&buffer;
-		UARTPutString(dados,(idx*4));
-		UARTPutString((uint8_t*)"\n\r", 2);
+		UARTPutString(STDOUT,dados,(idx*4));
+		UARTPutString(STDOUT,(uint8_t*)"\n\r", 2);
 	#endif
 
 	#ifdef PPS_30_HZ

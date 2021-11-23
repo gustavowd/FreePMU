@@ -37,7 +37,6 @@ extern "C" {
 /* Kernel includes components */
 #include "k_rtc.h"
 
-
 /* utilities and standard includes components */
 #include <stddef.h>
 #include <stdlib.h>
@@ -58,16 +57,14 @@ enum SERVER_STATES {
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 /* USER CODE BEGIN Private defines */
-// PMU ID
+// PMU ID: Unique identification of the device. Calibration gains are selected
+// according to this value.
 #define PMUID	0x0001
 
 //#define PLATAFORMA_DE_TESTES
 
 // Define nominal frequency
 #define NOMINAL_FREQ 60
-
-// Define nominal voltage
-#define NOMINAL_VOLTAGE 127
 
 // Define if harmonics are enable or not
 #define ENABLE_HARMONICS 1
@@ -111,8 +108,14 @@ enum SERVER_STATES {
 #define CORR_HTIM1 1
 
 
-/* PMU Gains */
+/* PMU Calibration gains selection */
+#if (PMUID == 0x0001)
+#include "PMU_UFSC_1.h"
+#elif (PMUID == 0x0002)
+#include "PMU_UFSC_2.h"
+#endif
 
+#if 0
 /* Defines for normalized harmonics (127V or 220V) */
 #if NOMINAL_VOLTAGE == 127
 #define NORM_GAIN_127V_R	(float)3.048178533
@@ -178,6 +181,8 @@ enum SERVER_STATES {
 /* Defines for the fit curve of the frequency of fundamental T */
 #define FIT_FREQ_GAIN_A_T		(float)-2.3885333996
 #define FIT_FREQ_GAIN_B_T		(float)0.0485053178
+
+#endif
 
 //#define PLATAFORMA_DE_TESTES 1
 //#define USAR_DFT
