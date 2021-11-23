@@ -1,5 +1,0 @@
-tls_server_utils.c:30:5:tls_server_init	16	static
-tls_server_utils.c:53:5:tls_server_start	24	static
-tls_server_utils.c:65:5:tls_accept	24	static
-tls_server_utils.c:99:6:tls_server_free	8	static
-tls_server_utils.c:108:5:tls_server_get_fd	0	static

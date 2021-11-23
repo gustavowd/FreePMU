@@ -1,6 +1,0 @@
-frameDataQ.c:12:26:newElement	16	static
-frameDataQ.c:20:24:createFDQueue	8	static
-frameDataQ.c:28:6:insertQueueElement	24	static
-frameDataQ.c:44:26:removeQueueElement	0	static
-frameDataQ.c:64:5:isQueueEmpty	0	static
-frameDataQ.c:75:5:changeSOC	48	static

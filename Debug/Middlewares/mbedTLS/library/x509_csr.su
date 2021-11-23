@@ -1,6 +1,0 @@
-x509_csr.c:387:6:mbedtls_x509_csr_free.part.0	24	static
-x509_csr.c:90:5:mbedtls_x509_csr_parse_der	64	static
-x509_csr.c:262:5:mbedtls_x509_csr_parse	56	static
-x509_csr.c:336:5:mbedtls_x509_csr_info	72	static
-x509_csr.c:379:6:mbedtls_x509_csr_init	0	static
-x509_csr.c:387:6:mbedtls_x509_csr_free	24	static

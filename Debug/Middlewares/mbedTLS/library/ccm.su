@@ -1,9 +1,0 @@
-ccm.c:152:12:ccm_auth_crypt	136	static
-ccm.c:66:6:mbedtls_ccm_init	0	static
-ccm.c:72:5:mbedtls_ccm_setkey	24	static
-ccm.c:107:6:mbedtls_ccm_free	8	static
-ccm.c:324:5:mbedtls_ccm_star_encrypt_and_tag	48	static
-ccm.c:340:5:mbedtls_ccm_encrypt_and_tag	48	static
-ccm.c:362:5:mbedtls_ccm_star_auth_decrypt	72	static
-ccm.c:400:5:mbedtls_ccm_auth_decrypt	80	static
-ccm.c:470:5:mbedtls_ccm_self_test	240	static

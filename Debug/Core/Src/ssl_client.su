@@ -1,5 +1,0 @@
-ssl_client.c:165:6:printf_putchar_wrapper	0	static
-ssl_client.c:170:5:http_send_request	16	static
-ssl_client.c:185:5:http_get_response	16	static
-ssl_client.c:202:5:utfpr_auth	48	static
-ssl_client.c:261:6:SSL_Client	48	static

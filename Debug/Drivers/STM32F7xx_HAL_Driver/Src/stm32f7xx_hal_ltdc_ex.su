@@ -1,2 +1,0 @@
-stm32f7xx_hal_ltdc_ex.c:71:19:HAL_LTDCEx_StructInitFromVideoConfig	16	static
-stm32f7xx_hal_ltdc_ex.c:107:19:HAL_LTDCEx_StructInitFromAdaptedCommandConfig	8	static

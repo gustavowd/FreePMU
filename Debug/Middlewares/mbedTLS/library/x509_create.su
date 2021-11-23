@@ -1,5 +1,0 @@
-x509_create.c:128:5:mbedtls_x509_string_to_names	304	static
-x509_create.c:213:5:mbedtls_x509_set_extension	24	static
-x509_create.c:274:5:mbedtls_x509_write_names	40	static
-x509_create.c:294:5:mbedtls_x509_write_sig	48	static
-x509_create.c:363:5:mbedtls_x509_write_extensions	32	static

@@ -1,7 +1,0 @@
-pem.c:81:12:pem_pbkdf1	136	static
-pem.c:171:12:pem_des3_decrypt	448	static
-pem.c:201:12:pem_aes_decrypt	344	static
-pem.c:49:6:mbedtls_pem_init	0	static
-pem.c:230:5:mbedtls_pem_read_buffer	312	static
-pem.c:424:6:mbedtls_pem_free	8	static
-pem.c:438:5:mbedtls_pem_write_buffer	64	static

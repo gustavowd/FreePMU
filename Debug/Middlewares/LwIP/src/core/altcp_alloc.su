@@ -1,2 +1,0 @@
-altcp_alloc.c:61:1:altcp_tls_new	16	static
-altcp_alloc.c:80:1:altcp_tls_alloc	16	static

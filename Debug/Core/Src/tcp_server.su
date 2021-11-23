@@ -1,3 +1,0 @@
-tcp_server.c:57:6:pmu_tcp_server	1112	static
-tcp_server.c:296:6:pmu_tcp_server_out	48	static
-tcp_server.c:354:10:Server_GetState	0	static

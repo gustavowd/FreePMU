@@ -1,5 +1,0 @@
-arc4.c:51:6:mbedtls_arc4_init	0	static
-arc4.c:56:6:mbedtls_arc4_free	0	static
-arc4.c:67:6:mbedtls_arc4_setup	16	static
-arc4.c:97:5:mbedtls_arc4_crypt	20	static
-arc4.c:158:5:mbedtls_arc4_self_test	344	static

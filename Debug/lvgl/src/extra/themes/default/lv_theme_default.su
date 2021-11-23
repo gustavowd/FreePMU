@@ -1,5 +1,0 @@
-lv_theme_default.c:598:13:theme_apply	32	static
-lv_theme_default.c:186:19:dark_color_filter_cb	0	static
-lv_theme_default.c:192:19:grey_filter_cb	24	static
-lv_theme_default.c:559:14:lv_theme_default_init	64	static
-lv_theme_default.c:592:6:lv_theme_default_is_inited	0	static
