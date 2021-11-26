@@ -129,6 +129,9 @@ uint8_t pCols[ZONES][4] =
 /**
  * Monitor refresh time
  * */
+static lv_color_t disp_buf1[TFT_HOR_RES * 48];
+static lv_color_t disp_buf2[TFT_HOR_RES * 48];
+
 void monitor_cb(lv_disp_drv_t * d, uint32_t t, uint32_t p)
 {
     t_last = t;
@@ -178,8 +181,6 @@ void tft_init(void)
 
 	DMA_Config();
 
-	static lv_color_t disp_buf1[TFT_HOR_RES * 48];
-	static lv_color_t disp_buf2[TFT_HOR_RES * 48];
 	static lv_disp_draw_buf_t buf;
 	lv_disp_draw_buf_init(&buf, disp_buf1, disp_buf2, TFT_HOR_RES * 48);
 

@@ -166,7 +166,7 @@ reboot_server:
 					connected = 0;
 					osMutexRelease(ethMut_id);
 					//SERVER_StatusMessage ("Escutando porta 4712");
-					Server_State = LISTEN;
+					Server_State = LISTENING;
 					server_set_status(Server_State);
 					break;
 				}else
