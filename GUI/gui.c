@@ -419,6 +419,8 @@ extern volatile float Mag_R_final,Mag_S_final,Mag_T_final,Fase_R_final,Fase_S_fi
 static lv_obj_t * meter;
 lv_meter_indicator_t *indic_red, *indic_green, *indic_blue;
 lv_obj_t *mag_R_label,*mag_S_label,*mag_T_label,*phase_R_label,*phase_S_label,*phase_T_label;
+lv_obj_t *timestamp_label;
+extern char timestampstr[25];
 
 static void phasors_timer_cb(lv_timer_t * timer){
 	lv_meter_set_indicator_end_value(meter, indic_red, Fase_R_final);
@@ -440,6 +442,10 @@ static void phasors_timer_cb(lv_timer_t * timer){
 	lv_label_set_text(phase_S_label, text);
 	snprintf(text, 16, "%.2f", Fase_T_final);
 	lv_label_set_text(phase_T_label, text);
+
+	// Update timestamp:
+	lv_label_set_text(timestamp_label,timestampstr);
+
 }
 
 static void phasors_create(lv_obj_t * parent){
@@ -453,7 +459,13 @@ static void phasors_create(lv_obj_t * parent){
 
 	lv_obj_t * panel1 = lv_obj_create(parent);
 	lv_obj_set_pos(panel1, 410, 0);
-    lv_obj_set_size(panel1, 340, 360);
+    lv_obj_set_size(panel1, 340, 220);
+
+    // Timestamp panel:
+	lv_obj_t * panel2 = lv_obj_create(parent);
+	lv_obj_set_pos(panel2, 410, 225);
+    lv_obj_set_size(panel2, 340, 130);
+
 
 
     lv_obj_t *title = lv_label_create(panel1);
@@ -465,6 +477,11 @@ static void phasors_create(lv_obj_t * parent){
     lv_label_set_text(title, "Phase (°)");
     lv_obj_add_style(title, &style_title, 0);
     lv_obj_set_pos(title, 200, 20);
+
+    title = lv_label_create(panel2);
+    lv_label_set_text(title, "Timestamp:");
+    lv_obj_add_style(title, &style_title, 0);
+    lv_obj_set_pos(title, 10, 0);
 
     mag_R_label = lv_label_create(panel1);
     lv_label_set_text(mag_R_label, "0.0");
@@ -495,6 +512,11 @@ static void phasors_create(lv_obj_t * parent){
     lv_label_set_text(phase_T_label, "0.0");
     lv_obj_add_style(phase_T_label, &style_text_blue, 0);
     lv_obj_set_pos(phase_T_label, 200, 120);
+
+    timestamp_label = lv_label_create(panel2);
+    lv_label_set_text(timestamp_label, "--/--/-- --:--:--");
+    lv_obj_add_style(timestamp_label, &style_text, 0);
+    lv_obj_set_pos(timestamp_label, 150, 0);
 
 
 #if 0
@@ -1053,19 +1075,6 @@ void gps_protocol_async_set_status(void *protocol){
 
 void gps_protocol_set_status(uint32_t gps_protocol){
 	lv_async_call(gps_protocol_async_set_status, (void *)gps_protocol);
-}
-
-void gps_async_update_timestamp(void *SOC){
-
-	//struct tm * my_time;
-	//my_time = localtime((time_t *)SOC);
-	//struct tm tm = *localtime((time_t *){SOC});
-	//strftime(buff, sizeof(buff), "%T %F", &tm);
-}
-
-/* Update time stamp in the GUI */
-void gps_update_timestamp(unsigned long SOC){
-	lv_async_call(gps_async_update_timestamp,(void *)SOC);
 }
 
 void server_async_set_status(void *state){

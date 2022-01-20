@@ -161,6 +161,8 @@ float Freq_final;
 float x, y, z, w;// a=0;
 unsigned int Freq_int;
 
+char timestampstr[25]; // Timestamp string buffer.
+
 //////////////////////////////////////////
 //           PARA SER CONFIGURADO  !!!!!!!!
 // Faction of Second
@@ -837,8 +839,7 @@ void GPS_Task(void *argument)
 				newSOC = 1;
 				taskEXIT_CRITICAL();
 
-
-				//gps_update_timestamp(1617793084);
+				strftime(timestampstr, sizeof(timestampstr), "%d/%m/%y  %T", &t);
 
 			}
 		#if (SIMULATED_GPS == 1)
