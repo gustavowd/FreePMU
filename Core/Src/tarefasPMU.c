@@ -828,12 +828,18 @@ void GPS_Task(void *argument)
 			/*Verifica se chegou informações de Data e Hora*/
 			if (date_calc && hora_calc && valid_data){
 				/*segundo secular UNIX time (1 jan 1970)*/
+				//  setenv("TZ","STD3",1);
+				//  tzset();
 				SOC = (unsigned long) mktime(&t);
 
 				/*Novo SOC foi calculado*/
 				taskENTER_CRITICAL();
 				newSOC = 1;
 				taskEXIT_CRITICAL();
+
+
+				//gps_update_timestamp(1617793084);
+
 			}
 		#if (SIMULATED_GPS == 1)
 			vTaskDelay(490);
@@ -899,7 +905,7 @@ void GPS_Task(void *argument)
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-//						FORMATA��O DOS DADOS
+//						DATA FORMATING
 //
 
 // IEEE Std C37.118.2 - 2011 - PMU Standard data transfer
@@ -1236,7 +1242,7 @@ int frame_data(uint16_t *size){
 	}
 }
 
-/////////////// FRAME DE CONFIGURACAO
+/////////////// CONFIGURATION FRAME
 int frame_config(uint8_t config){
 	char CHName[16]; //vetor nome dos canais, frame config
 
@@ -1246,7 +1252,7 @@ int frame_config(uint8_t config){
 	ucData[0] = A_SYNC_AA;
 	ucData[1] = config;
 
-	// 2. FRAMESIZE = Tamanho do frame, incluindo CHK
+	// 2. FRAMESIZE = Frame size, including CHK
 	#if (ENABLE_HARMONICS == 1)
 	ucData[2] = (unsigned char)0x03;
 	ucData[3] = (unsigned char)0x24; //
@@ -1297,7 +1303,7 @@ int frame_config(uint8_t config){
 	ucData[27] = 'U';
 	ucData[28] = ' ';
 	ucData[29] = 48 + (PmuID/10);
-	ucData[30] = 48 + PmuID;
+	ucData[30] = 48 + (PmuID%10);
 	ucData[31] = ' ';
 	ucData[32] = 'R';
 	ucData[33] = 'S';
@@ -1386,7 +1392,7 @@ int frame_config(uint8_t config){
 	ucData[i++] = 'U';
 	ucData[i++] = ' ';
 	ucData[i++] = 48 + (pmuid_tmp/10);
-	ucData[i++] = 48 + pmuid_tmp;
+	ucData[i++] = 48 + (pmuid_tmp%10);
 	ucData[i++] = ' ';
 	ucData[i++] = 'R';
 	ucData[i++] = 'H';
@@ -1458,7 +1464,7 @@ int frame_config(uint8_t config){
 	ucData[i++] = 'U';
 	ucData[i++] = ' ';
 	ucData[i++] = 48 + (pmuid_tmp/10);
-	ucData[i++] = 48 + pmuid_tmp;
+	ucData[i++] = 48 + (pmuid_tmp%10);
 	ucData[i++] = ' ';
 	ucData[i++] = 'S';
 	ucData[i++] = 'H';
@@ -1530,7 +1536,7 @@ int frame_config(uint8_t config){
 	ucData[i++] = 'U';
 	ucData[i++] = ' ';
 	ucData[i++] = 48 + (pmuid_tmp/10);
-	ucData[i++] = 48 + pmuid_tmp;
+	ucData[i++] = 48 + (pmuid_tmp%10);
 	ucData[i++] = ' ';
 	ucData[i++] = 'T';
 	ucData[i++] = 'H';

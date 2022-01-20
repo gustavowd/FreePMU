@@ -11,6 +11,7 @@
 #include "dhcp_client.h"
 #include "serial.h"
 #include "stm32f7xx_hal_conf.h"
+#include "main.h"
 
 
 /*********************
@@ -204,6 +205,8 @@ void lv_init_widgets(void)
         lv_label_set_text(label, "Harmonics Edition");
         lv_obj_add_style(label, &style_text_muted, 0);
         lv_obj_align_to(label, logo, LV_ALIGN_OUT_RIGHT_BOTTOM, 10, 0);
+
+
     }
 
     lv_obj_t * t1 = lv_tabview_add_tab(tv, "Phasors");
@@ -274,6 +277,16 @@ static void settings_create(lv_obj_t * parent)
     server_label_info = lv_label_create(panel1);
     lv_label_set_text(server_label_info, "Disconnected");
     lv_obj_add_style(server_label_info, &style_text, 0);
+
+    lv_obj_t * server_label_id = lv_label_create(panel1);
+    lv_label_set_text(server_label_id, "PMU ID:");
+    lv_obj_add_style(server_label_id, &style_text_muted, 0);
+
+    // Show the ID of the device.
+    char idstr[3] = {48 + (PMUID/10), 48 + (PMUID%10)};
+    lv_obj_t * server_label_id_val = lv_label_create(panel1);
+    lv_label_set_text(server_label_id_val, idstr);
+    lv_obj_add_style(server_label_id_val, &style_text, 0);
 
     //lv_timer_create(server_status_timer_cb, 1000, server_label_info);
 
@@ -353,6 +366,7 @@ static void settings_create(lv_obj_t * parent)
 	static lv_coord_t grid_1_row_dsc[] = {LV_GRID_CONTENT, 10, LV_GRID_TEMPLATE_LAST};
 
 	static lv_coord_t grid_2_col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
+	static lv_coord_t grid_4_col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 	static lv_coord_t grid_2_row_dsc[] = {
 			LV_GRID_CONTENT,  /*Title*/
 			5,                /*Separator*/
@@ -371,11 +385,13 @@ static void settings_create(lv_obj_t * parent)
 	lv_obj_set_grid_dsc_array(parent, grid_main_col_dsc, grid_main_row_dsc);
 	lv_obj_set_grid_cell(panel1, LV_GRID_ALIGN_STRETCH, 0, 2, LV_GRID_ALIGN_CENTER, 1, 1);
 
-	lv_obj_set_grid_dsc_array(panel1, grid_1_col_dsc, grid_1_row_dsc);
+	lv_obj_set_grid_dsc_array(panel1, grid_4_col_dsc, grid_1_row_dsc);
 
 	lv_obj_set_grid_cell(panel1_title, LV_GRID_ALIGN_CENTER, 0, 2, LV_GRID_ALIGN_START, 0, 1);
 	lv_obj_set_grid_cell(server_label, LV_GRID_ALIGN_END, 0, 1, LV_GRID_ALIGN_START, 1, 1);
 	lv_obj_set_grid_cell(server_label_info, LV_GRID_ALIGN_START, 1, 1, LV_GRID_ALIGN_START, 1, 1);
+	lv_obj_set_grid_cell(server_label_id, LV_GRID_ALIGN_END, 2, 1, LV_GRID_ALIGN_START, 0, 1);
+	lv_obj_set_grid_cell(server_label_id_val, LV_GRID_ALIGN_START, 3, 1, LV_GRID_ALIGN_START, 0, 1);
 
 	lv_obj_set_grid_cell(panel2, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_START, 0, 1);
 	lv_obj_set_grid_dsc_array(panel2, grid_2_col_dsc, grid_2_row_dsc);
@@ -1037,6 +1053,19 @@ void gps_protocol_async_set_status(void *protocol){
 
 void gps_protocol_set_status(uint32_t gps_protocol){
 	lv_async_call(gps_protocol_async_set_status, (void *)gps_protocol);
+}
+
+void gps_async_update_timestamp(void *SOC){
+
+	//struct tm * my_time;
+	//my_time = localtime((time_t *)SOC);
+	//struct tm tm = *localtime((time_t *){SOC});
+	//strftime(buff, sizeof(buff), "%T %F", &tm);
+}
+
+/* Update time stamp in the GUI */
+void gps_update_timestamp(unsigned long SOC){
+	lv_async_call(gps_async_update_timestamp,(void *)SOC);
 }
 
 void server_async_set_status(void *state){
