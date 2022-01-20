@@ -202,27 +202,27 @@
 
  /* MAC ADDRESS: MAC_ADDR0:MAC_ADDR1:MAC_ADDR2:MAC_ADDR3:MAC_ADDR4:MAC_ADDR5 */
  #ifndef MAC_ADDR0
- #define MAC_ADDR0   2U
+ #define MAC_ADDR0   0x5CU
  #endif
 
  #ifndef MAC_ADDR1
- #define MAC_ADDR1   0U
+ #define MAC_ADDR1   0xCDU
  #endif
 
  #ifndef MAC_ADDR2
- #define MAC_ADDR2   0U
+ #define MAC_ADDR2   0x5BU
  #endif
 
  #ifndef MAC_ADDR3
- #define MAC_ADDR3   0U
+ #define MAC_ADDR3   0xC3U
  #endif
 
  #ifndef MAC_ADDR4
- #define MAC_ADDR4   0U
+ #define MAC_ADDR4   0xE1U
  #endif
 
  #ifndef MAC_ADDR5
- #define MAC_ADDR5   0U
+ #define MAC_ADDR5   0xAAU
  #endif
 
  /* Definition of the Ethernet driver buffers size and count */

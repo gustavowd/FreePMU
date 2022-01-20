@@ -57,9 +57,14 @@ enum SERVER_STATES {
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 /* USER CODE BEGIN Private defines */
-// PMU ID: Unique identification of the device. Calibration gains are selected
-// according to this value.
-#define PMUID	0x0001
+
+// Definition of the PMU devices.
+#define PMU_UFSC_1_IDENTIFICATION	1
+#define PMU_UFSC_2_IDENTIFICATION	2
+
+// PMU IDENTIFICATION: Calibration gains and devices ID are selected
+// according to this option. Actual values are defined in separated header files.
+#define PMU_IDENTIFICATION	PMU_UFSC_2_IDENTIFICATION
 
 //#define PLATAFORMA_DE_TESTES
 
@@ -109,9 +114,9 @@ enum SERVER_STATES {
 
 
 /* PMU Calibration gains selection */
-#if (PMUID == 0x0001)
+#if (PMU_IDENTIFICATION == PMU_UFSC_1_IDENTIFICATION)
 #include "PMU_UFSC_1.h"
-#elif (PMUID == 0x0002)
+#elif (PMU_IDENTIFICATION == PMU_UFSC_2_IDENTIFICATION)
 #include "PMU_UFSC_2.h"
 #endif
 

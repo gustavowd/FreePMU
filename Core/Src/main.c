@@ -28,6 +28,7 @@
 #include "hal_stm_lvgl/tft/tft.h"
 #include "hal_stm_lvgl/touchpad/touchpad.h"
 #include "lvgl/lvgl.h"
+#include <time.h>
 //#include "lvgl/examples/lv_examples.h"
 //#include "lv_demos/lv_demo.h"
 #include "GUI/gui.h"
@@ -196,6 +197,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+
   RNG_Init();
 
   MX_ADCalibration_Init();

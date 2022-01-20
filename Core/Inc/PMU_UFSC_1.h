@@ -13,6 +13,19 @@
 extern "C" {
 #endif
 
+// PMU ID: Unique identification of the device.
+#define PMUID	10
+
+
+// Ethernet interface MAC Address Definition.
+/* MAC ADDRESS: MAC_ADDR0:MAC_ADDR1:MAC_ADDR2:MAC_ADDR3:MAC_ADDR4:MAC_ADDR5 */
+#define MAC_ADDR0   0x5CU
+#define MAC_ADDR1   0xCDU
+#define MAC_ADDR2   0x5BU
+#define MAC_ADDR3   0xC3U
+#define MAC_ADDR4   0xE1U
+#define MAC_ADDR5   0xABU
+
 // Define nominal voltage
 #define NOMINAL_VOLTAGE 220
 
