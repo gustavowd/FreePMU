@@ -86,6 +86,9 @@ enum SERVER_STATES {
 // Set this define to 1 for simulate GPS time stamp and PPS
 #define SIMULATED_GPS 0
 
+// Set timezone
+#define TIMEZONE -3
+
 // Defines for 50 or 60Hz in the SOC time stamp
 #define FRACAO_DE_SEGUNDO_INIT 0
 #if (NOMINAL_FREQ == 60)

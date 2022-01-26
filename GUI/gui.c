@@ -444,7 +444,9 @@ static void phasors_timer_cb(lv_timer_t * timer){
 	lv_label_set_text(phase_T_label, text);
 
 	// Update timestamp:
-	lv_label_set_text(timestamp_label,timestampstr);
+	if (timestampstr[0] != 0){
+		lv_label_set_text(timestamp_label,timestampstr);
+	}
 
 }
 
@@ -514,7 +516,8 @@ static void phasors_create(lv_obj_t * parent){
     lv_obj_set_pos(phase_T_label, 200, 120);
 
     timestamp_label = lv_label_create(panel2);
-    lv_label_set_text(timestamp_label, "--/--/-- --:--:--");
+    //lv_label_set_text(timestamp_label, "--/--/-- --:--:--");
+    lv_label_set_text(timestamp_label, "Low GPS signal");
     lv_obj_add_style(timestamp_label, &style_text, 0);
     lv_obj_set_pos(timestamp_label, 150, 0);
 

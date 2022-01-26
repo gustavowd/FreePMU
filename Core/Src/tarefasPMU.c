@@ -743,6 +743,7 @@ void PMU_Task(void *argument)
 extern xSemaphoreHandle sUART;
 char teste;
 volatile uint32_t gps_status = 0;
+void gps_set_status(uint32_t gps_state);
 
 void GPS_Task(void *argument)
 {
@@ -807,11 +808,11 @@ void GPS_Task(void *argument)
 					t.tm_sec = 10*(*str++ - 48);
 					t.tm_sec += (*str++ - 48);
 					hora_calc = 1;
-				}else if (substring ==2 && *str != ','){
+				}//else if (substring ==2 && *str != ','){
                     //Não precisa de dados válidos para data e hora
 					//if (*str++ == 'A')
-						valid_data=1;
-				}
+					//	valid_data=1;
+				//}
 				else if (substring == 9 && *str != ','){
 					t.tm_mday = 10*( *str++ - 48);
 					t.tm_mday += ( *str++ - 48);
@@ -821,6 +822,10 @@ void GPS_Task(void *argument)
 					t.tm_year += ( *str++  - 48) - 1900;
 					t.tm_isdst = -1;
 					date_calc = 1;
+					// Detecta dados válidos pelo ano
+					if (t.tm_year >= 122){
+						valid_data=1;
+					}
 				}
 
 				while (*str++ != ',');
@@ -830,9 +835,10 @@ void GPS_Task(void *argument)
 			/*Verifica se chegou informações de Data e Hora*/
 			if (date_calc && hora_calc && valid_data){
 				/*segundo secular UNIX time (1 jan 1970)*/
-				//  setenv("TZ","STD3",1);
-				//  tzset();
 				SOC = (unsigned long) mktime(&t);
+				SOC = SOC + TIMEZONE*3600;
+				time_t tmp_soc = (time_t)SOC;
+				t = *localtime(&tmp_soc);
 
 				/*Novo SOC foi calculado*/
 				taskENTER_CRITICAL();
