@@ -126,7 +126,7 @@ osThreadId_t tcpoutTaskHandle;
 const osThreadAttr_t tcpoutTask_attributes = {
   .name = "ServerOutTask",
   .stack_size = 2048,
-  .priority = (osPriority_t) osPriorityNormal2,
+  .priority = (osPriority_t) osPriorityNormal3,
 };
 
 
