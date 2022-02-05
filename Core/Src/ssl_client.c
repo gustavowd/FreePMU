@@ -270,8 +270,8 @@ void SSL_Client(void *argument){
    UARTPutString(STDOUT, "\033[2J\033[H",0);
 
    //Informações de versões de software
-   UARTPutString(STDOUT, "FreePMU - Versão: 2.0.0\n\r\n\r",0);
-   UARTPutString(STDOUT, "Versão das bibliotecas utilizadas:\n\r", 0);
+   UARTPutString(STDOUT, "FreePMU - Version: 2.0.0\n\r\n\r",0);
+   UARTPutString(STDOUT, "Version of the used libraries:\n\r", 0);
    UARTPutString(STDOUT, "FreeRTOS ", 9);
    UARTPutString(STDOUT, tskKERNEL_VERSION_NUMBER, 7);
    UARTPutString(STDOUT, "\n\r",2);
@@ -287,7 +287,7 @@ void SSL_Client(void *argument){
 
    printf_install_putchar(printf_putchar_wrapper);
 
-  UARTPutString(STDOUT, "Obtendo endereço IP...\n\r", 0);
+  UARTPutString(STDOUT, "Getting IP address...\n\r", 0);
 
   // Wait for IP Address
   while(DHCP_GetState() != DHCP_DONE){
@@ -310,7 +310,7 @@ void SSL_Client(void *argument){
          (int)((ui32NewIPAddress >> 16) & 0xff), (int)((ui32NewIPAddress >> 24) & 0xff));
 
   //Display the IP
-  UARTPutString(STDOUT, "Endereço IP: ", 14);
+  UARTPutString(STDOUT, "IP address: ", 0);
   UARTPutString(STDOUT, pcBuf, 0);
   UARTPutString(STDOUT, "\n\r",2);
 
@@ -325,13 +325,15 @@ void SSL_Client(void *argument){
   sntp_init();
 
   while(1){
+#if 1
 	  UARTPutString(STDOUT, "\n\n\r\r",4);
-	  sprintf((char *)buf, "Memória disponível no HEAP: %d bytes\n\r\n\r",(int)xPortGetFreeHeapSize());
+	  sprintf((char *)buf, "Memory available on HEAP: %d bytes\n\r\n\r",(int)xPortGetFreeHeapSize());
 	  UARTPutString(STDOUT, (char *)buf,0);
 	  sprintf((char *)buf, "Name          State  Priority  Stack  Number\n\r");
 	  UARTPutString(STDOUT, (char *)buf,0);
 	  vTaskList((char *)buf);
 	  UARTPutString(STDOUT, (char *)buf,0);
+#endif
 
 #if 0
 	  if (reconnection_trigger){
