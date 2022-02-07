@@ -23,6 +23,7 @@
 #include "frameDataQ.h"
 
 #include "GUI/gui.h"
+#include "print_server.h"
 /* ------------------------ IEEE C37118 includes --------------------------- */
 #define TCP_PORT 4712
 #define UDP_PORT 4713
@@ -46,19 +47,22 @@ extern int frame_data(uint16_t *size);
 extern int frame_config(uint8_t config);
 extern int frame_header(void);
 osMutexId ethMut_id;
-volatile int newsockfd_out;
+volatile int first_connection = 0;
 volatile unsigned char data_flag=0;
 volatile uint32_t Server_State = SERVER_DOWN;
 #if TRANSPORT_PROTOCOL == UDP_PMU
 struct sockaddr_in cli_addr;
 #endif
 
+#define SERVER_VERBOSE 1
+
 //void SERVER_StatusMessage (const char *message);
 
 osMutexDef(ethMut);
+volatile int sockfd, newsockfd;
 void pmu_tcp_server(void *argument)
 {
-	int sockfd, newsockfd, clilen;
+	int clilen;
 #if TRANSPORT_PROTOCOL == TCP_PMU
 	struct sockaddr_in serv_addr, cli_addr;
 #else
@@ -78,11 +82,18 @@ void pmu_tcp_server(void *argument)
 #if TRANSPORT_PROTOCOL == TCP_PMU
 reboot_server:
     /* First call to socket() function */
+#if SERVER_VERBOSE == 1
+	//UARTPutString(STDOUT, "Starting server...\n\r",0);
+	xMessageBufferSend(xMessageBuffer, "Starting server...\n\r", strlen("Starting server...\n\r")+1, portMAX_DELAY);
+#endif
 	sockfd = lwip_socket(AF_INET, SOCK_STREAM, 0);
 	int on = 1;
 	if (sockfd < 0) {
 		//erro
-		//SERVER_StatusMessage ("Erro ao criar socket!");
+#if SERVER_VERBOSE == 1
+		//UARTPutString(STDOUT, "Error creating socket!\n\r",0);
+		xMessageBufferSend(xMessageBuffer, "Error creating socket!\n\r", strlen("Error creating socket!\n\r")+1, portMAX_DELAY);
+#endif
 		Server_State = SOCKET_ERROR;
 		server_set_status(Server_State);
 		osDelay(5000);
@@ -90,6 +101,9 @@ reboot_server:
 	}
 
 	int status = lwip_setsockopt(sockfd, SOL_SOCKET,SO_REUSEADDR, (const char *) &on, sizeof(on));
+	(void)status;
+	const struct timeval timeout = { 0, 300000 }; /* 300 milliseconds timeout */
+	status = lwip_setsockopt(sockfd,SOL_SOCKET,SO_SNDTIMEO, (const char *) &timeout,sizeof(timeout));
 	(void)status;
 
 	/* Initialize socket structure */
@@ -104,7 +118,10 @@ reboot_server:
 	if (lwip_bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0){
 		//erro
 		lwip_close(sockfd);
-		//SERVER_StatusMessage ("Erro no bind do servidor!");
+#if SERVER_VERBOSE == 1
+		//UARTPutString(STDOUT, "Error binding socket!\n\r",0);
+		xMessageBufferSend(xMessageBuffer, "Error binding socket!\n\r", strlen("Error binding socket!\n\r")+1, portMAX_DELAY);
+#endif
 		Server_State = BIND_ERROR;
 		server_set_status(Server_State);
 		osDelay(5000);
@@ -116,16 +133,22 @@ reboot_server:
 	 */
 	if ( lwip_listen(sockfd, 5) != 0 ){
 		lwip_close(sockfd);
-		//SERVER_StatusMessage ("Erro ao escutar a porta 4712!");
+#if SERVER_VERBOSE == 1
+		//UARTPutString(STDOUT, "Error listening on port 4712!\n\r",0);
+		xMessageBufferSend(xMessageBuffer, "Error listening on port 4712!\n\r", strlen("Error listening on port 4712!\n\r")+1, portMAX_DELAY);
+#endif
 		Server_State = LISTEN_ERROR;
 		server_set_status(Server_State);
 		osDelay(5000);
+		goto reboot_server;
 	}
 
 	clilen = sizeof(cli_addr);
 
-	//escutando = 1;
-	//SERVER_StatusMessage ("Escutando porta 4712");
+#if SERVER_VERBOSE == 1
+	//UARTPutString(STDOUT, "Listening on port 4712.\n\r",0);
+	xMessageBufferSend(xMessageBuffer, "Listening on port 4712.\n\r", strlen("Listening on port 4712.\n\r")+1, portMAX_DELAY);
+#endif
 	Server_State = LISTENING;
 	server_set_status(Server_State);
 
@@ -137,35 +160,52 @@ reboot_server:
 		newsockfd = lwip_accept(sockfd, (struct sockaddr *) &cli_addr, (socklen_t*)&clilen);
 		if (newsockfd < 0){
 			//erro
-			while(1){
-				//SERVER_StatusMessage ("Erro no servidor");
-				Server_State = ACCEPT_ERROR;
-				server_set_status(Server_State);
-				osDelay(1000);
-			}
+			lwip_close(sockfd);
+#if SERVER_VERBOSE == 1
+			//UARTPutString(STDOUT, "Accept error!\n\r",0);
+			xMessageBufferSend(xMessageBuffer, "Accept error!\n\r", strlen("Accept error!\n\r")+1, portMAX_DELAY);
+#endif
+			Server_State = ACCEPT_ERROR;
+			server_set_status(Server_State);
+			osDelay(5000);
+			goto reboot_server;
 		}
 
 		connected = 1;
-		newsockfd_out = newsockfd;
+		const struct timeval timeout = { 0, 300000 }; /* 300 milliseconds timeout */
+		status = lwip_setsockopt(newsockfd,SOL_SOCKET,SO_SNDTIMEO, (const char *) &timeout,sizeof(timeout));
+		(void)status;
+		const struct timeval timeout2 = { 5, 0 }; /* 5 second timeout */
+		status = lwip_setsockopt(newsockfd,SOL_SOCKET,SO_RCVTIMEO, (const char *) &timeout2,sizeof(timeout2));
+		(void)status;
 		while(1){
 
 			bzero(buffer,1024);
 			n = lwip_read(newsockfd,buffer,1024);
-			osMutexWait(ethMut_id,0);
+			osMutexWait(ethMut_id,portMAX_DELAY);
 			if (n < 0){
 				//erro
-				close(newsockfd);
-				close(sockfd);
-				connected = 0;
-				osMutexRelease(ethMut_id);
-				goto reboot_server;
+				if (connected == 0){
+					osMutexRelease(ethMut_id);
+#if SERVER_VERBOSE == 1
+					//UARTPutString(STDOUT, "Error reading data!\n\r",0);
+					xMessageBufferSend(xMessageBuffer, "Error reading data!\n\r", strlen("Error reading data!\n\r")+1, portMAX_DELAY);
+					//UARTPutString(STDOUT, "Disconnected from the PDC!\n\r",0);
+					xMessageBufferSend(xMessageBuffer, "Disconnected from the PDC!\n\r", strlen("Disconnected from the PDC!\n\r")+1, portMAX_DELAY);
+#endif
+					goto reboot_server;
+				}else{
+					osMutexRelease(ethMut_id);
+				}
 			}else{
 				if (n == 0){
-
+					if (data_flag){
+						data_flag = 0;
+					}
 					close(newsockfd);
 					connected = 0;
+					first_connection = 0;
 					osMutexRelease(ethMut_id);
-					//SERVER_StatusMessage ("Escutando porta 4712");
 					Server_State = LISTENING;
 					server_set_status(Server_State);
 					break;
@@ -179,11 +219,19 @@ reboot_server:
 							switch(buffer[15]){
 
 								case 0x01:  //Desliga transmissao
+									if (data_flag == 1){
+										data_flag = 0;
+#if SERVER_VERBOSE == 1
+										//UARTPutString(STDOUT, "Disconnected from the PDC!\n\r",0);
+										xMessageBufferSend(xMessageBuffer, "Disconnected from the PDC!\n\r", strlen("Disconnected from the PDC!\n\r")+1, portMAX_DELAY);
+#endif
+									}
 									data_flag = 0;
 									break;
 
 								case 0x02: // Liga transmissao
 									data_flag = 1;
+									first_connection = 1;
 									break;
 
 								case 0x03: // Envia frame de cabecalho
@@ -199,7 +247,10 @@ reboot_server:
 								case 0x05: // Envia frame de cofiguracao 2
 									nbytes = frame_config(A_SYNC_CFG2);
 									lwip_send(newsockfd, ucData, nbytes, 0);
-									//SERVER_StatusMessage ("Conectado ao PDC!");
+#if SERVER_VERBOSE == 1
+									//UARTPutString(STDOUT, "Connected to the PDC!\n\r",0);
+									xMessageBufferSend(xMessageBuffer, "Connected to the PDC!\n\r", strlen("Connected to the PDC!\n\r")+1, portMAX_DELAY);
+#endif
 									Server_State = PDC_CONNECTED;
 									server_set_status(Server_State);
 									break;
@@ -216,9 +267,9 @@ reboot_server:
 						}
 
 					}
+					osMutexRelease(ethMut_id);
 				}
 			}
-			osMutexRelease(ethMut_id);
 		}
 	} /* end of while */
 #endif
@@ -266,7 +317,6 @@ reboot_server:
 
 	//SERVER_StatusMessage ("Broadcasting na porta 4713");
 	Server_State = UDP_BROADCASTING;
-	newsockfd_out = sockfd;
 	escutando = 1;
 	connected = 1;
 
@@ -294,10 +344,13 @@ osSemaphoreDef(syncSem);
 char isSyncCreated = 0;
 
 extern struct frameDataQueue* qUcData;
+extern volatile int frame_cnt;
+extern volatile uint8_t newSOC;
 
 void pmu_tcp_server_out(void *argument)
 {
 	int nbytes;
+	ssize_t transmitted = 0;
 
 	/* Parameters are not used - suppress compiler error. */
     //LWIP_UNUSED_ARG(pvParameters);
@@ -306,38 +359,111 @@ void pmu_tcp_server_out(void *argument)
     isSyncCreated = 1;
 	while(1){
 		osSemaphoreAcquire(syncSem_id, osWaitForever);
-		if(connected){
+		osMutexWait(ethMut_id,portMAX_DELAY);
+		if (first_connection){
+			if ((frame_cnt == 1) && (newSOC == 1)){
+				first_connection = 0;
+			}
+		}
 
-			osMutexWait(ethMut_id,0);
+		if((connected == 1) && (first_connection == 0)){
 			uint16_t size = 0;
 			nbytes = frame_data(&size);
+			osMutexRelease(ethMut_id);
 
 			/*Nao ha elementos na fila, ha apenas um ucData, que deve ser enviado*/
 			if ((nbytes == 1) && (isQueueEmpty(qUcData) == 1)) {
 				// Os data frames aparentam ter sempre 50 bytes de tamanho
+				osMutexWait(ethMut_id,portMAX_DELAY);
 				#if TRANSPORT_PROTOCOL == TCP_PMU
-				lwip_send(newsockfd_out, ucData, size, 0);
+				uint32_t tmpcnt = 0;
+				do{
+					transmitted = lwip_send(newsockfd, ucData, size, 0);
+					if (transmitted != size){
+						tmpcnt++;
+#if SERVER_VERBOSE == 1
+						//UARTPutString(STDOUT, "Transmission error!\n\r",0);
+						int err;
+						socklen_t optlen = sizeof(err);
+						getsockopt(newsockfd, SOL_SOCKET, SO_ERROR, &err, &optlen);
+						char tmpbuffer[36];
+						sprintf(tmpbuffer, "Transmission error, errno: %d\n\r", errno);
+						xMessageBufferSend(xMessageBuffer, tmpbuffer, strlen(tmpbuffer)+1, portMAX_DELAY);
+						//xMessageBufferSend(xMessageBuffer, "Transmission error!\n\r", strlen("Transmission error!\n\r")+1, portMAX_DELAY);
+#endif
+						if (tmpcnt >=3){
+							//erro
+							close(newsockfd);
+							close(sockfd);
+							data_flag = 0;
+							connected = 0;
+							first_connection = 0;
+							break;
+						}
+					}
+				}while(transmitted != size);
 				#endif
 				#if TRANSPORT_PROTOCOL == UDP_PMU
-				lwip_sendto(newsockfd_out, ucData, size, 0, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
+				lwip_sendto(newsockfd, ucData, size, 0, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
 				#endif
+				osMutexRelease(ethMut_id);
 			// Caso contrario, envia-se a fila toda
 			} else if (nbytes > 1) {
+#if SERVER_VERBOSE == 1
+				char tmpbuffer[32];
+				sprintf(tmpbuffer, "Used queue: %d\n\r", qUcData->number_elements);
+				//UARTPutString(STDOUT, tmpbuffer,0);
+				xMessageBufferSend(xMessageBuffer, tmpbuffer, strlen(tmpbuffer)+1, portMAX_DELAY);
+#endif
 				struct frameDataElement* temp = removeQueueElement(qUcData);
 				while (temp != NULL) {
+					osMutexWait(ethMut_id,portMAX_DELAY);
 					#if TRANSPORT_PROTOCOL == TCP_PMU
-					lwip_send(newsockfd_out, temp->ucData, size, 0);
+					uint32_t tmpcnt = 0;
+					do{
+						transmitted = lwip_send(newsockfd, ucData, size, 0);
+						if (transmitted != size){
+							tmpcnt++;
+#if SERVER_VERBOSE == 1
+							//UARTPutString(STDOUT, "Transmission error!\n\r",0);
+							//xMessageBufferSend(xMessageBuffer, "Transmission error!\n\r", strlen("Transmission error!\n\r")+1, portMAX_DELAY);
+							int err;
+							socklen_t optlen = sizeof(err);
+							getsockopt(newsockfd, SOL_SOCKET, SO_ERROR, &err, &optlen);
+							char tmpbuffer[36];
+							sprintf(tmpbuffer, "Transmission error, errno: %d\n\r", errno);
+							xMessageBufferSend(xMessageBuffer, tmpbuffer, strlen(tmpbuffer)+1, portMAX_DELAY);
+#endif
+							if (tmpcnt >=3){
+								//erro
+								close(newsockfd);
+								close(sockfd);
+								data_flag = 0;
+								connected = 0;
+								first_connection = 0;
+								break;
+							}
+						}
+					}while(transmitted != size);
+					if (tmpcnt >=3){
+						osMutexRelease(ethMut_id);
+						while (temp != NULL) {
+							vPortFree(temp);
+							temp = removeQueueElement(qUcData);
+						}
+						break;
+					}
 					#endif
 					#if TRANSPORT_PROTOCOL == UDP_PMU
-					lwip_sendto(newsockfd_out, ucData, size, 0, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
+					lwip_sendto(newsockfd, ucData, size, 0, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
 					#endif
+					osMutexRelease(ethMut_id);
 					vPortFree(temp);
 					temp = removeQueueElement(qUcData);
 				}
 			}
-			osMutexRelease(ethMut_id);
-
 		}else{
+			osMutexRelease(ethMut_id);
 			if (qUcData != NULL){
 				// Se não está conectado e tem itens na fila, esvazia a fila
 				if (isQueueEmpty(qUcData) == 0){

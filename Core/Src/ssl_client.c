@@ -94,6 +94,7 @@ int main( void )
 #include "stm32f7xx_hal_gpio.h"
 #include "task.h"
 #include "printf_lib.h"
+#include "print_server.h"
 
 #include "lwip/init.h"
 #include "mbedtls/version.h"
@@ -244,7 +245,8 @@ int utfpr_auth(void)
 
 	while(http_get_response(&cli.con, buf, sizeof(buf))) {
 		if(strstr(buf, "Você está logado.")) {
-			UARTPutString(STDOUT, "Você está logado por intranet.pb.utfpr.edu.br\n\r",0);
+			//UARTPutString(STDOUT, "Você está logado por intranet.pb.utfpr.edu.br\n\r",0);
+			xMessageBufferSend(xMessageBuffer, "Você está logado por intranet.pb.utfpr.edu.br\n\r", strlen("Você está logado por intranet.pb.utfpr.edu.br\n\r")+1, portMAX_DELAY);
 			ret = pdTRUE;
 			break;
 		}
@@ -267,27 +269,43 @@ void SSL_Client(void *argument){
 #endif
 
    // Limpa a tela do terminal
-   UARTPutString(STDOUT, "\033[2J\033[H",0);
+   //UARTPutString(STDOUT, "\033[2J\033[H",0);
+   xMessageBufferSend(xMessageBuffer, "\033[2J\033[H", strlen("\033[2J\033[H")+1, portMAX_DELAY);
 
    //Informações de versões de software
-   UARTPutString(STDOUT, "FreePMU - Version: 2.0.0\n\r\n\r",0);
-   UARTPutString(STDOUT, "Version of the used libraries:\n\r", 0);
-   UARTPutString(STDOUT, "FreeRTOS ", 9);
-   UARTPutString(STDOUT, tskKERNEL_VERSION_NUMBER, 7);
-   UARTPutString(STDOUT, "\n\r",2);
-   UARTPutString(STDOUT, "LwIP ", 5);
-   UARTPutString(STDOUT, LWIP_VERSION_STRING, 5);
-   UARTPutString(STDOUT, "\n\r",2);
-   UARTPutString(STDOUT, "mbedTLS ", 8);
-   UARTPutString(STDOUT, MBEDTLS_VERSION_STRING, 6);
-   UARTPutString(STDOUT, "\n\r",2);
-   UARTPutString(STDOUT, "Little VGL ", 11);
-   UARTPutString(STDOUT, "v8.0.0", 6);
-   UARTPutString(STDOUT, "\n\r\n\r",4);
+   //UARTPutString(STDOUT, "FreePMU - Version: 2.0.0\n\r\n\r",0);
+   xMessageBufferSend(xMessageBuffer, "FreePMU - Version: 2.0.0\n\r\n\r", strlen("FreePMU - Version: 2.0.0\n\r\n\r")+1, portMAX_DELAY);
+   //UARTPutString(STDOUT, "Version of the used libraries:\n\r", 0);
+   xMessageBufferSend(xMessageBuffer, "Version of the used libraries:\n\r", strlen("Version of the used libraries:\n\r")+1, portMAX_DELAY);
+   //UARTPutString(STDOUT, "FreeRTOS ", 9);
+   xMessageBufferSend(xMessageBuffer, "FreeRTOS ", 9, portMAX_DELAY);
+   //UARTPutString(STDOUT, tskKERNEL_VERSION_NUMBER, 7);
+   xMessageBufferSend(xMessageBuffer, tskKERNEL_VERSION_NUMBER, 7, portMAX_DELAY);
+   //UARTPutString(STDOUT, "\n\r",2);
+   xMessageBufferSend(xMessageBuffer, "\n\r", 2, portMAX_DELAY);
+   //UARTPutString(STDOUT, "LwIP ", 5);
+   xMessageBufferSend(xMessageBuffer, "LwIP ", 5, portMAX_DELAY);
+   //UARTPutString(STDOUT, LWIP_VERSION_STRING, 5);
+   xMessageBufferSend(xMessageBuffer, LWIP_VERSION_STRING, 5, portMAX_DELAY);
+   //UARTPutString(STDOUT, "\n\r",2);
+   xMessageBufferSend(xMessageBuffer, "\n\r", 2, portMAX_DELAY);
+   //UARTPutString(STDOUT, "mbedTLS ", 8);
+   xMessageBufferSend(xMessageBuffer, "mbedTLS ", 8, portMAX_DELAY);
+   //UARTPutString(STDOUT, MBEDTLS_VERSION_STRING, 6);
+   xMessageBufferSend(xMessageBuffer, MBEDTLS_VERSION_STRING, 6, portMAX_DELAY);
+   //UARTPutString(STDOUT, "\n\r",2);
+   xMessageBufferSend(xMessageBuffer, "\n\r", 2, portMAX_DELAY);
+   //UARTPutString(STDOUT, "Little VGL ", 11);
+   xMessageBufferSend(xMessageBuffer, "Little VGL ", 11, portMAX_DELAY);
+   //UARTPutString(STDOUT, "v8.0.0", 6);
+   xMessageBufferSend(xMessageBuffer, "v8.0.0", 6, portMAX_DELAY);
+   //UARTPutString(STDOUT, "\n\r\n\r",4);
+   xMessageBufferSend(xMessageBuffer, "\n\r\n\r", 4, portMAX_DELAY);
 
    printf_install_putchar(printf_putchar_wrapper);
 
-  UARTPutString(STDOUT, "Getting IP address...\n\r", 0);
+  //UARTPutString(STDOUT, "Getting IP address...\n\r", 0);
+   xMessageBufferSend(xMessageBuffer, "Getting IP address...\n\r", strlen("Getting IP address...\n\r")+1, portMAX_DELAY);
 
   // Wait for IP Address
   while(DHCP_GetState() != DHCP_DONE){
@@ -310,13 +328,17 @@ void SSL_Client(void *argument){
          (int)((ui32NewIPAddress >> 16) & 0xff), (int)((ui32NewIPAddress >> 24) & 0xff));
 
   //Display the IP
-  UARTPutString(STDOUT, "IP address: ", 0);
-  UARTPutString(STDOUT, pcBuf, 0);
-  UARTPutString(STDOUT, "\n\r",2);
+  //UARTPutString(STDOUT, "IP address: ", 0);
+  xMessageBufferSend(xMessageBuffer, "IP address: ", strlen("IP address: ")+1, portMAX_DELAY);
+  //UARTPutString(STDOUT, pcBuf, 0);
+  xMessageBufferSend(xMessageBuffer, pcBuf, strlen(pcBuf)+1, portMAX_DELAY);
+  //UARTPutString(STDOUT, "\n\r",2);
+  xMessageBufferSend(xMessageBuffer, "\n\r", 2, portMAX_DELAY);
 
   #if UTFPR_AUTH == 1
   // Imprime uma tela de boas-vindas
-  UARTPutString(STDOUT, "Tarefa TLS de login iniciou!\n\r>>",30);
+  //UARTPutString(STDOUT, "Tarefa TLS de login iniciou!\n\r>>",30);
+  xMessageBufferSend(xMessageBuffer, "Tarefa TLS de login iniciou!\n\r>>", 30, portMAX_DELAY);
   utfpr_auth();
   #endif
 
@@ -326,13 +348,18 @@ void SSL_Client(void *argument){
 
   while(1){
 #if 1
-	  UARTPutString(STDOUT, "\n\n\r\r",4);
+	  //UARTPutString(STDOUT, "\n\n\r\r",4);
+	  xMessageBufferSend(xMessageBuffer, "\n\n\r\r", 4, portMAX_DELAY);
 	  sprintf((char *)buf, "Memory available on HEAP: %d bytes\n\r\n\r",(int)xPortGetFreeHeapSize());
-	  UARTPutString(STDOUT, (char *)buf,0);
+	  //UARTPutString(STDOUT, (char *)buf,0);
+	  xMessageBufferSend(xMessageBuffer, buf, strlen((char *)buf), portMAX_DELAY);
 	  sprintf((char *)buf, "Name          State  Priority  Stack  Number\n\r");
-	  UARTPutString(STDOUT, (char *)buf,0);
+	  //UARTPutString(STDOUT, (char *)buf,0);
+	  xMessageBufferSend(xMessageBuffer, buf, strlen((char *)buf), portMAX_DELAY);
 	  vTaskList((char *)buf);
-	  UARTPutString(STDOUT, (char *)buf,0);
+	  //UARTPutString(STDOUT, (char *)buf,0);
+	  xMessageBufferSend(xMessageBuffer, buf, strlen((char *)buf), portMAX_DELAY);
+	  xMessageBufferSend(xMessageBuffer, "\n\r", 2, portMAX_DELAY);
 #endif
 
 #if 0

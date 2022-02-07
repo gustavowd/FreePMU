@@ -32,6 +32,7 @@
 //#include "lvgl/examples/lv_examples.h"
 //#include "lv_demos/lv_demo.h"
 #include "GUI/gui.h"
+#include "print_server.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,6 +88,13 @@ const osThreadAttr_t gpsTask_attributes = {
   .name = "GPSTask",
   .stack_size = 2048,
   .priority = (osPriority_t) osPriorityHigh,
+};
+
+osThreadId_t printTaskHandle;
+const osThreadAttr_t printTask_attributes = {
+  .name = "Print Server",
+  .stack_size = 1536,
+  .priority = (osPriority_t) osPriorityLow1,
 };
 
 #define MEDIA_CALIB_POWER2 7
@@ -269,6 +277,8 @@ int main(void)
 
   /* GPS Task: */
   gpsTaskHandle = osThreadNew(GPS_Task, NULL, &gpsTask_attributes);
+
+  printTaskHandle = osThreadNew(Print_Task, NULL, &printTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */

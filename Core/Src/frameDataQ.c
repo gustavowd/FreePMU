@@ -6,6 +6,8 @@
  */
 
 #include <string.h>
+//#include <stdio.h>
+#include "print_server.h"
 #include "frameDataQ.h"
 
 /* Cria um novo elemento. */
@@ -70,6 +72,8 @@ int isQueueEmpty (struct frameDataQueue* q) {
 }
 
 uint16_t ComputeCRC(unsigned char *Message, uint16_t MessLen);
+extern unsigned long FracSec;
+extern volatile int frame_cnt_3;
 
 /* Funcao para trocar o SOC do ucData. Retorna int para dizer qtos elementos ha na fila. */
 int changeSOC (struct frameDataQueue* q, unsigned long nSOC, uint16_t size) {
@@ -79,6 +83,9 @@ int changeSOC (struct frameDataQueue* q, unsigned long nSOC, uint16_t size) {
 	/* O ponteiro temp e colocado no inicio da fila para iterar sobre os elementos*/
 	struct frameDataElement* temp = q->ini;
 
+	FracSec = 0;
+	frame_cnt_3 = 0;
+
 	/*O final da fila ocorre quando este pointeiro chegar a NULL, entao para cada item...*/
 	while (temp != NULL) {
 		// ... altera-se o SOC com o novo SOC
@@ -86,6 +93,21 @@ int changeSOC (struct frameDataQueue* q, unsigned long nSOC, uint16_t size) {
 		temp->ucData[7] = (unsigned char)((nSOC & 0x00FF0000) >> 16);
 		temp->ucData[8] = (unsigned char)((nSOC & 0x0000FF00) >> 8);
 		temp->ucData[9] = (unsigned char)(nSOC & 0x000000FF);
+
+		// ... altera-se o FracSec para sincronizar os pacotes
+		temp->ucData[10] = (unsigned char)((FracSec & 0xFF000000) >> 24);
+		temp->ucData[11] = (unsigned char)((FracSec & 0x00FF0000) >> 16);
+		temp->ucData[12] = (unsigned char)((FracSec & 0x0000FF00) >> 8);
+		temp->ucData[13] = (unsigned char)(FracSec & 0x000000FF);
+
+#if 0
+		char tmpbuffer[40];
+		sprintf(tmpbuffer, "SOC: %lu - FracSec: %lu", nSOC, FracSec);
+		//UARTPutString(STDOUT, tmpbuffer,0);
+		xMessageBufferSend(xMessageBuffer, tmpbuffer, strlen(tmpbuffer)+1, portMAX_DELAY);
+		//UARTPutString(STDOUT, "\n\r",2);
+		xMessageBufferSend(xMessageBuffer, "\n\r", 2, portMAX_DELAY);
+#endif
 
 		/*Recalcula-se o CRC*/
 		CRC_CCITT = ComputeCRC(temp->ucData, size - (uint16_t)2);
@@ -95,6 +117,19 @@ int changeSOC (struct frameDataQueue* q, unsigned long nSOC, uint16_t size) {
 
 		/*E transcorre-se para o proximo elemento da fila*/
 		temp = temp->next;
+
+		if (temp != NULL){
+			FracSec += FRACAO_DE_SEGUNDO;
+			#if (NOMINAL_FREQ == 60)
+			if (FracSec != 0){
+				frame_cnt_3++;
+				if (frame_cnt_3 == 3){
+					frame_cnt_3 = 0;
+					FracSec++;
+				}
+			}
+			#endif
+		}
 
 		++qtdE;
 	}

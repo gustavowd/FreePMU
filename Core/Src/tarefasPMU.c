@@ -18,6 +18,7 @@
 #include "serial.h"
 #include "frameDataQ.h"
 #include "GUI/gui.h"
+#include "print_server.h"
 
 #if (NOMINAL_FREQ == 50)
 #define MCLOCK_FREQ 200000000
@@ -206,6 +207,7 @@ float LWordSwap(float float_data){
 
 void PMU_Task(void *argument)
 {
+	xMessageBuffer = xMessageBufferCreate(768);
 	UARTInit();
 	/////////////////////// DEFINIÇÕES INICIAIS
 	pmuSem_id = osSemaphoreNew(1U, 0U, NULL);
@@ -699,23 +701,17 @@ void PMU_Task(void *argument)
 	#ifdef PPS_30_HZ
 		if (frame_cnt){
 			FracSec += FRACAO_DE_SEGUNDO;
-			if (FracSec > LIMITE_FRACAO_DE_SEGUNDO){
+			if (frame_cnt >= (NOMINAL_FREQ/2)){
 				taskENTER_CRITICAL();
 				newSOC = 0;
-				FracSec = 0;
+				frame_cnt = 0;
+				frame_cnt_3 = 0;
+				FracSec = FRACAO_DE_SEGUNDO_INIT;
 				taskEXIT_CRITICAL();
 			}
-		}else{
-			taskENTER_CRITICAL();
-			newSOC = 0;
-			FracSec = FRACAO_DE_SEGUNDO_INIT;
-			taskEXIT_CRITICAL();
 		}
 
 		frame_cnt++;
-		if (frame_cnt >= (NOMINAL_FREQ/2)){
-			frame_cnt = 0;
-		}
 	#if (NOMINAL_FREQ == 60)
 		// Arredonda o framesec a cada 3 fasores (framesec 100, 200, 300, ..., 900)
 		if (FracSec != 0){
@@ -843,6 +839,9 @@ void GPS_Task(void *argument)
 				/*Novo SOC foi calculado*/
 				taskENTER_CRITICAL();
 				newSOC = 1;
+				frame_cnt = 0;
+				frame_cnt_3 = 0;
+				FracSec = FRACAO_DE_SEGUNDO_INIT;
 				taskEXIT_CRITICAL();
 
 				strftime(timestampstr, sizeof(timestampstr), "%d/%m/%y  %T", &t);
@@ -901,6 +900,9 @@ void GPS_Task(void *argument)
 					/*Novo SOC foi calculado*/
 					taskENTER_CRITICAL();
 					newSOC = 1;
+					frame_cnt = 0;
+					frame_cnt_3 = 0;
+					FracSec = FRACAO_DE_SEGUNDO_INIT;
 					taskEXIT_CRITICAL();
 				}
 			}
@@ -1211,6 +1213,14 @@ int frame_data(uint16_t *size){
 			/*	... Retorna 1, informando o pmu_tcp_server_out
 			 *  pra apenas enviar o ucData atual, visto que nao tem
 			 	mais dados que este para enviar. */
+#if 0
+			char tmpbuffer[40];
+			sprintf(tmpbuffer, "SOC: %lu - FracSec: %lu", SOC, FracSec);
+			//UARTPutString(STDOUT, tmpbuffer,0);
+			xMessageBufferSend(xMessageBuffer, tmpbuffer, strlen(tmpbuffer)+1, portMAX_DELAY);
+			//UARTPutString(STDOUT, "\n\r",2);
+			xMessageBufferSend(xMessageBuffer, "\n\r", 2, portMAX_DELAY);
+#endif
 			return 1;
 		}
 		else {
@@ -1244,6 +1254,8 @@ int frame_data(uint16_t *size){
 				vPortFree(temp);
 				temp = removeQueueElement(qUcData);
 			}
+			//UARTPutString(STDOUT, "Buffer cheio\n\r",14);
+			xMessageBufferSend(xMessageBuffer, "Full buffer\n\r", 14, portMAX_DELAY);
 		}
 		return 0;
 	}
