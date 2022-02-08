@@ -383,13 +383,9 @@ void pmu_tcp_server_out(void *argument)
 						tmpcnt++;
 #if SERVER_VERBOSE == 1
 						//UARTPutString(STDOUT, "Transmission error!\n\r",0);
-						int err;
-						socklen_t optlen = sizeof(err);
-						getsockopt(newsockfd, SOL_SOCKET, SO_ERROR, &err, &optlen);
 						char tmpbuffer[36];
 						sprintf(tmpbuffer, "Transmission error, errno: %d\n\r", errno);
 						xMessageBufferSend(xMessageBuffer, tmpbuffer, strlen(tmpbuffer)+1, portMAX_DELAY);
-						//xMessageBufferSend(xMessageBuffer, "Transmission error!\n\r", strlen("Transmission error!\n\r")+1, portMAX_DELAY);
 #endif
 						if (tmpcnt >=3){
 							//erro
@@ -426,10 +422,6 @@ void pmu_tcp_server_out(void *argument)
 							tmpcnt++;
 #if SERVER_VERBOSE == 1
 							//UARTPutString(STDOUT, "Transmission error!\n\r",0);
-							//xMessageBufferSend(xMessageBuffer, "Transmission error!\n\r", strlen("Transmission error!\n\r")+1, portMAX_DELAY);
-							int err;
-							socklen_t optlen = sizeof(err);
-							getsockopt(newsockfd, SOL_SOCKET, SO_ERROR, &err, &optlen);
 							char tmpbuffer[36];
 							sprintf(tmpbuffer, "Transmission error, errno: %d\n\r", errno);
 							xMessageBufferSend(xMessageBuffer, tmpbuffer, strlen(tmpbuffer)+1, portMAX_DELAY);
