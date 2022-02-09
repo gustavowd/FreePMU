@@ -417,7 +417,7 @@ void pmu_tcp_server_out(void *argument)
 					#if TRANSPORT_PROTOCOL == TCP_PMU
 					uint32_t tmpcnt = 0;
 					do{
-						transmitted = lwip_send(newsockfd, ucData, size, 0);
+						transmitted = lwip_send(newsockfd, temp->ucData, size, 0);
 						if (transmitted != size){
 							tmpcnt++;
 #if SERVER_VERBOSE == 1
