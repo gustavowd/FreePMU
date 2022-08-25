@@ -10,6 +10,8 @@ Prototype
 
 # Publications
 
+SEGER, P. V. H.; MORETO, MIGUEL; GRANDO, F. L.; LAZZARETTI, A. E.; DENARDIN, G. W.; PASTRO, C. R. Power System Monitoring Through Low-Voltage Distribution Network Using freePMU. IEEE Transactions on Industry Applications, v. 58, n. 3, p. 3153-3163, 2022.
+
 SEGER, P. V. H.; MORETO, MIGUEL; GRANDO, F. L.; LAZZARETTI, A. E.; DENARDIN, G. W.; PASTRO, C. R. Monitoring Low Voltage Electrical Networks Using Low Cost PMUs: a Case Study. IEEE International Conference on Environment and Electrical Engineering and IEEE Industrial and Commercial Power Systems Europe, 2020, Madrid.
 
 GRANDO, F. L.; DENARDIN, G. W.; MORETO, M.; LAZZARETTI, A. E.; VIEIRA NETO, H. A method for synchronized harmonic phasor measurement based on hardware-enhanced Fast Fourier Transform. International Transactions on Electrical Energy Systems, v. 30, p. 1-19, 2020.
